@@ -16,6 +16,8 @@
 		0E1411032918DD7C0040BD85 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411022918DD7C0040BD85 /* Constants.swift */; };
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
+		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
+		0E14110C2918EF5A0040BD85 /* WalkThroughViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E14110B2918EF5A0040BD85 /* WalkThroughViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		0E1411022918DD7C0040BD85 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
+		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		0E14110B2918EF5A0040BD85 /* WalkThroughViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkThroughViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +84,9 @@
 		0E1410FB2918D6E00040BD85 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				0E1411012918DD4F0040BD85 /* Constants */,
 				0E1411062918EBF90040BD85 /* ReusableProtocol.swift */,
+				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
+				0E1411012918DD4F0040BD85 /* Constants */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -89,6 +94,7 @@
 		0E1410FC2918D6E90040BD85 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				0E14110A2918EF1D0040BD85 /* WalkThrough */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -111,9 +117,17 @@
 			isa = PBXGroup;
 			children = (
 				0E1411022918DD7C0040BD85 /* Constants.swift */,
-				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
+				0E1411082918EC530040BD85 /* Image.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		0E14110A2918EF1D0040BD85 /* WalkThrough */ = {
+			isa = PBXGroup;
+			children = (
+				0E14110B2918EF5A0040BD85 /* WalkThroughViewController.swift */,
+			);
+			path = WalkThrough;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +201,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E1411092918EC530040BD85 /* Image.swift in Sources */,
+				0E14110C2918EF5A0040BD85 /* WalkThroughViewController.swift in Sources */,
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
 				0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
