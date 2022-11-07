@@ -15,6 +15,7 @@
 		0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */; };
 		0E1411032918DD7C0040BD85 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411022918DD7C0040BD85 /* Constants.swift */; };
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
+		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		0E1410F52918D6400040BD85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E1411022918DD7C0040BD85 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				0E1411012918DD4F0040BD85 /* Constants */,
+				0E1411062918EBF90040BD85 /* ReusableProtocol.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 			files = (
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
 				0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */,
+				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
