@@ -68,9 +68,9 @@
 				0E1410F02918D6400040BD85 /* Assets.xcassets */,
 				0E1410F52918D6400040BD85 /* Info.plist */,
 				0E1410FD2918D6F10040BD85 /* Key */,
-				0E1410FC2918D6E90040BD85 /* Scene */,
 				0E1410FE2918DC6E0040BD85 /* Extensions */,
 				0E1410FB2918D6E00040BD85 /* Utility */,
+				0E1410FC2918D6E90040BD85 /* Scene */,
 			);
 			path = SeSACStudyRecruitSLP;
 			sourceTree = "<group>";
