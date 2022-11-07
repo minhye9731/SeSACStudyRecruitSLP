@@ -24,6 +24,8 @@
 		0E50958D2918F4F00038B429 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0E50958C2918F4F00038B429 /* SnapKit */; };
 		0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E50958E2918F5150038B429 /* BaseTableViewCell.swift */; };
 		0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095902918F5C50038B429 /* BaseCollectionViewCell.swift */; };
+		0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095922918F6B40038B429 /* SecondViewController.swift */; };
+		0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095942918F6BD0038B429 /* ThirdViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		0E5095892918F4CC0038B429 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		0E50958E2918F5150038B429 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		0E5095902918F5C50038B429 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		0E5095922918F6B40038B429 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		0E5095942918F6BD0038B429 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,8 @@
 			children = (
 				0E14110B2918EF5A0040BD85 /* WalkThroughViewController.swift */,
 				0E5095842918F1C90038B429 /* FirstViewController.swift */,
+				0E5095922918F6B40038B429 /* SecondViewController.swift */,
+				0E5095942918F6BD0038B429 /* ThirdViewController.swift */,
 			);
 			path = WalkThrough;
 			sourceTree = "<group>";
@@ -236,8 +242,10 @@
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
 				0E14110C2918EF5A0040BD85 /* WalkThroughViewController.swift in Sources */,
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
+				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
 				0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */,
 				0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */,
+				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
