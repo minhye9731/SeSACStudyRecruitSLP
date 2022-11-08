@@ -10,6 +10,8 @@ import UIKit
 class ThirdViewController: BaseViewController {
     
     
-    
+    override func configure() {
+        view.backgroundColor = .blue
+    }
     
 }

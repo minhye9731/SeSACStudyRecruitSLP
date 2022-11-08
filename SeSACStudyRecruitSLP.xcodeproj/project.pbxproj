@@ -31,6 +31,7 @@
 		0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */; };
 		0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */; };
 		0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C1291A48740038B429 /* CustomFonts.swift */; };
+		0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C3291A59190038B429 /* OnBoardingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Medium.otf"; sourceTree = "<group>"; };
 		0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dongle-Regular.ttf"; sourceTree = "<group>"; };
 		0E5095C1291A48740038B429 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
+		0E5095C3291A59190038B429 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 		0E14110A2918EF1D0040BD85 /* WalkThrough */ = {
 			isa = PBXGroup;
 			children = (
+				0E5095C3291A59190038B429 /* OnBoardingViewController.swift */,
 				0E14110B2918EF5A0040BD85 /* WalkThroughViewController.swift */,
 				0E5095842918F1C90038B429 /* FirstViewController.swift */,
 				0E5095922918F6B40038B429 /* SecondViewController.swift */,
@@ -273,6 +276,7 @@
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
+				0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

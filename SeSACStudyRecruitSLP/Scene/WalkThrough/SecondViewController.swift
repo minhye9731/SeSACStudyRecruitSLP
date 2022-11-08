@@ -9,5 +9,7 @@ import UIKit
 
 class SecondViewController: BaseViewController {
     
-    
+    override func configure() {
+        view.backgroundColor = .brown
+    }
 }
