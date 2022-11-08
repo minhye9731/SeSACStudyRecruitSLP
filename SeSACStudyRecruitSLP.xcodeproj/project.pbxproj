@@ -27,6 +27,8 @@
 		0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095922918F6B40038B429 /* SecondViewController.swift */; };
 		0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095942918F6BD0038B429 /* ThirdViewController.swift */; };
 		0E5095BA291A330A0038B429 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095B9291A330A0038B429 /* .gitignore */; };
+		0E5095BD291A3F390038B429 /* NotoSansCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */; };
+		0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		0E5095922918F6B40038B429 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		0E5095942918F6BD0038B429 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		0E5095B9291A330A0038B429 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Regular.otf"; sourceTree = "<group>"; };
+		0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Medium.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,8 @@
 				0E1410EB2918D63E0040BD85 /* ViewController.swift */,
 				0E1410ED2918D63E0040BD85 /* Main.storyboard */,
 				0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */,
+				0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */,
+				0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */,
 				0E1410F02918D6400040BD85 /* Assets.xcassets */,
 				0E1410F52918D6400040BD85 /* Info.plist */,
 				0E1410FD2918D6F10040BD85 /* Key */,
@@ -228,10 +234,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E5095BD291A3F390038B429 /* NotoSansCJKkr-Regular.otf in Resources */,
 				0E5095BA291A330A0038B429 /* .gitignore in Resources */,
 				0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */,
 				0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */,
 				0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */,
+				0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
