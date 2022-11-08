@@ -30,6 +30,7 @@
 		0E5095BD291A3F390038B429 /* NotoSansCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */; };
 		0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */; };
 		0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */; };
+		0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C1291A48740038B429 /* CustomFonts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Regular.otf"; sourceTree = "<group>"; };
 		0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Medium.otf"; sourceTree = "<group>"; };
 		0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dongle-Regular.ttf"; sourceTree = "<group>"; };
+		0E5095C1291A48740038B429 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 			children = (
 				0E1411062918EBF90040BD85 /* ReusableProtocol.swift */,
 				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
+				0E5095C1291A48740038B429 /* CustomFonts.swift */,
 				0E1411012918DD4F0040BD85 /* Constants */,
 				0E5095862918F2530038B429 /* BaseView */,
 			);
@@ -255,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
+				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
 				0E14110C2918EF5A0040BD85 /* WalkThroughViewController.swift in Sources */,
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
