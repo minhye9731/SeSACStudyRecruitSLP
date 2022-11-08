@@ -12,6 +12,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        for family in UIFont.familyNames {
+            
+            print(family)
+            
+            for names in UIFont.fontNames(forFamilyName: family) {
+                print("======== \(names)")
+            }
+            
+        }
+        
+        
+        
     }
 
 
