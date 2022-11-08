@@ -27,8 +27,8 @@ case Medium = "NotoSansCJKkr-Medium"
     
     static func body1_M16() -> UIFont { return CustomFonts.Medium.of(size: 16) }
     static func body2_R16() -> UIFont { return CustomFonts.Regular.of(size: 16) }
-    static func body3_R16() -> UIFont { return CustomFonts.Regular.of(size: 14) }
-    static func body4_R16() -> UIFont { return CustomFonts.Regular.of(size: 12) }
+    static func body3_R14() -> UIFont { return CustomFonts.Regular.of(size: 14) }
+    static func body4_R12() -> UIFont { return CustomFonts.Regular.of(size: 12) }
     
     static func caption_R10() -> UIFont { return CustomFonts.Regular.of(size: 10) }
 }
