@@ -28,7 +28,7 @@ class BaseViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    func giveColotString(label: UILabel, colorStr: String, color: UIColor) {
+    func giveColorString(label: UILabel, colorStr: String, color: UIColor) {
         
         let attributeLabelStr = NSMutableAttributedString(string: label.text!)
         attributeLabelStr.addAttribute(.foregroundColor, value: color, range: (label.text! as NSString).range(of: colorStr))

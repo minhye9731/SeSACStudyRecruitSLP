@@ -31,6 +31,10 @@
 		0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */; };
 		0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C1291A48740038B429 /* CustomFonts.swift */; };
 		0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C3291A59190038B429 /* OnBoardingViewController.swift */; };
+		0E5095C9291AA6720038B429 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* LoginViewController.swift */; };
+		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
+		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
+		0E5095D0291ABD500038B429 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CF291ABD4F0038B429 /* ContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +63,10 @@
 		0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dongle-Regular.ttf"; sourceTree = "<group>"; };
 		0E5095C1291A48740038B429 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		0E5095C3291A59190038B429 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		0E5095C8291AA6720038B429 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
+		0E5095CF291ABD4F0038B429 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,7 @@
 				0E1410F02918D6400040BD85 /* Assets.xcassets */,
 				0E1410F52918D6400040BD85 /* Info.plist */,
 				0E1410FD2918D6F10040BD85 /* Key */,
+				0E5095CC291AAD690038B429 /* Data */,
 				0E1410FE2918DC6E0040BD85 /* Extensions */,
 				0E1410FB2918D6E00040BD85 /* Utility */,
 				0E1410FC2918D6E90040BD85 /* Scene */,
@@ -127,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				0E14110A2918EF1D0040BD85 /* WalkThrough */,
+				0E5095C8291AA6720038B429 /* LoginViewController.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -161,6 +171,8 @@
 				0E5095842918F1C90038B429 /* FirstViewController.swift */,
 				0E5095922918F6B40038B429 /* SecondViewController.swift */,
 				0E5095942918F6BD0038B429 /* ThirdViewController.swift */,
+				0E5095CA291AA8BD0038B429 /* SplashView.swift */,
+				0E5095CF291ABD4F0038B429 /* ContentViewController.swift */,
 			);
 			path = WalkThrough;
 			sourceTree = "<group>";
@@ -174,6 +186,14 @@
 				0E5095902918F5C50038B429 /* BaseCollectionViewCell.swift */,
 			);
 			path = BaseView;
+			sourceTree = "<group>";
+		};
+		0E5095CC291AAD690038B429 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0E5095CD291AAE380038B429 /* SplashContent.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E5095D0291ABD500038B429 /* ContentViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
@@ -270,9 +291,12 @@
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
+				0E5095C9291AA6720038B429 /* LoginViewController.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
 				0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */,
+				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
+				0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

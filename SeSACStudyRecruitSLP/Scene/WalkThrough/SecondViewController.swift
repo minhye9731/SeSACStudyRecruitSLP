@@ -9,7 +9,17 @@ import UIKit
 
 class SecondViewController: BaseViewController {
     
+    // MARK: - property
+    let mainView = SplashView()
+    
+    // MARK: - Lifecycle
+    override func loadView() {
+        self.view = mainView
+    }
+    
     override func configure() {
-        view.backgroundColor = .brown
+        super.configure()
+        mainView.setData(text: "스터디를 원하는 친구를\n찾을 수 있어요", image: "onboarding_img2")
+        giveColorString(label: mainView.notiLabel, colorStr: "스터디를 원하는 친구", color: ColorPalette.green)
     }
 }

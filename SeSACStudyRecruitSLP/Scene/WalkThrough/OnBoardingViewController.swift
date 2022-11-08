@@ -6,30 +6,65 @@
 //
 
 import UIKit
+import SnapKit
 
 final class OnBoardingViewController: BaseViewController {
     
+    // MARK: - property
     let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     var pageViewControllerList: [UIViewController] = []
+    private var pageControl: UIPageControl = {
+        let pc = UIPageControl(frame: .zero)
+        pc.pageIndicatorTintColor = ColorPalette.gray5
+        pc.currentPageIndicatorTintColor = .black
+        return pc
+    }()
     
+    let startButton: UIButton = {
+        let button = UIButton()
+        
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = ColorPalette.green
+        
+        var title = AttributedString.init("시작하기")
+        title.font = CustomFonts.body3_R14()
+        title.foregroundColor = .white
+        configuration.attributedTitle = title
+        
+        button.configuration = configuration
+        
+        button.layer.cornerRadius = 8
+        return button
+    }()
     
+    // MARK: - functions
     override func configure() {
+        super.configure()
+        view.backgroundColor = .brown
         
-        pageViewController.view.frame = CGRect(x: 0, y: 0, width: Int(view.bounds.width), height: Int(view.bounds.height - 140))
-        
-        view.addSubview(pageViewController.view)
-        
-        addChild(pageViewController)
-        pageViewController.dataSource = self // 뷰 넘기는 메소드가 있어서 정의해야함
-        pageViewController.delegate = self
-        
-        //
-        createPageViewController()
-        configurePageViewController()
+        [pageViewController.view, startButton].forEach {
+            view.addSubview($0)
+        }
+        setPageVC()
     }
+
     
     override func setConstraints() {
+        startButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(48)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-50)
+        }
+    }
+    
+    func setPageVC() {
+        pageViewController.view.frame = CGRect(x: 0, y: 0, width: Int(view.bounds.width), height: Int(view.bounds.height - 140))
+        addChild(pageViewController)
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
         
+        createPageViewController()
+        configurePageViewController()
     }
     
     func createPageViewController() {
