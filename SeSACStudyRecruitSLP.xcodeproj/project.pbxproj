@@ -29,6 +29,7 @@
 		0E5095BA291A330A0038B429 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095B9291A330A0038B429 /* .gitignore */; };
 		0E5095BD291A3F390038B429 /* NotoSansCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */; };
 		0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */; };
+		0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		0E5095B9291A330A0038B429 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Regular.otf"; sourceTree = "<group>"; };
 		0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansCJKkr-Medium.otf"; sourceTree = "<group>"; };
+		0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dongle-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */,
 				0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */,
 				0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */,
+				0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */,
 				0E1410F02918D6400040BD85 /* Assets.xcassets */,
 				0E1410F52918D6400040BD85 /* Info.plist */,
 				0E1410FD2918D6F10040BD85 /* Key */,
@@ -236,6 +239,7 @@
 			files = (
 				0E5095BD291A3F390038B429 /* NotoSansCJKkr-Regular.otf in Resources */,
 				0E5095BA291A330A0038B429 /* .gitignore in Resources */,
+				0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */,
 				0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */,
 				0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */,
 				0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */,
