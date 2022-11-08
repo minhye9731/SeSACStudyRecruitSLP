@@ -26,6 +26,7 @@
 		0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095902918F5C50038B429 /* BaseCollectionViewCell.swift */; };
 		0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095922918F6B40038B429 /* SecondViewController.swift */; };
 		0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095942918F6BD0038B429 /* ThirdViewController.swift */; };
+		0E5095BA291A330A0038B429 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095B9291A330A0038B429 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		0E5095902918F5C50038B429 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E5095922918F6B40038B429 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		0E5095942918F6BD0038B429 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		0E5095B9291A330A0038B429 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		0E1410DB2918D63E0040BD85 = {
 			isa = PBXGroup;
 			children = (
+				0E5095B9291A330A0038B429 /* .gitignore */,
 				0E1410E62918D63E0040BD85 /* SeSACStudyRecruitSLP */,
 				0E1410E52918D63E0040BD85 /* Products */,
 			);
@@ -225,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E5095BA291A330A0038B429 /* .gitignore in Resources */,
 				0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */,
 				0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */,
 				0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */,
