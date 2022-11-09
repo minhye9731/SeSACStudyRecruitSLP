@@ -34,7 +34,6 @@
 		0E5095C9291AA6720038B429 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* LoginViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
-		0E5095D0291ABD500038B429 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CF291ABD4F0038B429 /* ContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +65,6 @@
 		0E5095C8291AA6720038B429 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
-		0E5095CF291ABD4F0038B429 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +170,6 @@
 				0E5095922918F6B40038B429 /* SecondViewController.swift */,
 				0E5095942918F6BD0038B429 /* ThirdViewController.swift */,
 				0E5095CA291AA8BD0038B429 /* SplashView.swift */,
-				0E5095CF291ABD4F0038B429 /* ContentViewController.swift */,
 			);
 			path = WalkThrough;
 			sourceTree = "<group>";
@@ -277,7 +274,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E5095D0291ABD500038B429 /* ContentViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,

@@ -40,12 +40,11 @@ final class OnBoardingViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        view.backgroundColor = .brown
-        
         [pageViewController.view, startButton].forEach {
             view.addSubview($0)
         }
         setPageVC()
+        setPageControl()
     }
 
     
@@ -77,6 +76,12 @@ final class OnBoardingViewController: BaseViewController {
     func configurePageViewController() {
         guard let first = pageViewControllerList.first else { return }
         pageViewController.setViewControllers([first], direction: .forward, animated: true)
+    }
+    
+    func setPageControl() {
+        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        pageControl.pageIndicatorTintColor = ColorPalette.gray5
+        pageControl.currentPageIndicatorTintColor = .black
     }
     
     
