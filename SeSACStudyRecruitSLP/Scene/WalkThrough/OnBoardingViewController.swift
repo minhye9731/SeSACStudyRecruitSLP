@@ -22,18 +22,7 @@ final class OnBoardingViewController: BaseViewController {
     
     let startButton: UIButton = {
         let button = UIButton()
-        
-        var configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = ColorPalette.green
-        
-        var title = AttributedString.init("시작하기")
-        title.font = CustomFonts.body3_R14()
-        title.foregroundColor = .white
-        configuration.attributedTitle = title
-        
-        button.configuration = configuration
-        
-        button.layer.cornerRadius = 8
+        button.configuration = UIButton.fillButton(title: "시작하기")
         return button
     }()
     
@@ -86,7 +75,14 @@ final class OnBoardingViewController: BaseViewController {
     }
     
     @objc func startButtonTapped() {
-        
+        let vc = LoginViewController()
+        let navigationVC = UINavigationController(rootViewController: vc)
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        guard let delegate = sceneDelegate else {
+            print("알 수 없는 에러 발생 laert표기")
+            return
+        }
+        delegate.window?.rootViewController = navigationVC
     }
     
 }

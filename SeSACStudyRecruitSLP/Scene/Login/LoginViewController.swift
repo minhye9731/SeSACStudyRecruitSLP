@@ -9,8 +9,19 @@ import Foundation
 
 final class LoginViewController: BaseViewController {
     
+    // MARK: - property
+    let mainView = LoginView()
     
+    // MARK: - Lifecycle
+    override func loadView()  {
+        super.loadView()
+        self.view = mainView
+    }
+    
+    
+    // MARK: - functions
     override func configure() {
+        
         super.configure()
         
     }
@@ -18,7 +29,6 @@ final class LoginViewController: BaseViewController {
     override func setConstraints() {
         super.setConstraints()
         
-        view.backgroundColor = .systemMint
         
     }
     
