@@ -35,7 +35,7 @@
                                     <constraint firstAttribute="width" constant="328" id="iqM-hE-TZP"/>
                                     <constraint firstAttribute="height" constant="112" id="q4k-rr-vfU"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Dongle-Regular" family="Dongle" pointSize="72"/>
+                                <fontDescription key="fontDescription" name="Dongle-Regular" family="Dongle" pointSize="60"/>
                                 <color key="textColor" red="0.28627450980392155" green="0.86274509803921573" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>

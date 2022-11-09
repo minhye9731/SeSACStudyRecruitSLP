@@ -45,6 +45,7 @@ final class OnBoardingViewController: BaseViewController {
         }
         setPageVC()
         setPageControl()
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
 
     
@@ -84,6 +85,9 @@ final class OnBoardingViewController: BaseViewController {
         pageControl.currentPageIndicatorTintColor = .black
     }
     
+    @objc func startButtonTapped() {
+        
+    }
     
 }
 
