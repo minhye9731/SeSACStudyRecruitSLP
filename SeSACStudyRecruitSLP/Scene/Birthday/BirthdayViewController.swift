@@ -1,5 +1,5 @@
 //
-//  GenderViewController.swift
+//  BirthdayViewController.swift
 //  SeSACStudyRecruitSLP
 //
 //  Created by 강민혜 on 11/10/22.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class GenderViewController: BaseViewController {
+final class BirthdayViewController: BaseViewController {
     
     // MARK: - property
-    let mainView = GenderView()
+    let mainView = BirthdayView()
     
     // MARK: - Lifecycle
     override func loadView()  {
@@ -23,6 +23,8 @@ final class GenderViewController: BaseViewController {
     override func configure() {
         super.configure()
         mainView.nextButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        
+//        navigationItem.hidesBackButton = false
     }
     
     override func setConstraints() {
@@ -31,9 +33,11 @@ final class GenderViewController: BaseViewController {
     }
     
     @objc func test() {
-        print("회원가입 완료!")
-//        let vc = NickNameViewController()
-//        transition(vc, transitionStyle: .push)
+        let vc = EmailViewController()
+        transition(vc, transitionStyle: .push)
     }
     
+    
+    
 }
+

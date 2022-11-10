@@ -68,7 +68,7 @@ final class EmailView: BaseView {
         
         subLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
-            make.bottom.equalTo(emailTextField.snp.top).offset(-76)
+            make.bottom.equalTo(emailTextField.snp.top).offset(-63)
         }
         
         emailTextField.snp.makeConstraints { make in
