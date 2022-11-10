@@ -63,4 +63,21 @@ extension UIButton {
         config.attributedTitle = title
         return config
     }
+    
+    static func genderButton(title: String, image: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .white
+        config.background.strokeColor = ColorPalette.gray3
+        config.background.strokeWidth = 1
+        config.image = UIImage(named: image)
+        config.imagePadding = 2
+        config.imagePlacement = .top
+        config.background.cornerRadius = 8
+        var title = AttributedString.init(title)
+        title.font = CustomFonts.title2_R16()
+        title.foregroundColor = .black
+        config.attributedTitle = title
+        return config
+    }
+    
 }

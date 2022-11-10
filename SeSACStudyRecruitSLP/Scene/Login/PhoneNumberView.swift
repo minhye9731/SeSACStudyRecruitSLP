@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class LoginView: BaseView {
+final class PhoneNumberView: BaseView {
     
     // MARK: - property
     let notiLabel: UILabel = {
@@ -20,7 +20,7 @@ final class LoginView: BaseView {
         return label
     }()
 
-    let phoneNUmberTextField: UITextField = {
+    let phoneNumberTextField: UITextField = {
         let textfield = UITextField()
         textfield.attributedPlaceholder = NSAttributedString(string: "휴대폰 번호(-없이 숫자만 입력)", attributes: [NSAttributedString.Key.foregroundColor : ColorPalette.gray7])
         textfield.font = CustomFonts.title4_R14()
@@ -45,7 +45,7 @@ final class LoginView: BaseView {
     // MARK: - functions
     override func configureUI() {
         super.configureUI()
-        [notiLabel, phoneNUmberTextField, grayline, startButton].forEach {
+        [notiLabel, phoneNumberTextField, grayline, startButton].forEach {
             self.addSubview($0)
         }
     }
@@ -57,10 +57,10 @@ final class LoginView: BaseView {
             make.width.equalTo(250)
             make.height.equalTo(64)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.bottom.equalTo(phoneNUmberTextField.snp.top).offset(-64)
+            make.bottom.equalTo(phoneNumberTextField.snp.top).offset(-64)
         }
         
-        phoneNUmberTextField.snp.makeConstraints { make in
+        phoneNumberTextField.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(48)
             make.bottom.equalTo(grayline.snp.top)
