@@ -35,6 +35,8 @@ final class OnBoardingViewController: BaseViewController {
         setPageVC()
         setPageControl()
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        
+        UserDefaults.standard.set("", forKey: "authVerificationID") // test
     }
 
     
