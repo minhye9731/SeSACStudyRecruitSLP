@@ -27,6 +27,8 @@ final class NickNameView: BaseView {
         textfield.tintColor = .black
         textfield.textAlignment = .left
         textfield.keyboardType = .default
+        textfield.autocapitalizationType = .none
+        textfield.autocorrectionType = .no
         return textfield
     }()
     

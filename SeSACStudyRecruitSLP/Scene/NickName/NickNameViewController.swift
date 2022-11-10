@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import Toast
 
 final class NickNameViewController: BaseViewController {
     
     // MARK: - property
     let mainView = NickNameView()
+    let viewModel = NickNameViewModel()
+    let disposeBag = DisposeBag()
     
     // MARK: - Lifecycle
     override func loadView()  {
@@ -19,24 +24,52 @@ final class NickNameViewController: BaseViewController {
     }
     
     // MARK: - functions
-    
     override func configure() {
         super.configure()
-        mainView.nextButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        bind()
+        setBackButton()
+        mainView.nicknameTextField.becomeFirstResponder()
     }
     
-    override func setConstraints() {
-        super.setConstraints()
+    func bind() {
+        let input = NickNameViewModel.Input(
+            nicknameText: mainView.nicknameTextField.rx.text,
+            tap: mainView.nextButton.rx.tap)
+        let output = viewModel.transform(input: input)
         
+        output.validStatus
+            .withUnretained(self)
+            .bind { (vc, value) in
+                let bgcolor: UIColor = value ? ColorPalette.green : ColorPalette.gray3
+                let txcolor: UIColor = value ? .white : .black
+                vc.mainView.nextButton.configuration?.baseBackgroundColor = bgcolor
+                vc.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = txcolor
+            }
+            .disposed(by: disposeBag)
+        
+        output.tap
+            .withUnretained(self)
+            .bind { _ in
+                
+                guard let nickname = self.mainView.nicknameTextField.text else { return }
+                
+                if nickname.count > 10 || nickname.count == 0 {
+                    self.mainView.makeToast("닉네임은 1자 이상 10자 이내로 부탁드려요.", duration: 1.0, position: .center)
+                } else {
+                    UserDefaults.standard.set(nickname, forKey: "nickName")
+                    
+                    print("닉네임 \(nickname) 저장 성공")
+                    let vc = BirthdayViewController()
+                    self.transition(vc, transitionStyle: .push)
+                }
+            }
     }
     
-    @objc func test() {
-        let vc = NickNameViewController()
-        transition(vc, transitionStyle: .push)
+    func setBackButton() {
+        let backBarButton = UIBarButtonItem(image: UIImage(named: "sesacBack"), style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backBarButton
+        print("눌림")
     }
-    
-    
-    
 }
 
 
