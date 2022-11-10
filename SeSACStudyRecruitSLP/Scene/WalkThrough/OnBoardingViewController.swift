@@ -77,7 +77,7 @@ final class OnBoardingViewController: BaseViewController {
     }
     
     @objc func startButtonTapped() {
-        let vc = LoginViewController()
+        let vc = PhoneNumberViewController()
         let navigationVC = UINavigationController(rootViewController: vc)
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         guard let delegate = sceneDelegate else {
