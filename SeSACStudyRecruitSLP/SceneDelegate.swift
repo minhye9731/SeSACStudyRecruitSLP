@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: scene.coordinateSpace.bounds)
         window?.windowScene = scene
                 
-        let viewController = OnBoardingViewController() // test
+        let viewController = EmailViewController() // OnBoardingViewController() // test
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
         

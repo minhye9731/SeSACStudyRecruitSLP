@@ -21,13 +21,29 @@
 		0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F2291C276500F36167 /* RxCocoa */; };
 		0E4F62F5291C276500F36167 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F4291C276500F36167 /* RxRelay */; };
 		0E4F62F7291C276500F36167 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F6291C276500F36167 /* RxSwift */; };
-		0E4F62F9291C2A9500F36167 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62F8291C2A9500F36167 /* LoginView.swift */; };
+		0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */; };
 		0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */; };
 		0E4F62FE291CDE2200F36167 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E4F62FD291CDE2200F36167 /* GoogleService-Info.plist */; };
 		0E4F6301291CE00700F36167 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6300291CE00700F36167 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		0E4F6303291CE00700F36167 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6302291CE00700F36167 /* FirebaseAuth */; };
 		0E4F6305291CE00700F36167 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6304291CE00700F36167 /* FirebaseCrashlytics */; };
 		0E4F6307291CE00700F36167 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6306291CE00700F36167 /* FirebaseMessaging */; };
+		0E4F630A291CFD0900F36167 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6309291CFD0900F36167 /* PhoneNumberViewModel.swift */; };
+		0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F630C291CFF1D00F36167 /* VerifyNumberViewController.swift */; };
+		0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F630E291CFF3900F36167 /* VerifyNumberView.swift */; };
+		0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6310291CFF4200F36167 /* VerifyNumberViewModel.swift */; };
+		0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6312291D0D1D00F36167 /* NickNameViewController.swift */; };
+		0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6314291D0D2F00F36167 /* NickNameView.swift */; };
+		0E4F6317291D0D3900F36167 /* NickNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6316291D0D3900F36167 /* NickNameViewModel.swift */; };
+		0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6319291D120000F36167 /* BirthdayViewController.swift */; };
+		0E4F631C291D121000F36167 /* BIrthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F631B291D121000F36167 /* BIrthdayView.swift */; };
+		0E4F631E291D13C900F36167 /* BIrthdayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F631D291D13C900F36167 /* BIrthdayViewModel.swift */; };
+		0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6321291D192000F36167 /* EmailViewController.swift */; };
+		0E4F6324291D198600F36167 /* EmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6323291D198600F36167 /* EmailView.swift */; };
+		0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6325291D199700F36167 /* EmailViewModel.swift */; };
+		0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6327291D1E4B00F36167 /* GenderViewController.swift */; };
+		0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6329291D1E5900F36167 /* GenderView.swift */; };
+		0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F632B291D1E6600F36167 /* GenderViewModel.swift */; };
 		0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095842918F1C90038B429 /* FirstViewController.swift */; };
 		0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095872918F27F0038B429 /* BaseViewController.swift */; };
 		0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095892918F4CC0038B429 /* BaseView.swift */; };
@@ -42,7 +58,7 @@
 		0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */; };
 		0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C1291A48740038B429 /* CustomFonts.swift */; };
 		0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C3291A59190038B429 /* OnBoardingViewController.swift */; };
-		0E5095C9291AA6720038B429 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* LoginViewController.swift */; };
+		0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
 /* End PBXBuildFile section */
@@ -61,10 +77,26 @@
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		0E4F62EF291C248300F36167 /* Transition+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Extension.swift"; sourceTree = "<group>"; };
-		0E4F62F8291C2A9500F36167 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
 		0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		0E4F62FD291CDE2200F36167 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E4F6308291CE55700F36167 /* SeSACStudyRecruitSLP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SeSACStudyRecruitSLP.entitlements; sourceTree = "<group>"; };
+		0E4F6309291CFD0900F36167 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
+		0E4F630C291CFF1D00F36167 /* VerifyNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNumberViewController.swift; sourceTree = "<group>"; };
+		0E4F630E291CFF3900F36167 /* VerifyNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNumberView.swift; sourceTree = "<group>"; };
+		0E4F6310291CFF4200F36167 /* VerifyNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNumberViewModel.swift; sourceTree = "<group>"; };
+		0E4F6312291D0D1D00F36167 /* NickNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameViewController.swift; sourceTree = "<group>"; };
+		0E4F6314291D0D2F00F36167 /* NickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameView.swift; sourceTree = "<group>"; };
+		0E4F6316291D0D3900F36167 /* NickNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameViewModel.swift; sourceTree = "<group>"; };
+		0E4F6319291D120000F36167 /* BirthdayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = "<group>"; };
+		0E4F631B291D121000F36167 /* BIrthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIrthdayView.swift; sourceTree = "<group>"; };
+		0E4F631D291D13C900F36167 /* BIrthdayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIrthdayViewModel.swift; sourceTree = "<group>"; };
+		0E4F6321291D192000F36167 /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
+		0E4F6323291D198600F36167 /* EmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailView.swift; sourceTree = "<group>"; };
+		0E4F6325291D199700F36167 /* EmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewModel.swift; sourceTree = "<group>"; };
+		0E4F6327291D1E4B00F36167 /* GenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewController.swift; sourceTree = "<group>"; };
+		0E4F6329291D1E5900F36167 /* GenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderView.swift; sourceTree = "<group>"; };
+		0E4F632B291D1E6600F36167 /* GenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewModel.swift; sourceTree = "<group>"; };
 		0E5095842918F1C90038B429 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		0E5095872918F27F0038B429 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0E5095892918F4CC0038B429 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -78,7 +110,7 @@
 		0E5095BF291A432F0038B429 /* Dongle-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dongle-Regular.ttf"; sourceTree = "<group>"; };
 		0E5095C1291A48740038B429 /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
 		0E5095C3291A59190038B429 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
-		0E5095C8291AA6720038B429 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,6 +191,11 @@
 			children = (
 				0E14110A2918EF1D0040BD85 /* WalkThrough */,
 				0E4F62FC291C31E500F36167 /* Login */,
+				0E4F630B291CFEA600F36167 /* NickName */,
+				0E4F6318291D117900F36167 /* Birthday */,
+				0E4F631F291D189B00F36167 /* Email */,
+				0E4F6320291D18A500F36167 /* Gender */,
+				0E4F632D291D1F6200F36167 /* Main */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -204,10 +241,61 @@
 		0E4F62FC291C31E500F36167 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0E5095C8291AA6720038B429 /* LoginViewController.swift */,
-				0E4F62F8291C2A9500F36167 /* LoginView.swift */,
+				0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */,
+				0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */,
+				0E4F6309291CFD0900F36167 /* PhoneNumberViewModel.swift */,
+				0E4F630C291CFF1D00F36167 /* VerifyNumberViewController.swift */,
+				0E4F630E291CFF3900F36167 /* VerifyNumberView.swift */,
+				0E4F6310291CFF4200F36167 /* VerifyNumberViewModel.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		0E4F630B291CFEA600F36167 /* NickName */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F6312291D0D1D00F36167 /* NickNameViewController.swift */,
+				0E4F6314291D0D2F00F36167 /* NickNameView.swift */,
+				0E4F6316291D0D3900F36167 /* NickNameViewModel.swift */,
+			);
+			path = NickName;
+			sourceTree = "<group>";
+		};
+		0E4F6318291D117900F36167 /* Birthday */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F6319291D120000F36167 /* BirthdayViewController.swift */,
+				0E4F631B291D121000F36167 /* BIrthdayView.swift */,
+				0E4F631D291D13C900F36167 /* BIrthdayViewModel.swift */,
+			);
+			path = Birthday;
+			sourceTree = "<group>";
+		};
+		0E4F631F291D189B00F36167 /* Email */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F6321291D192000F36167 /* EmailViewController.swift */,
+				0E4F6323291D198600F36167 /* EmailView.swift */,
+				0E4F6325291D199700F36167 /* EmailViewModel.swift */,
+			);
+			path = Email;
+			sourceTree = "<group>";
+		};
+		0E4F6320291D18A500F36167 /* Gender */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F6327291D1E4B00F36167 /* GenderViewController.swift */,
+				0E4F6329291D1E5900F36167 /* GenderView.swift */,
+				0E4F632B291D1E6600F36167 /* GenderViewModel.swift */,
+			);
+			path = Gender;
+			sourceTree = "<group>";
+		};
+		0E4F632D291D1F6200F36167 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		0E5095862918F2530038B429 /* BaseView */ = {
@@ -320,27 +408,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E4F630A291CFD0900F36167 /* PhoneNumberViewModel.swift in Sources */,
+				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
+				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
+				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
+				0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
+				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
+				0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */,
 				0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */,
 				0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
+				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,
+				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,
+				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
+				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
-				0E5095C9291AA6720038B429 /* LoginViewController.swift in Sources */,
-				0E4F62F9291C2A9500F36167 /* LoginView.swift in Sources */,
+				0E4F631E291D13C900F36167 /* BIrthdayViewModel.swift in Sources */,
+				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
+				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
+				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
+				0E4F6317291D0D3900F36167 /* NickNameViewModel.swift in Sources */,
 				0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */,
+				0E4F631C291D121000F36167 /* BIrthdayView.swift in Sources */,
 				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
+				0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */,
 				0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
