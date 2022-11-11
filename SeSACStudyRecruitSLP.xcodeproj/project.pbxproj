@@ -48,6 +48,7 @@
 		0E4F6334291D7B9900F36167 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6333291D7B9900F36167 /* Toast */; };
 		0E4F6336291D7D7900F36167 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6335291D7D7900F36167 /* CommonViewModel.swift */; };
 		0E4F6338291D8C5000F36167 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6337291D8C5000F36167 /* BaseNavigationController.swift */; };
+		0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6339291E91ED00F36167 /* MainViewController.swift */; };
 		0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095842918F1C90038B429 /* FirstViewController.swift */; };
 		0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095872918F27F0038B429 /* BaseViewController.swift */; };
 		0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095892918F4CC0038B429 /* BaseView.swift */; };
@@ -104,6 +105,7 @@
 		0E4F6330291D793F00F36167 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		0E4F6335291D7D7900F36167 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		0E4F6337291D8C5000F36167 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
+		0E4F6339291E91ED00F36167 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0E5095842918F1C90038B429 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		0E5095872918F27F0038B429 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		0E5095892918F4CC0038B429 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		0E4F632D291D1F6200F36167 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				0E4F6339291E91ED00F36167 /* MainViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
 				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,
+				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
 				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,
 				0E4F6336291D7D7900F36167 /* CommonViewModel.swift in Sources */,
 				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,

@@ -54,7 +54,7 @@ final class BirthdayView: BaseView {
         let datepicker = UIDatePicker()
         datepicker.datePickerMode = .date
         datepicker.preferredDatePickerStyle = .wheels
-        datepicker.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 240)
+        datepicker.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 216)
         return datepicker
     }()
     
@@ -110,6 +110,12 @@ final class BirthdayView: BaseView {
             make.height.equalTo(48)
             make.centerY.equalTo(self.safeAreaLayoutGuide)
         }
+        
+//        datePicker.snp.makeConstraints { make in
+//            make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
+//            make.height.equalTo(self.frame.height).multipliedBy(0.2)
+//        }
+        
         
     }
     
