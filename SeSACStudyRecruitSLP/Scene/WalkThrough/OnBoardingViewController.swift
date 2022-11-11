@@ -77,14 +77,16 @@ final class OnBoardingViewController: BaseViewController {
     }
     
     @objc func startButtonTapped() {
-        let vc = PhoneNumberViewController()
-        let navigationVC = UINavigationController(rootViewController: vc)
-        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        guard let delegate = sceneDelegate else {
-            print("알 수 없는 에러 발생 laert표기")
-            return
-        }
-        delegate.window?.rootViewController = navigationVC
+//        let vc = PhoneNumberViewController()
+//        let navigationVC = UINavigationController(rootViewController: vc)
+//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+//        guard let delegate = sceneDelegate else {
+//            print("알 수 없는 에러 발생 laert표기")
+//            return
+//        }
+//        delegate.window?.rootViewController = navigationVC
+        
+        changeRootVC(vc: PhoneNumberViewController())
     }
     
 }
