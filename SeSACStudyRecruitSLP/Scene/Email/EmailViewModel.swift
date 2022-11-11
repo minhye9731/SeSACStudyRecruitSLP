@@ -24,8 +24,8 @@ final class EmailViewModel: CommonViewModel {
     
     // MARK: - functions
     func transform(input: Input) -> Output {
-        let emailRule = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailCheck = NSPredicate(format: "SELF MATCHES %@", emailRule)
+        let emailForm = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailCheck = NSPredicate(format: "SELF MATCHES %@", emailForm)
         
         let nicknameResult = input.emailText
             .orEmpty

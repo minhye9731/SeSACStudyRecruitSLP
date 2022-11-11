@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: scene.coordinateSpace.bounds)
         window?.windowScene = scene
                 
-        let viewController = GenderViewController() // OnBoardingViewController() // test
+        let viewController = VerifyNumberViewController() // OnBoardingViewController() // test
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         // BaseNavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
