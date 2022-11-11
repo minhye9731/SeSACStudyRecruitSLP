@@ -17,6 +17,7 @@ class BaseViewController: UIViewController {
     
     func configure() {
         self.view.backgroundColor = .white
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     func setConstraints() {}

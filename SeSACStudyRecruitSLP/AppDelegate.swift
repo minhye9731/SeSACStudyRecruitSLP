@@ -12,7 +12,7 @@ import UserNotifications
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -23,9 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
             completionHandler: { _, _ in })
-          
-        
         application.registerForRemoteNotifications()
+        
+        UINavigationBar.appearance().backIndicatorImage = UIImage(named: "sesacBack")?.withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: -12.0, bottom: 0.0, right: 0.0))
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "sesacBack")
+        UINavigationBar.appearance().tintColor = .black
         
         return true
     }

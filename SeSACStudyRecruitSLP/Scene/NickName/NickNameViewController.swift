@@ -27,7 +27,6 @@ final class NickNameViewController: BaseViewController {
     override func configure() {
         super.configure()
         bind()
-        setBackButton()
         mainView.nicknameTextField.becomeFirstResponder()
     }
     
@@ -67,11 +66,6 @@ final class NickNameViewController: BaseViewController {
         
     }
     
-    func setBackButton() {
-        let backBarButton = UIBarButtonItem(image: UIImage(named: "sesacBack"), style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = backBarButton
-        print("눌림")
-    }
 }
 
 
