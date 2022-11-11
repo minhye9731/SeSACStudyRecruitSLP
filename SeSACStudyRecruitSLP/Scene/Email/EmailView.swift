@@ -35,6 +35,8 @@ final class EmailView: BaseView {
         textfield.tintColor = .black
         textfield.textAlignment = .left
         textfield.keyboardType = .default
+        textfield.autocorrectionType = .no
+        textfield.autocapitalizationType = .none
         return textfield
     }()
     
