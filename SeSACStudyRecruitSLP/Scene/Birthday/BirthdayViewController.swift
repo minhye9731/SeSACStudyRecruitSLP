@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Toast
 
 final class BirthdayViewController: BaseViewController {
     
     // MARK: - property
     let mainView = BirthdayView()
+    let today = Date()
+    var realAge = 0
     
     // MARK: - Lifecycle
     override func loadView()  {
@@ -19,25 +22,73 @@ final class BirthdayViewController: BaseViewController {
     }
     
     // MARK: - functions
-    
     override func configure() {
         super.configure()
-        mainView.nextButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        mainView.yearView.dateTextField.becomeFirstResponder()
+        mainView.datePicker.addTarget(self, action: #selector(datePickerValueChanged(sender:)), for: .valueChanged)
+        mainView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        setDatePicker()
+    }
+    
+    func setDatePicker() {
+        mainView.yearView.dateTextField.inputView = mainView.datePicker
+        mainView.monthView.dateTextField.inputView = mainView.datePicker
+        mainView.dayView.dateTextField.inputView = mainView.datePicker
+    }
+
+    @objc func datePickerValueChanged(sender: UIDatePicker) {
         
-//        navigationItem.hidesBackButton = false
-    }
-    
-    override func setConstraints() {
-        super.setConstraints()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "ko_KR")
         
+        let bday = formatter.string(from: sender.date)
+        calculateRealAge(bday: sender.date)
+        isvalidAge()
+        
+        mainView.yearView.dateTextField.text = showSelectedDate(date: bday, start: 0, end: 4)
+        mainView.monthView.dateTextField.text = showSelectedDate(date: bday, start: 4, end: 6)
+        mainView.dayView.dateTextField.text = showSelectedDate(date: bday, start: 6, end: 8)
     }
     
-    @objc func test() {
-        let vc = EmailViewController()
-        transition(vc, transitionStyle: .push)
+    func calculateRealAge(bday: Date) {
+        let todayYear = Calendar.current.dateComponents([.year], from: Date()).year!
+        let birthYear = Calendar.current.dateComponents([.year, .month, .day], from: bday).year!
+        let birthDate = Calendar.current.dateComponents([.year, .month, .day], from: bday)
+
+        let compareDateComponents = DateComponents(year: todayYear, month: birthDate.month, day: birthDate.day)
+        let compareDate = Calendar.current.date(from: compareDateComponents)!
+        
+        self.realAge = Date() > compareDate ? (todayYear - birthYear) : (todayYear - birthYear - 1)
     }
     
+    func isvalidAge() {
+        let bgcolor: UIColor = realAge > 17 ? ColorPalette.green : ColorPalette.gray3
+        let txcolor: UIColor = realAge > 17 ? .white : .black
+        
+        self.mainView.nextButton.configuration?.baseBackgroundColor = bgcolor
+        self.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = txcolor
+    }
     
+    @objc func nextButtonTapped() {
+        if realAge < 17 {
+            self.mainView.makeToast("새싹스터디는 만17세 이상만 사용할 수 있습니다.", duration: 1.0, position: .center)
+            self.mainView.nextButton.configuration?.baseBackgroundColor = ColorPalette.gray3
+            self.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = .black
+        } else {
+            UserDefaults.standard.set(realAge, forKey: "realAge")
+            let vc = EmailViewController()
+            transition(vc, transitionStyle: .push)
+            self.mainView.nextButton.configuration?.baseBackgroundColor = ColorPalette.green
+            self.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = .white
+        }
+    }
     
+    func showSelectedDate(date: String, start: Int, end: Int) -> String {
+        let startIndex = date.index(date.startIndex, offsetBy: start)
+        let endIndex = date.index(date.startIndex, offsetBy: end)
+        let slicedStr = String(date[startIndex ..< endIndex])
+        return slicedStr
+    }
 }
 

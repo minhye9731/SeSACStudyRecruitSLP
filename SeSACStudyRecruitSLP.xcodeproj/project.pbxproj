@@ -37,7 +37,6 @@
 		0E4F6317291D0D3900F36167 /* NickNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6316291D0D3900F36167 /* NickNameViewModel.swift */; };
 		0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6319291D120000F36167 /* BirthdayViewController.swift */; };
 		0E4F631C291D121000F36167 /* BirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F631B291D121000F36167 /* BirthdayView.swift */; };
-		0E4F631E291D13C900F36167 /* BirthdayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F631D291D13C900F36167 /* BirthdayViewModel.swift */; };
 		0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6321291D192000F36167 /* EmailViewController.swift */; };
 		0E4F6324291D198600F36167 /* EmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6323291D198600F36167 /* EmailView.swift */; };
 		0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6325291D199700F36167 /* EmailViewModel.swift */; };
@@ -95,7 +94,6 @@
 		0E4F6316291D0D3900F36167 /* NickNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameViewModel.swift; sourceTree = "<group>"; };
 		0E4F6319291D120000F36167 /* BirthdayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayViewController.swift; sourceTree = "<group>"; };
 		0E4F631B291D121000F36167 /* BirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayView.swift; sourceTree = "<group>"; };
-		0E4F631D291D13C900F36167 /* BirthdayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayViewModel.swift; sourceTree = "<group>"; };
 		0E4F6321291D192000F36167 /* EmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		0E4F6323291D198600F36167 /* EmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailView.swift; sourceTree = "<group>"; };
 		0E4F6325291D199700F36167 /* EmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewModel.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 			children = (
 				0E4F6319291D120000F36167 /* BirthdayViewController.swift */,
 				0E4F631B291D121000F36167 /* BirthdayView.swift */,
-				0E4F631D291D13C900F36167 /* BirthdayViewModel.swift */,
 			);
 			path = Birthday;
 			sourceTree = "<group>";
@@ -454,7 +451,6 @@
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
 				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
-				0E4F631E291D13C900F36167 /* BirthdayViewModel.swift in Sources */,
 				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
 				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,

@@ -50,11 +50,19 @@ final class BirthdayView: BaseView {
         return button
     }()
     
+    lazy var datePicker: UIDatePicker = {
+        let datepicker = UIDatePicker()
+        datepicker.datePickerMode = .date
+        datepicker.preferredDatePickerStyle = .wheels
+        datepicker.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 240)
+        return datepicker
+    }()
+    
     // MARK: - functions
     override func configureUI() {
         super.configureUI()
         
-        [notiLabel, dateView, nextButton].forEach {
+        [notiLabel, dateView, nextButton, datePicker].forEach {
             self.addSubview($0)
         }
         
