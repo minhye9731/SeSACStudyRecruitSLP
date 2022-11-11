@@ -63,7 +63,7 @@ final class BirthdayViewController: BaseViewController {
     }
     
     func isvalidAge() {
-        let bgcolor: UIColor = realAge > 17 ? ColorPalette.green : ColorPalette.gray3
+        let bgcolor: UIColor = realAge > 17 ? ColorPalette.green : ColorPalette.gray6
         let txcolor: UIColor = realAge > 17 ? .white : .black
         
         self.mainView.nextButton.configuration?.baseBackgroundColor = bgcolor
