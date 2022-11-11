@@ -110,13 +110,6 @@ final class BirthdayView: BaseView {
             make.height.equalTo(48)
             make.centerY.equalTo(self.safeAreaLayoutGuide)
         }
-        
-//        datePicker.snp.makeConstraints { make in
-//            make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
-//            make.height.equalTo(self.frame.height).multipliedBy(0.2)
-//        }
-        
-        
     }
     
     
