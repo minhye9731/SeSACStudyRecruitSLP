@@ -40,7 +40,7 @@ final class NickNameViewController: BaseViewController {
         output.validStatus
             .withUnretained(self)
             .bind { (vc, value) in
-                let bgcolor: UIColor = value ? ColorPalette.green : ColorPalette.gray3
+                let bgcolor: UIColor = value ? ColorPalette.green : ColorPalette.gray6
                 let txcolor: UIColor = value ? .white : .black
                 vc.mainView.nextButton.configuration?.baseBackgroundColor = bgcolor
                 vc.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = txcolor
@@ -63,6 +63,8 @@ final class NickNameViewController: BaseViewController {
                     self.transition(vc, transitionStyle: .push)
                 }
             }
+            .disposed(by: disposeBag)
+        
     }
     
     func setBackButton() {

@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import Toast
 
 final class EmailViewController: BaseViewController {
     
     // MARK: - property
     let mainView = EmailView()
+    let viewModel = EmailViewModel()
+    let disposeBag = DisposeBag()
     
     // MARK: - Lifecycle
     override func loadView()  {
@@ -21,17 +26,45 @@ final class EmailViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        mainView.nextButton.addTarget(self, action: #selector(test), for: .touchUpInside)
+        mainView.emailTextField.becomeFirstResponder()
+        bind()
     }
     
-    override func setConstraints() {
-        super.setConstraints()
+    func bind() {
+        let input = EmailViewModel.Input(
+            emailText: mainView.emailTextField.rx.text,
+            tap: mainView.nextButton.rx.tap)
+        let output = viewModel.transform(input: input)
         
+        output.validStatus
+            .withUnretained(self)
+            .bind { (vc, value) in
+                let bgcolor: UIColor = value ? ColorPalette.green : ColorPalette.gray6
+                let txcolor: UIColor = value ? .white : .black
+                vc.mainView.nextButton.configuration?.baseBackgroundColor = bgcolor
+                vc.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = txcolor
+            }
+            .disposed(by: disposeBag)
+        
+        output.tap
+            .withUnretained(self)
+            .bind { _ in
+                let emailRule = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+                let emailCheck = NSPredicate(format: "SELF MATCHES %@", emailRule)
+                guard let email = self.mainView.emailTextField.text else { return }
+                
+                if emailCheck.evaluate(with: email) {
+                    UserDefaults.standard.set(email, forKey: "email")
+                    print("이메일 \(email) 저장 성공")
+                    let vc = GenderViewController()
+                    self.transition(vc, transitionStyle: .push)
+                } else {
+                    self.mainView.makeToast("이메일 형식이 올바르지 않습니다.", duration: 1.0, position: .center)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
-    @objc func test() {
-        let vc = GenderViewController()
-        transition(vc, transitionStyle: .push)
-    }
+
     
 }

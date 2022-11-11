@@ -73,14 +73,10 @@ final class BirthdayViewController: BaseViewController {
     @objc func nextButtonTapped() {
         if realAge < 17 {
             self.mainView.makeToast("새싹스터디는 만17세 이상만 사용할 수 있습니다.", duration: 1.0, position: .center)
-            self.mainView.nextButton.configuration?.baseBackgroundColor = ColorPalette.gray3
-            self.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = .black
         } else {
             UserDefaults.standard.set(realAge, forKey: "realAge")
             let vc = EmailViewController()
             transition(vc, transitionStyle: .push)
-            self.mainView.nextButton.configuration?.baseBackgroundColor = ColorPalette.green
-            self.mainView.nextButton.configuration?.attributedTitle?.foregroundColor = .white
         }
     }
     
