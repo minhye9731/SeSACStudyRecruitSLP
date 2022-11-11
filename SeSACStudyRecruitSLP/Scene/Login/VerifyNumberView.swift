@@ -66,14 +66,14 @@ final class VerifyNumberView: BaseView {
         }
         
         verifyNumberTextField.addSubview(timerLabel)
-
+        
     }
     
     override func setConstraints() {
         super.setConstraints()
         
         notiLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(58)
+            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.bottom.equalTo(verifyNumberTextField.snp.top).offset(-97)
         }
         
