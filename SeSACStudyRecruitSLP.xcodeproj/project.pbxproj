@@ -69,6 +69,7 @@
 		0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E7291F9D2B00F71EC6 /* Network.swift */; };
 		0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */; };
 		0EA6A9ED291F9D8200F71EC6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0EA6A9EC291F9D8200F71EC6 /* Alamofire */; };
+		0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -127,6 +128,7 @@
 		0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		0EA6A9E7291F9D2B00F71EC6 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
+		0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 				0E4F62EF291C248300F36167 /* Transition+Extension.swift */,
 				0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */,
 				0E4F6330291D793F00F36167 /* UITextField+Extension.swift */,
+				0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
 				0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */,
+				0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */,
 				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
