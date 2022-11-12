@@ -66,22 +66,33 @@ final class VerifyNumberViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        
         func checkVeriNumMatch(num: String) {
             
             guard let verficationID = UserDefaults.standard.string(forKey: "authVerificationID") else { return }
             
             let credential = PhoneAuthProvider.provider().credential(
-                withVerificationID: verficationID,
-                verificationCode: num
+                withVerificationID: "AKf9Wb3Kl89MUXMgWQDrlC7I8NBB5i_T9wUIQVfVhFT4TrwFgHydbMp3j4KwXZgsnpmAlOzkVECxMO0efLr1MWEIjw2QdKm3Y04bAVLRn8jAx_vOmgICkUkx-eVoNqzPmGOgEtuHXHcMJTUqMqvqeW1Cs8NtEA4EgLPTSmC9eTADO4IObnx0x4rRGzV3JDSdHIchX8xCqSvgVgJePYkHBrk95dpzJo8MMOrbHh6dhqufM01T0XySO-o", //verficationID,
+                verificationCode: "676430" //num
             )
             
             Auth.auth().signIn(with: credential) { authResult, error in
                 if let error = error {
                     print("error 발생 : \(error.localizedDescription)")
+                    
+                    let code = (error as NSError).code
+                    print("error code 확인 : \(code)")
+                    
                     // 케이스별 예외처리 필요할 듯
                     self.mainView.makeToast("로그인에 에러가 발생했습니다. 다시 시도해주세요 :)", duration: 1.0, position: .center)
+                    self.mainView.verifyNumberTextField.text = ""
+                    return
                 }
                 print("로그인 성공! 이제 서버랑 통신하자~~~~")
+                print("authResult = \(authResult)")
+                
+                // idtoken 저장
+                UserDefaults.standard.set(authResult, forKey: "idtoken")
                 
                 // 서버로부터 사용자 정보를 확인 : 신규&기존 사용자 여부 판단
                 
