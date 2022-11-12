@@ -22,7 +22,11 @@ final class VerifyNumberViewController: BaseViewController {
     override func loadView()  {
         super.loadView()
         self.view = mainView
-        self.mainView.makeToast("인증번호를 보냈습니다.", duration: 1.0, position: .center) // 이후화면에서 돌아올때 표기여부 확인
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.mainView.makeToast("인증번호를 발송했습니다.", duration: 1.0, position: .center) // 한 번만 발송되도록 제한 필요
     }
     
     // MARK: - functions
@@ -50,28 +54,39 @@ final class VerifyNumberViewController: BaseViewController {
         output.tap
             .withUnretained(self)
             .bind { _ in
-                
                 guard let veriNum = self.mainView.verifyNumberTextField.text else { return }
-                checkVeriNumMatch(num: veriNum)
-                if veriNum.count == 6 {
-                    // 인증하기 함수 실행
-                } else {
-                    
-                }
                 
+                print("인증을 시도해볼 인증코드는 : \(veriNum)")
+                
+                if veriNum.count == 6 {
+                    checkVeriNumMatch(num: veriNum) // 인증하기 함수 실행
+                } else {
+                    self.mainView.makeToast("인증번호 전체를 입력해주세요.", duration: 1.0, position: .center)
+                }
             }
             .disposed(by: disposeBag)
         
-        // 전화번호 인증하는 함수, 여기서 로그인을 시도한다.
         func checkVeriNumMatch(num: String) {
             
-            // 로그인 통신
-            // 서버로부터 사용자 정보를 확인
-            // 기사용자 여부에 따른 화면 이동
-            // (임시확인용 일방통행)
-            let vc = NickNameViewController()
-            self.transition(vc, transitionStyle: .push)
-            // 에러처리
+            guard let verficationID = UserDefaults.standard.string(forKey: "authVerificationID") else { return }
+            
+            let credential = PhoneAuthProvider.provider().credential(
+                withVerificationID: verficationID,
+                verificationCode: num
+            )
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("error 발생 : \(error.localizedDescription)")
+                    // 케이스별 예외처리 필요할 듯
+                    self.mainView.makeToast("로그인에 에러가 발생했습니다. 다시 시도해주세요 :)", duration: 1.0, position: .center)
+                }
+                print("로그인 성공! 이제 서버랑 통신하자~~~~")
+                
+                // 서버로부터 사용자 정보를 확인 : 신규&기존 사용자 여부 판단
+                
+            }
+            
             
             
             
@@ -82,10 +97,7 @@ final class VerifyNumberViewController: BaseViewController {
         
     }
     
-    
-//    @objc func test() {
-//        let vc = NickNameViewController()
-//        transition(vc, transitionStyle: .push)
-//    }
+//    let vc = NickNameViewController()
+//    self.transition(vc, transitionStyle: .push)
     
 }

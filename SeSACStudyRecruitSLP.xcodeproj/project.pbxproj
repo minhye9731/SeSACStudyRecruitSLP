@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E72918D63E0040BD85 /* AppDelegate.swift */; };
 		0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E92918D63E0040BD85 /* SceneDelegate.swift */; };
-		0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410EB2918D63E0040BD85 /* ViewController.swift */; };
 		0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410ED2918D63E0040BD85 /* Main.storyboard */; };
 		0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F02918D6400040BD85 /* Assets.xcassets */; };
 		0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */; };
@@ -72,7 +71,6 @@
 		0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACStudyRecruitSLP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1410E72918D63E0040BD85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1410E92918D63E0040BD85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0E1410EB2918D63E0040BD85 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0E1410EE2918D63E0040BD85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0E1410F02918D6400040BD85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E1410F32918D6400040BD85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 				0E4F6308291CE55700F36167 /* SeSACStudyRecruitSLP.entitlements */,
 				0E1410E72918D63E0040BD85 /* AppDelegate.swift */,
 				0E1410E92918D63E0040BD85 /* SceneDelegate.swift */,
-				0E1410EB2918D63E0040BD85 /* ViewController.swift */,
 				0E1410ED2918D63E0040BD85 /* Main.storyboard */,
 				0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */,
 				0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */,
@@ -441,7 +438,6 @@
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
 				0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */,
 				0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */,
-				0E1410EC2918D63E0040BD85 /* ViewController.swift in Sources */,
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
 				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,

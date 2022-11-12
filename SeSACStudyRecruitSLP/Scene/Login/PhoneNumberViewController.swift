@@ -59,9 +59,8 @@ final class PhoneNumberViewController: BaseViewController {
                 
                 if phoneNumCheck.evaluate(with: phoneNum) {
                     
-                    
-                    
-                    print("Firebase 전화 번호 인증 시작")
+                    // 번호 하이픈 처리?
+                    print("Firebase 전화 번호 인증 시작 : \(phoneNum)")
                     self.provePhoneNumber(num: phoneNum)
                 } else {
                     self.mainView.makeToast("잘못된 전화번호 형식입니다.", duration: 1.0, position: .center)
@@ -73,15 +72,19 @@ final class PhoneNumberViewController: BaseViewController {
 
     func provePhoneNumber(num: String) {
         
+        // 폰 번호 형식에 +82랑 하이픈 붙이도록 해보자.
+        
         PhoneAuthProvider.provider()
-            .verifyPhoneNumber(num, uiDelegate: nil) { verficationID, error in
+            .verifyPhoneNumber("+82 010-7597-6263", uiDelegate: nil) { verficationID, error in
                 
                 if let error = error {
                     print(error.localizedDescription)
                     
                     let code = (error as NSError).code
                     print(code) //17048
-                    
+                    let domain = (error as NSError).domain
+                    // 코드에 따라 다른 한글 문구로 구분해서 발송작업 필요
+                    self.mainView.makeToast("domain : \(domain)", duration: 1.0, position: .center)
                     return
                 }
                 
@@ -94,10 +97,4 @@ final class PhoneNumberViewController: BaseViewController {
             }
         
     }
-    
-    
-    
-    
-    
-    
 }

@@ -55,7 +55,6 @@ final class GenderViewController: BaseViewController {
     func changeGenderBtnClr() {
         mainView.FemaleButton.configuration?.baseBackgroundColor = femaleSelected ? ColorPalette.whitegreen : .white
         mainView.MaleButton.configuration?.baseBackgroundColor = maleSelected ? ColorPalette.whitegreen : .white
-
         mainView.FemaleButton.configuration?.background.strokeColor = femaleSelected ? ColorPalette.whitegreen : ColorPalette.gray4
         mainView.MaleButton.configuration?.background.strokeColor = maleSelected ? ColorPalette.whitegreen : ColorPalette.gray4
     }
