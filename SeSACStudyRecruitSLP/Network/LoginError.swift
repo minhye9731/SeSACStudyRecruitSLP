@@ -16,7 +16,7 @@ enum LoginError: Int, Error {
 
 extension LoginError: LocalizedError {
     
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
         case .fbTokenError:
             return "토큰이 만료되었습니다. 전화번호 인증을 다시 해주세요."
@@ -28,7 +28,6 @@ extension LoginError: LocalizedError {
             return "입력정보가 적절하지 않습니다. 다시 시도해주세요."
         }
     }
-    
 }
 
 
