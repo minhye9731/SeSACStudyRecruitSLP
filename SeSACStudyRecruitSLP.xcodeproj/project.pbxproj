@@ -73,6 +73,12 @@
 		0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F229209E9600F71EC6 /* SignupError.swift */; };
 		0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */; };
 		0EA6A9F72920E79400F71EC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F62920E79300F71EC6 /* GoogleService-Info.plist */; };
+		0EA6A9F92921625B00F71EC6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F82921625B00F71EC6 /* TabBarController.swift */; };
+		0EA6A9FD29216B6A00F71EC6 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9FC29216B6A00F71EC6 /* ShopViewController.swift */; };
+		0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */; };
+		0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */; };
+		0EA6AA0629216FA800F71EC6 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */; };
+		0EA6AA082921757F00F71EC6 /* InfoManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +141,11 @@
 		0EA6A9F229209E9600F71EC6 /* SignupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupError.swift; sourceTree = "<group>"; };
 		0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoDTO.swift; sourceTree = "<group>"; };
 		0EA6A9F62920E79300F71EC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0EA6A9F82921625B00F71EC6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		0EA6A9FC29216B6A00F71EC6 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
+		0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
+		0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +162,7 @@
 				0E4F6305291CE00700F36167 /* FirebaseCrashlytics in Frameworks */,
 				0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */,
 				0E4F62F7291C276500F36167 /* RxSwift in Frameworks */,
+				0EA6AA0629216FA800F71EC6 /* IQKeyboardManagerSwift in Frameworks */,
 				0E50958D2918F4F00038B429 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,6 +193,7 @@
 				0E4F6308291CE55700F36167 /* SeSACStudyRecruitSLP.entitlements */,
 				0E1410E72918D63E0040BD85 /* AppDelegate.swift */,
 				0E1410E92918D63E0040BD85 /* SceneDelegate.swift */,
+				0EA6A9F82921625B00F71EC6 /* TabBarController.swift */,
 				0E1410ED2918D63E0040BD85 /* Main.storyboard */,
 				0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */,
 				0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */,
@@ -215,12 +228,11 @@
 			isa = PBXGroup;
 			children = (
 				0E14110A2918EF1D0040BD85 /* WalkThrough */,
-				0E4F62FC291C31E500F36167 /* Login */,
-				0E4F630B291CFEA600F36167 /* NickName */,
-				0E4F6318291D117900F36167 /* Birthday */,
-				0E4F631F291D189B00F36167 /* Email */,
-				0E4F6320291D18A500F36167 /* Gender */,
-				0E4F632D291D1F6200F36167 /* Main */,
+				0EA6A9FA2921694700F71EC6 /* LoginSignup */,
+				0E4F632D291D1F6200F36167 /* MainSearch */,
+				0EA6A9FE29216BB600F71EC6 /* Shop */,
+				0EA6A9FF29216BC600F71EC6 /* Friends */,
+				0EA6A9FB29216AF900F71EC6 /* MyInfo */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -317,12 +329,12 @@
 			path = Gender;
 			sourceTree = "<group>";
 		};
-		0E4F632D291D1F6200F36167 /* Main */ = {
+		0E4F632D291D1F6200F36167 /* MainSearch */ = {
 			isa = PBXGroup;
 			children = (
 				0E4F6339291E91ED00F36167 /* MainViewController.swift */,
 			);
-			path = Main;
+			path = MainSearch;
 			sourceTree = "<group>";
 		};
 		0E5095862918F2530038B429 /* BaseView */ = {
@@ -359,6 +371,43 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		0EA6A9FA2921694700F71EC6 /* LoginSignup */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F62FC291C31E500F36167 /* Login */,
+				0E4F630B291CFEA600F36167 /* NickName */,
+				0E4F6318291D117900F36167 /* Birthday */,
+				0E4F631F291D189B00F36167 /* Email */,
+				0E4F6320291D18A500F36167 /* Gender */,
+			);
+			path = LoginSignup;
+			sourceTree = "<group>";
+		};
+		0EA6A9FB29216AF900F71EC6 /* MyInfo */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */,
+				0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */,
+			);
+			path = MyInfo;
+			sourceTree = "<group>";
+		};
+		0EA6A9FE29216BB600F71EC6 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6A9FC29216B6A00F71EC6 /* ShopViewController.swift */,
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
+		0EA6A9FF29216BC600F71EC6 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -386,6 +435,7 @@
 				0E4F6306291CE00700F36167 /* FirebaseMessaging */,
 				0E4F6333291D7B9900F36167 /* Toast */,
 				0EA6A9EC291F9D8200F71EC6 /* Alamofire */,
+				0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */,
 			);
 			productName = SeSACStudyRecruitSLP;
 			productReference = 0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */;
@@ -421,6 +471,7 @@
 				0E4F62FF291CE00700F36167 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				0E4F6332291D7B9900F36167 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				0EA6A9EB291F9D8100F71EC6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 0E1410E52918D63E0040BD85 /* Products */;
 			projectDirPath = "";
@@ -460,6 +511,7 @@
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
+				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
 				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
@@ -486,6 +538,7 @@
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
+				0EA6A9FD29216B6A00F71EC6 /* ShopViewController.swift in Sources */,
 				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
 				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
@@ -493,8 +546,11 @@
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
 				0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */,
 				0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */,
+				0EA6A9F92921625B00F71EC6 /* TabBarController.swift in Sources */,
+				0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */,
 				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
+				0EA6AA082921757F00F71EC6 /* InfoManageViewController.swift in Sources */,
 				0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */,
 				0E4F6317291D0D3900F36167 /* NickNameViewModel.swift in Sources */,
 				0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */,
@@ -769,6 +825,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = exactVersion;
+				version = 6.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -821,6 +885,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0EA6A9EB291F9D8100F71EC6 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
