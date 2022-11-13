@@ -20,7 +20,7 @@ extension SignupError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .existUser:
-            return "이미 가입한 사용자 정보입니다."
+            return "이미 가입된 사용자 정보입니다. 로그인 해주세요."
         case .invalidNickname:
             return "사용할 수 없는 닉네임입니다. 닉네임 변경 후 다시 회원가입 요청해주세요."
         case .fbTokenError:
