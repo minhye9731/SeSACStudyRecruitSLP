@@ -24,12 +24,13 @@ extension SignupError: LocalizedError {
         case .invalidNickname:
             return "사용할 수 없는 닉네임입니다. 닉네임 변경 후 다시 회원가입 요청해주세요."
         case .fbTokenError:
-            return "토큰에러가 발생했습니다. 다시 해 시도해주세요."
+            return "토큰에러가 발생했습니다. 다시 시도해주세요."
         case .serverError:
-            return "서버에러가 발생했습니다. 로그인을 다시 시도해주세요."
+            return "서버에러가 발생했습니다. 잠시 후 다시 로그인을 시도해주세요."
         case .clientError:
             return "입력정보가 적절하지 않습니다. 다시 시도해주세요."
         }
     }
-    
 }
+
+
