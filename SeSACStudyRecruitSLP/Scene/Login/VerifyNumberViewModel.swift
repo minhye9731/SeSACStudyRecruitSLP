@@ -12,6 +12,8 @@ import RxCocoa
 final class VerifyNumberViewModel: CommonViewModel {
     
     // MARK: - property
+    let verify = PublishSubject<LoginResponse>()
+    
     struct Input {
         let veriNumText: ControlProperty<String?>
         let tap: ControlEvent<Void>
@@ -32,4 +34,16 @@ final class VerifyNumberViewModel: CommonViewModel {
         return Output(validStatus: veriNumResult, tap: input.tap)
     }
     
+//    func tryLogin() {
+//        let api = APIRouter.login
+//        Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+//
+//            switch response {
+//            case .success(let success):
+//                self?.verify.onNext(success)
+//            case .failure(let failure):
+//                self?.verify.onError(failure)
+//            }
+//        }
+//    }
 }
