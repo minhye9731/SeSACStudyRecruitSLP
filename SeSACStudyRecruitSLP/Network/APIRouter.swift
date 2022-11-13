@@ -37,8 +37,11 @@ enum APIRouter: URLRequestConvertible {
 
     var headers: HTTPHeaders {
         switch self {
-        case .signup, .login: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
-                                      "Content-Type": "application/x-www-form-urlencoded" ]
+        case .login: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+                              "Content-Type": "application/json" ]
+            
+        case .signup: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+                               "Content-Type": "application/x-www-form-urlencoded" ]
         }
     }
 
@@ -67,20 +70,3 @@ enum APIRouter: URLRequestConvertible {
         return request
     }
 }
-
-
-//    var parameters: [String: Any]  {
-//        switch self {
-//        case .signup:
-//            return [
-//                "phoneNumber": UserDefaults.standard.string(forKey: "phoneNum"),
-//                "FCMtoken": UserDefaults.standard.string(forKey: "fcmToken"),
-//                "nick": UserDefaults.standard.string(forKey: "nickName"),
-//                "birth": UserDefaults.standard.date(forKey: "realAge"),
-//                "email": UserDefaults.standard.string(forKey: "email"),
-//                "gender": UserDefaults.standard.string(forKey: "gender")
-//            ]
-//        case .login: return ["":""]
-//        }
-//    }
-    
