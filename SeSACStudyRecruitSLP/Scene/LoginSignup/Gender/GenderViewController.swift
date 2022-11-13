@@ -117,6 +117,12 @@ final class GenderViewController: BaseViewController {
                 case .fbTokenError:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center) { _ in
                         // 토큰 갱신 후 재요청
+                        
+                        
+                        
+                        
+                        
+                        
                     }
                     
                 default :
