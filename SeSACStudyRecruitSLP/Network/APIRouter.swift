@@ -11,12 +11,10 @@ import Alamofire
 enum APIRouter: URLRequestConvertible {
 
     case login
-    case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: Int)
-//    case signup
+    case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1207")!
-//        return URL(string: "http://api.memolease.com/api/v1/users/")!
     }
 
     var method: HTTPMethod {
@@ -44,7 +42,7 @@ enum APIRouter: URLRequestConvertible {
         }
     }
 
-    var parameters: [String: Any] {
+    var parameters: [String: String] {
         switch self {
         case .signup(let phoneNumber, let fcmtoken, let nick, let birth, let email, let gender):
             return [
@@ -53,11 +51,23 @@ enum APIRouter: URLRequestConvertible {
                 "nick": nick,
                 "birth": birth,
                 "email": email,
-                "gender": gender
+                "gender": gender // 타입 케스팅해서 해보자
             ]
         case .login: return ["":""]
         }
     }
+
+    func asURLRequest() throws -> URLRequest {
+        let url = baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: url)
+        request.method = method
+        request.headers = headers
+        
+        request = try URLEncodedFormParameterEncoder().encode(parameters, into: request)
+        return request
+    }
+}
+
 
 //    var parameters: [String: Any]  {
 //        switch self {
@@ -74,13 +84,3 @@ enum APIRouter: URLRequestConvertible {
 //        }
 //    }
     
-    func asURLRequest() throws -> URLRequest {
-        let url = baseURL.appendingPathComponent(path)
-        var request = URLRequest(url: url)
-        request.method = method
-        request.headers = headers
-        
-        request = try URLEncodedFormParameterEncoder().encode(parameters, into: request)
-        return request
-    }
-}
