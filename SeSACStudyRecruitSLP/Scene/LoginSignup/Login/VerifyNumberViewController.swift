@@ -100,8 +100,8 @@ final class VerifyNumberViewController: BaseViewController {
                 print("파베 인증코드 인증 성공! 이제 서버랑 통신하자~~~~")
                 print("idToken = \(idToken?.token)")
                 let realtoken = idToken?.token
-                //                let realtoken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQ3YjE5MTI0MGZjZmYzMDdkYzQ3NTg1OWEyYmUzNzgzZGMxYWY4OWYiLCJ0eXAiOiJKV1QifQ"
                 UserDefaults.standard.set(realtoken, forKey: "idtoken")
+                print(UserDefaults.standard.string(forKey: "idtoken"))
                 self.login()
             }
         }
@@ -115,10 +115,17 @@ final class VerifyNumberViewController: BaseViewController {
             switch response {
             case .success(let loginData):
                 self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center)
-
+//                { didTap in
+//                    let vc = MainViewController()
+//                    // user 데이터 저장
+//                    self?.changeRootVC(vc: vc)
+//                }
+  
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                     let vc = MainViewController()
-                    // user 데이터 저장
+                    // user 데이터 저장 ㅇ떤식으로 하고있어?
+              
+                    
                     self?.changeRootVC(vc: vc)
                 }
                 
@@ -128,18 +135,49 @@ final class VerifyNumberViewController: BaseViewController {
                 print("failure // code = \(code), errorCode = \(errorCode)")
                 
                 switch errorCode {
-                case .unknownUser :
+                case .unknownUser:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         let vc = NickNameViewController()
                         self?.changeRootVC(vc: vc)
                     }
-                    
+                case .fbTokenError:
+                    // 갱신
+                    print("401 에러 발생!!! 갱신 하자")
+                    let currentUser = Auth.auth().currentUser
+                    currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            if let error = error {
+                                print("401 내부에서 다시 에러남")
+                                return
+                            }
+                            UserDefaults.standard.set(idToken, forKey: "idtoken")
+                            print(UserDefaults.standard.string(forKey: "idtoken"))
+                        }
+                    }
                 default :
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
                 }
             }
         }
     }
+    
+    
+    func refreshIDToken() {
+        Task {
+            do {
+                let refreshToken = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
+                UserDefaults.standard.set(refreshToken, forKey: "idtoken")
+                
+            }
+            catch {
+                self.mainView.makeToast("토큰 갱신 재시도 필요", duration: 1.0, position: .center)
+            }
+        }
+    }
+    
+    
+    
 }
     
