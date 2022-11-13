@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import RxSwift
+import FirebaseAuth
 
 final class Network {
     
@@ -38,7 +39,7 @@ final class Network {
     
     // signup(post)
     func requestSignup(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
-        
+
         AF.request(router).validate(statusCode: 200...500).responseString { response in
             switch response.result {
             case .success(let data):
@@ -50,5 +51,17 @@ final class Network {
             }
         }
     }
+    
+//    func refreshFCMidToken() {
+//        
+//        let currentUser = Auth.auth().currentUser
+//        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+//
+//            if let error = error {
+//                return
+//            }
+//            UserDefaults.standard.set(idToken, forKey: "idtoken")
+//        }
+//    }
     
 }
