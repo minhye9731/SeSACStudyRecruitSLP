@@ -17,7 +17,6 @@ final class PhoneNumberViewController: BaseViewController {
     let mainView = PhoneNumberView()
     let viewModel = PhoneNumberViewModel()
     let disposeBag = DisposeBag()
-//    var phoneNumber = "+82 010-7597-6263" // 가상의 번호
     
     let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
     
@@ -59,9 +58,9 @@ final class PhoneNumberViewController: BaseViewController {
                 
                 if phoneNumCheck.evaluate(with: phoneNum) {
                     
-                    // 번호 하이픈 처리?
+                    // 번호 하이픈 처리 필요
                     print("Firebase 전화 번호 인증 시작 : \(phoneNum)")
-                    self.provePhoneNumber(num: phoneNum)
+                    self.provePhoneNumber(num: "+82 \(phoneNum)")
                 } else {
                     self.mainView.makeToast("잘못된 전화번호 형식입니다.", duration: 1.0, position: .center)
                 }
@@ -73,7 +72,6 @@ final class PhoneNumberViewController: BaseViewController {
     func provePhoneNumber(num: String) {
         
         // 폰 번호 형식에 +82랑 하이픈 붙이도록 해보자.
-        
         PhoneAuthProvider.provider()
             .verifyPhoneNumber("+82 010-7597-6263", uiDelegate: nil) { verficationID, error in
                 
@@ -89,7 +87,7 @@ final class PhoneNumberViewController: BaseViewController {
                 }
                 
                 UserDefaults.standard.set(verficationID, forKey: "authVerificationID")
-                UserDefaults.standard.set(num, forKey: "phoneNum")
+                UserDefaults.standard.set("+82 010-7597-6263", forKey: "phoneNum")
                 print("phoneNum \(num), verficationID = \(verficationID) 저장 성공")
                 
                 let vc = VerifyNumberViewController()

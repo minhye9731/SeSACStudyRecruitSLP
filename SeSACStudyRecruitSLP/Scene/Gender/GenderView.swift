@@ -31,14 +31,12 @@ final class GenderView: BaseView {
     let MaleButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.genderButton(title: "남자", image: "man")
-//        button.tag = 1
         return button
     }()
 
     let FemaleButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.genderButton(title: "여자", image: "woman")
-//        button.tag = 0
         return button
     }()
     
@@ -93,8 +91,6 @@ final class GenderView: BaseView {
             make.height.equalTo(48)
             make.centerY.equalTo(self.safeAreaLayoutGuide).multipliedBy(1.0)
         }
-        
-        
     }
     
     

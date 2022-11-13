@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - LoginResponse
-struct LoginResponse: Decodable {
+struct LoginResponse: Codable {
     let id: String
     let v: Int
     let uid, phoneNumber, email, fcMtoken: String

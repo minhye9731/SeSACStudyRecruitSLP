@@ -9,29 +9,52 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//final class GenderViewModel: CommonViewModel {
-//
-//    // MARK: - property
-//    struct Input {
-//        let maleTap: ControlEvent<Void>
-//        let femaleTap: ControlEvent<Void>
-//        let nextTap: ControlEvent<Void>
-//    }
-//
-//    struct Output {
+final class GenderViewModel: CommonViewModel {
+    
+    // MARK: - property
+    let signup = PublishSubject<String>()
+    
+    struct Input {
+        let maleTap: ControlEvent<Void>
+        let femaleTap: ControlEvent<Void>
+        let nextTap: ControlEvent<Void>
+    }
+
+    struct Output {
 //        let validStatus: Observable<Bool>
-//        let tap: ControlEvent<Void>
-//    }
-//
-//    // MARK: - functions
-//    func transform(input: Input) -> Output {
-//
-//        let nicknameResult = input.emailText
-//            .orEmpty
-//            .map { emailCheck.evaluate(with: $0) }
+        let tap: ControlEvent<Void>
+    }
+
+    // MARK: - functions
+    func transform(input: Input) -> Output {
+
+//        let nicknameResult = input.nextTap
+//            .map { }
 //            .share()
-//
-//        return Output(validStatus: nicknameResult, tap: input.tap)
-//    }
-//
-//}
+
+        return Output(tap: input.nextTap)
+    }
+    
+    func getSignUp(userData: UserInfoDTO) {
+        
+        let api = APIRouter.signup(phoneNumber: userData.phoneNumber, FCMtoken: userData.fcmToken, nick: userData.nickname, birth: userData.birth, email: userData.email, gender: String(userData.gender))
+        Network.share.requestSignup(router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let success):
+                self?.signup.onNext(success)
+            case .failure(let failure):
+                self?.signup.onError(failure)
+            }
+        }
+    }
+    
+    
+
+    
+    
+    
+    
+    
+    
+}

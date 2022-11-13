@@ -41,8 +41,8 @@ final class BirthdayViewController: BaseViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         formatter.locale = Locale(identifier: "ko_KR")
-        
         let bday = formatter.string(from: sender.date)
+        
         calculateRealAge(bday: sender.date)
         isvalidAge()
         
@@ -74,7 +74,8 @@ final class BirthdayViewController: BaseViewController {
         if realAge < 17 {
             self.mainView.makeToast("새싹스터디는 만17세 이상만 사용할 수 있습니다.", duration: 1.0, position: .center)
         } else {
-            UserDefaults.standard.set(realAge, forKey: "realAge")
+            let selectedDate = mainView.datePicker.date.toBirthDateForm()
+            UserDefaults.standard.set(selectedDate, forKey: "realAge") // 데이터 타입 통신시에 재확인 해보자.
             let vc = EmailViewController()
             transition(vc, transitionStyle: .push)
         }
