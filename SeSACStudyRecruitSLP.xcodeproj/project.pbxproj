@@ -70,6 +70,8 @@
 		0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */; };
 		0EA6A9ED291F9D8200F71EC6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0EA6A9EC291F9D8200F71EC6 /* Alamofire */; };
 		0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */; };
+		0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */; };
+		0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9F229209E9600F71EC6 /* SignupError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -129,6 +131,8 @@
 		0EA6A9E7291F9D2B00F71EC6 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
 		0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		0EA6A9F229209E9600F71EC6 /* SignupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -336,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				0E5095CD291AAE380038B429 /* SplashContent.swift */,
+				0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */,
 				0EA6A9E7291F9D2B00F71EC6 /* Network.swift */,
 				0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */,
+				0EA6A9F229209E9600F71EC6 /* SignupError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -447,10 +453,12 @@
 			files = (
 				0E4F630A291CFD0900F36167 /* PhoneNumberViewModel.swift in Sources */,
 				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
+				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
+				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
