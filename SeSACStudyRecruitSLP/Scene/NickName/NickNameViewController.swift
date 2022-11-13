@@ -56,8 +56,7 @@ final class NickNameViewController: BaseViewController {
                     self.mainView.makeToast("닉네임은 1자 이상 10자 이내로 부탁드려요.", duration: 1.0, position: .center)
                 } else {
                     UserDefaults.standard.set(nickname, forKey: "nickName")
-                    
-                    print("닉네임 \(nickname) 저장 성공")
+
                     let vc = BirthdayViewController()
                     self.transition(vc, transitionStyle: .push)
                 }
