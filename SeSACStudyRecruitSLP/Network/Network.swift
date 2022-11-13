@@ -18,14 +18,20 @@ final class Network {
     // login(get)
     func requestLogin<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
-        AF.request(router).validate().responseDecodable(of: T.self) { response in
+        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+            
             switch response.result {
+                
             case .success(let data):
+                print("Network에서의 로그인 통신성공 : 200~500 내부임!!!")
                 completion(.success(data))
+                
             case .failure(_):
                 guard let statusCode = response.response?.statusCode else { return }
                 guard let error = LoginError(rawValue: statusCode) else { return }
+                print("로그인 통신실패!!!")
                 completion(.failure(error))
+                
             }
         }
     }
@@ -33,7 +39,7 @@ final class Network {
     // signup(post)
     func requestSignup(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
-        AF.request(router).responseString { response in
+        AF.request(router).validate(statusCode: 200...500).responseString { response in
             switch response.result {
             case .success(let data):
                 completion(.success(data))
