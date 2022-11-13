@@ -114,10 +114,11 @@ final class VerifyNumberViewController: BaseViewController {
             
             switch response {
             case .success(let loginData):
-                print("===로그인 성공! (홈 화면으로 전환)====")
-                self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center) { _ in
+                self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                     let vc = MainViewController()
-//                    vc.userData = loginData
+                    // user 데이터 저장
                     self?.changeRootVC(vc: vc)
                 }
                 
@@ -128,11 +129,12 @@ final class VerifyNumberViewController: BaseViewController {
                 
                 switch errorCode {
                 case .unknownUser :
-                    print("회원가입 화면으로 이동!")
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center) { _ in
+                    self?.mainView.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         let vc = NickNameViewController()
                         self?.changeRootVC(vc: vc)
                     }
+                    
                 default :
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
                 }
@@ -141,38 +143,3 @@ final class VerifyNumberViewController: BaseViewController {
     }
 }
     
-    
-    
-    
-//    func login() {
-//
-//
-//        viewModel.verify
-//            .withUnretained(self)
-//            .subscribe { (vc, value) in
-//                print("로그인 성공! 홈화면으로 가자")
-//                print(value)
-//                let vc = MainViewController()
-//                self.transition(vc, transitionStyle: .push)
-//
-//            } onError: { error in
-//                print(error.localizedDescription)
-//
-//                self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
-//
-
-//                switch LoginError {
-//                case .fbTokenError:
-//                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
-//                case .unknownUser:
-//                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
-//                case .serverError:
-//                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
-//                case .clientError:
-//                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
-//                }
-                
-//            }
-//    }
-    
-
