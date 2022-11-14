@@ -11,6 +11,7 @@ extension Constants {
         
         case magnifyingGlass = "magnifyingglass"
         
+        //main
         case homeAct = "Property 1=home, Property 2=act"
         case homeInact = "Property 1=home, Property 2=inact"
         case shopAct = "Property 1=shop, Property 2=act"
@@ -20,6 +21,16 @@ extension Constants {
         case myAct = "Property 1=my, Property 2=act"
         case myInact = "Property 1=my, Property 2=inact"
 
+        
+        //my info
+        case notice = "notice"
+        case faq = "faq"
+        case qna = "qna"
+        case alarm = "setting_alarm"
+        case permit = "permit"
+        
+        
+        
     }
     
 }
