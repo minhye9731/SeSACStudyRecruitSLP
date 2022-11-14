@@ -16,6 +16,7 @@
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
+		0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B529221F4F004E7875 /* MyInfoView.swift */; };
 		0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62EF291C248300F36167 /* Transition+Extension.swift */; };
 		0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F2291C276500F36167 /* RxCocoa */; };
 		0E4F62F5291C276500F36167 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F4291C276500F36167 /* RxRelay */; };
@@ -93,6 +94,7 @@
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		0E49C6B529221F4F004E7875 /* MyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoView.swift; sourceTree = "<group>"; };
 		0E4F62EF291C248300F36167 /* Transition+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Extension.swift"; sourceTree = "<group>"; };
 		0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
 		0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */,
+				0E49C6B529221F4F004E7875 /* MyInfoView.swift */,
 				0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */,
 			);
 			path = MyInfo;
@@ -509,6 +512,7 @@
 				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
+				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
