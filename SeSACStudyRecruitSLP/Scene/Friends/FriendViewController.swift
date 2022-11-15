@@ -18,7 +18,6 @@ final class FriendViewController: BaseViewController {
     }
     
     // MARK: - functions
-    
     override func configure() {
         super.configure()
         view.backgroundColor = .yellow
