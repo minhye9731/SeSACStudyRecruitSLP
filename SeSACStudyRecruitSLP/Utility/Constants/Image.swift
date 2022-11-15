@@ -29,7 +29,25 @@ extension Constants {
         case alarm = "setting_alarm"
         case permit = "permit"
         
+        case more = "more_arrow"
         
+        // sesac face
+        case face1 = "sesac_face_1"
+        case face2 = "sesac_face_2"
+        case face3 = "sesac_face_3"
+        case face4 = "sesac_face_4"
+        case face5 = "sesac_face_5"
+        
+        // background
+        case bg1 = "sesac_background_1"
+        case bg2 = "sesac_background_2"
+        case bg3 = "sesac_background_3"
+        case bg4 = "sesac_background_4"
+        case bg5 = "sesac_background_5"
+        case bg6 = "sesac_background_6"
+        case bg7 = "sesac_background_7"
+        case bg8 = "sesac_background_8"
+        case bg9 = "sesac_background_9"
         
     }
     
