@@ -9,21 +9,22 @@ import UIKit
 
 final class InfoManageView: BaseView {
     
-    let tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let view = UITableView()
-        view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
-        view.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        view.rowHeight = UITableView.automaticDimension
+        view.estimatedRowHeight = 100
+        view.separatorStyle = .none
         
         view.register(CustomTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: CustomTableViewHeaderView.reuseIdentifier)
         
-        view.register(profileCell.self, forCellReuseIdentifier: profileCell.reuseIdentifier)
+        view.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.reuseIdentifier)
         
-        view.register(genderCell.self, forCellReuseIdentifier: genderCell.reuseIdentifier)
-        view.register(oftenStudyCell.self, forCellReuseIdentifier: oftenStudyCell.reuseIdentifier)
-        view.register(pnumPermitCell.self, forCellReuseIdentifier: pnumPermitCell.reuseIdentifier)
-        view.register(ageRangeCell.self, forCellReuseIdentifier: ageRangeCell.reuseIdentifier)
-        view.register(withdrawCell.self, forCellReuseIdentifier: MyProfileInfoCell.reuseIdentifier)
+        view.register(GenderCell.self, forCellReuseIdentifier: GenderCell.reuseIdentifier)
+        view.register(OftenStudyCell.self, forCellReuseIdentifier: OftenStudyCell.reuseIdentifier)
+        view.register(PnumPermitCell.self, forCellReuseIdentifier: PnumPermitCell.reuseIdentifier)
+        view.register(AgeRangeCell.self, forCellReuseIdentifier: AgeRangeCell.reuseIdentifier)
+        view.register(WithdrawCell.self, forCellReuseIdentifier: WithdrawCell.reuseIdentifier)
         
         return view
     }()

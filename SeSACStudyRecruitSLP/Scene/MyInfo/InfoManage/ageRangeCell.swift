@@ -8,7 +8,7 @@
 import UIKit
 //import MultiSlider
 
-final class ageRangeCell: BaseTableViewCell {
+final class AgeRangeCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -37,11 +37,16 @@ final class ageRangeCell: BaseTableViewCell {
 //        return slider
 //    }()
     
+    let sliderview: UIView = {
+       let view = UIView()
+        view.backgroundColor = .gray
+        return view
+    }()
 
     
     override func configure() {
         super.configure()
-        [titleLabel, rangeLabel ].forEach {
+        [titleLabel, rangeLabel, sliderview].forEach {
             contentView.addSubview($0)
         }
     }
@@ -50,10 +55,29 @@ final class ageRangeCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide)
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(12)
             make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
         }
+        
+        rangeLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.width.equalTo(60)
+        }
+        
+//        slider.snp.makeConstraints { make in
+//            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
+//
+//        }
+        
+        sliderview.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.height.equalTo(48)
+            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-12)
+        }
+        
         
 
     }

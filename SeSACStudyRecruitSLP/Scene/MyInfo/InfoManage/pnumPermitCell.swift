@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class pnumPermitCell: BaseTableViewCell {
+final class PnumPermitCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -35,7 +35,7 @@ final class pnumPermitCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
         }
@@ -44,7 +44,7 @@ final class pnumPermitCell: BaseTableViewCell {
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.height.equalTo(28)
             make.width.equalTo(52)
-            make.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
         }
     }
     

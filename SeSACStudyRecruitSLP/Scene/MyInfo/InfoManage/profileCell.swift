@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class profileCell: BaseTableViewCell {
+final class ProfileCell: BaseTableViewCell {
     
     
     override func configure() {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class genderCell: BaseTableViewCell {
+final class GenderCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -20,13 +20,13 @@ final class genderCell: BaseTableViewCell {
     
     let MaleButton: UIButton = {
         let button = UIButton()
-        button.configuration = UIButton.genderButton(title: "남자", image: "man")
+        button.configuration = UIButton.genderTextButton(title: "남자")
         return button
     }()
 
     let FemaleButton: UIButton = {
         let button = UIButton()
-        button.configuration = UIButton.genderButton(title: "여자", image: "woman")
+        button.configuration = UIButton.genderTextButton(title: "여자")
         return button
     }()
     
@@ -41,7 +41,7 @@ final class genderCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
         }
@@ -50,14 +50,14 @@ final class genderCell: BaseTableViewCell {
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(56)
             make.height.equalTo(48)
-            make.trailing.equalTo(FemaleButton.snp.leading).offset(8)
+            make.trailing.equalTo(FemaleButton.snp.leading).offset(-8)
         }
         
         FemaleButton.snp.makeConstraints { make in
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(56)
             make.height.equalTo(48)
-            make.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
         }
         
     }

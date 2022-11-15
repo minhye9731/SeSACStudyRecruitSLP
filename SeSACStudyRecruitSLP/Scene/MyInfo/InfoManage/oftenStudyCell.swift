@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class oftenStudyCell: BaseTableViewCell {
+final class OftenStudyCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +47,7 @@ final class oftenStudyCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
         }
@@ -55,14 +55,14 @@ final class oftenStudyCell: BaseTableViewCell {
         studyTextField.snp.makeConstraints { make in
             make.centerY.equalTo(self.safeAreaLayoutGuide)
             make.width.equalTo(136)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(16)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-32)
         }
         
         grayline.snp.makeConstraints { make in
             make.bottom.equalTo(self.safeAreaLayoutGuide)
             make.height.equalTo(1)
             make.width.equalTo(164)
-            make.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
         }
     }
     

@@ -37,68 +37,88 @@ final class InfoManageViewController: BaseViewController {
 extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : 5
+        return 6 // section == 0 ? 1 : 5
     }
     
     // header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return  section == 0 ? self.view.frame.width * 0.56 : 0
+        return  self.view.frame.width * 0.56
+        // section == 0 ? self.view.frame.width * 0.56 : 0
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
+
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomTableViewHeaderView.reuseIdentifier) as? CustomTableViewHeaderView else { return UIView() }
-       
+
         headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue) //test
         headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue) //test
-        
+
         return headerView
     }
 
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let profileCell = tableView.dequeueReusableCell(withIdentifier: profileCell.reuseIdentifier) as? profileCell else { return UITableViewCell() }
-        guard let genderCell = tableView.dequeueReusableCell(withIdentifier: genderCell.reuseIdentifier) as? genderCell else { return UITableViewCell() }
-        guard let oftenStudyCell = tableView.dequeueReusableCell(withIdentifier: oftenStudyCell.reuseIdentifier) as? oftenStudyCell else { return UITableViewCell() }
-        guard let pnumPermitCell = tableView.dequeueReusableCell(withIdentifier: pnumPermitCell.reuseIdentifier) as? pnumPermitCell else { return UITableViewCell() }
-        guard let ageRangeCell = tableView.dequeueReusableCell(withIdentifier: ageRangeCell.reuseIdentifier) as? ageRangeCell else { return UITableViewCell() }
-        guard let withdrawCell = tableView.dequeueReusableCell(withIdentifier: withdrawCell.reuseIdentifier) as? withdrawCell else { return UITableViewCell() }
+        guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
+        guard let genderCell = tableView.dequeueReusableCell(withIdentifier: GenderCell.reuseIdentifier) as? GenderCell else { return UITableViewCell() }
+        guard let oftenStudyCell = tableView.dequeueReusableCell(withIdentifier: OftenStudyCell.reuseIdentifier) as? OftenStudyCell else { return UITableViewCell() }
+        guard let pnumPermitCell = tableView.dequeueReusableCell(withIdentifier: PnumPermitCell.reuseIdentifier) as? PnumPermitCell else { return UITableViewCell() }
+        guard let ageRangeCell = tableView.dequeueReusableCell(withIdentifier: AgeRangeCell.reuseIdentifier) as? AgeRangeCell else { return UITableViewCell() }
+        guard let withdrawCell = tableView.dequeueReusableCell(withIdentifier: WithdrawCell.reuseIdentifier) as? WithdrawCell else { return UITableViewCell() }
+        
 
-        if indexPath.section == 0 {
-
+        switch indexPath.row {
+        case 0:
 
             return profileCell
-        } else {
-            switch indexPath.row {
-            case 0:
-
-                return genderCell
-            case 1:
-                return oftenStudyCell
-            case 2:
-                return pnumPermitCell
-            case 3:
-                return ageRangeCell
-            case 4:
-                return withdrawCell
-            default:
-                return genderCell
-            }
+        case 1:
+            
+            return genderCell
+        case 2: return oftenStudyCell
+        case 3: return pnumPermitCell
+        case 4: return ageRangeCell
+        case 5: return withdrawCell
+        default : return withdrawCell
         }
+        
+        
+//        if indexPath.section == 0 {
+//            return profileCell
+//        } else {
+//            switch indexPath.row {
+//            case 0:
+//                return genderCell
+//            case 1:
+//                return oftenStudyCell
+//            case 2:
+//                return pnumPermitCell
+//            case 3:
+//                return ageRangeCell
+//            case 4:
+//                return withdrawCell
+//            default:
+//                return genderCell
+//            }
+//        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.section == 0 {
-            return 310
-        } else {
-            return indexPath.row == 3 ? 80 : 48
+        switch indexPath.row {
+        case 0: return 310
+        case 4: return 100
+        default : return 60
         }
+        
+//        if indexPath.section == 0 {
+//            return 310
+//        } else {
+//            return indexPath.row == 3 ? 80 : 48
+//        }
         
     }
     

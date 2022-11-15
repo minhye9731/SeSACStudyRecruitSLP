@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class withdrawCell: BaseTableViewCell {
+class WithdrawCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -27,9 +27,9 @@ final class withdrawCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide)
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
-            make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
+            make.leading.equalTo(contentView).offset(16)
+            make.centerY.equalTo(contentView)
+            make.width.equalTo(contentView).multipliedBy(0.5)
         }
         
     }
