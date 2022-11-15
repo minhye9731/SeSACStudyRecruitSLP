@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=toggle, toggle=on.png",
+      "filename" : "sesac_background_3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property 1=toggle, toggle=on@2x.png",
+      "filename" : "sesac_background_3@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Property 1=toggle, toggle=on@3x.png",
+      "filename" : "sesac_background_3@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

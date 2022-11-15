@@ -17,6 +17,22 @@
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
 		0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B529221F4F004E7875 /* MyInfoView.swift */; };
+		0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B72922298D004E7875 /* MyInfoCell.swift */; };
+		0E49C6BA29223FB4004E7875 /* MycellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B929223FB4004E7875 /* MycellHeaderView.swift */; };
+		0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6BC292244DE004E7875 /* withdrawCell.swift */; };
+		0E49C6BF292244F1004E7875 /* ageRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6BE292244F1004E7875 /* ageRangeCell.swift */; };
+		0E49C6C12922454A004E7875 /* pnumPermitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6C02922454A004E7875 /* pnumPermitCell.swift */; };
+		0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6C22922455D004E7875 /* oftenStudyCell.swift */; };
+		0E49C6C529224566004E7875 /* genderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6C429224565004E7875 /* genderCell.swift */; };
+		0E49C6C9292280E2004E7875 /* MultiSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 0E49C6C8292280E2004E7875 /* MultiSlider */; };
+		0E49C6D029228531004E7875 /* RoundableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6CF29228531004E7875 /* RoundableButton.swift */; };
+		0E49C6D229228559004E7875 /* ThumbButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D129228559004E7875 /* ThumbButton.swift */; };
+		0E49C6D4292285A5004E7875 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D3292285A5004E7875 /* CustomSlider.swift */; };
+		0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */; };
+		0E49C6D82922A926004E7875 /* MyProfileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D72922A926004E7875 /* MyProfileInfoCell.swift */; };
+		0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D92922C301004E7875 /* InfoManageView.swift */; };
+		0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6DB2922C48E004E7875 /* profileCell.swift */; };
+		0E49C6DE2922C758004E7875 /* CustomTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6DD2922C758004E7875 /* CustomTableViewHeaderView.swift */; };
 		0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62EF291C248300F36167 /* Transition+Extension.swift */; };
 		0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F2291C276500F36167 /* RxCocoa */; };
 		0E4F62F5291C276500F36167 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F4291C276500F36167 /* RxRelay */; };
@@ -95,6 +111,21 @@
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		0E49C6B529221F4F004E7875 /* MyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoView.swift; sourceTree = "<group>"; };
+		0E49C6B72922298D004E7875 /* MyInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoCell.swift; sourceTree = "<group>"; };
+		0E49C6B929223FB4004E7875 /* MycellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MycellHeaderView.swift; sourceTree = "<group>"; };
+		0E49C6BC292244DE004E7875 /* withdrawCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = withdrawCell.swift; sourceTree = "<group>"; };
+		0E49C6BE292244F1004E7875 /* ageRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ageRangeCell.swift; sourceTree = "<group>"; };
+		0E49C6C02922454A004E7875 /* pnumPermitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pnumPermitCell.swift; sourceTree = "<group>"; };
+		0E49C6C22922455D004E7875 /* oftenStudyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oftenStudyCell.swift; sourceTree = "<group>"; };
+		0E49C6C429224565004E7875 /* genderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genderCell.swift; sourceTree = "<group>"; };
+		0E49C6CF29228531004E7875 /* RoundableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundableButton.swift; sourceTree = "<group>"; };
+		0E49C6D129228559004E7875 /* ThumbButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbButton.swift; sourceTree = "<group>"; };
+		0E49C6D3292285A5004E7875 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Extension.swift"; sourceTree = "<group>"; };
+		0E49C6D72922A926004E7875 /* MyProfileInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileInfoCell.swift; sourceTree = "<group>"; };
+		0E49C6D92922C301004E7875 /* InfoManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageView.swift; sourceTree = "<group>"; };
+		0E49C6DB2922C48E004E7875 /* profileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCell.swift; sourceTree = "<group>"; };
+		0E49C6DD2922C758004E7875 /* CustomTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewHeaderView.swift; sourceTree = "<group>"; };
 		0E4F62EF291C248300F36167 /* Transition+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Extension.swift"; sourceTree = "<group>"; };
 		0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
 		0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -156,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E4F6307291CE00700F36167 /* FirebaseMessaging in Frameworks */,
+				0E49C6C9292280E2004E7875 /* MultiSlider in Frameworks */,
 				0E4F62F5291C276500F36167 /* RxRelay in Frameworks */,
 				0E4F6303291CE00700F36167 /* FirebaseAuth in Frameworks */,
 				0E4F6334291D7B9900F36167 /* Toast in Frameworks */,
@@ -217,10 +249,8 @@
 			isa = PBXGroup;
 			children = (
 				0E1411062918EBF90040BD85 /* ReusableProtocol.swift */,
-				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
-				0E5095C1291A48740038B429 /* CustomFonts.swift */,
-				0E4F632E291D6DAE00F36167 /* InputDateView.swift */,
 				0E1411012918DD4F0040BD85 /* Constants */,
+				0E49C6C62922460A004E7875 /* Customs */,
 				0E5095862918F2530038B429 /* BaseView */,
 			);
 			path = Utility;
@@ -254,6 +284,7 @@
 				0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */,
 				0E4F6330291D793F00F36167 /* UITextField+Extension.swift */,
 				0EA6A9EE291FDE7500F71EC6 /* Date+Extension.swift */,
+				0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -262,6 +293,8 @@
 			isa = PBXGroup;
 			children = (
 				0E1411022918DD7C0040BD85 /* Constants.swift */,
+				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
+				0E5095C1291A48740038B429 /* CustomFonts.swift */,
 				0E1411082918EC530040BD85 /* Image.swift */,
 			);
 			path = Constants;
@@ -277,6 +310,33 @@
 				0E5095CA291AA8BD0038B429 /* SplashView.swift */,
 			);
 			path = WalkThrough;
+			sourceTree = "<group>";
+		};
+		0E49C6BB29224477004E7875 /* InfoManage */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */,
+				0E49C6D92922C301004E7875 /* InfoManageView.swift */,
+				0E49C6DB2922C48E004E7875 /* profileCell.swift */,
+				0E49C6C429224565004E7875 /* genderCell.swift */,
+				0E49C6C22922455D004E7875 /* oftenStudyCell.swift */,
+				0E49C6C02922454A004E7875 /* pnumPermitCell.swift */,
+				0E49C6BE292244F1004E7875 /* ageRangeCell.swift */,
+				0E49C6BC292244DE004E7875 /* withdrawCell.swift */,
+			);
+			path = InfoManage;
+			sourceTree = "<group>";
+		};
+		0E49C6C62922460A004E7875 /* Customs */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F632E291D6DAE00F36167 /* InputDateView.swift */,
+				0E49C6CF29228531004E7875 /* RoundableButton.swift */,
+				0E49C6D129228559004E7875 /* ThumbButton.swift */,
+				0E49C6D3292285A5004E7875 /* CustomSlider.swift */,
+				0E49C6DD2922C758004E7875 /* CustomTableViewHeaderView.swift */,
+			);
+			path = Customs;
 			sourceTree = "<group>";
 		};
 		0E4F62FC291C31E500F36167 /* Login */ = {
@@ -390,7 +450,10 @@
 			children = (
 				0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */,
 				0E49C6B529221F4F004E7875 /* MyInfoView.swift */,
-				0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */,
+				0E49C6B72922298D004E7875 /* MyInfoCell.swift */,
+				0E49C6D72922A926004E7875 /* MyProfileInfoCell.swift */,
+				0E49C6B929223FB4004E7875 /* MycellHeaderView.swift */,
+				0E49C6BB29224477004E7875 /* InfoManage */,
 			);
 			path = MyInfo;
 			sourceTree = "<group>";
@@ -439,6 +502,7 @@
 				0E4F6333291D7B9900F36167 /* Toast */,
 				0EA6A9EC291F9D8200F71EC6 /* Alamofire */,
 				0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */,
+				0E49C6C8292280E2004E7875 /* MultiSlider */,
 			);
 			productName = SeSACStudyRecruitSLP;
 			productReference = 0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */;
@@ -475,6 +539,7 @@
 				0E4F6332291D7B9900F36167 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				0EA6A9EB291F9D8100F71EC6 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */,
 			);
 			productRefGroup = 0E1410E52918D63E0040BD85 /* Products */;
 			projectDirPath = "";
@@ -513,44 +578,58 @@
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
+				0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
 				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
+				0E49C6D4292285A5004E7875 /* CustomSlider.swift in Sources */,
 				0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */,
+				0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
 				0E4F6338291D8C5000F36167 /* BaseNavigationController.swift in Sources */,
 				0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
+				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
 				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
 				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
+				0E49C6DE2922C758004E7875 /* CustomTableViewHeaderView.swift in Sources */,
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
 				0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */,
+				0E49C6BF292244F1004E7875 /* ageRangeCell.swift in Sources */,
 				0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */,
+				0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */,
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
 				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,
 				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
 				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,
 				0E4F6336291D7D7900F36167 /* CommonViewModel.swift in Sources */,
+				0E49C6C529224566004E7875 /* genderCell.swift in Sources */,
 				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
+				0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */,
 				0EA6A9FD29216B6A00F71EC6 /* ShopViewController.swift in Sources */,
+				0E49C6C12922454A004E7875 /* pnumPermitCell.swift in Sources */,
 				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
+				0E49C6D229228559004E7875 /* ThumbButton.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
 				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
 				0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */,
+				0E49C6D029228531004E7875 /* RoundableButton.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
+				0E49C6D82922A926004E7875 /* MyProfileInfoCell.swift in Sources */,
 				0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */,
 				0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */,
 				0EA6A9F92921625B00F71EC6 /* TabBarController.swift in Sources */,
+				0E49C6BA29223FB4004E7875 /* MycellHeaderView.swift in Sources */,
 				0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */,
 				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
@@ -561,6 +640,7 @@
 				0E4F631C291D121000F36167 /* BirthdayView.swift in Sources */,
 				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
 				0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */,
+				0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */,
 				0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,6 +869,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yonat/MultiSlider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		0E4F62F1291C276500F36167 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -840,6 +928,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E49C6C8292280E2004E7875 /* MultiSlider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */;
+			productName = MultiSlider;
+		};
 		0E4F62F2291C276500F36167 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0E4F62F1291C276500F36167 /* XCRemoteSwiftPackageReference "RxSwift" */;
