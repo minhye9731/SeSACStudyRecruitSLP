@@ -9,6 +9,7 @@ import UIKit
 
 final class MyProfileInfoCell: BaseTableViewCell {
     
+    // MARK: - property
     lazy var cellImage: UIImageView = {
         let image = UIImageView()
         image.layer.borderColor = ColorPalette.gray2.cgColor
@@ -33,6 +34,7 @@ final class MyProfileInfoCell: BaseTableViewCell {
         return image
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         [cellImage, cellTitle, moreViewImage].forEach {

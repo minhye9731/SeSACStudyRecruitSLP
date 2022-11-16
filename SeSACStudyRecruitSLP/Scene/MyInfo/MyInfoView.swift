@@ -9,6 +9,7 @@ import UIKit
 
 final class MyInfoView: BaseView {
     
+    // MARK: - property
     let tableView: UITableView = {
         let view = UITableView()
         view.isScrollEnabled = false
@@ -20,6 +21,7 @@ final class MyInfoView: BaseView {
         return view
     }()
     
+    // MARK: - functions
     override func configureUI() {
         self.addSubview(tableView)
     }
@@ -29,30 +31,4 @@ final class MyInfoView: BaseView {
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
     }
-
 }
-
-//final class MyInfoView: BaseView {
-//
-//    lazy var collectionView: UICollectionView = {
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
-//        collectionView.isScrollEnabled = false
-//        collectionView.showsHorizontalScrollIndicator = false
-//        collectionView.showsVerticalScrollIndicator = false
-//
-//        collectionView.register(MycellHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MycellHeaderView.reuseIdentifier)
-//        // configure
-//        return collectionView
-//    }()
-//
-//    override func configureUI() {
-//        self.addSubview(collectionView)
-//    }
-//
-//    override func setConstraints() {
-//        collectionView.snp.makeConstraints { make in
-//            make.edges.equalTo(self.safeAreaLayoutGuide)
-//        }
-//    }
-//
-//}

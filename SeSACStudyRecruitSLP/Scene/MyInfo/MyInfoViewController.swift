@@ -27,8 +27,10 @@ struct MenuList: Hashable {
 
 final class MyInfoViewController: BaseViewController {
 
+    // MARK: - property
     let mainView = MyInfoView()
     
+    // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
         self.view = mainView
@@ -38,9 +40,9 @@ final class MyInfoViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - functions
     override func configure() {
         super.configure()
-//        setNav()
         self.title = "내정보"
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
@@ -83,20 +85,6 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-// 기타 함수
-extension MyInfoViewController {
-    
-    func setNav() {
-        self.navigationItem.title = "내정보"
-        self.navigationController?.navigationBar.tintColor = .black
-        let navibarAppearance = UINavigationBarAppearance()
-        navibarAppearance.backgroundColor = .white
-        navibarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
-        
-        self.navigationItem.scrollEdgeAppearance = navibarAppearance
-        self.navigationItem.standardAppearance = navibarAppearance
-    }
-}
 
 
 
