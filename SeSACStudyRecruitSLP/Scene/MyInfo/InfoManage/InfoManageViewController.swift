@@ -29,7 +29,7 @@ final class InfoManageViewController: BaseViewController {
         self.title = "정보 관리"
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-
+        setBarButtonItem()
     }
 
 }
@@ -95,7 +95,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-// 접폈
+// MARK: - 접었다폈다 로직
 extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
     func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
     
@@ -105,4 +105,19 @@ extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
     }
 }
 
+// MARK: - 저장 버튼 메서드
+extension InfoManageViewController {
+    func setBarButtonItem() {
+        let navibarAppearance = UINavigationBarAppearance()
+        let barbuttonItemAppearance = UIBarButtonItemAppearance()
+        barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
+        navibarAppearance.buttonAppearance = barbuttonItemAppearance
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(doneTapped))
+    }
+    
+    @objc func doneTapped() {
+        print("내정보 관리 저장 완료!! :)")
+    }
+}
 
