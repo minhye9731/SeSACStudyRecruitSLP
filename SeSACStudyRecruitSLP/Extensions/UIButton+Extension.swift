@@ -87,31 +87,11 @@ extension UIButton {
         config.background.strokeWidth = 1
         config.background.cornerRadius = 8
         var title = AttributedString.init(title)
-        title.font = CustomFonts.title2_R16()
+        title.font = CustomFonts.title4_R14()
         title.foregroundColor = .black
         config.attributedTitle = title
         return config
     }
-    
-//    static func floatingButton(image: String) -> UIButton.Configuration {
-//        var config = UIButton.Configuration.filled()
-//        config.baseBackgroundColor = .black
-//        config.baseForegroundColor = .white
-//        config.background.cornerRadius = 80 // 확인필요
-//        config.image = UIImage(named: image)
-//        return config
-//    }
-    
-    
-//    static func filterButton(title: String, textcolor: UIColor, bgcolor: UIColor) -> UIButton.Configuration {
-//        var config = UIButton.Configuration.filled()
-//        config.baseBackgroundColor = bgcolor
-//        var title = AttributedString.init(title)
-//        title.font = CustomFonts.title3_M14()
-//        title.foregroundColor = textcolor
-//        config.attributedTitle = title
-//        return config
-//    }
     
     static func filterButton(title: String, textcolor: UIColor, bgcolor: UIColor) -> UIButton {
         let button = UIButton()
