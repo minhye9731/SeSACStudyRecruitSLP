@@ -8,9 +8,7 @@
 extension Constants {
     
     enum ImageName: String {
-        
-        case magnifyingGlass = "magnifyingglass"
-        
+
         //main
         case homeAct = "Property 1=home, Property 2=act"
         case homeInact = "Property 1=home, Property 2=inact"
@@ -20,6 +18,10 @@ extension Constants {
         case friendsInact = "Property 1=friends, Property 2=inact"
         case myAct = "Property 1=my, Property 2=act"
         case myInact = "Property 1=my, Property 2=inact"
+        case defaultState = "Property 1=default"
+        case matching = "Property 1=matching"
+        case matched = "Property 1=matched"
+        case place = "place"
 
         
         //my info
