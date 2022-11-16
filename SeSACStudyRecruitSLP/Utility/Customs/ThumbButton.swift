@@ -11,18 +11,18 @@ class ThumbButton: RoundableButton {
     
     override var isSelected: Bool {
         didSet {
-            self.backgroundColor = self.isSelected ? .lightGray : .white
+            self.backgroundColor = ColorPalette.green
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
-        self.layer.shadowOffset = CGSize(width: 0, height: 3)
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.3
+        self.backgroundColor = ColorPalette.green
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        self.layer.shadowOpacity = 1.0
         self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.gray.withAlphaComponent(0.1).cgColor
+        self.layer.borderColor = UIColor.white.cgColor
     }
     
     required init?(coder: NSCoder) {

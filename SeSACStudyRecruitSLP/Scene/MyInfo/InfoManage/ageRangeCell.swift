@@ -29,18 +29,18 @@ final class AgeRangeCell: BaseTableViewCell {
         return label
     }()
     
-//    let slider: MultiSlider = {
-//        let slider = MultiSlider()
-//        slider.orientation = .horizontal
-//        slider.minimumValue = 0.0
-//        slider.maximumValue = 1.0
-//
-//        return slider
-//    }()
+    let multiSlider: CustomSlider = {
+        let slider = CustomSlider()
+        slider.minValue = 1//18
+        slider.maxValue = 100//65
+        slider.lower = 1//18
+        slider.upper = 125//65
+        return slider
+    }()
     
     let sliderview: UIView = {
        let view = UIView()
-        view.backgroundColor = .gray
+        view.backgroundColor = .white
         return view
     }()
 
@@ -50,29 +50,37 @@ final class AgeRangeCell: BaseTableViewCell {
         [titleLabel, rangeLabel, sliderview].forEach {
             contentView.addSubview($0)
         }
+        
+        sliderview.addSubview(multiSlider)
     }
     
     override func setConstraints() {
         super.setConstraints()
         
-        titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(contentView).offset(16)
-            make.top.equalTo(contentView).offset(20)
-            make.bottom.equalTo(sliderview.snp.top).offset(-12)
-            make.width.equalTo(contentView).multipliedBy(0.5)
+        titleLabel.snp.makeConstraints {
+            $0.leading.equalTo(contentView).offset(16)
+            $0.top.equalTo(contentView).offset(20)
+            $0.bottom.equalTo(sliderview.snp.top).offset(-12)
+            $0.width.equalTo(contentView).multipliedBy(0.5)
         }
         
-        rangeLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(contentView).offset(-16)
-            make.centerY.equalTo(titleLabel.snp.centerY)
-            make.width.equalTo(60)
+        rangeLabel.snp.makeConstraints {
+            $0.trailing.equalTo(contentView).offset(-16)
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.width.equalTo(60)
         }
         
-        sliderview.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(contentView).inset(12)
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.height.equalTo(48)
-            make.bottom.equalTo(contentView).offset(-12)
+        sliderview.snp.makeConstraints {
+            $0.horizontalEdges.equalTo(contentView).inset(12)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
+            $0.height.equalTo(48)
+            $0.bottom.equalTo(contentView).offset(-12)
+        }
+        
+        multiSlider.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.horizontalEdges.equalTo(sliderview).inset(13)
+            $0.centerY.equalTo(sliderview.snp.centerY)
         }
     }
     

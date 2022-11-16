@@ -14,6 +14,7 @@ final class CustomSlider: UIControl {
         static let barRatio = 1.0/10.0
     }
     
+    // MARK: - property
     private let lowerThumbButton: ThumbButton = {
         let button = ThumbButton()
         button.isUserInteractionEnabled = false
@@ -26,13 +27,13 @@ final class CustomSlider: UIControl {
     }()
     private let trackView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray
+        view.backgroundColor = ColorPalette.gray2
         view.isUserInteractionEnabled = false
         return view
     }()
     private let trackTintView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = ColorPalette.green
         view.isUserInteractionEnabled = false
         return view
     }()
@@ -49,16 +50,16 @@ final class CustomSlider: UIControl {
     var upper = 0.0 {
         didSet { self.updateLayout(self.upper, false) }
     }
-    var lowerThumbColor = UIColor.white {
+    var lowerThumbColor = ColorPalette.green {
         didSet { self.lowerThumbButton.backgroundColor = self.lowerThumbColor }
     }
-    var upperThumbColor = UIColor.white {
+    var upperThumbColor = ColorPalette.green {
         didSet { self.upperThumbButton.backgroundColor = self.upperThumbColor }
     }
-    var trackColor = UIColor.gray {
+    var trackColor = ColorPalette.gray2 {
         didSet { self.trackView.backgroundColor = self.trackColor }
     }
-    var trackTintColor = UIColor.green {
+    var trackTintColor = ColorPalette.green {
         didSet { self.trackTintView.backgroundColor = self.trackTintColor }
     }
     
@@ -71,6 +72,7 @@ final class CustomSlider: UIControl {
         Double(self.bounds.height)
     }
     
+    // MARK: - init
     required init?(coder: NSCoder) {
         fatalError("xib is not implemented")
     }
@@ -83,17 +85,17 @@ final class CustomSlider: UIControl {
         self.addSubview(self.upperThumbButton)
         
         self.lowerThumbButton.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.centerY.equalToSuperview()
             $0.right.lessThanOrEqualTo(self.upperThumbButton.snp.left)
             $0.left.greaterThanOrEqualToSuperview()
-            $0.width.equalTo(self.snp.height)
-            self.leftConstraint = $0.left.equalTo(self.snp.left).priority(999).constraint // .constraint로 값 가져오기 테크닉
+            $0.width.height.equalTo(22)
+            self.leftConstraint = $0.left.equalTo(self.snp.left).priority(999).constraint
         }
         self.upperThumbButton.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.centerY.equalToSuperview()
             $0.left.greaterThanOrEqualTo(self.lowerThumbButton.snp.right)
             $0.right.lessThanOrEqualToSuperview()
-            $0.width.equalTo(self.snp.height)
+            $0.width.height.equalTo(22)
             self.rightConstraint = $0.left.equalTo(self.snp.left).priority(999).constraint
         }
         self.trackView.snp.makeConstraints {
@@ -107,6 +109,7 @@ final class CustomSlider: UIControl {
         }
     }
     
+    // MARK: - functions
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         super.point(inside: point, with: event)
         return self.lowerThumbButton.frame.contains(point) || self.upperThumbButton.frame.contains(point)
@@ -151,7 +154,6 @@ final class CustomSlider: UIControl {
         return true
     }
     
-    // MARK: Method
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         super.endTracking(touch, with: event)
         self.sendActions(for: .valueChanged)

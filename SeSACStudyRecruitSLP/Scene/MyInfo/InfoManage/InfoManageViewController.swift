@@ -86,7 +86,10 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
             case 0: return genderCell
             case 1: return oftenStudyCell
             case 2: return pnumPermitCell
-            case 3: return ageRangeCell
+            case 3:
+                ageRangeCell.multiSlider.addTarget(self, action: #selector(sliderChangeValue), for: .valueChanged)
+                
+                return ageRangeCell
             case 4: return withdrawCell
             default : return withdrawCell
             }
@@ -119,5 +122,14 @@ extension InfoManageViewController {
     @objc func doneTapped() {
         print("내정보 관리 저장 완료!! :)")
     }
+}
+
+// MARK: - 슬라이드 메서드
+extension InfoManageViewController {
+    
+    @objc func sliderChangeValue() {
+        print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
+    }
+    
 }
 
