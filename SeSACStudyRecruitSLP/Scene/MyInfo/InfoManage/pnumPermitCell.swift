@@ -9,6 +9,7 @@ import UIKit
 
 final class PnumPermitCell: BaseTableViewCell {
     
+    // MARK: - property
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 번호 검색 허용"
@@ -20,10 +21,11 @@ final class PnumPermitCell: BaseTableViewCell {
     
     let switcher: UISwitch = {
        let switcher = UISwitch()
-        // 샘플파일 modern > wifi 참고 가능
+        switcher.onTintColor = ColorPalette.green
         return switcher
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         [titleLabel, switcher].forEach {
@@ -36,15 +38,16 @@ final class PnumPermitCell: BaseTableViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
+            make.centerY.equalTo(switcher.snp.centerY)
             make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
         }
         
         switcher.snp.makeConstraints { make in
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(contentView).offset(16)
             make.height.equalTo(28)
             make.width.equalTo(52)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
+            make.bottom.equalTo(contentView).offset(-16)
         }
     }
     

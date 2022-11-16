@@ -10,6 +10,7 @@ import UIKit
 
 final class AgeRangeCell: BaseTableViewCell {
     
+    // MARK: - property
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "상대방 연령대"
@@ -22,9 +23,9 @@ final class AgeRangeCell: BaseTableViewCell {
     let rangeLabel: UILabel = {
         let label = UILabel()
         label.text = "00 - 00" // test
-        label.textColor = UIColor.black
+        label.textColor = ColorPalette.green
         label.font = CustomFonts.title3_M14()
-        label.textAlignment = .left
+        label.textAlignment = .right
         return label
     }()
     
@@ -43,7 +44,7 @@ final class AgeRangeCell: BaseTableViewCell {
         return view
     }()
 
-    
+    // MARK: - functions
     override func configure() {
         super.configure()
         [titleLabel, rangeLabel, sliderview].forEach {
@@ -55,31 +56,24 @@ final class AgeRangeCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(12)
-            make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
+            make.leading.equalTo(contentView).offset(16)
+            make.top.equalTo(contentView).offset(20)
+            make.bottom.equalTo(sliderview.snp.top).offset(-12)
+            make.width.equalTo(contentView).multipliedBy(0.5)
         }
         
         rangeLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
+            make.trailing.equalTo(contentView).offset(-16)
             make.centerY.equalTo(titleLabel.snp.centerY)
             make.width.equalTo(60)
         }
         
-//        slider.snp.makeConstraints { make in
-//            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
-//
-//        }
-        
         sliderview.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
+            make.horizontalEdges.equalTo(contentView).inset(12)
             make.top.equalTo(titleLabel.snp.bottom).offset(12)
             make.height.equalTo(48)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-12)
+            make.bottom.equalTo(contentView).offset(-12)
         }
-        
-        
-
     }
     
 }

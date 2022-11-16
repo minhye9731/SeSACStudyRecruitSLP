@@ -9,6 +9,7 @@ import UIKit
 
 final class OftenStudyCell: BaseTableViewCell {
     
+    // MARK: - property
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "자주 하는 스터디"
@@ -36,6 +37,7 @@ final class OftenStudyCell: BaseTableViewCell {
         return view
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         [titleLabel, studyTextField, grayline].forEach {
@@ -47,22 +49,23 @@ final class OftenStudyCell: BaseTableViewCell {
         super.setConstraints()
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
-            make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.5)
+            make.leading.equalTo(contentView).offset(16)
+            make.centerY.equalTo(studyTextField.snp.centerY)
+            make.width.equalTo(contentView).multipliedBy(0.5)
         }
         
         studyTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(contentView).offset(13)
             make.width.equalTo(136)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-32)
+            make.bottom.equalTo(contentView).offset(-13)
         }
         
         grayline.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.equalTo(contentView).offset(-13)
             make.height.equalTo(1)
             make.width.equalTo(164)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-16)
+            make.trailing.equalTo(contentView).offset(-16)
         }
     }
     
