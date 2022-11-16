@@ -12,14 +12,16 @@ final class InfoManageView: BaseView {
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.showsVerticalScrollIndicator = false
+        
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.rowHeight = UITableView.automaticDimension
         view.estimatedRowHeight = 100
+        
         view.separatorStyle = .none
         
-        view.register(CustomTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: CustomTableViewHeaderView.reuseIdentifier)
+        view.register(CollapsibleTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CollapsibleTableViewHeader.reuseIdentifier)
         
         view.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.reuseIdentifier)
-        
         view.register(GenderCell.self, forCellReuseIdentifier: GenderCell.reuseIdentifier)
         view.register(OftenStudyCell.self, forCellReuseIdentifier: OftenStudyCell.reuseIdentifier)
         view.register(PnumPermitCell.self, forCellReuseIdentifier: PnumPermitCell.reuseIdentifier)

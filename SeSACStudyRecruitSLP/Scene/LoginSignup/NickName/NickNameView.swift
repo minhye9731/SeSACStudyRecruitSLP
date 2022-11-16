@@ -44,6 +44,7 @@ final class NickNameView: BaseView {
         return button
     }()
     
+    // MARK: - functions
     override func configureUI() {
         super.configureUI()
         

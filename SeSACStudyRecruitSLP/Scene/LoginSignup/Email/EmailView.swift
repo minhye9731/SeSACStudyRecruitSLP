@@ -52,6 +52,7 @@ final class EmailView: BaseView {
         return button
     }()
     
+    // MARK: - functions
     override func configureUI() {
         super.configureUI()
         

@@ -46,6 +46,7 @@ final class GenderView: BaseView {
         return button
     }()
     
+    // MARK: - functions
     override func configureUI() {
         super.configureUI()
         
@@ -92,8 +93,4 @@ final class GenderView: BaseView {
             make.centerY.equalTo(self.safeAreaLayoutGuide).multipliedBy(1.0)
         }
     }
-    
-    
-    
-    
 }
