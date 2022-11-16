@@ -58,7 +58,7 @@ final class OftenStudyCell: BaseTableViewCell {
             make.top.equalTo(contentView).offset(13)
             make.width.equalTo(136)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-32)
-            make.bottom.equalTo(contentView).offset(-13)
+            make.bottom.equalTo(grayline.snp.top).offset(-13)
         }
         
         grayline.snp.makeConstraints { make in
