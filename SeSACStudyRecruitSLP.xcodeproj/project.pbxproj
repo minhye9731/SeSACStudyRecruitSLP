@@ -33,6 +33,8 @@
 		0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D92922C301004E7875 /* InfoManageView.swift */; };
 		0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6DB2922C48E004E7875 /* profileCell.swift */; };
 		0E49C6DE2922C758004E7875 /* CustomTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6DD2922C758004E7875 /* CustomTableViewHeaderView.swift */; };
+		0E49C6E22923B5A5004E7875 /* selectedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6E12923B5A5004E7875 /* selectedProfileView.swift */; };
+		0E49C6E42924A585004E7875 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6E32924A585004E7875 /* MainView.swift */; };
 		0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F62EF291C248300F36167 /* Transition+Extension.swift */; };
 		0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F2291C276500F36167 /* RxCocoa */; };
 		0E4F62F5291C276500F36167 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F62F4291C276500F36167 /* RxRelay */; };
@@ -126,6 +128,8 @@
 		0E49C6D92922C301004E7875 /* InfoManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageView.swift; sourceTree = "<group>"; };
 		0E49C6DB2922C48E004E7875 /* profileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileCell.swift; sourceTree = "<group>"; };
 		0E49C6DD2922C758004E7875 /* CustomTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewHeaderView.swift; sourceTree = "<group>"; };
+		0E49C6E12923B5A5004E7875 /* selectedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectedProfileView.swift; sourceTree = "<group>"; };
+		0E49C6E32924A585004E7875 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0E4F62EF291C248300F36167 /* Transition+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transition+Extension.swift"; sourceTree = "<group>"; };
 		0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
 		0E4F62FA291C2C6600F36167 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 				0E49C6C02922454A004E7875 /* pnumPermitCell.swift */,
 				0E49C6BE292244F1004E7875 /* ageRangeCell.swift */,
 				0E49C6BC292244DE004E7875 /* withdrawCell.swift */,
+				0E49C6E12923B5A5004E7875 /* selectedProfileView.swift */,
 			);
 			path = InfoManage;
 			sourceTree = "<group>";
@@ -395,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				0E4F6339291E91ED00F36167 /* MainViewController.swift */,
+				0E49C6E32924A585004E7875 /* MainView.swift */,
 			);
 			path = MainSearch;
 			sourceTree = "<group>";
@@ -450,9 +456,9 @@
 			children = (
 				0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */,
 				0E49C6B529221F4F004E7875 /* MyInfoView.swift */,
+				0E49C6B929223FB4004E7875 /* MycellHeaderView.swift */,
 				0E49C6B72922298D004E7875 /* MyInfoCell.swift */,
 				0E49C6D72922A926004E7875 /* MyProfileInfoCell.swift */,
-				0E49C6B929223FB4004E7875 /* MycellHeaderView.swift */,
 				0E49C6BB29224477004E7875 /* InfoManage */,
 			);
 			path = MyInfo;
@@ -578,6 +584,7 @@
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
+				0E49C6E42924A585004E7875 /* MainView.swift in Sources */,
 				0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
@@ -630,6 +637,7 @@
 				0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */,
 				0EA6A9F92921625B00F71EC6 /* TabBarController.swift in Sources */,
 				0E49C6BA29223FB4004E7875 /* MycellHeaderView.swift in Sources */,
+				0E49C6E22923B5A5004E7875 /* selectedProfileView.swift in Sources */,
 				0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */,
 				0E4F62F9291C2A9500F36167 /* PhoneNumberView.swift in Sources */,
 				0E5095912918F5C50038B429 /* BaseCollectionViewCell.swift in Sources */,
