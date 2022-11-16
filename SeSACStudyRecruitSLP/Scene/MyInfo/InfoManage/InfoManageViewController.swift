@@ -11,6 +11,7 @@ final class InfoManageViewController: BaseViewController {
     
     // MARK: - property
     let mainView = InfoManageView()
+    var isExpanded = false
 
     // MARK: - Lifecycle
     override func loadView()  {
@@ -28,7 +29,7 @@ final class InfoManageViewController: BaseViewController {
         self.title = "정보 관리"
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        // 네비바 우측버튼
+
     }
 
 }
@@ -37,30 +38,38 @@ final class InfoManageViewController: BaseViewController {
 extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6 // section == 0 ? 1 : 5
+        if isExpanded {
+            return section == 0 ? 1 : 5
+        } else {
+            return section == 0 ? 0 : 5
+        }
     }
     
     // header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return  self.view.frame.width * 0.56
-        // section == 0 ? self.view.frame.width * 0.56 : 0
+        
+        let result = ((view.frame.width - 32) * 0.58) + 58
+        return section == 0 ? result : 0
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomTableViewHeaderView.reuseIdentifier) as? CustomTableViewHeaderView else { return UIView() }
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
 
         headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue) //test
         headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue) //test
+        headerView.nameLabel.text = "홍길동" // test
+        headerView.setCollapsed(isExpanded) // test
+        headerView.section = section
+        headerView.delegate = self
 
-        return headerView
+        return section == 0 ? headerView : nil
     }
 
-    // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
@@ -70,60 +79,30 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         guard let ageRangeCell = tableView.dequeueReusableCell(withIdentifier: AgeRangeCell.reuseIdentifier) as? AgeRangeCell else { return UITableViewCell() }
         guard let withdrawCell = tableView.dequeueReusableCell(withIdentifier: WithdrawCell.reuseIdentifier) as? WithdrawCell else { return UITableViewCell() }
         
-
-        switch indexPath.row {
-        case 0:
-
+        if indexPath.section == 0 {
             return profileCell
-        case 1:
-            
-            return genderCell
-        case 2: return oftenStudyCell
-        case 3: return pnumPermitCell
-        case 4: return ageRangeCell
-        case 5: return withdrawCell
-        default : return withdrawCell
+        } else {
+            switch indexPath.row {
+            case 0: return genderCell
+            case 1: return oftenStudyCell
+            case 2: return pnumPermitCell
+            case 3: return ageRangeCell
+            case 4: return withdrawCell
+            default : return withdrawCell
+            }
         }
-        
-        
-//        if indexPath.section == 0 {
-//            return profileCell
-//        } else {
-//            switch indexPath.row {
-//            case 0:
-//                return genderCell
-//            case 1:
-//                return oftenStudyCell
-//            case 2:
-//                return pnumPermitCell
-//            case 3:
-//                return ageRangeCell
-//            case 4:
-//                return withdrawCell
-//            default:
-//                return genderCell
-//            }
-//        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        switch indexPath.row {
-        case 0: return 310
-        case 4: return 100
-        default : return 60
-        }
-        
-//        if indexPath.section == 0 {
-//            return 310
-//        } else {
-//            return indexPath.row == 3 ? 80 : 48
-//        }
-        
     }
     
 }
 
-
+// 접폈
+extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
+    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
+    
+        isExpanded.toggle()
+        header.setCollapsed(isExpanded)
+        mainView.tableView.reloadData()
+    }
+}
 
 
