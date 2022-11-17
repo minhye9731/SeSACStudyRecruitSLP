@@ -97,6 +97,10 @@
 		0EA6AA082921757F00F71EC6 /* InfoManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */; };
 		0EF3751029261E4E0074FC64 /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3750F29261E4E0074FC64 /* WithdrawViewController.swift */; };
 		0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF37511292655200074FC64 /* LaunchScreenViewController.swift */; };
+		0EF3751429268E310074FC64 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */; };
+		0EF3751629268F120074FC64 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3751529268F120074FC64 /* UserDefaultsManager.swift */; };
+		0EF375182926B33B0074FC64 /* InfoManageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */; };
+		0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -181,6 +185,10 @@
 		0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewController.swift; sourceTree = "<group>"; };
 		0EF3750F29261E4E0074FC64 /* WithdrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawViewController.swift; sourceTree = "<group>"; };
 		0EF37511292655200074FC64 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		0EF3751529268F120074FC64 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewModel.swift; sourceTree = "<group>"; };
+		0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoUpdateDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +259,8 @@
 			isa = PBXGroup;
 			children = (
 				0E1411062918EBF90040BD85 /* ReusableProtocol.swift */,
+				0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */,
+				0EF3751529268F120074FC64 /* UserDefaultsManager.swift */,
 				0E1411012918DD4F0040BD85 /* Constants */,
 				0E49C6C62922460A004E7875 /* Customs */,
 				0E5095862918F2530038B429 /* BaseView */,
@@ -325,6 +335,7 @@
 				0E49C6C02922454A004E7875 /* pnumPermitCell.swift */,
 				0E49C6BE292244F1004E7875 /* ageRangeCell.swift */,
 				0E49C6BC292244DE004E7875 /* withdrawCell.swift */,
+				0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */,
 			);
 			path = InfoManage;
 			sourceTree = "<group>";
@@ -421,6 +432,7 @@
 				0E5095CD291AAE380038B429 /* SplashContent.swift */,
 				0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */,
 				0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */,
+				0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -589,14 +601,18 @@
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
+				0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */,
 				0E49C6E42924A585004E7875 /* MainView.swift in Sources */,
 				0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
+				0EF375182926B33B0074FC64 /* InfoManageViewModel.swift in Sources */,
 				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
+				0EF3751429268E310074FC64 /* UserDefaultsWrapper.swift in Sources */,
+				0EF3751629268F120074FC64 /* UserDefaultsManager.swift in Sources */,
 				0E49C6D4292285A5004E7875 /* CustomSlider.swift in Sources */,
 				0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */,
 				0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */,

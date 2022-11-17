@@ -19,13 +19,13 @@ final class GenderCell: BaseTableViewCell {
         return label
     }()
     
-    let MaleButton: UIButton = {
+    let manButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.textButton(title: "남자")
         return button
     }()
   
-    let FemaleButton: UIButton = {
+    let womanButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.textButton(title: "여자")
         return button
@@ -34,7 +34,7 @@ final class GenderCell: BaseTableViewCell {
     // MARK: - functions
     override func configure() {
         super.configure()
-        [titleLabel, MaleButton, FemaleButton].forEach {
+        [titleLabel, manButton, womanButton].forEach {
             contentView.addSubview($0)
         }
     }
@@ -44,25 +44,31 @@ final class GenderCell: BaseTableViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView).offset(16)
-            make.centerY.equalTo(MaleButton.snp.centerY)
+            make.centerY.equalTo(manButton.snp.centerY)
             make.width.equalTo(contentView).multipliedBy(0.5)
         }
         
-        MaleButton.snp.makeConstraints { make in
+        manButton.snp.makeConstraints { make in
             make.width.equalTo(56)
             make.height.equalTo(48)
-            make.centerY.equalTo(FemaleButton.snp.centerY)
-            make.trailing.equalTo(FemaleButton.snp.leading).offset(-8)
+            make.centerY.equalTo(womanButton.snp.centerY)
+            make.trailing.equalTo(womanButton.snp.leading).offset(-8)
         }
         
-        FemaleButton.snp.makeConstraints { make in
+        womanButton.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(12)
             make.width.equalTo(56)
             make.height.equalTo(48)
             make.trailing.equalTo(contentView).offset(-16)
             make.bottom.equalTo(contentView).offset(-12)
         }
-        
+    }
+    
+    func setData(data: Int) {
+        let btn = data == 0 ? womanButton : manButton
+        btn.configuration?.baseBackgroundColor = ColorPalette.green
+        btn.configuration?.background.strokeColor = ColorPalette.green
+        btn.configuration?.attributedTitle?.foregroundColor = .white
     }
     
 }

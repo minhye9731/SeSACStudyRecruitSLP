@@ -112,4 +112,10 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         updownButton.setImage(UIImage(systemName: collapsed ? "chevron.down" : "chevron.up" ), for: .normal)
     }
     
+    func setData(bgNum: Int, fcNum: Int, name: String) {
+        backgroundImage.image = UIImage(named: "sesac_background_\(bgNum + 1)")
+        sesacImage.image = UIImage(named: "sesac_face_\(fcNum + 1)")
+        nameLabel.text = name
+    }
+    
 }

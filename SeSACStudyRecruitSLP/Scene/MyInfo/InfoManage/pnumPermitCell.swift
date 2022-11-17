@@ -51,4 +51,8 @@ final class PnumPermitCell: BaseTableViewCell {
         }
     }
     
+    func setData(data: Int) {
+        switcher.isOn = data == 0 ? false : true
+    }
+    
 }

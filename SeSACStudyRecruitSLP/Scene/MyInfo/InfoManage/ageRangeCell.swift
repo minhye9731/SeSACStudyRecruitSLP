@@ -31,10 +31,10 @@ final class AgeRangeCell: BaseTableViewCell {
     
     let multiSlider: CustomSlider = {
         let slider = CustomSlider()
-        slider.minValue = 1//18
-        slider.maxValue = 100//65
-        slider.lower = 1//18
-        slider.upper = 125//65
+        slider.minValue = 18
+        slider.maxValue = 65
+        slider.lower = 18
+        slider.upper = 65
         return slider
     }()
     
@@ -50,7 +50,6 @@ final class AgeRangeCell: BaseTableViewCell {
         [titleLabel, rangeLabel, sliderview].forEach {
             contentView.addSubview($0)
         }
-        
         sliderview.addSubview(multiSlider)
     }
     
@@ -82,6 +81,15 @@ final class AgeRangeCell: BaseTableViewCell {
             $0.horizontalEdges.equalTo(sliderview).inset(13)
             $0.centerY.equalTo(sliderview.snp.centerY)
         }
+    }
+    
+    func setData(min: Int, max: Int) {
+        rangeLabel.text = "\(min) - \(max)"
+        
+        multiSlider.lower = Double(min)
+        multiSlider.upper = Double(max)
+        
+//        (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
     }
     
 }

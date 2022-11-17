@@ -9,22 +9,6 @@ import UIKit
 
 final class ProfileCell: BaseTableViewCell {
     
-//    lazy var collectionView: UICollectionView = {
-//
-//        let collectionview = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-//        collectionview.backgroundColor = .lightGray
-//        collectionview.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        return collectionview
-//    }()
-    
-//    private func createLayout() -> UICollectionViewLayout {
-//        return UICollectionViewCompositionalLayout { [unowned self] section, layoutEnvironment in
-//            var config = UICollectionLayoutListConfiguration(appearance: .plain)
-//            config.headerMode = .firstItemInSection
-//            return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
-//        }
-//    }
-    
     // MARK: - property
     let usercardView: UIView = {
        let view = UIView()
@@ -46,31 +30,37 @@ final class ProfileCell: BaseTableViewCell {
     let titleButton1: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "좋은 매너")
+        button.isUserInteractionEnabled = false
         return button
     }()
     let titleButton2: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "정확한 시간 약속")
+        button.isUserInteractionEnabled = false
         return button
     }()
     let titleButton3: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "빠른 응답")
+        button.isUserInteractionEnabled = false
         return button
     }()
     let titleButton4: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "친절한 성격")
+        button.isUserInteractionEnabled = false
         return button
     }()
     let titleButton5: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "능숙한 실력")
+        button.isUserInteractionEnabled = false
         return button
     }()
     let titleButton6: UIButton = {
        let button = UIButton()
         button.configuration = UIButton.textButton(title: "유익한 시간")
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -185,5 +175,18 @@ final class ProfileCell: BaseTableViewCell {
         
     }
     
+    func setData(data: [Int]) {
+        var result = Array(data[0...5])
+        var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
+        
+        for i in 0...5 {
+            if result[i] != 0 {
+                btnGroup[i].configuration?.baseBackgroundColor = ColorPalette.green
+                btnGroup[i].configuration?.background.strokeColor = ColorPalette.green
+                btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
+            }
+        }
+    }
+
 }
 

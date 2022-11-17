@@ -69,5 +69,15 @@ final class OftenStudyCell: BaseTableViewCell {
         }
     }
     
+    func setData(data: String) {
+        
+        if data.isEmpty {
+            studyTextField.attributedPlaceholder = NSAttributedString(string: "스터디를 입력해 주세요", attributes: [NSAttributedString.Key.foregroundColor : ColorPalette.gray7])
+        } else {
+            studyTextField.text = data
+        }
+    }
+    
+    
 }
 
