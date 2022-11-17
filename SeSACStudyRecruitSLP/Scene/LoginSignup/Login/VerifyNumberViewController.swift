@@ -142,20 +142,7 @@ final class VerifyNumberViewController: BaseViewController {
                         self?.changeRootVC(vc: vc)
                     }
                 case .fbTokenError:
-                    // 갱신
-                    print("401 에러 발생!!! 갱신 하자")
-                    let currentUser = Auth.auth().currentUser
-                    currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            if let error = error {
-                                print("401 내부에서 다시 에러남")
-                                return
-                            }
-                            UserDefaults.standard.set(idToken, forKey: "idtoken")
-                            print(UserDefaults.standard.string(forKey: "idtoken"))
-                        }
-                    }
+                    self?.refreshIDToken()
                 default :
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
                 }
@@ -165,14 +152,37 @@ final class VerifyNumberViewController: BaseViewController {
     
     
     func refreshIDToken() {
-        Task {
-            do {
-                let refreshToken = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
-                UserDefaults.standard.set(refreshToken, forKey: "idtoken")
-                
-            }
-            catch {
-                self.mainView.makeToast("토큰 갱신 재시도 필요", duration: 1.0, position: .center)
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                let api = APIRouter.login
+                Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let loginData):
+                        let vc = TabBarController()
+                        // 데이터 통째로 전달?
+                        self?.changeRootVC(vc: vc)
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        case .unknownUser:
+                            self?.changeRootVC(vc: NickNameViewController())
+                        default:
+                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                        }
+                    }
+                }
             }
         }
     }

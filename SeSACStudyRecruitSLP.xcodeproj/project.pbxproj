@@ -12,7 +12,6 @@
 		0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410ED2918D63E0040BD85 /* Main.storyboard */; };
 		0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F02918D6400040BD85 /* Assets.xcassets */; };
 		0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */; };
-		0E1411032918DD7C0040BD85 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411022918DD7C0040BD85 /* Constants.swift */; };
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
@@ -108,7 +107,6 @@
 		0E1410F02918D6400040BD85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E1410F32918D6400040BD85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E1410F52918D6400040BD85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E1411022918DD7C0040BD85 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 		0E1411012918DD4F0040BD85 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				0E1411022918DD7C0040BD85 /* Constants.swift */,
 				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
 				0E5095C1291A48740038B429 /* CustomFonts.swift */,
 				0E1411082918EC530040BD85 /* Image.swift */,
@@ -609,7 +606,6 @@
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
-				0E1411032918DD7C0040BD85 /* Constants.swift in Sources */,
 				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
