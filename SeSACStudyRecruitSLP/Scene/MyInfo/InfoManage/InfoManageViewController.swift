@@ -80,20 +80,54 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         guard let withdrawCell = tableView.dequeueReusableCell(withIdentifier: WithdrawCell.reuseIdentifier) as? WithdrawCell else { return UITableViewCell() }
         
         if indexPath.section == 0 {
+            profileCell.selectionStyle = .none
+            //test
+            profileCell.titleButton1.addTarget(self, action: #selector(test), for: .touchUpInside)
+            
             return profileCell
         } else {
             switch indexPath.row {
-            case 0: return genderCell
-            case 1: return oftenStudyCell
-            case 2: return pnumPermitCell
+            case 0:
+                genderCell.selectionStyle = .none
+                return genderCell
+            case 1:
+                oftenStudyCell.selectionStyle = .none
+                return oftenStudyCell
+            case 2:
+                pnumPermitCell.selectionStyle = .none
+                return pnumPermitCell
             case 3:
+                ageRangeCell.selectionStyle = .none
                 ageRangeCell.multiSlider.addTarget(self, action: #selector(sliderChangeValue), for: .valueChanged)
                 
                 return ageRangeCell
-            case 4: return withdrawCell
+            case 4:
+                withdrawCell.selectionStyle = .none
+                return withdrawCell
             default : return withdrawCell
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            print("접었다폈다 셀 클릭")
+        } else {
+            switch indexPath.row {
+            case 4:
+                print("회원타로티 클릭!")
+                let vc = WithdrawViewController()
+                transition(vc, transitionStyle: .presentOverFullScreen)
+            default : print("00000")
+            }
+        }
+
+    }
+    
+    // test
+    @objc func test() {
+        print("좋은 매너 클릭@")
     }
     
 }

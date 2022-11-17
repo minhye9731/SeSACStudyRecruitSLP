@@ -64,12 +64,14 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.row == 0 {
             tableView.rowHeight = 100
+            cell1.selectionStyle = .none
             cell1.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             cell1.cellTitle.text = contents.title
             cell1.cellImage.image = UIImage(named: contents.image)
             cell1.moreViewImage.image = UIImage(named: contents.nextimage!)
             return cell1
         } else {
+            cell2.selectionStyle = .none
             tableView.rowHeight = 80
             cell2.titleLabel.text = contents.title
             cell2.menuimage.image = UIImage(named: contents.image)
