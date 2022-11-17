@@ -21,17 +21,11 @@ final class GenderViewModel: CommonViewModel {
     }
 
     struct Output {
-//        let validStatus: Observable<Bool>
         let tap: ControlEvent<Void>
     }
 
     // MARK: - functions
     func transform(input: Input) -> Output {
-
-//        let nicknameResult = input.nextTap
-//            .map { }
-//            .share()
-
         return Output(tap: input.nextTap)
     }
     
