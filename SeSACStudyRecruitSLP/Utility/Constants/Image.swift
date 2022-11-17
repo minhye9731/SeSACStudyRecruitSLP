@@ -8,6 +8,10 @@
 extension Constants {
     
     enum ImageName: String {
+        
+        case icon = "AppIcon"
+        case splashLogo = "splash_logo"
+        case splashText = "splash_text"
 
         //main
         case homeAct = "Property 1=home, Property 2=act"
