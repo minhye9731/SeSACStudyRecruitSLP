@@ -96,6 +96,7 @@
 		0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */; };
 		0EA6AA0629216FA800F71EC6 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */; };
 		0EA6AA082921757F00F71EC6 /* InfoManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */; };
+		0EF3751029261E4E0074FC64 /* WithdrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3750F29261E4E0074FC64 /* WithdrawViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +180,7 @@
 		0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewController.swift; sourceTree = "<group>"; };
+		0EF3750F29261E4E0074FC64 /* WithdrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +456,7 @@
 				0E49C6D72922A926004E7875 /* MyProfileInfoCell.swift */,
 				0E49C6B72922298D004E7875 /* MyInfoCell.swift */,
 				0E49C6BB29224477004E7875 /* InfoManage */,
+				0EF3750E29261E100074FC64 /* Withdraw */,
 			);
 			path = MyInfo;
 			sourceTree = "<group>";
@@ -472,6 +475,14 @@
 				0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */,
 			);
 			path = Friends;
+			sourceTree = "<group>";
+		};
+		0EF3750E29261E100074FC64 /* Withdraw */ = {
+			isa = PBXGroup;
+			children = (
+				0EF3750F29261E4E0074FC64 /* WithdrawViewController.swift */,
+			);
+			path = Withdraw;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -617,6 +628,7 @@
 				0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
 				0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */,
+				0EF3751029261E4E0074FC64 /* WithdrawViewController.swift in Sources */,
 				0EA6A9FD29216B6A00F71EC6 /* ShopViewController.swift in Sources */,
 				0E49C6C12922454A004E7875 /* pnumPermitCell.swift in Sources */,
 				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
