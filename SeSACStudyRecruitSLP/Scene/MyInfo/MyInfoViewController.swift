@@ -82,140 +82,36 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            
+            // test용
+            UserDefaultsManager.background = 3
+            UserDefaultsManager.sesac = 3
+            UserDefaultsManager.nick = "에밀리"
+            UserDefaultsManager.reputation = [1, 0, 4, 2, 0, 4, 0, 6]
+//            UserDefaultsManager.gender = 0
+//            UserDefaultsManager.study = "개미들아 힘내자"
+//            UserDefaultsManager.searchable = 1
+//            UserDefaultsManager.ageMin = 30
+//            UserDefaultsManager.ageMax = 59
+            
+            let data = UserInfoUpdateDTO(
+                searchable: UserDefaultsManager.searchable,
+                ageMin: UserDefaultsManager.ageMin,
+                ageMax: UserDefaultsManager.ageMax,
+                gender: UserDefaultsManager.gender,
+                study: UserDefaultsManager.study
+            )
+            
+            // (수정방향)
+            // 여기서 유저정보 통신을 다시함.
+            // 통신한 데이터중, UserInfoUpdateDTO에 담을 수 있는건 담아서 다음 페이지의 updateData 변수에 담아넘김 (수정 or 수정최소 대비용)
+            //UserInfoUpdateDTO에 해당하지 않지만, 정보관리 페이지에 필요한 항목은 userdefaults에 저장?????
+            // 여기서 통신 성공을 해야 넘어가도록 할까?
+            // 통신 소요시간 길어짐 대비해서 인디케이터 추가 필요할듯
+            
             let vc = InfoManageViewController()
+            vc.updateData = data
             transition(vc, transitionStyle: .push)
         }
     }
 }
-
-
-
-
-//final class MyInfoViewController: BaseViewController {
-//
-//    // MARK: - property
-//    let mainView = MyInfoView()
-//    static let sectionHeaderElementKind = "test"
-//    var menuList = [
-//        Menu(title: "홍길동", image: "AppIcon", nextimage: Constants.ImageName.more.rawValue),
-//        Menu(title: "공지사항", image: Constants.ImageName.notice.rawValue, nextimage: Constants.ImageName.more.rawValue),
-//        Menu(title: "자주 묻는 질문", image: Constants.ImageName.faq.rawValue, nextimage: ""),
-//        Menu(title: "1:1 문의", image: Constants.ImageName.qna.rawValue, nextimage: ""),
-//        Menu(title: "알림 설정", image: Constants.ImageName.alarm.rawValue, nextimage: ""),
-//        Menu(title: "이용약관", image: Constants.ImageName.permit.rawValue, nextimage: "")
-//    ]
-//
-//    private var dataSource: UICollectionViewDiffableDataSource<Int, Menu>!
-//
-//    // MARK: - Lifecycle
-//    override func loadView()  {
-//        super.loadView()
-//        self.view = mainView
-//    }
-//
-//    // MARK: - functions
-//    override func configure() {
-//        super.configure()
-//        mainView.collectionView.collectionViewLayout = createLayout()
-//        configureDataSource()
-//        setNav()
-//    }
-//
-//}
-//
-//// MARK: - compositional
-//extension MyInfoViewController {
-//
-//    private func createLayout() -> UICollectionViewCompositionalLayout {
-//
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                              heightDimension: .fractionalHeight(1.0))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                               heightDimension: .absolute(70))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-//
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.interGroupSpacing = 5
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
-//
-//        // headerview 정보 생성
-////        let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-////                                                      heightDimension: .fractionalHeight(100.0))
-//
-//        // section에 headerview 추가
-////        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-////            layoutSize: headerFooterSize,
-////            elementKind: UICollectionView.elementKindSectionHeader,
-////            alignment: .top
-////        )
-////        section.boundarySupplementaryItems = [sectionHeader]
-//
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//        return layout
-//    }
-//
-//    private func configureDataSource() {
-//        let cellRegisteration = UICollectionView.CellRegistration<MyInfoCell, Menu>(handler: { cell, indexPath, itemIdentifier in
-//
-//            cell.menuimage.image = UIImage(named: itemIdentifier.image)
-//            cell.titleLabel.text = itemIdentifier.title
-//
-//            if indexPath.row == 0 {
-//                cell.menuimage.contentMode = .scaleAspectFit
-//                cell.menuimage.image = UIImage(named: "AppIcon") // test 사용자 프로필
-//                cell.menuimage.layer.borderWidth = 1
-//                cell.menuimage.layer.borderColor = ColorPalette.gray2.cgColor
-//                cell.menuimage.contentMode = .scaleAspectFill
-//                cell.menuimage.layer.cornerRadius = 25
-//                cell.menuimage.snp.makeConstraints { make in
-//                    make.width.height.equalTo(50)
-//                }
-//
-//                cell.titleLabel.font = CustomFonts.title1_M16()
-//                cell.nextPage.image = UIImage(named: Constants.ImageName.more.rawValue)
-//            }
-//
-//        })
-//
-//        // headerRegistration 생성
-////        let headerRegistration = UICollectionView.SupplementaryRegistration<MycellHeaderView>(elementKind: MyInfoViewController.sectionHeaderElementKind) { supplementaryView, string, indexPath in
-////
-////            supplementaryView.profileimage.image = UIImage(named: "AppIcon") //test
-////            supplementaryView.userNameLabel.text = "홍길동" // test
-////        }
-//
-//        dataSource = UICollectionViewDiffableDataSource(collectionView: mainView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: itemIdentifier)
-//            return cell
-//        })
-//
-//        // datasource에서 supplementaryViewProvider를 적용 - 3
-////        dataSource.supplementaryViewProvider = { (view, kind, index) in
-////            if kind == UICollectionView.elementKindSectionHeader {
-////                return self.mainView.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
-////            }
-////            else {
-////                return nil
-////            }
-////        }
-//
-//        var snapshot = NSDiffableDataSourceSnapshot<Int, Menu>()
-//        snapshot.appendSections([0])
-//        snapshot.appendItems(menuList)
-//        // 여기서 헤더를 줘라
-//        dataSource.apply(snapshot)
-//    }
-//
-//}
-
-// UICollectionView
-//extension MyInfoViewController  {
-//
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MycellHeaderView.reuseIdentifier, for: indexPath) as! MycellHeaderView
-//        return header
-//    }
-//
-//}
