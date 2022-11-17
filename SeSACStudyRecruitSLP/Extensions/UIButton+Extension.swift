@@ -93,19 +93,19 @@ extension UIButton {
         return config
     }
     
-    static func filterButton(title: String, textcolor: UIColor, bgcolor: UIColor) -> UIButton {
+    static func generalButton(title: String, textcolor: UIColor, bgcolor: UIColor, font: UIFont) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(textcolor, for: .normal)
-        button.titleLabel?.font = CustomFonts.title3_M14()
+        button.titleLabel?.font = font
         button.backgroundColor = bgcolor
-        
-//        button.layer.shadowColor = UIColor.gray.cgColor
-//        button.layer.shadowOpacity = 1.0
-//        button.layer.shadowOffset = .zero
-//        button.layer.shadowRadius = 2
         return button
     }
+    
+    //        button.layer.shadowColor = UIColor.gray.cgColor
+    //        button.layer.shadowOpacity = 1.0
+    //        button.layer.shadowOffset = .zero
+    //        button.layer.shadowRadius = 2
     
     static func iconButton(image: String, fgcolor: UIColor, bgcolor: UIColor) -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()

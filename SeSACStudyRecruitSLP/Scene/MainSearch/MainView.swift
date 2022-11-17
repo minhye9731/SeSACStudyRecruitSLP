@@ -17,15 +17,15 @@ final class MainView: BaseView {
     }()
     
     let allbtn: UIButton = {
-        let button = UIButton.filterButton(title: "전체", textcolor: .white, bgcolor: ColorPalette.green)
+        let button = UIButton.generalButton(title: "전체", textcolor: .white, bgcolor: ColorPalette.green, font: CustomFonts.title3_M14())
         button.clipsToBounds = true
         button.layer.cornerRadius = 8
         button.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
         return button
     }()
-    let manbtn = UIButton.filterButton(title: "남자", textcolor: .black, bgcolor: .white)
+    let manbtn = UIButton.generalButton(title: "남자", textcolor: .black, bgcolor: .white, font: CustomFonts.title3_M14())
     let womanbtn: UIButton = {
-        let button = UIButton.filterButton(title: "여자", textcolor: .black, bgcolor: .white)
+        let button = UIButton.generalButton(title: "여자", textcolor: .black, bgcolor: .white, font: CustomFonts.title3_M14())
         button.clipsToBounds = true
         button.layer.cornerRadius = 8
         button.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
