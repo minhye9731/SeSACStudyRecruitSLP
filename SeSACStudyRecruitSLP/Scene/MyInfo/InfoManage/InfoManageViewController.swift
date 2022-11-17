@@ -12,6 +12,7 @@ final class InfoManageViewController: BaseViewController {
     // MARK: - property
     let mainView = InfoManageView()
     var isExpanded = false
+    var updateData = UserInfoUpdateDTO(searchable: 0, ageMin: 0, ageMax: 0, gender: 0, study: "")
 
     // MARK: - Lifecycle
     override func loadView()  {
@@ -49,9 +50,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    // header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         let result = ((view.frame.width - 32) * 0.58) + 58
         return section == 0 ? result : 0
     }
@@ -59,11 +58,11 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
-
-        headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue) //test
-        headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue) //test
-        headerView.nameLabel.text = "홍길동" // test
-        headerView.setCollapsed(isExpanded) // test
+        
+        headerView.setData(bgNum: UserDefaultsManager.background,
+                           fcNum: UserDefaultsManager.sesac,
+                           name: UserDefaultsManager.nick)
+        headerView.setCollapsed(isExpanded)
         headerView.section = section
         headerView.delegate = self
 
@@ -81,22 +80,24 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             profileCell.selectionStyle = .none
-            //test
-            profileCell.titleButton1.addTarget(self, action: #selector(test), for: .touchUpInside)
-            
+            profileCell.setData(data: UserDefaultsManager.reputation)
             return profileCell
         } else {
             switch indexPath.row {
             case 0:
+                genderCell.setData(data: UserDefaultsManager.gender)
                 genderCell.selectionStyle = .none
                 return genderCell
             case 1:
+                oftenStudyCell.setData(data: UserDefaultsManager.study)
                 oftenStudyCell.selectionStyle = .none
                 return oftenStudyCell
             case 2:
+                pnumPermitCell.setData(data: UserDefaultsManager.searchable)
                 pnumPermitCell.selectionStyle = .none
                 return pnumPermitCell
             case 3:
+                ageRangeCell.setData(min: UserDefaultsManager.ageMin, max: UserDefaultsManager.ageMax)
                 ageRangeCell.selectionStyle = .none
                 ageRangeCell.multiSlider.addTarget(self, action: #selector(sliderChangeValue), for: .valueChanged)
                 
@@ -112,11 +113,9 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
-            print("접었다폈다 셀 클릭")
         } else {
             switch indexPath.row {
             case 4:
-                print("회원타로티 클릭!")
                 let vc = WithdrawViewController()
                 transition(vc, transitionStyle: .presentOverFullScreen)
             default : print("00000")
@@ -125,10 +124,6 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
 
     }
     
-    // test
-    @objc func test() {
-        print("좋은 매너 클릭@")
-    }
     
 }
 
@@ -163,6 +158,7 @@ extension InfoManageViewController {
     
     @objc func sliderChangeValue() {
         print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
+        // 실시간 연령대 표기는 rx로 해야할듯
     }
     
 }
