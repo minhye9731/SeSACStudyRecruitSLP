@@ -22,6 +22,7 @@ final class PnumPermitCell: BaseTableViewCell {
     let switcher: UISwitch = {
        let switcher = UISwitch()
         switcher.onTintColor = ColorPalette.green
+        
         return switcher
     }()
     

@@ -91,15 +91,17 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
                 genderCell.selectionStyle = .none
                 return genderCell
             case 1:
-                oftenStudyCell.setData(data: UserDefaultsManager.study)
+                oftenStudyCell.setData(data: updateData.study)
+                oftenStudyCell.studyTextField.delegate = self
                 oftenStudyCell.selectionStyle = .none
                 return oftenStudyCell
             case 2:
-                pnumPermitCell.setData(data: UserDefaultsManager.searchable)
+                pnumPermitCell.setData(data: updateData.searchable)
+                pnumPermitCell.switcher.addTarget(self, action: #selector(switcherTapped), for: .valueChanged)
                 pnumPermitCell.selectionStyle = .none
                 return pnumPermitCell
             case 3:
-                ageRangeCell.setData(min: UserDefaultsManager.ageMin, max: UserDefaultsManager.ageMax)
+                ageRangeCell.setData(min: updateData.ageMin, max: updateData.ageMax)
                 ageRangeCell.selectionStyle = .none
                 ageRangeCell.multiSlider.addTarget(self, action: #selector(sliderChangeValue), for: .valueChanged)
                 
@@ -155,14 +157,7 @@ extension InfoManageViewController {
     }
 }
 
-// MARK: - 슬라이드 메서드
-extension InfoManageViewController {
-    
-    @objc func sliderChangeValue() {
-        print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
-    }
-    
-}
+
 
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {
@@ -177,5 +172,40 @@ extension InfoManageViewController {
         mainView.tableView.reloadData()
     }
 
+}
+
+// MARK: - 자주하는 스터디
+extension InfoManageViewController: UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let result = textField.text else { return }
+        print("입력하는 키워드 = \(result)")
+        updateData.study = result
+        if result.count > 15 { textField.deleteBackward() }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+// MARK: - 번호검색 허용
+extension InfoManageViewController {
+    @objc func switcherTapped() {
+        updateData.searchable = updateData.searchable == 0 ? 1 : 0
+        print(updateData)
+        mainView.tableView.reloadData()
+    }
+}
+
+
+// MARK: - 슬라이드 메서드
+extension InfoManageViewController {
+    
+    @objc func sliderChangeValue() {
+        print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
+    }
+    
 }
 
