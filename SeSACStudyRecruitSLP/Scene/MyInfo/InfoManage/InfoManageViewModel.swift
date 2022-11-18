@@ -17,7 +17,7 @@ final class InfoManageViewModel: CommonViewModel {
     }
     
     struct Output {
-
+        
     }
     
     // MARK: - functions

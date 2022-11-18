@@ -6,11 +6,14 @@
 //
 
 import UIKit
-//import MultiSlider
+import RxSwift
+import RxCocoa
 
 final class AgeRangeCell: BaseTableViewCell {
     
     // MARK: - property
+    let disposeBag = DisposeBag()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "상대방 연령대"
@@ -51,6 +54,8 @@ final class AgeRangeCell: BaseTableViewCell {
             contentView.addSubview($0)
         }
         sliderview.addSubview(multiSlider)
+        
+        bindData()
     }
     
     override func setConstraints() {
@@ -85,11 +90,19 @@ final class AgeRangeCell: BaseTableViewCell {
     
     func setData(min: Int, max: Int) {
         rangeLabel.text = "\(min) - \(max)"
-        
         multiSlider.lower = Double(min)
         multiSlider.upper = Double(max)
-        
-//        (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
     }
+    
+    func bindData() {
+        
+        multiSlider.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .bind { (cell, _) in
+                cell.rangeLabel.text = "\(Int(cell.multiSlider.lower)) - \(Int(cell.multiSlider.upper))"
+            }
+            .disposed(by: disposeBag)
+    }
+    
     
 }

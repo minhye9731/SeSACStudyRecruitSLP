@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class InfoManageViewController: BaseViewController {
     
@@ -13,6 +15,7 @@ final class InfoManageViewController: BaseViewController {
     let mainView = InfoManageView()
     var isExpanded = false
     var updateData = UserInfoUpdateDTO(searchable: 0, ageMin: 0, ageMax: 0, gender: 0, study: "")
+    let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
     override func loadView()  {
@@ -102,9 +105,8 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
                 return pnumPermitCell
             case 3:
                 ageRangeCell.setData(min: updateData.ageMin, max: updateData.ageMax)
+                bindData(slider: ageRangeCell.multiSlider)
                 ageRangeCell.selectionStyle = .none
-                ageRangeCell.multiSlider.addTarget(self, action: #selector(sliderChangeValue), for: .valueChanged)
-                
                 return ageRangeCell
             case 4:
                 withdrawCell.selectionStyle = .none
@@ -125,9 +127,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
             default : print("00000")
             }
         }
-
     }
-    
     
 }
 
@@ -156,8 +156,6 @@ extension InfoManageViewController {
         print("내정보 관리 저장 완료!! :)")
     }
 }
-
-
 
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {
@@ -203,8 +201,15 @@ extension InfoManageViewController {
 // MARK: - 슬라이드 메서드
 extension InfoManageViewController {
     
-    @objc func sliderChangeValue() {
-        print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
+    func bindData(slider: CustomSlider) {
+        slider.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .bind { (vc, _) in
+                vc.updateData.ageMin = Int(slider.lower)
+                vc.updateData.ageMax = Int(slider.upper)
+                print(self.updateData)
+            }
+            .disposed(by: disposeBag)
     }
     
 }

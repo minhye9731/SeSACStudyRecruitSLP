@@ -43,12 +43,4 @@ final class GenderViewModel: CommonViewModel {
         }
     }
     
-    
-
-    
-    
-    
-    
-    
-    
 }
