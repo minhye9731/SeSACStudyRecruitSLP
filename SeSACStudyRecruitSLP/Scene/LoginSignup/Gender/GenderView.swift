@@ -28,13 +28,13 @@ final class GenderView: BaseView {
         return label
     }()
     
-    let MaleButton: UIButton = {
+    let manButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.genderButton(title: "남자", image: "man")
         return button
     }()
 
-    let FemaleButton: UIButton = {
+    let womanButton: UIButton = {
         let button = UIButton()
         button.configuration = UIButton.genderButton(title: "여자", image: "woman")
         return button
@@ -50,11 +50,11 @@ final class GenderView: BaseView {
     override func configureUI() {
         super.configureUI()
         
-        [notiLabel, subLabel, MaleButton, FemaleButton, nextButton].forEach {
+        [notiLabel, subLabel, manButton, womanButton, nextButton].forEach {
             self.addSubview($0)
         }
         
-        self.MaleButton.setContentHuggingPriority(.init(rawValue: 999), for: .horizontal)
+        self.manButton.setContentHuggingPriority(.init(rawValue: 999), for: .horizontal)
     }
     
     override func setConstraints() {
@@ -69,20 +69,20 @@ final class GenderView: BaseView {
         
         subLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
-            make.bottom.equalTo(MaleButton.snp.top).offset(-32)
+            make.bottom.equalTo(manButton.snp.top).offset(-32)
         }
         
-        MaleButton.snp.makeConstraints { make in
+        manButton.snp.makeConstraints { make in
             make.height.equalTo(120)
             make.width.equalTo(btnWidth)
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(15)
             make.bottom.equalTo(nextButton.snp.top).offset(-32)
         }
         
-        FemaleButton.snp.makeConstraints { make in
+        womanButton.snp.makeConstraints { make in
             make.height.equalTo(120)
-            make.width.equalTo(MaleButton.snp.width)
-            make.leading.equalTo(MaleButton.snp.trailing).offset(12)
+            make.width.equalTo(manButton.snp.width)
+            make.leading.equalTo(manButton.snp.trailing).offset(12)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-15)
             make.bottom.equalTo(nextButton.snp.top).offset(-32)
         }

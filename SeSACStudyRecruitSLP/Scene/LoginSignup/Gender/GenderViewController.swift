@@ -12,8 +12,8 @@ final class GenderViewController: BaseViewController {
     
     // MARK: - property
     let mainView = GenderView()
-    var femaleSelected = false
-    var maleSelected = false
+    var womanSelected = false
+    var manSelected = false
     
     // MARK: - Lifecycle
     override func loadView()  {
@@ -25,26 +25,26 @@ final class GenderViewController: BaseViewController {
     override func configure() {
         super.configure()
         mainView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        mainView.FemaleButton.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
-        mainView.MaleButton.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
+        mainView.womanButton.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
+        mainView.manButton.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
     }
     
     @objc func femaleButtonTapped() {
-        femaleSelected.toggle()
-        maleSelected = false
+        womanSelected.toggle()
+        manSelected = false
         isValidGender()
         changeGenderBtnClr()
     }
     
     @objc func maleButtonTapped() {
-        maleSelected.toggle()
-        femaleSelected = false
+        manSelected.toggle()
+        womanSelected = false
         isValidGender()
         changeGenderBtnClr()
     }
     
     func isValidGender() {
-        let value =  (maleSelected && !femaleSelected) || (!maleSelected && femaleSelected)
+        let value =  (manSelected && !womanSelected) || (!manSelected && womanSelected)
         let bgcolor: UIColor = value ? ColorPalette.green : ColorPalette.gray6
         let txcolor: UIColor = value ? .white : .black
 
@@ -53,17 +53,17 @@ final class GenderViewController: BaseViewController {
     }
     
     func changeGenderBtnClr() {
-        mainView.FemaleButton.configuration?.baseBackgroundColor = femaleSelected ? ColorPalette.whitegreen : .white
-        mainView.MaleButton.configuration?.baseBackgroundColor = maleSelected ? ColorPalette.whitegreen : .white
-        mainView.FemaleButton.configuration?.background.strokeColor = femaleSelected ? ColorPalette.whitegreen : ColorPalette.gray4
-        mainView.MaleButton.configuration?.background.strokeColor = maleSelected ? ColorPalette.whitegreen : ColorPalette.gray4
+        mainView.womanButton.configuration?.baseBackgroundColor = womanSelected ? ColorPalette.whitegreen : .white
+        mainView.manButton.configuration?.baseBackgroundColor = manSelected ? ColorPalette.whitegreen : .white
+        mainView.womanButton.configuration?.background.strokeColor = womanSelected ? ColorPalette.whitegreen : ColorPalette.gray4
+        mainView.manButton.configuration?.background.strokeColor = manSelected ? ColorPalette.whitegreen : ColorPalette.gray4
     }
     
     @objc func nextButtonTapped() {
-        if !maleSelected && !femaleSelected {
+        if !manSelected && !womanSelected {
             self.mainView.makeToast("성별을 선택해 주세요.", duration: 1.0, position: .center)
         } else {
-            let value = (maleSelected && !femaleSelected) ? "1" : "0"
+            let value = (manSelected && !womanSelected) ? "1" : "0"
             print("성별선택 저장값 = \(value)")
             UserDefaults.standard.set(value, forKey: "gender")
             trySignup()
