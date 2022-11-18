@@ -13,6 +13,8 @@ struct UserDefaultsManager {
     // 첫 실행여부
     
     // MARK: - 번호인증
+    @UserDefaultsWrapper(key: "idtoken", defaultValue: "")
+    static var idtoken: String
     
     // MARK: - 로그인
     

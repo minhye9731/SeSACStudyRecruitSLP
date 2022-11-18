@@ -45,16 +45,16 @@ enum APIRouter: URLRequestConvertible {
 
     var headers: HTTPHeaders {
         switch self {
-        case .login: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+        case .login: return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+        case .signup: return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
             
-        case .withdraw: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+        case .withdraw: return [ "idtoken": UserDefaultsManager.idtoken,
                                  "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
             
-        case .update: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+        case .update: return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
         }
     }

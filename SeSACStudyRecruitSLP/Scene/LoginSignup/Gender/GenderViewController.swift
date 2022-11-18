@@ -96,10 +96,8 @@ final class GenderViewController: BaseViewController {
             case .failure(let error):
                 
                 let code = (error as NSError).code
-                print("failure // code = \(code)")
-                
                 guard let errorCode = SignupError(rawValue: code) else { return }
-                print("failure // errorCode = \(errorCode)")
+                print("failure // code = \(code), errorCode = \(errorCode)")
                 
                 switch errorCode {
                 case .existUser:

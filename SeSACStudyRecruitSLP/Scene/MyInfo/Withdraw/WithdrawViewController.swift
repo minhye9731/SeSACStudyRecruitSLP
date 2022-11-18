@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class WithdrawViewController: BaseViewController {
     
     // MARK: - property
     let popupView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
@@ -36,12 +37,12 @@ final class WithdrawViewController: BaseViewController {
     }()
     
     let cancelbtn: UIButton = {
-       let button = UIButton.generalButton(title: "취소", textcolor: .black, bgcolor: ColorPalette.gray2, font: CustomFonts.body3_R14())
+        let button = UIButton.generalButton(title: "취소", textcolor: .black, bgcolor: ColorPalette.gray2, font: CustomFonts.body3_R14())
         button.layer.cornerRadius = 8
         return button
     }()
     let withdrawbtn: UIButton = {
-       let button = UIButton.generalButton(title: "확인", textcolor: .white, bgcolor: ColorPalette.green, font: CustomFonts.body3_R14())
+        let button = UIButton.generalButton(title: "확인", textcolor: .white, bgcolor: ColorPalette.green, font: CustomFonts.body3_R14())
         button.layer.cornerRadius = 8
         return button
     }()
@@ -49,7 +50,7 @@ final class WithdrawViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-
+        
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
         
         view.addSubview(popupView)
@@ -97,11 +98,91 @@ final class WithdrawViewController: BaseViewController {
     }
     
     @objc func calcenBtnTapped() {
-        print("취소")
         self.dismiss(animated: true)
     }
+    
     @objc func withdrawBtnTapped() {
-        print("회원탈퇴")
+        let api = APIRouter.withdraw
+        Network.share.requestWithdraw(router: api) { [weak self] response in
+            switch response {
+            case .success(let success):
+                self?.view.makeToast("회원탈퇴가 성공적으로 완료되었습니다.", duration: 0.5, position: .center)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    let vc = OnBoardingViewController()
+                    self?.changeRootVC(vc: vc)
+                }
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDToken()
+                case .unknownUser:
+                    self?.view.makeToast("이미 탈퇴 처리된/미가입 사용자입니다.", duration: 0.5, position: .center)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        let vc = OnBoardingViewController()
+                        self?.changeRootVC(vc: vc)
+                    }
+                case .serverError:
+                    self?.view.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
+                case .clientError:
+                    self?.view.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
+                default:
+                    self?.view.makeToast("\(error.localizedDescription)", duration: 0.5, position: .center)
+                    
+                }
+                
+            }
+        }
+    }
+    
+    func refreshIDToken() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = APIRouter.withdraw
+                Network.share.requestWithdraw(router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let success):
+                        self?.view.makeToast("회원탈퇴가 성공적으로 완료되었습니다.", duration: 0.5, position: .center)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            let vc = OnBoardingViewController()
+                            self?.changeRootVC(vc: vc)
+                        }
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = SignupError(rawValue: code) else { return }
+                        switch errorCode {
+                        case .unknownUser:
+                            self?.view.makeToast("이미 탈퇴 처리된/미가입 사용자입니다.", duration: 0.5, position: .center)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                let vc = OnBoardingViewController()
+                                self?.changeRootVC(vc: vc)
+                            }
+                        default:
+                            self?.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                        }
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -163,7 +163,8 @@ final class VerifyNumberViewController: BaseViewController {
                 }
                 return
             } else if let idToken = idToken {
-                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                UserDefaultsManager.idtoken = idToken
+                
                 let api = APIRouter.login
                 Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
                     

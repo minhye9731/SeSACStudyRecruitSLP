@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoginError: Int, Error {
+enum LoginError: Int, Error { // 삭제예정
     case fbTokenError = 401
     case unknownUser = 406
     case serverError = 500
