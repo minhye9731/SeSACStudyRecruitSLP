@@ -13,6 +13,7 @@ enum APIRouter: URLRequestConvertible {
     case login
     case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
     case withdraw
+    case update(searchable: String, ageMin: String, ageMax: String, gender: String, study: String?)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -24,6 +25,8 @@ enum APIRouter: URLRequestConvertible {
             return .get
         case .signup, .withdraw:
             return .post
+        case .update:
+            return .put
         }
     }
 
@@ -35,6 +38,8 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user"
         case .withdraw:
             return "/v1/user/withdraw"
+        case .update:
+            return "/v1/user/mypage"
         }
     }
 
@@ -48,10 +53,13 @@ enum APIRouter: URLRequestConvertible {
             
         case .withdraw: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
                                  "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
+            
+        case .update: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+                               "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
         }
     }
 
-    var parameters: [String: String] {
+    var parameters: [String: String?] {
         switch self {
         case .signup(let phoneNumber, let fcmtoken, let nick, let birth, let email, let gender):
             return [
@@ -61,6 +69,14 @@ enum APIRouter: URLRequestConvertible {
                 "birth": birth,
                 "email": email,
                 "gender": gender
+            ]
+        case .update(let searchable, let ageMin, let ageMax, let gender, let study):
+            return [
+                "searchable": searchable,
+                "ageMin": ageMin,
+                "ageMax": ageMax,
+                "gender": gender,
+                "study": study
             ]
         default: return ["":""]
         }

@@ -67,7 +67,19 @@ final class Network {
         }
     }
     
-    
+    func update(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        AF.request(router).validate(statusCode: 200...500).responseString { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(_):
+                guard let statusCode = response.response?.statusCode else { return }
+                guard let error = SignupError(rawValue: statusCode) else { return }
+                completion(.failure(error))
+            }
+        }
+    }
     
     
     //    func refreshFCMidToken() {
