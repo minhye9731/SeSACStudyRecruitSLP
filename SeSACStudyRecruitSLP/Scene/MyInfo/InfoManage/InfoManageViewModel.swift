@@ -13,6 +13,7 @@ final class InfoManageViewModel: CommonViewModel {
     
     // MARK: - property
     struct Input {
+        
     }
     
     struct Output {

@@ -65,10 +65,18 @@ final class GenderCell: BaseTableViewCell {
     }
     
     func setData(data: Int) {
-        let btn = data == 0 ? womanButton : manButton
-        btn.configuration?.baseBackgroundColor = ColorPalette.green
-        btn.configuration?.background.strokeColor = ColorPalette.green
-        btn.configuration?.attributedTitle?.foregroundColor = .white
+        
+        let selectBtn = data == 0 ? womanButton : manButton
+        let unselectBtn = data == 0 ? manButton : womanButton
+        
+        selectBtn.configuration?.baseBackgroundColor = ColorPalette.green
+        selectBtn.configuration?.background.strokeColor = ColorPalette.green
+        selectBtn.configuration?.attributedTitle?.foregroundColor = .white
+        
+        unselectBtn.configuration?.baseBackgroundColor = .white
+        unselectBtn.configuration?.background.strokeColor = ColorPalette.gray3
+        unselectBtn.configuration?.attributedTitle?.foregroundColor = .black
     }
     
+   
 }

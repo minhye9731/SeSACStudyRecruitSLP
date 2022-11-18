@@ -85,7 +85,9 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             switch indexPath.row {
             case 0:
-                genderCell.setData(data: UserDefaultsManager.gender)
+                genderCell.setData(data: updateData.gender)
+                genderCell.manButton.addTarget(self, action: #selector(manButtonTapped), for: .touchUpInside)
+                genderCell.womanButton.addTarget(self, action: #selector(womanButtonTapped), for: .touchUpInside)
                 genderCell.selectionStyle = .none
                 return genderCell
             case 1:
@@ -158,8 +160,22 @@ extension InfoManageViewController {
     
     @objc func sliderChangeValue() {
         print("슬라이드 값 변경됨!! 이거는 rx input, output으로 해볼까 (Int(self.slider.lower)) ~ (Int(self.slider.upper))")
-        // 실시간 연령대 표기는 rx로 해야할듯
     }
     
+}
+
+// MARK: - 성별버튼 클릭
+extension InfoManageViewController {
+    
+    @objc func womanButtonTapped() {
+        updateData.gender = 0
+        mainView.tableView.reloadData()
+    }
+    
+    @objc func manButtonTapped() {
+        updateData.gender = 1
+        mainView.tableView.reloadData()
+    }
+
 }
 
