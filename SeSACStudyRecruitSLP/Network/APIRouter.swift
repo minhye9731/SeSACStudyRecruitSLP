@@ -14,7 +14,7 @@ enum APIRouter: URLRequestConvertible {
     case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
     
     var baseURL: URL {
-        return URL(string: "http://api.sesac.co.kr:1207")!
+        return URL(string: "http://api.sesac.co.kr:1210")!
     }
 
     var method: HTTPMethod {
