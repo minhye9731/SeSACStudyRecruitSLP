@@ -31,10 +31,10 @@ final class AgeRangeCell: BaseTableViewCell {
     
     let multiSlider: CustomSlider = {
         let slider = CustomSlider()
-        slider.minValue = 18
-        slider.maxValue = 65
-        slider.lower = 18
-        slider.upper = 65
+        slider.minValue = 1
+        slider.maxValue = 100
+        slider.lower = 1
+        slider.upper = 125
         return slider
     }()
     
@@ -77,8 +77,8 @@ final class AgeRangeCell: BaseTableViewCell {
         }
         
         multiSlider.snp.makeConstraints {
-            $0.height.equalTo(40)
-            $0.horizontalEdges.equalTo(sliderview).inset(13)
+            $0.height.equalTo(20)
+            $0.directionalHorizontalEdges.equalTo(sliderview).inset(13)
             $0.centerY.equalTo(sliderview.snp.centerY)
         }
     }

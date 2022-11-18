@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ThumbButton: RoundableButton {
+class ThumbButton: UIButton {
     
     override var isSelected: Bool {
         didSet {
@@ -27,6 +27,11 @@ class ThumbButton: RoundableButton {
     
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = self.frame.height / 2
     }
     
 }

@@ -23,7 +23,6 @@
 		0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6C22922455D004E7875 /* oftenStudyCell.swift */; };
 		0E49C6C529224566004E7875 /* genderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6C429224565004E7875 /* genderCell.swift */; };
 		0E49C6C9292280E2004E7875 /* MultiSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 0E49C6C8292280E2004E7875 /* MultiSlider */; };
-		0E49C6D029228531004E7875 /* RoundableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6CF29228531004E7875 /* RoundableButton.swift */; };
 		0E49C6D229228559004E7875 /* ThumbButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D129228559004E7875 /* ThumbButton.swift */; };
 		0E49C6D4292285A5004E7875 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D3292285A5004E7875 /* CustomSlider.swift */; };
 		0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */; };
@@ -121,7 +120,6 @@
 		0E49C6C02922454A004E7875 /* pnumPermitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pnumPermitCell.swift; sourceTree = "<group>"; };
 		0E49C6C22922455D004E7875 /* oftenStudyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oftenStudyCell.swift; sourceTree = "<group>"; };
 		0E49C6C429224565004E7875 /* genderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genderCell.swift; sourceTree = "<group>"; };
-		0E49C6CF29228531004E7875 /* RoundableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundableButton.swift; sourceTree = "<group>"; };
 		0E49C6D129228559004E7875 /* ThumbButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbButton.swift; sourceTree = "<group>"; };
 		0E49C6D3292285A5004E7875 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Extension.swift"; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				0E4F632E291D6DAE00F36167 /* InputDateView.swift */,
-				0E49C6CF29228531004E7875 /* RoundableButton.swift */,
 				0E49C6D129228559004E7875 /* ThumbButton.swift */,
 				0E49C6D3292285A5004E7875 /* CustomSlider.swift */,
 				0E49C71729252F91004E7875 /* CollapsibleTableViewHeader.swift */,
@@ -652,7 +649,6 @@
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
 				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
 				0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */,
-				0E49C6D029228531004E7875 /* RoundableButton.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
 				0E49C6D82922A926004E7875 /* MyProfileInfoCell.swift in Sources */,
 				0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */,
