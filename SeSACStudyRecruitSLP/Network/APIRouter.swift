@@ -12,6 +12,7 @@ enum APIRouter: URLRequestConvertible {
 
     case login
     case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
+    case withdraw
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -21,7 +22,7 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .login:
             return .get
-        case .signup:
+        case .signup, .withdraw:
             return .post
         }
     }
@@ -32,6 +33,8 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user"
         case .signup:
             return "/v1/user"
+        case .withdraw:
+            return "/v1/user/withdraw"
         }
     }
 
@@ -42,6 +45,9 @@ enum APIRouter: URLRequestConvertible {
             
         case .signup: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
                                "Content-Type": "application/x-www-form-urlencoded" ]
+            
+        case .withdraw: return [ "idtoken": UserDefaults.standard.string(forKey: "idtoken")!,
+                                 "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
         }
     }
 
@@ -54,9 +60,9 @@ enum APIRouter: URLRequestConvertible {
                 "nick": nick,
                 "birth": birth,
                 "email": email,
-                "gender": gender // 타입 케스팅해서 해보자
+                "gender": gender
             ]
-        case .login: return ["":""]
+        default: return ["":""]
         }
     }
 

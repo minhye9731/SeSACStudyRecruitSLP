@@ -141,22 +141,6 @@ extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
     }
 }
 
-// MARK: - 저장 버튼 메서드
-extension InfoManageViewController {
-    func setBarButtonItem() {
-        let navibarAppearance = UINavigationBarAppearance()
-        let barbuttonItemAppearance = UIBarButtonItemAppearance()
-        barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
-        navibarAppearance.buttonAppearance = barbuttonItemAppearance
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(doneTapped))
-    }
-    
-    @objc func doneTapped() {
-        print("내정보 관리 저장 완료!! :)")
-    }
-}
-
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {
     
@@ -197,7 +181,6 @@ extension InfoManageViewController {
     }
 }
 
-
 // MARK: - 슬라이드 메서드
 extension InfoManageViewController {
     
@@ -214,3 +197,17 @@ extension InfoManageViewController {
     
 }
 
+// MARK: - 저장 버튼 메서드
+extension InfoManageViewController {
+    func setBarButtonItem() {
+        let navibarAppearance = UINavigationBarAppearance()
+        let barbuttonItemAppearance = UIBarButtonItemAppearance()
+        barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
+        navibarAppearance.buttonAppearance = barbuttonItemAppearance
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(doneTapped))
+    }
+    
+    @objc func doneTapped() {
+        print("내정보 관리 저장 완료!! :)")
+    }
+}
