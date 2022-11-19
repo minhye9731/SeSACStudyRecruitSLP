@@ -58,6 +58,9 @@ class EmptyView: BaseView {
     override func setConstraints() {
         super.setConstraints()
         
+        var bounds = UIScreen.main.bounds
+        var widthWithoutSpace = bounds.size.width - 40
+        
         sesacImage.snp.makeConstraints {
             $0.centerX.equalTo(self.safeAreaLayoutGuide)
             $0.width.height.equalTo(64)
@@ -75,7 +78,7 @@ class EmptyView: BaseView {
         
         refreshBtn.snp.makeConstraints {
             $0.trailing.bottom.equalTo(self.safeAreaLayoutGuide).offset(-16)
-            $0.width.height.equalTo(48)
+            $0.width.height.equalTo(widthWithoutSpace * 0.14)
         }
         
         studyChangeBtn.snp.makeConstraints {
