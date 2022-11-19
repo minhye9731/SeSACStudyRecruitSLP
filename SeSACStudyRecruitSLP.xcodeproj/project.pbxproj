@@ -85,6 +85,8 @@
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
 		0EA57487292903070064599F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57486292903070064599F /* ListView.swift */; };
+		0EA57489292912910064599F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57488292912910064599F /* SearchViewController.swift */; };
+		0EA574902929153C0064599F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA5748F2929153C0064599F /* SearchView.swift */; };
 		0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */; };
 		0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E7291F9D2B00F71EC6 /* Network.swift */; };
 		0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */; };
@@ -179,6 +181,8 @@
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
 		0EA57486292903070064599F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		0EA57488292912910064599F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		0EA5748F2929153C0064599F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		0EA6A9E7291F9D2B00F71EC6 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
@@ -347,6 +351,8 @@
 		0E46E2AC29288BCF0058A50E /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				0EA57488292912910064599F /* SearchViewController.swift */,
+				0EA5748F2929153C0064599F /* SearchView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -637,6 +643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E4F630A291CFD0900F36167 /* PhoneNumberViewModel.swift in Sources */,
+				0EA57489292912910064599F /* SearchViewController.swift in Sources */,
 				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
@@ -695,6 +702,7 @@
 				0E4F6315291D0D2F00F36167 /* NickNameView.swift in Sources */,
 				0E49C6D229228559004E7875 /* ThumbButton.swift in Sources */,
 				0E50958A2918F4CC0038B429 /* BaseView.swift in Sources */,
+				0EA574902929153C0064599F /* SearchView.swift in Sources */,
 				0E4F630F291CFF3900F36167 /* VerifyNumberView.swift in Sources */,
 				0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
