@@ -15,6 +15,9 @@
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
+		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
+		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
+		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
 		0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B529221F4F004E7875 /* MyInfoView.swift */; };
 		0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B72922298D004E7875 /* MyInfoCell.swift */; };
 		0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6BC292244DE004E7875 /* withdrawCell.swift */; };
@@ -113,6 +116,8 @@
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0E49C6B529221F4F004E7875 /* MyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoView.swift; sourceTree = "<group>"; };
 		0E49C6B72922298D004E7875 /* MyInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoCell.swift; sourceTree = "<group>"; };
 		0E49C6BC292244DE004E7875 /* withdrawCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = withdrawCell.swift; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E46E2B229288D3B0058A50E /* Tabman in Frameworks */,
 				0E4F6307291CE00700F36167 /* FirebaseMessaging in Frameworks */,
 				0E49C6C9292280E2004E7875 /* MultiSlider in Frameworks */,
 				0E4F62F5291C276500F36167 /* RxRelay in Frameworks */,
@@ -322,6 +328,31 @@
 			path = WalkThrough;
 			sourceTree = "<group>";
 		};
+		0E46E2AB29288BAA0058A50E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F6339291E91ED00F36167 /* MainViewController.swift */,
+				0E49C6E32924A585004E7875 /* MainView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		0E46E2AC29288BCF0058A50E /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		0E46E2AD29288BD50058A50E /* SearchResult */ = {
+			isa = PBXGroup;
+			children = (
+				0E46E2AE29288C390058A50E /* SearchResultViewController.swift */,
+				0E46E2B329288F3C0058A50E /* ListViewController.swift */,
+			);
+			path = SearchResult;
+			sourceTree = "<group>";
+		};
 		0E49C6BB29224477004E7875 /* InfoManage */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,8 +435,9 @@
 		0E4F632D291D1F6200F36167 /* MainSearch */ = {
 			isa = PBXGroup;
 			children = (
-				0E4F6339291E91ED00F36167 /* MainViewController.swift */,
-				0E49C6E32924A585004E7875 /* MainView.swift */,
+				0E46E2AB29288BAA0058A50E /* Main */,
+				0E46E2AC29288BCF0058A50E /* Search */,
+				0E46E2AD29288BD50058A50E /* SearchResult */,
 			);
 			path = MainSearch;
 			sourceTree = "<group>";
@@ -523,6 +555,7 @@
 				0EA6A9EC291F9D8200F71EC6 /* Alamofire */,
 				0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */,
 				0E49C6C8292280E2004E7875 /* MultiSlider */,
+				0E46E2B129288D3B0058A50E /* Tabman */,
 			);
 			productName = SeSACStudyRecruitSLP;
 			productReference = 0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */;
@@ -560,6 +593,7 @@
 				0EA6A9EB291F9D8100F71EC6 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */,
+				0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */,
 			);
 			productRefGroup = 0E1410E52918D63E0040BD85 /* Products */;
 			projectDirPath = "";
@@ -601,6 +635,7 @@
 				0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */,
 				0E49C6E42924A585004E7875 /* MainView.swift in Sources */,
 				0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */,
+				0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */,
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
@@ -633,6 +668,7 @@
 				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
 				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,
 				0E4F6336291D7D7900F36167 /* CommonViewModel.swift in Sources */,
+				0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */,
 				0E49C6C529224566004E7875 /* genderCell.swift in Sources */,
 				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
@@ -893,6 +929,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yonat/MultiSlider.git";
@@ -952,6 +996,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E46E2B129288D3B0058A50E /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
+		};
 		0E49C6C8292280E2004E7875 /* MultiSlider */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */;
