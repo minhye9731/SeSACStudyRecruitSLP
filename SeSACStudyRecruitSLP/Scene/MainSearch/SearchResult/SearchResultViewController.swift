@@ -13,6 +13,7 @@ final class SearchResultViewController: TabmanViewController {
     
     // MARK: - property
     var viewControllers: Array<UIViewController> = []
+    let listVC = ListViewController()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -21,12 +22,14 @@ final class SearchResultViewController: TabmanViewController {
         view.backgroundColor = .white
         setBarButtonItem()
         setVC()
+        
+        listVC.mainView.emptyView.refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
     }
     
     // MARK: - functions
     func setVC() {
-        let vc = ListViewController()
-        viewControllers.append(vc)
+        
+        viewControllers.append(listVC)
         self.dataSource = self
         
         let bar = TMBar.ButtonBar()
@@ -55,6 +58,11 @@ final class SearchResultViewController: TabmanViewController {
         ctBar.indicator.overscrollBehavior = .compress
     }
     
+    @objc func refreshBtnTapped() {
+        print("야호오오오오오") // 눌리지가 않음
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension SearchResultViewController: PageboyViewControllerDataSource, TMBarDataSource {
@@ -76,17 +84,9 @@ extension SearchResultViewController: PageboyViewControllerDataSource, TMBarData
     }
     
     func defaultPage(for pageboyViewController: Pageboy.PageboyViewController) -> Pageboy.PageboyViewController.Page? {
-        return nil // 명세서 재확인 필요
+        return .first
     }
 }
-
-
-
-
-
-
-
-
 
 
 // MARK: - 찾기 중단 메서드

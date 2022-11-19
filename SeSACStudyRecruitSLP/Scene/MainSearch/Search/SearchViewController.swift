@@ -21,8 +21,9 @@ final class SearchViewController: BaseViewController {
     override func configure() {
         super.configure()
         
-        self.view.backgroundColor = .brown
-        
+        self.tabBarController?.tabBar.isHidden = true
+        mainView.searchBtn.addTarget(self, action: #selector(searchBtnTapped), for: .touchUpInside)
+        setNav()
     }
     
     override func setConstraints() {
@@ -30,6 +31,18 @@ final class SearchViewController: BaseViewController {
         
     }
     
+    func setNav() {
+        var bounds = UIScreen.main.bounds
+        var width = bounds.size.width
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
+        searchBar.placeholder = "띄어쓰기로 복수 입력이 가능해요"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+    }
     
+    @objc func searchBtnTapped() {
+        let vc = SearchResultViewController()
+        
+        transition(vc, transitionStyle: .push)
+    }
     
 }
