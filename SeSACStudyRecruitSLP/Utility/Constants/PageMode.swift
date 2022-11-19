@@ -11,3 +11,9 @@ enum SearchMode {
     case aroundSesac
     case acceptedReq
 }
+
+enum MatchingMode {
+    case normal
+    case standby
+    case matching
+}

@@ -17,6 +17,8 @@ final class MainViewController: BaseViewController {
     override func loadView()  {
         super.loadView()
         self.view = mainView
+        
+        mainView.floatingButton.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - functions
@@ -25,4 +27,10 @@ final class MainViewController: BaseViewController {
 
     }
 
+    @objc func floatingButtonTapped() {
+        
+        
+        
+        
+    }
 }
