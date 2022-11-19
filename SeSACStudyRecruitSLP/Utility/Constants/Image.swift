@@ -27,6 +27,9 @@ enum Constants {
         case matched = "Property 1=matched"
         case place = "place"
 
+        // searchSeSACResult
+        case graySesac = "defaultSesac"
+        case refresh = "arrow.clockwise"
         
         //my info
         case notice = "notice"

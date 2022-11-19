@@ -50,10 +50,7 @@ final class MainView: BaseView {
     // MARK: - functions
     override func configureUI() {
         super.configureUI()
-        
-        [mapView, floatingButton, allbtn, manbtn, womanbtn, locationbtn].forEach {
-            self.addSubview($0)
-        }
+        [mapView, floatingButton, allbtn, manbtn, womanbtn, locationbtn].forEach { self.addSubview($0) }
     }
     
     override func setConstraints() {

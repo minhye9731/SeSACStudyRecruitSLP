@@ -11,8 +11,10 @@ import Pageboy
 
 final class SearchResultViewController: TabmanViewController {
     
+    // MARK: - property
     var viewControllers: Array<UIViewController> = []
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "새싹 찾기"
@@ -21,8 +23,7 @@ final class SearchResultViewController: TabmanViewController {
         setVC()
     }
     
-    
-    
+    // MARK: - functions
     func setVC() {
         let vc = ListViewController()
         viewControllers.append(vc)
@@ -55,6 +56,7 @@ final class SearchResultViewController: TabmanViewController {
     }
     
 }
+
 extension SearchResultViewController: PageboyViewControllerDataSource, TMBarDataSource {
     
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {

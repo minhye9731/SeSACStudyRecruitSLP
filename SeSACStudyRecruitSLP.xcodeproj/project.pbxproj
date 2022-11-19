@@ -18,6 +18,8 @@
 		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
 		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
 		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
+		0E46E2B62928F6710058A50E /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B52928F6710058A50E /* EmptyView.swift */; };
+		0E46E2B82928F8B00058A50E /* PageMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B72928F8B00058A50E /* PageMode.swift */; };
 		0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B529221F4F004E7875 /* MyInfoView.swift */; };
 		0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6B72922298D004E7875 /* MyInfoCell.swift */; };
 		0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E49C6BC292244DE004E7875 /* withdrawCell.swift */; };
@@ -82,6 +84,7 @@
 		0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
+		0EA57487292903070064599F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57486292903070064599F /* ListView.swift */; };
 		0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */; };
 		0EA6A9E8291F9D2B00F71EC6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E7291F9D2B00F71EC6 /* Network.swift */; };
 		0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */; };
@@ -118,6 +121,8 @@
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		0E46E2B52928F6710058A50E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		0E46E2B72928F8B00058A50E /* PageMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMode.swift; sourceTree = "<group>"; };
 		0E49C6B529221F4F004E7875 /* MyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoView.swift; sourceTree = "<group>"; };
 		0E49C6B72922298D004E7875 /* MyInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoCell.swift; sourceTree = "<group>"; };
 		0E49C6BC292244DE004E7875 /* withdrawCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = withdrawCell.swift; sourceTree = "<group>"; };
@@ -173,6 +178,7 @@
 		0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
+		0EA57486292903070064599F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		0EA6A9E7291F9D2B00F71EC6 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
@@ -312,6 +318,7 @@
 				0E1411042918DD9A0040BD85 /* ColorPalette.swift */,
 				0E5095C1291A48740038B429 /* CustomFonts.swift */,
 				0E1411082918EC530040BD85 /* Image.swift */,
+				0E46E2B72928F8B00058A50E /* PageMode.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -349,6 +356,7 @@
 			children = (
 				0E46E2AE29288C390058A50E /* SearchResultViewController.swift */,
 				0E46E2B329288F3C0058A50E /* ListViewController.swift */,
+				0EA57486292903070064599F /* ListView.swift */,
 			);
 			path = SearchResult;
 			sourceTree = "<group>";
@@ -376,6 +384,7 @@
 				0E49C6D129228559004E7875 /* ThumbButton.swift */,
 				0E49C6D3292285A5004E7875 /* CustomSlider.swift */,
 				0E49C71729252F91004E7875 /* CollapsibleTableViewHeader.swift */,
+				0E46E2B52928F6710058A50E /* EmptyView.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -641,6 +650,7 @@
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
 				0EF375182926B33B0074FC64 /* InfoManageViewModel.swift in Sources */,
+				0EA57487292903070064599F /* ListView.swift in Sources */,
 				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,
 				0EF3751429268E310074FC64 /* UserDefaultsWrapper.swift in Sources */,
@@ -648,9 +658,11 @@
 				0E49C6D4292285A5004E7875 /* CustomSlider.swift in Sources */,
 				0EA6A9E6291F9D2200F71EC6 /* APIRouter.swift in Sources */,
 				0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */,
+				0E46E2B82928F8B00058A50E /* PageMode.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
 				0E4F6338291D8C5000F36167 /* BaseNavigationController.swift in Sources */,
 				0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */,
+				0E46E2B62928F6710058A50E /* EmptyView.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,

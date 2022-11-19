@@ -20,10 +20,9 @@ final class MainViewController: BaseViewController {
     }
     
     // MARK: - functions
-    
     override func configure() {
         super.configure()
-        view.backgroundColor = .systemMint
+
     }
 
 }

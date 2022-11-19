@@ -18,6 +18,7 @@ class BaseView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError()
+        self.backgroundColor = .white
     }
     
     func configureUI() { }
