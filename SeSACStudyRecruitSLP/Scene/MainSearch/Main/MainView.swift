@@ -46,35 +46,53 @@ final class MainView: BaseView {
         button.setImage(UIImage(named: Constants.ImageName.defaultState.rawValue), for: .normal)
         return button
     }()
+    
+    let filterStackView: UIStackView = {
+       let view = UIStackView()
+        view.axis = .vertical
+        view.alignment = .center
+        view.distribution = .fillEqually
+        
+        view.layer.shadowRadius = 8
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        view.layer.shadowOpacity = 1.0
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        return view
+    }()
 
     // MARK: - functions
     override func configureUI() {
         super.configureUI()
-        [mapView, floatingButton, allbtn, manbtn, womanbtn, locationbtn].forEach { self.addSubview($0) }
+        [mapView, floatingButton, filterStackView, locationbtn].forEach { self.addSubview($0) }
+        [allbtn, manbtn, womanbtn].forEach { filterStackView.addArrangedSubview($0) }
     }
     
     override func setConstraints() {
         super.setConstraints()
         
         let spacing = 16
+        var bounds = UIScreen.main.bounds
+        var width = bounds.size.width
         
-        mapView.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+        mapView.snp.makeConstraints {
+            $0.edges.equalTo(self)
         }
         
-        allbtn.snp.makeConstraints { make in
-            make.leading.top.equalTo(self.safeAreaLayoutGuide).offset(spacing)
-            make.width.height.equalTo(spacing * 3)
+        filterStackView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide).offset(8)
+            $0.leading.equalTo(self.safeAreaLayoutGuide).offset(spacing)
         }
-        manbtn.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(spacing)
-            make.top.equalTo(allbtn.snp.bottom)
-            make.width.height.equalTo(spacing * 3)
+        allbtn.snp.makeConstraints {
+            $0.width.equalTo(width * 0.128)
+            $0.height.equalTo(allbtn.snp.width)
         }
-        womanbtn.snp.makeConstraints { make in
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(spacing)
-            make.top.equalTo(manbtn.snp.bottom)
-            make.width.height.equalTo(spacing * 3)
+        manbtn.snp.makeConstraints {
+            $0.width.equalTo(allbtn.snp.width)
+            $0.height.equalTo(allbtn.snp.width)
+        }
+        womanbtn.snp.makeConstraints {
+            $0.width.equalTo(allbtn.snp.width)
+            $0.height.equalTo(allbtn.snp.width)
         }
         
         locationbtn.snp.makeConstraints { make in
