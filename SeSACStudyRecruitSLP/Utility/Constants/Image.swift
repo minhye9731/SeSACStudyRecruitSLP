@@ -26,6 +26,7 @@ enum Constants {
         case matching = "Property 1=matching"
         case matched = "Property 1=matched"
         case place = "place"
+        case basicPin = "map_marker"
 
         // searchSeSACResult
         case graySesac = "defaultSesac"
