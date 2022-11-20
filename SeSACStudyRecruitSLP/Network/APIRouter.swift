@@ -14,6 +14,7 @@ enum APIRouter: URLRequestConvertible {
     case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
     case withdraw
     case update(searchable: String, ageMin: String, ageMax: String, gender: String, study: String?)
+    case state
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -21,7 +22,7 @@ enum APIRouter: URLRequestConvertible {
 
     var method: HTTPMethod {
         switch self {
-        case .login:
+        case .login, .state:
             return .get
         case .signup, .withdraw:
             return .post
@@ -40,22 +41,18 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user/withdraw"
         case .update:
             return "/v1/user/mypage"
+        case .state:
+            return "/v1/queue/myQueueState"
         }
     }
 
     var headers: HTTPHeaders {
         switch self {
-        case .login: return [ "idtoken": UserDefaultsManager.idtoken,
+        case .login, .state: return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup: return [ "idtoken": UserDefaultsManager.idtoken,
+        case .signup, .withdraw, .update: return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
-            
-        case .withdraw: return [ "idtoken": UserDefaultsManager.idtoken,
-                                 "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
-            
-        case .update: return [ "idtoken": UserDefaultsManager.idtoken,
-                               "Content-Type": "application/x-www-form-urlencoded" ] // 타입확인 필요
         }
     }
 
