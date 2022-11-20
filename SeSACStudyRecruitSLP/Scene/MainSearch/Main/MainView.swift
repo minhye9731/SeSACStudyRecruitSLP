@@ -108,4 +108,14 @@ final class MainView: BaseView {
         }
     }
     
+    func showProperStateImage(state: MatchingMode) {
+        switch state {
+        case .normal:
+            floatingButton.setImage(UIImage(named: Constants.ImageName.defaultState.rawValue), for: .normal)
+        case .standby:
+            floatingButton.setImage(UIImage(named: Constants.ImageName.standby.rawValue), for: .normal)
+        case .matched:
+            floatingButton.setImage(UIImage(named: Constants.ImageName.matched.rawValue), for: .normal)
+        }
+    }
 }

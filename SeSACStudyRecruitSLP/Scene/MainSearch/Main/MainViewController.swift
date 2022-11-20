@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Toast
 import MapKit
 import CoreLocation
 
@@ -16,7 +18,7 @@ final class MainViewController: BaseViewController, MKMapViewDelegate, CLLocatio
     
     let mainView = MainView()
     let locationManager = CLLocationManager()
-    var matchingMode: MatchingMode = .normal
+    var matchingMode: MatchingMode = .standby
     
     
     // 위치권한 없을경우 대비용
@@ -33,8 +35,7 @@ final class MainViewController: BaseViewController, MKMapViewDelegate, CLLocatio
         super.viewDidAppear(animated)
         
         // 1) (API) 사용자 현재 상태를 확인하고, 플로팅 버튼을 설정함
-        
-        
+        checkState()
         
         // 2) 사용자 현재 위치를 확인하고, 지도의 중심을 설정함
         // 위치 권한이 거부된 상태라면, 영등포캠퍼스를 기준으로 설정
@@ -53,8 +54,6 @@ final class MainViewController: BaseViewController, MKMapViewDelegate, CLLocatio
         
         mainView.floatingButton.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
     }
-
- 
 }
 
 // MARK: - 지도관련
@@ -112,7 +111,6 @@ extension MainViewController {
     
     // 플로팅 버튼 액션
     @objc func floatingButtonTapped() {
-        
         switch matchingMode {
         case .normal:
             let vc = SearchViewController()
@@ -120,10 +118,73 @@ extension MainViewController {
         case .standby:
             let vc = SearchResultViewController()
             transition(vc, transitionStyle: .push)
-        case .matching:
+        case .matched:
             let vc = ChattingViewController()
             transition(vc, transitionStyle: .push)
         }
     }
+    
+    // 상태확인 서버통신
+    func checkState() {
+        let api = APIRouter.state
+        Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let stateData):
+                self?.matchingMode = stateData.matched == 0 ? .standby : .matched
+                self?.mainView.showProperStateImage(state: self?.matchingMode ?? .normal)
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = LoginError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDToken()
+                default :
+                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                }
+            }
+        }
+    }
+    
+    
+    func refreshIDToken() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = APIRouter.state
+                Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let stateData):
+                        self?.matchingMode = stateData.matched == 0 ? .standby : .matched
+                        self?.mainView.showProperStateImage(state: self?.matchingMode ?? .normal)
+                        
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     
 }

@@ -23,7 +23,7 @@ enum Constants {
         case myAct = "Property 1=my, Property 2=act"
         case myInact = "Property 1=my, Property 2=inact"
         case defaultState = "Property 1=default"
-        case matching = "Property 1=matching"
+        case standby = "Property 1=matching"
         case matched = "Property 1=matched"
         case place = "place"
         case basicPin = "map_marker"

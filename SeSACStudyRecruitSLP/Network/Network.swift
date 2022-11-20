@@ -45,6 +45,7 @@ final class Network {
             switch response.result {
             case .success(let data):
                 completion(.success(data))
+                print("회원가입 성공")
             case .failure(_):
                 guard let statusCode = response.response?.statusCode else { return }
                 guard let error = SignupError(rawValue: statusCode) else { return }
@@ -108,7 +109,7 @@ final class Network {
             case .failure(_):
                 guard let statusCode = response.response?.statusCode else { return }
                 guard let error = LoginError(rawValue: statusCode) else { return }
-                print("Network > my queue state > 로그인 통신실패!!!🔥")
+                print("Network > my queue state > 통신실패!!!🔥")
                 completion(.failure(error))
                 
             }

@@ -15,5 +15,5 @@ enum SearchMode {
 enum MatchingMode {
     case normal
     case standby
-    case matching
+    case matched
 }
