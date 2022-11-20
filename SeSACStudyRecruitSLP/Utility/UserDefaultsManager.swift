@@ -13,8 +13,19 @@ struct UserDefaultsManager {
     // 첫 실행여부
     
     // MARK: - 번호인증
+    @UserDefaultsWrapper(key: "fcmTokenSU", defaultValue: "")
+    static var fcmTokenSU: String
+    
+    @UserDefaultsWrapper(key: "authVerificationID", defaultValue: "")
+    static var authVerificationID: String
+    
+    @UserDefaultsWrapper(key: "phoneNumSU", defaultValue: "")
+    static var phoneNumSU: String
+    
     @UserDefaultsWrapper(key: "idtoken", defaultValue: "")
     static var idtoken: String
+    
+
     
     // MARK: - 로그인
     
@@ -30,8 +41,8 @@ struct UserDefaultsManager {
     @UserDefaultsWrapper(key: "email", defaultValue: "")
     static var email: String
     
-    @UserDefaultsWrapper(key: "FCMtoken", defaultValue: "")
-    static var FCMtoken: String
+    @UserDefaultsWrapper(key: "FCMtoken_LogigResponse", defaultValue: "")
+    static var FCMtokenLoginResponse: String
     
     @UserDefaultsWrapper(key: "nick", defaultValue: "")
     static var nick: String
@@ -97,6 +108,16 @@ struct UserDefaultsManager {
     static var createdAt: String
     
     // MARK: - 회원가입
+    @UserDefaultsWrapper(key: "nickNameSU", defaultValue: "")
+    static var nickNameSU: String
     
+    @UserDefaultsWrapper(key: "realAgeSU", defaultValue: "")
+    static var realAgeSU: String
+    
+    @UserDefaultsWrapper(key: "emailSU", defaultValue: "")
+    static var emailSU: String
+    
+    @UserDefaultsWrapper(key: "genderSU", defaultValue: "")
+    static var genderSU: String
     
 }

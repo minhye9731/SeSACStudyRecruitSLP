@@ -109,6 +109,8 @@ final class MainView: BaseView {
     }
     
     func showProperStateImage(state: MatchingMode) {
+        print("현재 매칭모드는 : \(state)")
+        
         switch state {
         case .normal:
             floatingButton.setImage(UIImage(named: Constants.ImageName.defaultState.rawValue), for: .normal)
