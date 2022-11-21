@@ -7,7 +7,6 @@
 
 import Foundation
 import Alamofire
-//import RxSwift
 import FirebaseAuth
 
 final class Network {
@@ -39,23 +38,23 @@ final class Network {
     
     
     // signup(post)
-    func requestSignup(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
-
-        AF.request(router).validate(statusCode: 200...500).responseString { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
-                print("회원가입 성공")
-            case .failure(_):
-                guard let statusCode = response.response?.statusCode else { return }
-                guard let error = SignupError(rawValue: statusCode) else { return }
-                completion(.failure(error))
-            }
-        }
-    }
+//    func requestSignup(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+//
+//        AF.request(router).validate(statusCode: 200...500).responseString { response in
+//            switch response.result {
+//            case .success(let data):
+//                completion(.success(data))
+//                print("회원가입 성공")
+//            case .failure(_):
+//                guard let statusCode = response.response?.statusCode else { return }
+//                guard let error = SignupError(rawValue: statusCode) else { return }
+//                completion(.failure(error))
+//            }
+//        }
+//    }
     
-    // withdraw(post)
-    func requestWithdraw(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+    // signup, withdraw, research (post)
+    func requestPost(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in
             switch response.result {
@@ -69,6 +68,17 @@ final class Network {
         }
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 내정보 update
     func update(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in
@@ -112,6 +122,21 @@ final class Network {
                 print("Network > my queue state > 통신실패!!!🔥")
                 completion(.failure(error))
                 
+            }
+        }
+    }
+    
+    // fcm messaging token 갱신
+    func requestFCMTokenUpdate(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+        
+        AF.request(router).validate(statusCode: 200...500).responseString { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(_):
+                guard let statusCode = response.response?.statusCode else { return }
+                guard let error = SignupError(rawValue: statusCode) else { return }
+                completion(.failure(error))
             }
         }
     }

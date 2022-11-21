@@ -15,6 +15,8 @@ enum APIRouter: URLRequestConvertible {
     case withdraw
     case update(searchable: String, ageMin: String, ageMax: String, gender: String, study: String?)
     case state
+    case fcmUpdate(fcmToken: String)
+    case search(lat: String, long: String)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -24,9 +26,9 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .login, .state:
             return .get
-        case .signup, .withdraw:
+        case .signup, .withdraw, .search:
             return .post
-        case .update:
+        case .update, .fcmUpdate:
             return .put
         }
     }
@@ -43,15 +45,21 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user/mypage"
         case .state:
             return "/v1/queue/myQueueState"
+        case .fcmUpdate:
+            return "/v1/user/update_fcm_token"
+        case .search:
+            return "/v1/queue/search"
         }
     }
 
     var headers: HTTPHeaders {
         switch self {
-        case .login, .state: return [ "idtoken": UserDefaultsManager.idtoken,
+        case .login, .state, .search:
+            return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup, .withdraw, .update: return [ "idtoken": UserDefaultsManager.idtoken,
+        case .signup, .withdraw, .update, .fcmUpdate:
+            return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
         }
     }
@@ -74,6 +82,15 @@ enum APIRouter: URLRequestConvertible {
                 "ageMax": ageMax,
                 "gender": gender,
                 "study": study
+            ]
+        case .fcmUpdate(let fcmToken):
+            return [
+                "FCMtoken": fcmToken
+            ]
+        case .search(let lat, let long):
+            return [
+                "lat" : lat,
+                "long" : long
             ]
         default: return ["":""]
         }
