@@ -32,7 +32,7 @@ enum Constants {
         case graySesac = "defaultSesac"
         case refresh = "arrow.clockwise"
         
-        //my info
+        // my info
         case notice = "notice"
         case faq = "faq"
         case qna = "qna"

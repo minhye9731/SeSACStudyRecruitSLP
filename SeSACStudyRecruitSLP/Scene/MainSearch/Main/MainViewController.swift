@@ -23,6 +23,9 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
     // 사용자 위치 업데이트용?
     var userLocation = CLLocationCoordinate2D(latitude: 37.517819364682694, longitude: 126.88647317074734)
     
+    var sesacList: [FromQueueDB] = []
+    
+    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
@@ -51,10 +54,6 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
         checkUserDeviceLocationServiceAuthorization() // 사용자 위치사용 권한여부 확인 및 처리
         
         // 3) (API) 사용자가 지도에서 설정한 위치를 보내고, 응답값으로 타새싹들 지도에 표기
-        
-        
-        
-        
         
         
     }
@@ -169,7 +168,7 @@ extension MainViewController {
 // MARK: - 맵관련 메서드
 extension MainViewController {
     
-    // 맵뷰 중심잡기 &
+    // 맵뷰 중심잡기
     func goLocation(center: CLLocationCoordinate2D) {
         let pLocation = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
         let spanValue = MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007)
@@ -182,8 +181,7 @@ extension MainViewController {
     
     // (지도뷰 기준) 중앙에 핀 고정
     func setCenterPinFixed() {
-        let fixedAnnotation = MKPointAnnotation()
-        fixedAnnotation.coordinate = mainView.mapView.region.center
+        let fixedAnnotation = CustomAnnotation(faceImage: 3, coordinate: mainView.mapView.region.center)
         mainView.mapView.addAnnotation(fixedAnnotation)
     }
     
@@ -201,22 +199,10 @@ extension MainViewController {
         
     }
     
-    // 재사용 할 수 있는 어노테이션 만들기
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else { return nil }
-        
-        var basicAnnotationView = self.mainView.mapView.dequeueReusableAnnotationView(withIdentifier: "CustomPin")
-        
-        if basicAnnotationView == nil {
-            basicAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "CustomPin")
-            basicAnnotationView?.canShowCallout = true
-            
-        } else {
-            basicAnnotationView?.annotation = annotation
-        }
-        
-        basicAnnotationView?.image = UIImage(named: Constants.ImageName.basicPin.rawValue)
-        return basicAnnotationView
+    // 커스텀 어노테이션
+    func addCustomPin(faceImage: Int, coordinate: CLLocationCoordinate2D) {
+        let pin = CustomAnnotation(faceImage: faceImage, coordinate: coordinate)
+        mainView.mapView.addAnnotation(pin)
     }
     
     
@@ -333,6 +319,9 @@ extension MainViewController {
             case .success(let result):
                 print("===✅새싹찾기 통신 성공!====")
                 
+                self?.sesacList.append(contentsOf: result.fromQueueDB)
+                self?.sesacList.append(contentsOf: result.fromQueueDBRequested)
+                print(self?.sesacList)
                 
             case .failure(let error):
                 let code = (error as NSError).code
@@ -384,11 +373,59 @@ extension MainViewController {
         }
     }
     
+}
+
+// MARK: - annotation image resizing
+extension MainViewController {
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        guard let annotation = annotation as? CustomAnnotation else { return nil }
+        
+        var annotationView = self.mainView.mapView.dequeueReusableAnnotationView(withIdentifier: CustomAnnotationView.reuseIdentifier)
+
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CustomAnnotationView.reuseIdentifier)
+            annotationView?.canShowCallout = false
+            annotationView?.contentMode = .scaleAspectFit
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        var sesacImage: UIImage!
+        
+        switch annotation.faceImage {
+        case 0:
+            setImage(w: 85, h: 85, img: Constants.ImageName.face1.rawValue)
+        case 1:
+            setImage(w: 85, h: 85, img: Constants.ImageName.face2.rawValue)
+        case 2:
+            setImage(w: 85, h: 85, img: Constants.ImageName.face3.rawValue)
+        case 3:
+            setImage(w: 85, h: 85, img: Constants.ImageName.face4.rawValue)
+        case 4:
+            setImage(w: 85, h: 85, img: Constants.ImageName.face5.rawValue)
+        case 5:
+            setImage(w: 48, h: 48, img: Constants.ImageName.basicPin.rawValue)
+        default:
+            setImage(w: 48, h: 48, img: Constants.ImageName.basicPin.rawValue)
+        }
+
+        func setImage(w: Double, h: Double, img: String) {
+            let size = CGSize(width: w, height: h)
+            UIGraphicsBeginImageContext(size)
+            sesacImage = UIImage(named: img)
+            sesacImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        }
+
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        annotationView?.image = resizedImage
+        
+        return annotationView
+    }
     
     
 }
-
 
 
 

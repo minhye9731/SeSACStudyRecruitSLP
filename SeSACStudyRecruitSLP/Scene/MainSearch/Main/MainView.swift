@@ -13,6 +13,8 @@ final class MainView: BaseView {
     // MARK: - property
     let mapView: MKMapView = {
         let map = MKMapView()
+        map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: CustomAnnotationView.reuseIdentifier)
+//        map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: "BasicPin")
         return map
     }()
     
