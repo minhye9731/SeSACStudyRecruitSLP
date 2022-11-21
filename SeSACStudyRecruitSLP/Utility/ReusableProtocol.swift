@@ -34,3 +34,9 @@ extension UITableViewHeaderFooterView: ReusableProtocol {
         return String(describing: self)
     }
 }
+
+extension CustomAnnotationView: ReusableProtocol {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}
