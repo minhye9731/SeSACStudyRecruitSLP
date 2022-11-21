@@ -15,7 +15,7 @@ final class Network {
     
     private init() { }
     
-    // login(get)
+    // login(get), search(post)
     func requestLogin<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
@@ -53,7 +53,7 @@ final class Network {
 //        }
 //    }
     
-    // signup, withdraw, research (post)
+    // signup, withdraw (post)
     func requestPost(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in
