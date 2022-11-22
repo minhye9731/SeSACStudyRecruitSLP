@@ -9,13 +9,14 @@ import UIKit
 
 final class SearchView: BaseView {
     
+    // MARK: - property
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
         
         let layout = LeftAlignedCollectionViewFlowLayout()
         layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 24, right: 0)
         layout.headerReferenceSize = .init(width: UIScreen.main.bounds.size.width - 32, height: 18)
         
         collectionView.isScrollEnabled = false
@@ -25,15 +26,27 @@ final class SearchView: BaseView {
         collectionView.register(MyTagCell.self, forCellWithReuseIdentifier: MyTagCell.reuseIdentifier)
         collectionView.register(SectionTitleSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionTitleSupplementaryView.reuseIdentifier)
         
+        collectionView.keyboardDismissMode = .onDrag
+        
         return collectionView
     }()
     
-    let searchBtn: UIButton = {
+    lazy var searchBtn: UIButton = {
         let button = UIButton.generalButton(title: "새싹 찾기", textcolor: .white, bgcolor: ColorPalette.green, font: CustomFonts.body3_R14())
         button.layer.cornerRadius = 8
         return button
     }()
     
+    lazy var accSearchBtn: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.width * 0.128))
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("새싹 찾기", for: .normal)
+        button.titleLabel?.font = CustomFonts.body3_R14()
+        button.backgroundColor = ColorPalette.green
+        return button
+    }()
+    
+    // MARK: - functions
     override func configureUI() {
         super.configureUI()
         [collectionView, searchBtn].forEach {
@@ -47,7 +60,7 @@ final class SearchView: BaseView {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).offset(32)
             $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(16)
-            $0.bottom.equalTo(searchBtn.snp.top).offset(-16) // 버튼을 여기에 적용할지 아니면, mainview자체의 위에다가 붙일지 고민중. 실험 필요
+            $0.bottom.equalTo(searchBtn.snp.top).offset(-16)
         }
         
         searchBtn.snp.makeConstraints {

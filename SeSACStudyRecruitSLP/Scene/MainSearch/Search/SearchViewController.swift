@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import Toast
 
 final class SearchViewController: BaseViewController {
     
     // MARK: - property
     let mainView = SearchView()
-    
+    //test
     var aroundTagList = ["아무거나", "SeSAC", "코딩", "Swift", "SwiftUI", "CoreData", "Python", "Java"]
     var mywishTagList = ["코딩", "부동산투자", "주식", "너?", "불어", "HIG", "알고리즘"]
 
@@ -25,13 +28,12 @@ final class SearchViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        
         self.tabBarController?.tabBar.isHidden = true
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
         mainView.searchBtn.addTarget(self, action: #selector(searchBtnTapped), for: .touchUpInside)
+        mainView.accSearchBtn.addTarget(self, action: #selector(searchBtnTapped), for: .touchUpInside)
         setNav()
-
     }
 }
 
@@ -67,7 +69,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let aroundCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UICollectionViewCell() }
         guard let myWishCell = collectionView.dequeueReusableCell(withReuseIdentifier: MyTagCell.reuseIdentifier, for: indexPath) as? MyTagCell else { return UICollectionViewCell() }
         
-        
         switch indexPath.section {
         case 0:
             aroundCell.setAroundData(data: aroundTagList, indexPath: indexPath)
@@ -78,22 +79,43 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         default: return myWishCell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case 0:
+            let selectStudy = aroundTagList[indexPath.row]
+
+            if mywishTagList.count == 8 {
+                mainView.makeToast("스터디를 더 이상 추가할 수 없습니다.", duration: 0.5, position: .center)
+                return
+            }
+            
+            if mywishTagList.contains(selectStudy) {
+                mainView.makeToast("이미 등록된 스터디입니다.", duration: 0.5, position: .center)
+            } else {
+                mywishTagList.append(selectStudy)
+            }
+            
+            print(mywishTagList)
+            mainView.collectionView.reloadData()
+        case 1:
+            let selectStudy = mywishTagList[indexPath.row]
+            mywishTagList = mywishTagList.filter { $0 != selectStudy}
+            
+            print(mywishTagList)
+            mainView.collectionView.reloadData()
+        default: print("test")
+        }
+    }
+    
+    
 }
 
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     // 셀 크기설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-//        guard let aroundCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return .zero }
-//        guard let myWishCell = collectionView.dequeueReusableCell(withReuseIdentifier: MyTagCell.reuseIdentifier, for: indexPath) as? MyTagCell else { return .zero }
-//
-//        aroundCell.sizeToFit()
-//        myWishCell.sizeToFit()
-//
-//        let aroundCellWidth = aroundCell.tagLabel.frame.width
-//        let myWishCellWidth = myWishCell.tagLabel.frame.width + 20
        
-   
         let label: UILabel = {
             let label = UILabel()
             label.font = CustomFonts.title4_R14()
@@ -104,26 +126,38 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
         let size = label.frame.size
         
-//        return CGSize(width: size.width + 16, height: size.height + 5)
-        return indexPath.section == 0 ? CGSize(width: size.width + 32, height: size.height + 5) : CGSize(width: size.width + 52, height: size.height + 5)
-//        return indexPath.section == 0 ? CGSize(width: aroundCellWidth + 16, height: 32) : CGSize(width: myWishCellWidth + 16, height: 32)
+        return indexPath.section == 0 ? CGSize(width: size.width + 32, height: 32) : CGSize(width: size.width + 52, height: 32)
     }
+}
+
+// MARK: - textfield
+extension SearchViewController {
+    
+    
+    
+    
+    
+    
     
 }
 
+// MARK: - etc
 extension SearchViewController {
     
     func setNav() {
-        var bounds = UIScreen.main.bounds
-        var width = bounds.size.width
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
         searchBar.placeholder = "띄어쓰기로 복수 입력이 가능해요"
+        searchBar.searchTextField.inputAccessoryView = self.mainView.accSearchBtn
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
     }
     
     @objc func searchBtnTapped() {
-        let vc = SearchResultViewController()
+        // 스터디를 함께할 새싹을 찾는 요청을 서버에 보냄
         
+        
+        let vc = SearchResultViewController()
         transition(vc, transitionStyle: .push)
     }
     

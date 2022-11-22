@@ -23,6 +23,7 @@ class MyTagCell: BaseCollectionViewCell {
         config.attributedTitle = title
         
         btn.configuration = config
+        btn.isUserInteractionEnabled = false
         return btn
     }()
     
