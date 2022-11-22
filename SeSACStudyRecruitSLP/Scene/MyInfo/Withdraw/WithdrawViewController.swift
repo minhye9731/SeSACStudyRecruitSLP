@@ -103,7 +103,7 @@ final class WithdrawViewController: BaseViewController {
     
     @objc func withdrawBtnTapped() {
         let api = APIRouter.withdraw
-        Network.share.requestWithdraw(router: api) { [weak self] response in
+        Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
             case .success(let success):
                 self?.view.makeToast("회원탈퇴가 성공적으로 완료되었습니다.", duration: 0.5, position: .center)
@@ -133,9 +133,7 @@ final class WithdrawViewController: BaseViewController {
                     self?.view.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
                 default:
                     self?.view.makeToast("\(error.localizedDescription)", duration: 0.5, position: .center)
-                    
                 }
-                
             }
         }
     }
@@ -153,9 +151,10 @@ final class WithdrawViewController: BaseViewController {
                 return
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
                 let api = APIRouter.withdraw
-                Network.share.requestWithdraw(router: api) { [weak self] response in
+                Network.share.requestForResponseString(router: api) { [weak self] response in
                     
                     switch response {
                     case .success(let success):
@@ -177,7 +176,7 @@ final class WithdrawViewController: BaseViewController {
                                 self?.changeRootVC(vc: vc)
                             }
                         default:
-                            self?.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
                         }
                     }
                 }
