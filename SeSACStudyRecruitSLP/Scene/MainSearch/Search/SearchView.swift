@@ -11,6 +11,18 @@ final class SearchView: BaseView {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        
+        let layout = LeftAlignedCollectionViewFlowLayout()
+        layout.minimumLineSpacing = 3
+        layout.minimumInteritemSpacing = 3
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+//        layout.sectionInset = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
+        
+        collectionView.isScrollEnabled = false
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .white
+        collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.reuseIdentifier)
+        
         return collectionView
     }()
     

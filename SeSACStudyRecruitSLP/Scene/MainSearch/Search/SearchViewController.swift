@@ -12,24 +12,77 @@ final class SearchViewController: BaseViewController {
     // MARK: - property
     let mainView = SearchView()
     
+    var aroundTagList = ["아무거나", "SeSAC", "코딩", "Swift", "SwiftUI", "CoreData", "Python", "Java"]
+    var mywishTagList = ["코딩", "부동산투자", "주식", "너?", "불어", "HIG", "알고리즘"]
+
+    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
         self.view = mainView
     }
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         
         self.tabBarController?.tabBar.isHidden = true
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
         mainView.searchBtn.addTarget(self, action: #selector(searchBtnTapped), for: .touchUpInside)
         setNav()
+
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
     }
     
-    override func setConstraints() {
-        super.setConstraints()
-        
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return section == 0 ? aroundTagList.count : mywishTagList.count
     }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UICollectionViewCell() }
+        
+        switch indexPath.section {
+        case 0:
+            cell.tagLabel.text = aroundTagList[indexPath.row]
+            cell.backgroundColor = .yellow
+            return cell
+        case 1:
+            cell.tagLabel.text = mywishTagList[indexPath.row]
+            cell.backgroundColor = .brown
+            return cell
+        default: return cell
+        }
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    // 셀 크기설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let label: UILabel = {
+            let label = UILabel()
+            label.font = CustomFonts.title4_R14()
+            label.text = indexPath.section == 0 ? aroundTagList[indexPath.item] : mywishTagList[indexPath.item]
+            label.sizeToFit()
+            return label
+        }()
+
+        let size = label.frame.size
+        
+        return CGSize(width: size.width + 16, height: size.height + 5)
+    }
+    
+}
+
+extension SearchViewController {
     
     func setNav() {
         var bounds = UIScreen.main.bounds
@@ -46,3 +99,5 @@ final class SearchViewController: BaseViewController {
     }
     
 }
+
+
