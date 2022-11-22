@@ -25,7 +25,6 @@ final class AgeRangeCell: BaseTableViewCell {
     
     let rangeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00 - 00" // test
         label.textColor = ColorPalette.green
         label.font = CustomFonts.title3_M14()
         label.textAlignment = .right
@@ -34,10 +33,10 @@ final class AgeRangeCell: BaseTableViewCell {
     
     let multiSlider: CustomSlider = {
         let slider = CustomSlider()
-        slider.minValue = 1
-        slider.maxValue = 100
-        slider.lower = 1
-        slider.upper = 125
+        slider.minValue = 18
+        slider.maxValue = 65
+        slider.lower = 18
+        slider.upper = 65
         return slider
     }()
     
@@ -95,7 +94,6 @@ final class AgeRangeCell: BaseTableViewCell {
     }
     
     func bindData() {
-        
         multiSlider.rx.controlEvent(.valueChanged)
             .withUnretained(self)
             .bind { (cell, _) in
