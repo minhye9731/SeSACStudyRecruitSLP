@@ -45,6 +45,23 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return section == 0 ? aroundTagList.count : mywishTagList.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let supplementaryView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: SectionTitleSupplementaryView.reuseIdentifier,
+                for: indexPath
+            ) as! SectionTitleSupplementaryView
+            
+            let header = indexPath.section == 0 ? "지금 주변에는" : "내가 하고 싶은"            
+            supplementaryView.prepare(title: header)
+            
+            return supplementaryView
+        default: return UICollectionReusableView()
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UICollectionViewCell() }

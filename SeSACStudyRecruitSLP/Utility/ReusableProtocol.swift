@@ -40,3 +40,8 @@ extension CustomAnnotationView: ReusableProtocol {
         return String(describing: self)
     }
 }
+extension SectionTitleSupplementaryView: ReusableProtocol {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}
