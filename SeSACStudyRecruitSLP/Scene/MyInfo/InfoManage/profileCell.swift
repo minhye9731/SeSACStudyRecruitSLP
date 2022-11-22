@@ -87,7 +87,7 @@ final class ProfileCell: BaseTableViewCell {
         label.textAlignment = .left
         return label
     }()
-    let studyTextField: UITextField = {
+    let reviewTextField: UITextField = {
         let textfield = UITextField()
         textfield.attributedPlaceholder = NSAttributedString(string: "첫 리뷰를 기다리는 중이에요!", attributes: [NSAttributedString.Key.foregroundColor : ColorPalette.gray6])
         textfield.font = CustomFonts.body3_R14()
@@ -103,7 +103,7 @@ final class ProfileCell: BaseTableViewCell {
     override func configure() {
         super.configure()
         contentView.addSubview(usercardView)
-        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title3, studyTextField].forEach {
+        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title3, reviewTextField].forEach {
             usercardView.addSubview($0)
         }
     }
@@ -167,7 +167,7 @@ final class ProfileCell: BaseTableViewCell {
             make.leading.equalTo(usercardView).offset(spacing)
             make.top.equalTo(titleButton5.snp.bottom).offset(24)
         }
-        studyTextField.snp.makeConstraints { make in
+        reviewTextField.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(usercardView).inset(spacing)
             make.top.equalTo(title3.snp.bottom).offset(16)
             make.bottom.equalTo(usercardView).offset(-16)
@@ -175,8 +175,8 @@ final class ProfileCell: BaseTableViewCell {
         
     }
     
-    func setData(data: [Int]) {
-        var result = Array(data[0...5])
+    func setData() {
+        var result = UserDefaultsManager.reputation
         var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
         
         for i in 0...5 {
@@ -186,6 +186,13 @@ final class ProfileCell: BaseTableViewCell {
                 btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
             }
         }
+        
+        if UserDefaultsManager.comment.isEmpty {
+            reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!"
+        } else {
+            reviewTextField.text = UserDefaultsManager.comment[0] as? String
+        }
+        
     }
 
 }
