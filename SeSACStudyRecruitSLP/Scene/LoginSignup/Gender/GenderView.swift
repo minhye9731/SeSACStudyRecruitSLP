@@ -30,13 +30,13 @@ final class GenderView: BaseView {
     
     let manButton: UIButton = {
         let button = UIButton()
-        button.configuration = UIButton.genderButton(title: "남자", image: "man")
+        button.configuration = UIButton.titleAndImageButton(title: "남자", image: "man")
         return button
     }()
 
     let womanButton: UIButton = {
         let button = UIButton()
-        button.configuration = UIButton.genderButton(title: "여자", image: "woman")
+        button.configuration = UIButton.titleAndImageButton(title: "여자", image: "woman")
         return button
     }()
     
