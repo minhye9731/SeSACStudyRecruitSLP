@@ -46,7 +46,6 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
         // 위치 권한이 거부된 상태라면, 영등포캠퍼스를 기준으로 설정
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        setCenterPinFixed() // 내위치 핀은 항상 지도 중앙에 고정
         //        showRequestLocationServiceAlert()
         locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
         locationManager.startUpdatingLocation() // 위치 업데이트
@@ -180,17 +179,16 @@ extension MainViewController {
     }
     
     // (지도뷰 기준) 중앙에 핀 고정
-    func setCenterPinFixed() {
-        let fixedAnnotation = CustomAnnotation(faceImage: 3, coordinate: mainView.mapView.region.center)
-        mainView.mapView.addAnnotation(fixedAnnotation)
-    }
+//    func setCenterPinFixed() {
+//        let fixedAnnotation = CustomAnnotation(faceImage: 3, coordinate: mainView.mapView.region.center)
+//        mainView.mapView.addAnnotation(fixedAnnotation)
+//    }
     
     // 지도 움직일 때마다 중심 업데이트
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print(#function)
         
         mainView.mapView.removeAnnotations(mainView.mapView.annotations) // 전체 핀 삭제
-        setCenterPinFixed() // 중앙 고정핀 추가
         //        locationManager.startUpdatingLocation()
         
         
@@ -319,9 +317,16 @@ extension MainViewController {
             case .success(let result):
                 print("===✅새싹찾기 통신 성공!====")
                 
+                // 새싹데이터 담기
                 self?.sesacList.append(contentsOf: result.fromQueueDB)
                 self?.sesacList.append(contentsOf: result.fromQueueDBRequested)
                 print(self?.sesacList)
+                
+                // 새싹 지도 표기
+                self?.sesacList.map {
+                    let sLocation = CLLocationCoordinate2D(latitude: $0.lat, longitude: $0.long)
+                    self?.addCustomPin(faceImage: $0.sesac, coordinate: sLocation)
+                }
                 
             case .failure(let error):
                 let code = (error as NSError).code

@@ -14,8 +14,14 @@ final class MainView: BaseView {
     let mapView: MKMapView = {
         let map = MKMapView()
         map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: CustomAnnotationView.reuseIdentifier)
-//        map.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: "BasicPin")
         return map
+    }()
+    
+    let userLocationPin: UIImageView = {
+       let img = UIImageView()
+        img.image = UIImage(named: Constants.ImageName.basicPin.rawValue)
+        img.contentMode = .scaleAspectFit
+        return img
     }()
     
     let allbtn: UIButton = {
@@ -65,7 +71,7 @@ final class MainView: BaseView {
     // MARK: - functions
     override func configureUI() {
         super.configureUI()
-        [mapView, floatingButton, filterStackView, locationbtn].forEach { self.addSubview($0) }
+        [mapView, userLocationPin, floatingButton, filterStackView, locationbtn].forEach { self.addSubview($0) }
         [allbtn, manbtn, womanbtn].forEach { filterStackView.addArrangedSubview($0) }
     }
     
@@ -78,6 +84,11 @@ final class MainView: BaseView {
         
         mapView.snp.makeConstraints {
             $0.edges.equalTo(self)
+        }
+        
+        userLocationPin.snp.makeConstraints {
+            $0.center.equalTo(self.safeAreaLayoutGuide)
+            $0.width.height.equalTo(width * 0.128)
         }
         
         filterStackView.snp.makeConstraints {
