@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FirebaseAuth
 
 final class InfoManageViewController: BaseViewController {
     
@@ -16,7 +17,7 @@ final class InfoManageViewController: BaseViewController {
     var isExpanded = false
     var updateData = UserInfoUpdateDTO(searchable: 0, ageMin: 0, ageMax: 0, gender: 0, study: "")
     let disposeBag = DisposeBag()
-
+    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
@@ -35,7 +36,7 @@ final class InfoManageViewController: BaseViewController {
         mainView.tableView.dataSource = self
         setBarButtonItem()
     }
-
+    
 }
 
 // MARK: - tableview 설정 관련
@@ -57,9 +58,9 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         let result = ((view.frame.width - 32) * 0.58) + 58
         return section == 0 ? result : 0
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+        
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
         
         headerView.setData(bgNum: UserDefaultsManager.background,
@@ -68,10 +69,10 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.setCollapsed(isExpanded)
         headerView.section = section
         headerView.delegate = self
-
+        
         return section == 0 ? headerView : nil
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
@@ -83,7 +84,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             profileCell.selectionStyle = .none
-            profileCell.setData(data: UserDefaultsManager.reputation)
+            profileCell.setData()
             return profileCell
         } else {
             switch indexPath.row {
@@ -134,7 +135,6 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - 접었다폈다 로직
 extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
     func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
-    
         isExpanded.toggle()
         header.setCollapsed(isExpanded)
         mainView.tableView.reloadData()
@@ -148,12 +148,10 @@ extension InfoManageViewController {
         updateData.gender = 0
         mainView.tableView.reloadData()
     }
-    
     @objc func manButtonTapped() {
         updateData.gender = 1
         mainView.tableView.reloadData()
     }
-
 }
 
 // MARK: - 자주하는 스터디
@@ -194,7 +192,6 @@ extension InfoManageViewController {
             }
             .disposed(by: disposeBag)
     }
-    
 }
 
 // MARK: - 저장 버튼 메서드
@@ -208,6 +205,82 @@ extension InfoManageViewController {
     }
     
     @objc func doneTapped() {
-        print("내정보 관리 저장 완료!! :)")
+        print("내정보 관리 저장 클릭")
+        
+        let api = APIRouter.update(
+            searchable: String(updateData.searchable),
+            ageMin: String(updateData.ageMin),
+            ageMax: String(updateData.ageMax),
+            gender: String(updateData.gender),
+            study: updateData.study
+        )
+        
+        Network.share.requestForResponseString(router: api) { [weak self] response in
+            switch response {
+            case .success:
+                print("수정한 사용자정보 업데이트 완료!")
+                self?.mainView.makeToast("내정보 저장이 완료되었습니다.", duration: 0.5, position: .center)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDToken()
+                default :
+                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                }
+            }
+        }
     }
+    
+    func refreshIDToken() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
+                let api = APIRouter.update(
+                    searchable: String(self.updateData.searchable),
+                    ageMin: String(self.updateData.ageMin),
+                    ageMax: String(self.updateData.ageMax),
+                    gender: String(self.updateData.gender),
+                    study: self.updateData.study
+                )
+                
+                Network.share.requestForResponseString(router: api) { [weak self] response in
+                    switch response {
+                    case .success:
+                        print("수정한 사용자정보 업데이트 완료!")
+                        self?.mainView.makeToast("내정보 저장이 완료되었습니다.", duration: 0.5, position: .center)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            self?.navigationController?.popViewController(animated: true)
+                        }
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = SignupError(rawValue: code) else { return }
+                        print("failure // code = \(code), errorCode = \(errorCode)")
+                        
+                        switch errorCode {
+                        default :
+                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
