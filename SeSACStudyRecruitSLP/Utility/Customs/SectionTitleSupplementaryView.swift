@@ -20,11 +20,11 @@ final class SectionTitleSupplementaryView: UICollectionReusableView {
     
     override init(frame: CGRect) {
       super.init(frame: frame)
-      self.backgroundColor = .orange // test
+      self.backgroundColor = .white
       self.addSubview(self.titleLabel)
         
       self.titleLabel.snp.makeConstraints {
-          $0.leading.equalTo(self.safeAreaLayoutGuide).offset(16)
+          $0.leading.equalTo(self.safeAreaLayoutGuide)
           $0.centerY.equalTo(self.safeAreaLayoutGuide)
       }
     }

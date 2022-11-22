@@ -54,7 +54,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 for: indexPath
             ) as! SectionTitleSupplementaryView
             
-            let header = indexPath.section == 0 ? "지금 주변에는" : "내가 하고 싶은"            
+            let header = indexPath.section == 0 ? "지금 주변에는" : "내가 하고 싶은"
             supplementaryView.prepare(title: header)
             
             return supplementaryView
@@ -64,18 +64,18 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UICollectionViewCell() }
+        guard let aroundCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UICollectionViewCell() }
+        guard let myWishCell = collectionView.dequeueReusableCell(withReuseIdentifier: MyTagCell.reuseIdentifier, for: indexPath) as? MyTagCell else { return UICollectionViewCell() }
+        
         
         switch indexPath.section {
         case 0:
-            cell.tagLabel.text = aroundTagList[indexPath.row]
-            cell.backgroundColor = .yellow
-            return cell
+            aroundCell.setAroundData(data: aroundTagList, indexPath: indexPath)
+            return aroundCell
         case 1:
-            cell.tagLabel.text = mywishTagList[indexPath.row]
-            cell.backgroundColor = .brown
-            return cell
-        default: return cell
+            myWishCell.setMyWishData(data: mywishTagList, indexPath: indexPath)
+            return myWishCell
+        default: return myWishCell
         }
     }
 }
@@ -84,6 +84,16 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     // 셀 크기설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+//        guard let aroundCell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return .zero }
+//        guard let myWishCell = collectionView.dequeueReusableCell(withReuseIdentifier: MyTagCell.reuseIdentifier, for: indexPath) as? MyTagCell else { return .zero }
+//
+//        aroundCell.sizeToFit()
+//        myWishCell.sizeToFit()
+//
+//        let aroundCellWidth = aroundCell.tagLabel.frame.width
+//        let myWishCellWidth = myWishCell.tagLabel.frame.width + 20
+       
+   
         let label: UILabel = {
             let label = UILabel()
             label.font = CustomFonts.title4_R14()
@@ -94,7 +104,9 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
         let size = label.frame.size
         
-        return CGSize(width: size.width + 16, height: size.height + 5)
+//        return CGSize(width: size.width + 16, height: size.height + 5)
+        return indexPath.section == 0 ? CGSize(width: size.width + 32, height: size.height + 5) : CGSize(width: size.width + 52, height: size.height + 5)
+//        return indexPath.section == 0 ? CGSize(width: aroundCellWidth + 16, height: 32) : CGSize(width: myWishCellWidth + 16, height: 32)
     }
     
 }

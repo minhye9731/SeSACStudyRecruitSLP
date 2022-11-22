@@ -13,15 +13,16 @@ final class SearchView: BaseView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
         
         let layout = LeftAlignedCollectionViewFlowLayout()
-        layout.minimumLineSpacing = 3
-        layout.minimumInteritemSpacing = 3
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         layout.headerReferenceSize = .init(width: UIScreen.main.bounds.size.width - 32, height: 18)
         
         collectionView.isScrollEnabled = false
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .white
         collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.reuseIdentifier)
+        collectionView.register(MyTagCell.self, forCellWithReuseIdentifier: MyTagCell.reuseIdentifier)
         collectionView.register(SectionTitleSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionTitleSupplementaryView.reuseIdentifier)
         
         return collectionView

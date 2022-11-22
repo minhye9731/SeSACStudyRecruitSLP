@@ -64,7 +64,7 @@ extension UIButton {
         return config
     }
     
-    static func genderButton(title: String, image: String) -> UIButton.Configuration {
+    static func titleAndImageButton(title: String, image: String) -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = .white
         config.background.strokeColor = ColorPalette.gray3
@@ -101,11 +101,6 @@ extension UIButton {
         button.backgroundColor = bgcolor
         return button
     }
-    
-    //        button.layer.shadowColor = UIColor.gray.cgColor
-    //        button.layer.shadowOpacity = 1.0
-    //        button.layer.shadowOffset = .zero
-    //        button.layer.shadowRadius = 2
     
     static func iconButton(image: String, fgcolor: UIColor, bgcolor: UIColor) -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
