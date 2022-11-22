@@ -54,8 +54,8 @@ final class EmailViewController: BaseViewController {
                 guard let email = self.mainView.emailTextField.text else { return }
                 
                 if emailCheck.evaluate(with: email) {
-                    UserDefaults.standard.set(email, forKey: "email")
-                    print("이메일 \(email) 저장 성공")
+                    UserDefaultsManager.emailSU = email
+                    print("🦄이메일 유저디폴츠 저장완료 | UserDefaultsManager.emailSU = \(UserDefaultsManager.emailSU)")
                     let vc = GenderViewController()
                     self.transition(vc, transitionStyle: .push)
                 } else {

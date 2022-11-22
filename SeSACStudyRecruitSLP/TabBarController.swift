@@ -20,7 +20,6 @@ class TabBarController: UITabBarController {
         firstVC.tabBarItem = UITabBarItem(title: "홈",
                                           image: UIImage(named: Constants.ImageName.homeAct.rawValue),
                                           selectedImage: UIImage(named: Constants.ImageName.homeInact.rawValue))
-//        let firstNav = UINavigationController(rootViewController: firstVC)
         
         let secondVC = ShopViewController()
         secondVC.tabBarItem = UITabBarItem(title: "새싹샵",
@@ -38,9 +37,9 @@ class TabBarController: UITabBarController {
         fourthVC.tabBarItem = UITabBarItem(title: "내정보",
                                           image: UIImage(named: Constants.ImageName.myAct.rawValue),
                                           selectedImage: UIImage(named: Constants.ImageName.myInact.rawValue))
-//        let fourthNav = UINavigationController(rootViewController: fourthVC)
+        let fourthNav = UINavigationController(rootViewController: fourthVC)
         
-        setViewControllers([firstVC, secondNav, thirdNav, fourthVC], animated: true)
+        setViewControllers([firstVC, secondNav, thirdNav, fourthNav], animated: true)
     }
     
     func setupTabBarAppearance() {

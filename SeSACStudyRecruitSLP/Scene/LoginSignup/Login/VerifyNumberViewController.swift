@@ -33,12 +33,6 @@ final class VerifyNumberViewController: BaseViewController {
     override func configure() {
         super.configure()
         bind()
-        
-        //        let realtoken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQ3YjE5MTI0MGZjZmYzMDdkYzQ3NTg1OWEyYmUzNzgzZGMxYWY4OWYiLCJ0eXAiOiJKV1QifQ"
-        //        UserDefaults.standard.set(realtoken, forKey: "idtoken")
-        //        self.login()
-        
-        
     }
     
     func bind() {
@@ -61,11 +55,8 @@ final class VerifyNumberViewController: BaseViewController {
             .withUnretained(self)
             .bind { _ in
                 guard let veriNum = self.mainView.verifyNumberTextField.text else { return }
-                
-                print("인증을 시도해볼 인증코드는 : \(veriNum)")
-                
                 if veriNum.count == 6 {
-                    self.checkVeriNumMatch(num: veriNum) // 인증하기 함수 실행
+                    self.checkVeriNumMatch(num: veriNum)
                 } else {
                     self.mainView.makeToast("인증번호 전체를 입력해주세요.", duration: 1.0, position: .center)
                 }
@@ -76,17 +67,14 @@ final class VerifyNumberViewController: BaseViewController {
     
     func checkVeriNumMatch(num: String) {
         
-        guard let verficationID = UserDefaults.standard.string(forKey: "authVerificationID") else { return }
-        
         let credential = PhoneAuthProvider.provider().credential(
-            withVerificationID: verficationID,
+            withVerificationID: UserDefaultsManager.authVerificationID,
             verificationCode: num
         )
         
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error as NSError? {
                 guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
-                
                 print("error 발생 : \(errorCode.rawValue), errorcode: \(errorCode)")
                 
                 switch errorCode {
@@ -96,36 +84,28 @@ final class VerifyNumberViewController: BaseViewController {
                     return self.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해 주세요.", duration: 1.0, position: .center)
                 }
             }
-            authResult?.user.getIDTokenResult { idToken, error in
-                print("파베 인증코드 인증 성공! 이제 서버랑 통신하자~~~~")
-                print("idToken = \(idToken?.token)")
-                let realtoken = idToken?.token
-                UserDefaults.standard.set(realtoken, forKey: "idtoken")
-                print(UserDefaults.standard.string(forKey: "idtoken"))
+            authResult?.user.getIDToken { idToken, error in
+                print("~~~~파베 인증코드 인증 성공! 이제 서버랑 통신하자~~~~")
+                guard let idToken = idToken else { return }
+                UserDefaultsManager.idtoken = idToken
+                print("🦄idToken 유저디폴츠 저장완료 | UserDefaultsManager.idtoken = \( UserDefaultsManager.idtoken)")
                 self.login()
             }
         }
     }
     
     func login() {
-        
         let api = APIRouter.login
         Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let loginData):
                 self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center)
-//                { didTap in
-//                    let vc = MainViewController()
-//                    // user 데이터 저장
-//                    self?.changeRootVC(vc: vc)
-//                }
-  
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    let vc = MainViewController()
-                    // user 데이터 저장 ㅇ떤식으로 하고있어?
-              
-                    
+                    let vc = TabBarController()
+                    UserDefaultsManager.nick = loginData.nick
+                    UserDefaultsManager.background = loginData.background
+                    print("배경이미지 번호 : \(UserDefaultsManager.background)")
                     self?.changeRootVC(vc: vc)
                 }
                 
@@ -164,6 +144,7 @@ final class VerifyNumberViewController: BaseViewController {
                 return
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
                 let api = APIRouter.login
                 Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
@@ -171,7 +152,8 @@ final class VerifyNumberViewController: BaseViewController {
                     switch response {
                     case .success(let loginData):
                         let vc = TabBarController()
-                        // 데이터 통째로 전달?
+                        UserDefaultsManager.nick = loginData.nick
+                        UserDefaultsManager.background = loginData.background
                         self?.changeRootVC(vc: vc)
                     case .failure(let error):
                         let code = (error as NSError).code
@@ -186,9 +168,6 @@ final class VerifyNumberViewController: BaseViewController {
                 }
             }
         }
-    }
-    
-    
-    
+    } 
 }
     

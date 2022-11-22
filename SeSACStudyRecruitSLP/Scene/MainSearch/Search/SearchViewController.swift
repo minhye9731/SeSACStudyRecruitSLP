@@ -81,7 +81,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         switch indexPath.section {
         case 0:
             let selectStudy = aroundTagList[indexPath.row]
@@ -132,8 +131,6 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - textfield
 extension SearchViewController: UITextFieldDelegate {
-    
-
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         // 리턴키가 아닌,, [새싹찾기] 액세서리 버튼 클릭시 실행됨...

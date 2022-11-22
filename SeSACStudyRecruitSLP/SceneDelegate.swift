@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: scene.coordinateSpace.bounds)
         window?.windowScene = scene
                 
-        let viewController = MainViewController() // OnBoardingViewController() // test
-        window?.rootViewController = UINavigationController(rootViewController: viewController)
-        // BaseNavigationController(rootViewController: viewController)
+        let viewController = TabBarController() // OnBoardingViewController() // test
+//        window?.rootViewController = UINavigationController(rootViewController: viewController)
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
         
 

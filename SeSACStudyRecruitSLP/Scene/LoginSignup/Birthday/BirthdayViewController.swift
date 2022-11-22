@@ -75,7 +75,8 @@ final class BirthdayViewController: BaseViewController {
             self.mainView.makeToast("새싹스터디는 만17세 이상만 사용할 수 있습니다.", duration: 1.0, position: .center)
         } else {
             let selectedDate = mainView.datePicker.date.toBirthDateForm()
-            UserDefaults.standard.set(selectedDate, forKey: "realAge")
+            UserDefaultsManager.realAgeSU = String(selectedDate)
+            print("🦄유저출생일자 유저디폴츠 저장완료 | UserDefaultsManager.realAgeSU = \(UserDefaultsManager.realAgeSU)")
             let vc = EmailViewController()
             transition(vc, transitionStyle: .push)
         }

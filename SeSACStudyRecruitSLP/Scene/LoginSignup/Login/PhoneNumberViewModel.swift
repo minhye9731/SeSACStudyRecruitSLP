@@ -14,11 +14,14 @@ final class PhoneNumberViewModel: CommonViewModel {
     // MARK: - property
     struct Input {
         let phoneNumberText: ControlProperty<String?>
+        let phoneNumberEditing: ControlEvent<Void>
+        let phoneNumberDone: ControlEvent<Void>
         let tap: ControlEvent<Void>
     }
     
     struct Output {
         let validStatus: Observable<Bool>
+        let changeForm: Driver<String>
         let tap: ControlEvent<Void>
     }
     
@@ -33,8 +36,14 @@ final class PhoneNumberViewModel: CommonViewModel {
             .orEmpty
             .map { phoneNumCheck.evaluate(with: $0) }
             .share()
+        
+        
+        let changedForm = input.phoneNumberText
+            .orEmpty
+            .map { $0.autoAddHyphen() }
+            .asDriver(onErrorJustReturn: "")
               
-        return Output(validStatus: phoneNumberResult, tap: input.tap)
+        return Output(validStatus: phoneNumberResult, changeForm: changedForm, tap: input.tap)
     }
     
 }

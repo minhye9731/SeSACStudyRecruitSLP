@@ -32,7 +32,7 @@ final class GenderViewModel: CommonViewModel {
     func getSignUp(userData: UserInfoDTO) {
         
         let api = APIRouter.signup(phoneNumber: userData.phoneNumber, FCMtoken: userData.fcmToken, nick: userData.nickname, birth: userData.birth, email: userData.email, gender: String(userData.gender))
-        Network.share.requestSignup(router: api) { [weak self] response in
+        Network.share.requestForResponseString(router: api) { [weak self] response in
             
             switch response {
             case .success(let success):

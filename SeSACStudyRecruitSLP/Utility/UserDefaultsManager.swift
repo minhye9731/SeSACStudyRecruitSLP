@@ -29,9 +29,6 @@ struct UserDefaultsManager {
     
     // MARK: - 로그인
     
-    // _id
-    // __v
-    
     @UserDefaultsWrapper(key: "uid", defaultValue: "")
     static var uid: String
     
