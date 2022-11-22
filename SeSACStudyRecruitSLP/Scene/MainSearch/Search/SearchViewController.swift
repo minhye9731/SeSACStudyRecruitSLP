@@ -131,13 +131,49 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - textfield
-extension SearchViewController {
+extension SearchViewController: UITextFieldDelegate {
     
+
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // 리턴키가 아닌,, [새싹찾기] 액세서리 버튼 클릭시 실행됨...
+        
+    }
     
-    
-    
-    
+    // 서치바 입력(리턴키)을 통해 스터디를 [내가 하고싶은] 섹션에 추가
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if mywishTagList.count == 8 {
+            mainView.makeToast("스터디를 더 이상 추가할 수 없습니다.", duration: 0.5, position: .center)
+            return true
+        }
+        
+        if (textField.text == "") || (textField.text == " ") {
+            mainView.makeToast("스터디명은 최소 한 자 이상, 최대 8글자까지 작성 가능합니다.", duration: 0.5, position: .center)
+            return true
+        }
+        
+        guard let text = textField.text else { return true }
+        var inputStudy = text.components(separatedBy: " ")
+        let inputStudyLength = inputStudy.map { $0.count }
+        print(inputStudy)
+        print(inputStudyLength)
+
+        
+        if inputStudyLength.min()! < 1 || inputStudyLength.max()! > 8  {
+            mainView.makeToast("스터디명은 최소 한 자 이상, 최대 8글자까지 작성 가능합니다.", duration: 0.5, position: .center)
+            return true
+        } else if (inputStudy.count + mywishTagList.count) > 8 { // 복수개의 스터디 등록 시도할 경우(6 + 3), 총합 8개 이상이 되므로 막아야 함
+            mainView.makeToast("내가 하고 싶은 스터디는 8개까지만 등록이 가능합니다.", duration: 0.5, position: .center)
+            return true
+        } else {
+            mywishTagList.append(contentsOf: inputStudy) // [내가 하고 싶은] 스터디에 추가
+            mainView.collectionView.reloadData() // 화면 갱신
+            textField.resignFirstResponder() // 키보드 내리고
+            inputStudy.removeAll() // 배열 비우고
+            return true
+        }
+    }
     
 }
 
@@ -150,6 +186,7 @@ extension SearchViewController {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
         searchBar.placeholder = "띄어쓰기로 복수 입력이 가능해요"
         searchBar.searchTextField.inputAccessoryView = self.mainView.accSearchBtn
+        searchBar.searchTextField.delegate = self
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
     }
     
