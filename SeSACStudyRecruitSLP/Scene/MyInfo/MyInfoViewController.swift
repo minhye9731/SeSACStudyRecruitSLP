@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 struct MenuList: Hashable {
     let id = UUID().uuidString
@@ -15,8 +16,7 @@ struct MenuList: Hashable {
     let nextimage: String?
     
     static let menuContents = [
-        // UserDefaults.standard.string(forKey: "nickName")
-        MenuList(title: "홍길동", image: "AppIcon", nextimage: Constants.ImageName.more.rawValue),
+        MenuList(title: UserDefaultsManager.nick, image: "sesac_face_\(UserDefaultsManager.background + 1)", nextimage: Constants.ImageName.more.rawValue),
         MenuList(title: "공지사항", image: Constants.ImageName.notice.rawValue, nextimage: nil),
         MenuList(title: "자주 묻는 질문", image: Constants.ImageName.faq.rawValue, nextimage: nil),
         MenuList(title: "1:1 문의", image: Constants.ImageName.qna.rawValue, nextimage: nil),
@@ -82,36 +82,86 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            
-            // test용
-            UserDefaultsManager.background = 3
-            UserDefaultsManager.sesac = 3
-            UserDefaultsManager.nick = "에밀리"
-            UserDefaultsManager.reputation = [1, 0, 4, 2, 0, 4, 0, 6]
-//            UserDefaultsManager.gender = 0
-//            UserDefaultsManager.study = "개미들아 힘내자"
-//            UserDefaultsManager.searchable = 1
-//            UserDefaultsManager.ageMin = 30
-//            UserDefaultsManager.ageMax = 59
-            
-            let data = UserInfoUpdateDTO(
-                searchable: UserDefaultsManager.searchable,
-                ageMin: UserDefaultsManager.ageMin,
-                ageMax: UserDefaultsManager.ageMax,
-                gender: UserDefaultsManager.gender,
-                study: UserDefaultsManager.study
-            )
-            
-            // (수정방향)
-            // 여기서 유저정보 통신을 다시함.
-            // 통신한 데이터중, UserInfoUpdateDTO에 담을 수 있는건 담아서 다음 페이지의 updateData 변수에 담아넘김 (수정 or 수정최소 대비용)
-            //UserInfoUpdateDTO에 해당하지 않지만, 정보관리 페이지에 필요한 항목은 userdefaults에 저장?????
-            // 여기서 통신 성공을 해야 넘어가도록 할까?
-            // 통신 소요시간 길어짐 대비해서 인디케이터 추가 필요할듯
-            
-            let vc = InfoManageViewController()
-            vc.updateData = data
-            transition(vc, transitionStyle: .push)
+            syncUserData()
         }
     }
+    
+    
+}
+
+// MARK: - 사용자 정보 동기화
+extension MyInfoViewController {
+    
+    func syncUserData() {
+        
+        let api = APIRouter.login
+        Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let loginData):
+                UserDefaultsManager.background = loginData.background
+                UserDefaultsManager.sesac = loginData.sesac
+                UserDefaultsManager.nick = loginData.nick
+                UserDefaultsManager.reputation = loginData.reputation
+                UserDefaultsManager.comment = loginData.comment
+                
+                let syncData = UserInfoUpdateDTO(searchable: loginData.searchable, ageMin: loginData.ageMin, ageMax: loginData.ageMax, gender: loginData.gender, study: loginData.study)
+                let vc = InfoManageViewController()
+                vc.updateData = syncData
+                self?.transition(vc, transitionStyle: .push)
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = LoginError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDToken()
+                default :
+                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                }
+            }
+        }
+    }
+    
+    func refreshIDToken() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
+                
+                let api = APIRouter.login
+                Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let loginData):
+                        let syncData = UserInfoUpdateDTO(searchable: loginData.searchable, ageMin: loginData.ageMin, ageMax: loginData.ageMax, gender: loginData.gender, study: loginData.study)
+                        
+                        let vc = InfoManageViewController()
+                        vc.updateData = syncData
+                        self?.transition(vc, transitionStyle: .push)
+                        
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
