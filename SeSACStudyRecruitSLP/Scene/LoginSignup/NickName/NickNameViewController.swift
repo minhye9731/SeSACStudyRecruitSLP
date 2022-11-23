@@ -58,6 +58,7 @@ final class NickNameViewController: BaseViewController {
                     UserDefaultsManager.nickNameSU = nickname
                     print("🦄닉네임 유저디폴츠 저장완료 | UserDefaultsManager.nickNameSU = \(UserDefaultsManager.nickNameSU)")
                     let vc = BirthdayViewController()
+                    
                     self.transition(vc, transitionStyle: .push)
                 }
             }

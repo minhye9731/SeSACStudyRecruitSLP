@@ -33,13 +33,13 @@ class TagCell: BaseCollectionViewCell {
     }
     
     
-    func setAroundData(data: [String], indexPath: IndexPath) {
+    func setAroundData(data: [String], indexPath: IndexPath, rcmNum: Int) {
         
         let value = data[indexPath.row]
         tagLabel.text = value
-        tagLabel.textColor = ColorPalette.error // 분기처리
         
-        contentView.layer.borderColor = ColorPalette.error.cgColor // 분기처리
+        tagLabel.textColor = indexPath.row <= rcmNum ? ColorPalette.error : .black
+        contentView.layer.borderColor = indexPath.row <= rcmNum ? ColorPalette.error.cgColor : ColorPalette.gray4.cgColor
     }
     
 }

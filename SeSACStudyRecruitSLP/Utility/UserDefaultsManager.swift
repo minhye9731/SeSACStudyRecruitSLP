@@ -117,4 +117,11 @@ struct UserDefaultsManager {
     @UserDefaultsWrapper(key: "genderSU", defaultValue: "")
     static var genderSU: String
     
+    // MARK: - 친구 입력
+    @UserDefaultsWrapper(key: "mywishTagList", defaultValue: []) // 내가 하고싶은 스터디
+    static var mywishTagList: Array
+    
+    
+    
+    
 }

@@ -37,9 +37,11 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        navigationController?.navigationBar.isHidden = true
+        
         // 1) (API) 사용자 현재 상태를 확인하고, 플로팅 버튼을 설정함
         print(#function)
-        //        checkState() // 서버에러남..
+        checkState()
         mainView.showProperStateImage(state: matchingMode) // test용
         
         // 2) 사용자 현재 위치를 확인하고, 지도의 중심을 설정함
@@ -255,6 +257,7 @@ extension MainViewController {
                 print("⭐️현재 matched 여부 : \(stateData.matched)")
                 self?.matchingMode = stateData.matched == 0 ? .standby : .matched
                 self?.mainView.showProperStateImage(state: self!.matchingMode)
+                
                 
             case .failure(let error):
                 let code = (error as NSError).code

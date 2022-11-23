@@ -162,7 +162,7 @@ final class VerifyNumberViewController: BaseViewController {
                         case .unknownUser:
                             self?.changeRootVC(vc: NickNameViewController())
                         default:
-                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                         }
                     }
                 }

@@ -84,6 +84,7 @@
 		0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
+		0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F680292DF6830062DBED /* UserLocationDTO.swift */; };
 		0EA57487292903070064599F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57486292903070064599F /* ListView.swift */; };
 		0EA57489292912910064599F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57488292912910064599F /* SearchViewController.swift */; };
 		0EA574902929153C0064599F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA5748F2929153C0064599F /* SearchView.swift */; };
@@ -189,6 +190,7 @@
 		0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
+		0EA1F680292DF6830062DBED /* UserLocationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationDTO.swift; sourceTree = "<group>"; };
 		0EA57486292903070064599F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		0EA57488292912910064599F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0EA5748F2929153C0064599F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 				0EA57498292B631E0064599F /* SearchResponse.swift */,
 				0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */,
 				0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */,
+				0EA1F680292DF6830062DBED /* UserLocationDTO.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 				0E4F6317291D0D3900F36167 /* NickNameViewModel.swift in Sources */,
 				0E5095C4291A591A0038B429 /* OnBoardingViewController.swift in Sources */,
 				0E4F631C291D121000F36167 /* BirthdayView.swift in Sources */,
+				0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */,
 				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
 				0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */,
 				0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */,
