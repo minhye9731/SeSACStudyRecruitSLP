@@ -17,6 +17,8 @@ enum APIRouter: URLRequestConvertible {
     case state
     case fcmUpdate(fcmToken: String)
     case search(lat: String, long: String)
+    case queue(long: String, lat: String, studylist: String)
+    case delete
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -26,10 +28,12 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .login, .state:
             return .get
-        case .signup, .withdraw, .search:
+        case .signup, .withdraw, .search, .queue:
             return .post
         case .update, .fcmUpdate:
             return .put
+        case .delete:
+            return .delete
         }
     }
 
@@ -49,6 +53,8 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user/update_fcm_token"
         case .search:
             return "/v1/queue/search"
+        case .queue, .delete:
+            return "/v1/queue"
         }
     }
 
@@ -58,7 +64,7 @@ enum APIRouter: URLRequestConvertible {
             return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup, .withdraw, .update, .fcmUpdate:
+        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete:
             return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
         }
@@ -91,6 +97,12 @@ enum APIRouter: URLRequestConvertible {
             return [
                 "lat" : lat,
                 "long" : long
+            ]
+        case .queue(let long, let lat, let studylist):
+            return [
+                "long" : long,
+                "lat" : lat,
+                "studylist" : studylist
             ]
         default: return ["":""]
         }
