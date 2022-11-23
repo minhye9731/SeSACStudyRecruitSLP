@@ -38,6 +38,7 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
         super.viewDidAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         
         // 1) (API) 사용자 현재 상태를 확인하고, 플로팅 버튼을 설정함
         print(#function)

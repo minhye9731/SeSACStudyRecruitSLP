@@ -22,13 +22,10 @@ final class SearchResultViewController: TabmanViewController {
         view.backgroundColor = .white
         setBarButtonItem()
         setVC()
-        
-        listVC.mainView.emptyView.refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
     }
     
     // MARK: - functions
     func setVC() {
-        
         viewControllers.append(listVC)
         self.dataSource = self
         
@@ -56,11 +53,6 @@ final class SearchResultViewController: TabmanViewController {
         ctBar.indicator.weight = .custom(value: 2)
         ctBar.indicator.tintColor = ColorPalette.green
         ctBar.indicator.overscrollBehavior = .compress
-    }
-    
-    @objc func refreshBtnTapped() {
-        print("야호오오오오오") // 눌리지가 않음
-        self.navigationController?.popViewController(animated: true)
     }
     
 }

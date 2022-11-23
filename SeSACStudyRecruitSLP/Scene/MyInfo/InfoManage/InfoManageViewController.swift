@@ -68,7 +68,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
                            name: UserDefaultsManager.nick)
         headerView.setCollapsed(isExpanded)
         headerView.section = section
-        headerView.delegate = self
+//        headerView.delegate = self
         
         return section == 0 ? headerView : nil
     }
@@ -133,13 +133,13 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - 접었다폈다 로직
-extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
-    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
-        isExpanded.toggle()
-        header.setCollapsed(isExpanded)
-        mainView.tableView.reloadData()
-    }
-}
+//extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
+//    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
+//        isExpanded.toggle()
+//        header.setCollapsed(isExpanded)
+//        mainView.tableView.reloadData()
+//    }
+//}
 
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {

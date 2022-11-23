@@ -8,14 +8,14 @@
 import UIKit
 import SnapKit
 
-protocol CollapsibleTableViewHeaderDelegate {
-    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int)
-}
+//protocol CollapsibleTableViewHeaderDelegate {
+//    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int)
+//}
 
 class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - property
-    var delegate: CollapsibleTableViewHeaderDelegate?
+//    var delegate: CollapsibleTableViewHeaderDelegate?
     var section: Int = 0
     
     let backgroundImage: UIImageView = {
@@ -49,13 +49,24 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         return btn
     }()
     
+    let askAcceptbtn: UIButton = {
+        let button = UIButton.generalButton(title: "요청하기", textcolor: .white, bgcolor: ColorPalette.error, font: CustomFonts.title3_M14())
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
     
     // MARK: - init
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         configure()
         setConstraints()
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
+//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
+        
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:)))
+//        nameView.addGestureRecognizer(tapGestureRecognizer)
+//        self.nameView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
+
     }
     
     required init?(coder: NSCoder) {
@@ -68,7 +79,11 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         [backgroundImage, nameView].forEach {
             contentView.addSubview($0)
         }
-        backgroundImage.addSubview(sesacImage)
+        
+        [askAcceptbtn, sesacImage].forEach {
+            backgroundImage.addSubview($0)
+        }
+        
         [nameLabel, updownButton].forEach {
             nameView.addSubview($0)
         }
@@ -78,7 +93,7 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         backgroundImage.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.horizontalEdges.equalTo(contentView).inset(16)
-            make.height.equalTo(backgroundImage.snp.width).multipliedBy(0.58)
+            make.height.equalTo(backgroundImage.snp.width).multipliedBy(0.6)
         }
         sesacImage.snp.makeConstraints { make in
             make.centerX.equalTo(backgroundImage.snp.centerX)
@@ -86,6 +101,13 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
             make.width.equalTo(backgroundImage.snp.width).multipliedBy(0.4)
             make.height.equalTo(sesacImage.snp.width)
         }
+        askAcceptbtn.snp.makeConstraints {
+            $0.top.equalTo(backgroundImage.snp.top).offset(12)
+            $0.trailing.equalTo(backgroundImage.snp.trailing).offset(-12)
+            $0.width.equalTo(backgroundImage.snp.width).multipliedBy(0.23)
+            $0.height.equalTo(askAcceptbtn.snp.width).multipliedBy(0.5)
+        }
+        
         nameView.snp.makeConstraints { make in
             make.top.equalTo(backgroundImage.snp.bottom)
             make.horizontalEdges.equalTo(contentView).inset(16)
@@ -103,10 +125,11 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         }
     }
     
-    @objc func headerTapped(_ gestureRecognizer: UITapGestureRecognizer) {
-        guard let cell = gestureRecognizer.view as? CollapsibleTableViewHeader else { return }
-        delegate?.toggleSection(self, section: cell.section)
-    }
+//    @objc func headerTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+//        guard let cell = gestureRecognizer.view as? CollapsibleTableViewHeader else { return }
+//        delegate?.toggleSection(self, section: cell.section)
+//    }
+
     
     func setCollapsed(_ collapsed: Bool) {
         updownButton.setImage(UIImage(systemName: collapsed ? "chevron.down" : "chevron.up" ), for: .normal)
