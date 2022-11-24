@@ -186,7 +186,6 @@ extension InfoManageViewController: UITextFieldDelegate {
 extension InfoManageViewController {
     @objc func switcherTapped() {
         updateData.searchable = updateData.searchable == 0 ? 1 : 0
-        print(updateData)
         mainView.tableView.reloadData()
     }
 }

@@ -132,8 +132,8 @@ extension ListViewController {
         guard let section = sender.section else { return }
         print("\(section)번째 요청하기 or 수락하기 버튼 클릭")
         
-        let vc = WithdrawViewController()
-        // 누구껀지를 알아야 함
+        let vc = PopUpViewController()
+        vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     
