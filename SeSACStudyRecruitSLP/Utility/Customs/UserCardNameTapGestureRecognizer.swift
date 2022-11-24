@@ -11,7 +11,7 @@ class UserCardNameTapGestureRecognizer: UITapGestureRecognizer {
     var header: CollapsibleTableViewHeader?
     var section: Int?
     var isTouched: Bool? = false
-    
+
     func setIsTouched() {
         self.isTouched?.toggle()
     }

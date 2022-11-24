@@ -64,13 +64,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-//        for i in 0...(isExpandedList.count - 1) {
-//
-//            if section == i {
-//                return isExpandedList[i] ? 1 : 0
-//            }
-//        }
         return isExpandedList[section] ? 1 : 0
     }
     
@@ -93,7 +86,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         let headerHeight = tableView.rectForHeader(inSection: first.section).size.height
         let offset =  max(min(0, -tableView.contentOffset.y), -headerHeight)
         self.mainView.tableView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
-
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -107,20 +99,18 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
         
-        let userCardTapGesture = UserCardNameTapGestureRecognizer(target: self, action: #selector(headerTapped))
-        userCardTapGesture.header = headerView
-        userCardTapGesture.section = section
+        headerView.askAcceptbtn.header = headerView
+        headerView.askAcceptbtn.section = section
+        headerView.namebtn.header = headerView
+        headerView.namebtn.section = section
         
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
+        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
         
-        // 요청하기 버튼에도 적용하자.
-        headerView.nameView.addGestureRecognizer(userCardTapGesture)
-
         return headerView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
         
         profileCell.selectionStyle = .none
@@ -129,28 +119,30 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     }
 }
 
-// MARK: - 접었다폈다 로직
-extension ListViewController {
-    
-    @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
-        guard let header = sender.header else { return }
-        guard let section = sender.section else { return }
-        
-        print("\(sender.section)번째 유저카드 클릭!!")
-        
-        isExpandedList[section].toggle()
-        header.setCollapsed(isExpandedList[section])
-        
-        mainView.tableView.reloadData()
-    }
-}
-
 // MARK: - 기타 함수
 extension ListViewController {
     
-    @objc func askAcceptbtnTapped() {
-        print("요청하기 or 수락하기 버튼 클릭")
+    @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
+        guard let header = sender.header else { return }
+        guard let section = sender.section else { return }
+        print("\(section)번째 요청하기 or 수락하기 버튼 클릭")
+        
+        let vc = WithdrawViewController()
+        // 누구껀지를 알아야 함
+        transition(vc, transitionStyle: .presentOverFullScreen)
     }
+    
+    @objc func headerNameTapped(sender: HeaderSectionPassButton) {
+        guard let header = sender.header else { return }
+        guard let section = sender.section else { return }
+        
+        print("\(section)번째 유저카드 클릭!!")
+        
+        isExpandedList[section].toggle()
+        header.setCollapsed(isExpandedList[section])
+        mainView.tableView.reloadData()
+    }
+    
     
     @objc func studyChangeBtnTapped() {
         print("스터디 변경하기 버튼 눌림")

@@ -8,14 +8,9 @@
 import UIKit
 import SnapKit
 
-//protocol CollapsibleTableViewHeaderDelegate {
-//    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int)
-//}
-
 class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - property
-//    var delegate: CollapsibleTableViewHeaderDelegate?
     var section: Int = 0
     
     let backgroundImage: UIImageView = {
@@ -39,6 +34,15 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         view.clipsToBounds = true
         return view
     }()
+    
+    let namebtn: HeaderSectionPassButton = {
+       let btn = HeaderSectionPassButton()
+        btn.backgroundColor = .clear
+        btn.layer.cornerRadius = 8
+        btn.clipsToBounds = true
+        return btn
+    }()
+    
     let nameLabel: UILabel = {
        let label = UILabel()
         return label
@@ -49,10 +53,17 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         return btn
     }()
     
-    let askAcceptbtn: UIButton = {
-        let button = UIButton.generalButton(title: "요청하기", textcolor: .white, bgcolor: ColorPalette.error, font: CustomFonts.title3_M14())
-        button.layer.cornerRadius = 8
-        return button
+    let askAcceptbtn: HeaderSectionPassButton = {
+        let btn = HeaderSectionPassButton()
+        btn.setTitleColor(.white, for: .normal)
+        btn.setTitle("요청하기", for: .normal)
+        btn.titleLabel?.font = CustomFonts.title3_M14()
+        btn.backgroundColor = ColorPalette.error
+        btn.layer.cornerRadius = 8
+        return btn
+//        let button = HeaderSectionPassButton.generalButton(title: "요청하기", textcolor: .white, bgcolor: ColorPalette.error, font: CustomFonts.title3_M14())
+//        button.layer.cornerRadius = 8
+//        return button as! HeaderSectionPassButton
     }()
     
     
@@ -61,12 +72,6 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         configure()
         setConstraints()
-//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
-        
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:)))
-//        nameView.addGestureRecognizer(tapGestureRecognizer)
-//        self.nameView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
-
     }
     
     required init?(coder: NSCoder) {
@@ -76,11 +81,11 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
     
     // MARK: - functions
     func configure() {
-        [backgroundImage, nameView].forEach {
+        [backgroundImage, nameView, namebtn, askAcceptbtn].forEach {
             contentView.addSubview($0)
         }
         
-        [askAcceptbtn, sesacImage].forEach {
+        [sesacImage].forEach {
             backgroundImage.addSubview($0)
         }
         
@@ -113,6 +118,7 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
             make.horizontalEdges.equalTo(contentView).inset(16)
             make.height.equalTo(58)
         }
+        
         nameLabel.snp.makeConstraints { make in
             make.centerY.equalTo(nameView.snp.centerY)
             make.leading.equalTo(nameView.snp.leading).offset(16)
@@ -123,13 +129,10 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
             make.trailing.equalTo(nameView.snp.trailing).offset(-16)
             make.width.height.equalTo(16)
         }
+        namebtn.snp.makeConstraints { make in
+            make.edges.equalTo(nameView)
+        }
     }
-    
-//    @objc func headerTapped(_ gestureRecognizer: UITapGestureRecognizer) {
-//        guard let cell = gestureRecognizer.view as? CollapsibleTableViewHeader else { return }
-//        delegate?.toggleSection(self, section: cell.section)
-//    }
-
     
     func setCollapsed(_ collapsed: Bool) {
         updownButton.setImage(UIImage(systemName: collapsed ? "chevron.down" : "chevron.up" ), for: .normal)

@@ -84,6 +84,7 @@
 		0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
+		0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */; };
 		0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F680292DF6830062DBED /* UserLocationDTO.swift */; };
 		0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */; };
 		0EA57487292903070064599F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57486292903070064599F /* ListView.swift */; };
@@ -191,6 +192,7 @@
 		0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
+		0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionPassButton.swift; sourceTree = "<group>"; };
 		0EA1F680292DF6830062DBED /* UserLocationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationDTO.swift; sourceTree = "<group>"; };
 		0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardNameTapGestureRecognizer.swift; sourceTree = "<group>"; };
 		0EA57486292903070064599F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				0EA5749A292BE6290064599F /* CustomAnnotationView.swift */,
 				0EA574C0292CEF6E0064599F /* SectionTitleSupplementaryView.swift */,
 				0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */,
+				0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -772,6 +775,7 @@
 				0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */,
 				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
 				0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */,
+				0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */,
 				0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */,
 				0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */,
 			);

@@ -159,6 +159,7 @@ final class GenderViewController: BaseViewController {
                             let vc = TabBarController()
                             self?.changeRootVC(vc: vc)
                         }
+                        return
                         
                     case .failure(let error):
                         let code = (error as NSError).code
@@ -170,14 +171,17 @@ final class GenderViewController: BaseViewController {
                                 let vc = PhoneNumberViewController()
                                 self?.changeRootVC(vc: vc)
                             }
+                            return
                         case .invalidNickname:
                             self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 let vc = NickNameViewController()
                                 self?.changeRootVC(vc: vc)
                             }
+                            return
                         default:
                             self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                            return
                         }
                     }
                 }
