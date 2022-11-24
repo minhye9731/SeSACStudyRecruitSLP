@@ -12,6 +12,7 @@ final class PopUpViewController: BaseViewController {
     
     // MARK: - property
     var popupMode: PopupMode = .withdraw
+    var otheruid = ""
     
     let popupView: UIView = {
         let view = UIView()
@@ -68,7 +69,6 @@ final class PopUpViewController: BaseViewController {
         super.setConstraints()
         
         let btnWidth = (popupView.frame.width - 40) / 2
-        
         
         popupView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(15)
@@ -233,8 +233,79 @@ extension PopUpViewController {
     
     func studyRequest() {
         print("해당 새싹에게 스터디 요청을 보냈습니다.")
-        // 성공일 경우, 팝업화면은 사라짐
-        // 이후 '새싹 찾기 화면' 하단에 toast 띄움 - “스터디 요청을 보냈습니다”
+        
+        let api = APIRouter.requestStudy(otheruid: otheruid)
+        Network.share.requestForResponseString(router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let success):
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    let vc = ListViewController()
+                    vc.mainView.makeToast("스터디 요청을 보냈습니다.", duration: 1, position: .bottom)
+                }
+                self?.dismiss(animated: true)
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .existUser:
+                    self?.studyaccept() // 상대방이 이미 나에게 스터디 요청한 상태 (기획서 세부 내용 참고)
+                    return
+                case .invalidNickname: // 202
+                    self?.view.makeToast("상대방이 스터디 찾기를 그만두었습니다", duration: 0.5, position: .center)
+                    return
+                case .fbTokenError:
+                    self?.refreshIDTokenStudyRequest()
+                    return
+                default:
+                    self?.view.makeToast("\(error.localizedDescription)", duration: 0.5, position: .center)
+                    return
+                }
+            }
+        }
+    }
+    
+    func refreshIDTokenStudyRequest() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
+                
+                let api = APIRouter.requestStudy(otheruid: self.otheruid)
+                Network.share.requestForResponseString(router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let _):
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            let vc = ListViewController()
+                            vc.mainView.makeToast("스터디 요청을 보냈습니다.", duration: 1, position: .bottom)
+                        }
+                        self?.dismiss(animated: true)
+                        return
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = SignupError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.showAlertMessage(title: "에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                            return
+                        }
+                    }
+                }
+            }
+        }
     }
     
 }
@@ -246,6 +317,43 @@ extension PopUpViewController {
         print("스터디 요청을 수락했습니다.")
         // 수락이 완료되면, 팝업화면은 사라짐
         // 이후 '채팅 화면'으로 전환
+        
+        let api = APIRouter.acceptStudy(otheruid: otheruid)
+        Network.share.requestForResponseString(router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let _):
+                // 사용자의 현재 상태를 매칭 상태로 변경!! 이거는 어떻게 관리하지..userdefaults로 넣어둬야 하나
+                self?.dismiss(animated: true, completion: {
+                    let vc = ChattingViewController()
+                    self?.transition(vc, transitionStyle: .push)
+                })
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .existUser:
+                    self?.view.makeToast("상대방이 이미 다른 새싹과 스터디를 함께 하는 중입니다", duration: 0.5, position: .center)
+                    return
+                case .invalidNickname: // 202
+                    self?.view.makeToast("상대방이 스터디 찾기를 그만두었습니다", duration: 0.5, position: .center)
+                    return
+                case .cancelPenalty1: //203
+                    self?.view.makeToast("앗! 누군가가 나의 스터디를 수락하였어요!", duration: 0.5, position: .center)
+                    self?.myQueueState()
+                    return
+                case .fbTokenError:
+                    self?.refreshIDTokenStudyRequest()
+                    return
+                default:
+                    self?.view.makeToast("\(error.localizedDescription)", duration: 0.5, position: .center)
+                    return
+                }
+            }
+        }
     }
 }
 
@@ -263,6 +371,79 @@ extension PopUpViewController {
     func addSesac() {
         print("해당 새싹을 친구 목록에 추가합니다.")
     }
+}
+
+// MARK: - myQueueState
+extension PopUpViewController {
+    
+    func myQueueState() {
+        let api = APIRouter.myQueueState
+        Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let stateData):
+                if stateData.matched == 1 {
+                    self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
+                        let vc = ChattingViewController()
+                        self?.transition(vc, transitionStyle: .push)
+                    }
+                }
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("⭐️⭐️⭐️현재 매칭모드 실패 : errorCode = \(errorCode), error설명 = \(error.localizedDescription)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDTokenQueue()
+                default :
+                    self?.view.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                }
+            }
+        }
+    }
+    
+    func refreshIDTokenQueue() {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = APIRouter.myQueueState
+                Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let stateData):
+                        if stateData.matched == 1 {
+                            self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
+                                let vc = ChattingViewController()
+                                self?.transition(vc, transitionStyle: .push)
+                            }
+                        }
+                        
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.showAlertMessage(title: "에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+ 
 }
 
 

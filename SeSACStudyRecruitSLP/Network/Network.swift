@@ -34,7 +34,7 @@ final class Network {
         }
     }
     
-    // signup(post), withdraw(post), 내정보 update(put), delete(delete)
+    // signup(post), withdraw(post), 내정보 update(put), delete(delete), requestStudy(post), acceptStudy(post)
     func requestForResponseString(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in

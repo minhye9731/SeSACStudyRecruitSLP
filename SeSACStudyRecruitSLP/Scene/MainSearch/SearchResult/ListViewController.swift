@@ -106,6 +106,8 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         // 버튼에 header,section를 전달
         headerView.askAcceptbtn.header = headerView
         headerView.askAcceptbtn.section = section
+        // 여기에 통신해서 받은 타sesac 데이터를 보여준다.(uid)
+        
         headerView.namebtn.header = headerView
         headerView.namebtn.section = section
         
@@ -134,6 +136,8 @@ extension ListViewController {
         
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
+        // 팝업화면으로 uid 전달
+        vc.otheruid = "123456789" // test
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     

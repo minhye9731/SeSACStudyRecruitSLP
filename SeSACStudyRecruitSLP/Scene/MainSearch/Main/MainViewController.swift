@@ -25,12 +25,10 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
     
     var sesacList: [FromQueueDB] = []
     
-    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
         self.view = mainView
-        
     }
     
     //홈화면 보일 때마다
@@ -128,13 +126,7 @@ extension MainViewController {
             authorizationStatus = CLLocationManager.authorizationStatus()
         }
         
-        DispatchQueue.global().async {
-            if CLLocationManager.locationServicesEnabled() {
-                self.checkUserCurrentLocationAuthorization(authorizationStatus)
-            } else {
-                self.mainView.makeToast("위치 서비스가 꺼져 있어서 위치 권한 요청을 못합니다.", duration: 1.0, position: .center)
-            }
-        }
+        self.checkUserCurrentLocationAuthorization(authorizationStatus)
         
     }
     
@@ -173,7 +165,7 @@ extension MainViewController {
     // 맵뷰 중심잡기
     func goLocation(center: CLLocationCoordinate2D) {
         let pLocation = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
-        let spanValue = MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007)
+        let spanValue = MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007) // 700
         let pRegion = MKCoordinateRegion(center: pLocation, span: spanValue)
         mainView.mapView.setRegion(pRegion, animated: true)
         
@@ -250,7 +242,7 @@ extension MainViewController {
     
     // MARK: - 상태확인 서버통신
     func checkState() {
-        let api = APIRouter.state
+        let api = APIRouter.myQueueState
         Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
             
             switch response {
@@ -290,7 +282,7 @@ extension MainViewController {
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
                 
-                let api = APIRouter.state
+                let api = APIRouter.myQueueState
                 Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
                     
                     switch response {
