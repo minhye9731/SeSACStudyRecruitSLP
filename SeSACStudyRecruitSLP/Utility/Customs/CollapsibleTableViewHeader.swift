@@ -61,9 +61,6 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         btn.backgroundColor = ColorPalette.error
         btn.layer.cornerRadius = 8
         return btn
-//        let button = HeaderSectionPassButton.generalButton(title: "요청하기", textcolor: .white, bgcolor: ColorPalette.error, font: CustomFonts.title3_M14())
-//        button.layer.cornerRadius = 8
-//        return button as! HeaderSectionPassButton
     }()
     
     
@@ -143,5 +140,14 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         sesacImage.image = UIImage(named: "sesac_face_\(fcNum + 1)")
         nameLabel.text = name
     }
+    
+    // 화면종류별 요청하기&수락하기 문구와 색상 구분
+    func setAskAcceptBtn(page: Int) {
+        askAcceptbtn.setTitle(page == 0 ? "요청하기" : "수락하기", for: .normal)
+        askAcceptbtn.backgroundColor = page == 0 ? ColorPalette.error : ColorPalette.success
+    }
+    
+    
+    
     
 }

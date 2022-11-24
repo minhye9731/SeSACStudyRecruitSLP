@@ -96,16 +96,21 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
                            fcNum: 3, // Test
                            name: "양배추즙") // Test
         
+        // headerview에 section, func 연결
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
         
+        // 버튼
+        headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
+        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
+        // 버튼에 header,section를 전달
         headerView.askAcceptbtn.header = headerView
         headerView.askAcceptbtn.section = section
         headerView.namebtn.header = headerView
         headerView.namebtn.section = section
         
-        headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
-        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
+        // 버튼 색상 구분
+        headerView.setAskAcceptBtn(page: pageboyPageIndex!)
         
         return headerView
     }
