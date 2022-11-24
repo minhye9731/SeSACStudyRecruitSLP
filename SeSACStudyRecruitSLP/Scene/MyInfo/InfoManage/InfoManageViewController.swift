@@ -129,7 +129,8 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             switch indexPath.row {
             case 4:
-                let vc = WithdrawViewController()
+                let vc = PopUpViewController()
+                vc.popupMode = .withdraw
                 transition(vc, transitionStyle: .presentOverFullScreen)
             default : print("00000")
             }

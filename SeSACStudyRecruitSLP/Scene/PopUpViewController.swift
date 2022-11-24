@@ -8,9 +8,11 @@
 import UIKit
 import FirebaseAuth
 
-final class WithdrawViewController: BaseViewController {
+final class PopUpViewController: BaseViewController {
     
     // MARK: - property
+    var popupMode: PopupMode = .withdraw
+    
     let popupView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -21,7 +23,6 @@ final class WithdrawViewController: BaseViewController {
     
     let maintitle: UILabel = {
         let label = UILabel()
-        label.text = "정말 탈퇴하시겠습니까?"
         label.textColor = UIColor.black
         label.font = CustomFonts.body1_M16()
         label.textAlignment = .center
@@ -29,7 +30,6 @@ final class WithdrawViewController: BaseViewController {
     }()
     let subtitle: UILabel = {
         let label = UILabel()
-        label.text = "탈퇴하시면 새싹 스터디를 이용할 수 없어요ㅠ"
         label.textColor = UIColor.black
         label.font = CustomFonts.title4_R14()
         label.textAlignment = .center
@@ -41,7 +41,7 @@ final class WithdrawViewController: BaseViewController {
         button.layer.cornerRadius = 8
         return button
     }()
-    let withdrawbtn: UIButton = {
+    let confirmbtn: UIButton = {
         let button = UIButton.generalButton(title: "확인", textcolor: .white, bgcolor: ColorPalette.green, font: CustomFonts.body3_R14())
         button.layer.cornerRadius = 8
         return button
@@ -54,12 +54,13 @@ final class WithdrawViewController: BaseViewController {
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
         
         view.addSubview(popupView)
-        [maintitle, subtitle, cancelbtn, withdrawbtn].forEach {
+        [maintitle, subtitle, cancelbtn, confirmbtn].forEach {
             popupView.addSubview($0)
         }
         
         cancelbtn.addTarget(self, action: #selector(calcenBtnTapped), for: .touchUpInside)
-        withdrawbtn.addTarget(self, action: #selector(withdrawBtnTapped), for: .touchUpInside)
+        confirmbtn.addTarget(self, action: #selector(confirmbtnTapped), for: .touchUpInside)
+        setMainSubWords()
     }
     
     override func setConstraints() {
@@ -88,7 +89,7 @@ final class WithdrawViewController: BaseViewController {
             $0.height.equalTo(cancelbtn.snp.width).multipliedBy(0.32)
             $0.bottom.equalTo(popupView.snp.bottom).offset(-16)
         }
-        withdrawbtn.snp.makeConstraints {
+        confirmbtn.snp.makeConstraints {
             $0.leading.equalTo(cancelbtn.snp.trailing).offset(8)
             $0.width.equalTo(cancelbtn.snp.width)
             $0.height.equalTo(cancelbtn.snp.height)
@@ -97,11 +98,48 @@ final class WithdrawViewController: BaseViewController {
         }
     }
     
+    func setMainSubWords() {
+        maintitle.text = popupMode.mainAnnouncement?.description
+        subtitle.text = popupMode.subAnnouncement?.description
+    }
+    
     @objc func calcenBtnTapped() {
         self.dismiss(animated: true)
     }
     
-    @objc func withdrawBtnTapped() {
+    @objc func confirmbtnTapped() {
+        
+        switch popupMode {
+        case .withdraw:
+            withdraw()
+            return
+            
+        case .askStudy:
+            studyRequest()
+            return
+            
+        case .acceptStudy:
+            studyaccept()
+            return
+            
+        case .cancelStudy:
+            studyCancel()
+            return
+            
+        case .addSesac:
+            addSesac()
+            return
+        }
+    }
+    
+    
+}
+
+// MARK: - withdraw method
+extension PopUpViewController {
+    
+    func withdraw() {
+        
         let api = APIRouter.withdraw
         Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
@@ -136,6 +174,8 @@ final class WithdrawViewController: BaseViewController {
                 }
             }
         }
+        
+        
     }
     
     func refreshIDToken() {
@@ -183,5 +223,44 @@ final class WithdrawViewController: BaseViewController {
             }
         }
     }
+}
+
+// MARK: - studyrequest
+extension PopUpViewController {
+    
+    func studyRequest() {
+        print("해당 새싹에게 스터디 요청을 보냈습니다.")
+        // 성공일 경우, 팝업화면은 사라짐
+        // 이후 '새싹 찾기 화면' 하단에 toast 띄움 - “스터디 요청을 보냈습니다”
+    }
     
 }
+
+// MARK: - studyaccept
+extension PopUpViewController {
+    
+    func studyaccept() {
+        print("스터디 요청을 수락했습니다.")
+        // 수락이 완료되면, 팝업화면은 사라짐
+        // 이후 '채팅 화면'으로 전환
+    }
+}
+
+// MARK: - studyCancel
+extension PopUpViewController {
+    
+    func studyCancel() {
+        print("스터디를 취소했습니다.")
+    }
+}
+
+// MARK: - addSesac
+extension PopUpViewController {
+    
+    func addSesac() {
+        print("해당 새싹을 친구 목록에 추가합니다.")
+    }
+}
+
+
+
