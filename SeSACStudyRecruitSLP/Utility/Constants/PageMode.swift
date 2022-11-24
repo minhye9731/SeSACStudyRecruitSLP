@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 enum SearchMode {
     case aroundSesac
@@ -24,6 +25,13 @@ enum PopupMode {
     case acceptStudy
     case cancelStudy
     case addSesac
+    
+    var popupHeight: ConstraintRelatableTarget {
+        switch self {
+        case .askStudy: return 178
+        default : return 156
+        }
+    }
     
     var mainAnnouncement: String? {
         switch self {

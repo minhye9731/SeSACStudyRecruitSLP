@@ -33,6 +33,7 @@ final class PopUpViewController: BaseViewController {
         label.textColor = UIColor.black
         label.font = CustomFonts.title4_R14()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
@@ -68,14 +69,15 @@ final class PopUpViewController: BaseViewController {
         
         let btnWidth = (popupView.frame.width - 40) / 2
         
+        
         popupView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(15)
-            $0.height.equalTo(popupView.snp.width).multipliedBy(0.45)
+            $0.height.equalTo(popupMode.popupHeight.self)
             $0.centerY.equalTo(self.view.center)
         }
-        
+
         maintitle.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(popupView).inset(16.5)
+            $0.horizontalEdges.equalTo(popupView).inset(10)
             $0.top.equalTo(popupView.snp.top).offset(16)
         }
         subtitle.snp.makeConstraints {
@@ -84,18 +86,19 @@ final class PopUpViewController: BaseViewController {
         }
         
         cancelbtn.snp.makeConstraints {
+            $0.top.equalTo(subtitle.snp.bottom).offset(16)
             $0.leading.equalTo(popupView.snp.leading).offset(16)
             $0.width.equalTo(btnWidth)
             $0.height.equalTo(cancelbtn.snp.width).multipliedBy(0.32)
-            $0.bottom.equalTo(popupView.snp.bottom).offset(-16)
         }
         confirmbtn.snp.makeConstraints {
+            $0.centerY.equalTo(cancelbtn.snp.centerY)
             $0.leading.equalTo(cancelbtn.snp.trailing).offset(8)
             $0.width.equalTo(cancelbtn.snp.width)
             $0.height.equalTo(cancelbtn.snp.height)
             $0.trailing.equalTo(popupView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(popupView.snp.bottom).offset(-16)
         }
+        
     }
     
     func setMainSubWords() {
