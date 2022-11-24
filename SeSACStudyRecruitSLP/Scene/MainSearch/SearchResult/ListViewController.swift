@@ -106,7 +106,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
-//        headerView.delegate = self
         
         let userCardTapGesture = UserCardNameTapGestureRecognizer(target: self, action: #selector(headerTapped))
         userCardTapGesture.header = headerView
@@ -114,7 +113,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
         
-//        headerView.nameView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerTapped(_:))))
+        // 요청하기 버튼에도 적용하자.
         headerView.nameView.addGestureRecognizer(userCardTapGesture)
 
         return headerView
@@ -131,17 +130,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
 }
 
 // MARK: - 접었다폈다 로직
-//extension ListViewController: CollapsibleTableViewHeaderDelegate {
-//
-//    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
-//
-//        isExpandedList[section].toggle()
-//        header.setCollapsed(isExpandedList[section])
-//
-//        mainView.tableView.reloadData()
-//    }
-//}
-
 extension ListViewController {
     
     @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
@@ -155,7 +143,6 @@ extension ListViewController {
         
         mainView.tableView.reloadData()
     }
-    
 }
 
 // MARK: - 기타 함수

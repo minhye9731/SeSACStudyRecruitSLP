@@ -55,7 +55,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let result = ((view.frame.width - 32) * 0.58) + 58
+        let result = ((view.frame.width - 32) * 0.597) + 58
         return section == 0 ? result : 0
     }
     
@@ -68,8 +68,14 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
                            name: UserDefaultsManager.nick)
         headerView.setCollapsed(isExpanded)
         headerView.section = section
-//        headerView.delegate = self
+
+        let userCardTapGesture = UserCardNameTapGestureRecognizer(target: self, action: #selector(headerTapped))
+        userCardTapGesture.header = headerView
+        userCardTapGesture.section = section
         
+        headerView.askAcceptbtn.isHidden = true
+        headerView.nameView.addGestureRecognizer(userCardTapGesture)
+
         return section == 0 ? headerView : nil
     }
     
@@ -133,13 +139,18 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - 접었다폈다 로직
-//extension InfoManageViewController: CollapsibleTableViewHeaderDelegate {
-//    func toggleSection(_ header: CollapsibleTableViewHeader, section: Int) {
-//        isExpanded.toggle()
-//        header.setCollapsed(isExpanded)
-//        mainView.tableView.reloadData()
-//    }
-//}
+extension InfoManageViewController {
+    
+    @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
+        guard let header = sender.header else { return }
+        guard let section = sender.section else { return }
+
+        isExpanded.toggle()
+        header.setCollapsed(isExpanded)
+        
+        mainView.tableView.reloadData()
+    }
+}
 
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {
