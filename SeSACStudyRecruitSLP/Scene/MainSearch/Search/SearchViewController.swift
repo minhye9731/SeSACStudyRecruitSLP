@@ -162,8 +162,9 @@ extension SearchViewController: UITextFieldDelegate {
         }
         
         guard let text = textField.text else { return true }
-        var inputStudy = text.components(separatedBy: " ")
-        let inputStudyLength = inputStudy.map { $0.count }
+        var inputStudy = text.components(separatedBy: " ").filter { $0.count > 0 }
+        let inputStudyLength = inputStudy.map { $0.count }.filter { $0 != 0 }
+        
         print(inputStudy)
         print(inputStudyLength)
         
