@@ -292,7 +292,6 @@ extension SearchViewController {
                 }
             }
         }
-        
     }
 }
 
