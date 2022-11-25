@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
+//import RxSwift
+//import RxCocoa
 import FirebaseAuth
 import Tabman
 
@@ -21,16 +21,18 @@ final class ListViewController: BaseViewController {
     var searchCoordinate = UserLocationDTO(lat: 37.517819364682694, long: 126.88647317074734) // 화면 넘어올떄 받아주는 값
     var isExpandedList = [false, false, false, false, false, false, false, false, false, false] // teset
     
+    var aroundSesacList: [FromQueueDB] = []
+    var receivedSesacList: [FromQueueDB] = []
+    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
         self.view = mainView
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("🔥\(pageboyPageIndex.self)")
+        searchSesac(location: searchCoordinate) // **호출시점2 (주변새싹 / 받은 요청 탭 전환시
     }
     
     // MARK: - functions
@@ -38,29 +40,24 @@ final class ListViewController: BaseViewController {
         super.configure()
         configureEmptyView()
         
-        // 분기처리 로직은 추후에. 일단 하드코딩으로 확인하자
-        mainView.emptyView.isHidden = true
-        mainView.tableView.isHidden = false
+        searchSesac(location: searchCoordinate) // **호출시점1
         
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        
     }
     
-    // empty view 요소
     func configureEmptyView() {
         mainView.emptyView.mainNotification.text = pageboyPageIndex == 0 ? "아쉽게도 주변에 새싹이 없어요ㅠ" : "아직 받은 요청이 없어요ㅠ"
         mainView.emptyView.refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
         mainView.emptyView.studyChangeBtn.addTarget(self, action: #selector(studyChangeBtnTapped), for: .touchUpInside)
     }
 
-    
 }
 // MARK: - tableview
 extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 10 // pageboyPageIndex == 0 ? 10 : 5
+        return pageboyPageIndex == 0 ? aroundSesacList.count : receivedSesacList.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,27 +88,20 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
-        
-        headerView.setData(bgNum: 4, // Test
-                           fcNum: 3, // Test
-                           name: "양배추즙") // Test
-        
         // headerview에 section, func 연결
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
         
         // 버튼
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
-        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
-        // 버튼에 header,section를 전달
         headerView.askAcceptbtn.header = headerView
         headerView.askAcceptbtn.section = section
-        // 여기에 통신해서 받은 타sesac 데이터를 보여준다.(uid)
-        
+        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
         headerView.namebtn.header = headerView
         headerView.namebtn.section = section
+                
+        headerView.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: section)
         
-        // 버튼 색상 구분
         headerView.setAskAcceptBtn(page: pageboyPageIndex!)
         
         return headerView
@@ -121,7 +111,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
         
         profileCell.selectionStyle = .none
-        profileCell.setData()
+//        profileCell.setData() // 여기!!!!!!! search 결과 데이터 세팅 추가해야함.
+        
+        profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
         return profileCell
     }
 }
@@ -136,8 +128,7 @@ extension ListViewController {
         
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
-        // 팝업화면으로 uid 전달
-        vc.otheruid = "123456789" // test
+        vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[0].uid : receivedSesacList[section].uid
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     
@@ -150,6 +141,11 @@ extension ListViewController {
         isExpandedList[section].toggle()
         header.setCollapsed(isExpandedList[section])
         mainView.tableView.reloadData()
+        
+        if isExpandedList[section] { // 펼친 카드를 받을 경우??
+            searchSesac(location: searchCoordinate) // **호출시점 4-2
+        }
+        
     }
     
     
@@ -157,10 +153,145 @@ extension ListViewController {
         print("스터디 변경하기 버튼 눌림")
     }
     
-    
     @objc func refreshBtnTapped() {
         print("새로고침 버튼 눌림")
-        self.navigationController?.popViewController(animated: true)
+        searchSesac(location: searchCoordinate) // **호출시점3
+//        self.navigationController?.popViewController(animated: true)
     }
     
 }
+
+extension ListViewController {
+    
+    func searchSesac(location: UserLocationDTO) {
+        print(#function)
+        
+        let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+        Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let searchResult):
+                print("🦄search 통신 성공!!")
+                
+                if self?.pageboyPageIndex == 0 {
+                    // 주변 새싹
+                    self?.aroundSesacList = searchResult.fromQueueDB
+                    
+                    if self!.aroundSesacList.isEmpty {
+                        self?.mainView.emptyView.isHidden = false
+                        self?.mainView.tableView.isHidden = true
+                    } else {
+                        self?.mainView.emptyView.isHidden = true
+                        self?.mainView.tableView.isHidden = false
+                        
+                        self?.isExpandedList = Array(repeating: false, count: self!.aroundSesacList.count)
+                        self?.mainView.tableView.reloadData()
+                    }
+                } else {
+                    // 받은 요청
+                    self?.receivedSesacList = searchResult.fromQueueDBRequested
+                    
+                    if self!.receivedSesacList.isEmpty {
+                        self?.mainView.emptyView.isHidden = false
+                        self?.mainView.tableView.isHidden = true
+                    } else {
+                        self?.mainView.emptyView.isHidden = true
+                        self?.mainView.tableView.isHidden = false
+                        
+                        self?.isExpandedList = Array(repeating: false, count: self!.receivedSesacList.count)
+                        self?.mainView.tableView.reloadData()
+                    }
+                }
+                return
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = LoginError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDTokenSearchSesac(location: location)
+                default :
+                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                }
+            }
+        }
+    }
+    
+    func refreshIDTokenSearchSesac(location: UserLocationDTO) {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
+                
+                let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+                Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let searchResult):
+                        print("🦄search 통신 성공!!")
+
+                        if self?.pageboyPageIndex == 0 {
+                            // 주변 새싹
+                            self?.aroundSesacList = searchResult.fromQueueDB
+                            
+                            if self!.aroundSesacList.isEmpty {
+                                self?.mainView.emptyView.isHidden = false
+                                self?.mainView.tableView.isHidden = true
+                            } else {
+                                self?.mainView.emptyView.isHidden = true
+                                self?.mainView.tableView.isHidden = false
+                                
+                                self?.isExpandedList = Array(repeating: false, count: self!.aroundSesacList.count)
+                                self?.mainView.tableView.reloadData()
+                            }
+                        } else {
+                            // 받은 요청
+                            self?.receivedSesacList = searchResult.fromQueueDBRequested
+                            
+                            if self!.receivedSesacList.isEmpty {
+                                self?.mainView.emptyView.isHidden = false
+                                self?.mainView.tableView.isHidden = true
+                            } else {
+                                self?.mainView.emptyView.isHidden = true
+                                self?.mainView.tableView.isHidden = false
+                                
+                                self?.isExpandedList = Array(repeating: false, count: self!.receivedSesacList.count)
+                                self?.mainView.tableView.reloadData()
+                            }
+                        }
+                        return
+                        
+                        
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        default :
+                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+}
+
+
+
+
+
