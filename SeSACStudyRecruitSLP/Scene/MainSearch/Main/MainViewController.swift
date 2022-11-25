@@ -11,7 +11,7 @@ import Toast
 import MapKit
 import CoreLocation
 
-final class MainViewController: BaseViewController, MKMapViewDelegate {
+final class MainViewController: BaseViewController {
     
     // MARK: - property
     let mainView = MainView()
@@ -19,10 +19,7 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
     var matchingMode: MatchingMode = .normal
     var selectGender: MapGenderMode = .all
     
-    // 위치권한 없을경우 대비용
     let campusLocation = CLLocationCoordinate2D(latitude: 37.517819364682694, longitude: 126.88647317074734)
-    // 사용자 위치 업데이트용?
-//    var userLocation = CLLocationCoordinate2D(latitude: 37.517819364682694, longitude: 126.88647317074734)
     
     var sesacList: [FromQueueDB] = []
     var sesacManList: [FromQueueDB] = []
@@ -40,107 +37,49 @@ final class MainViewController: BaseViewController, MKMapViewDelegate {
         
         navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
-        
-        // 1) (API) 사용자 현재 상태를 확인하고, 플로팅 버튼을 설정함
-        print(#function)
-        checkState()
-        mainView.showProperStateImage(state: matchingMode) // test용
-        
-        // 2) 사용자 현재 위치를 확인하고, 지도의 중심을 설정함
-        // 위치 권한이 거부된 상태라면, 영등포캠퍼스를 기준으로 설정
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        //        showRequestLocationServiceAlert()
-        locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
-        locationManager.startUpdatingLocation() // 위치 업데이트
-        mainView.mapView.showsUserLocation = false // 사용자 위치표기 막기(파란색 원)
+
+        checkState() // mystate 확인 & 플로팅 버튼 이미지 설정
         checkUserDeviceLocationServiceAuthorization() // 사용자 위치사용 권한여부 확인 및 처리
-        
-        // 3) (API) 사용자가 지도에서 설정한 위치를 보내고, 응답값으로 타새싹들 지도에 표기
-        searchSesac(selectGender: selectGender)
+        searchSesac(selectGender: selectGender) // (성별 필터 적용) 주변새싹 찾기 & 지도표기
     }
     
     // MARK: - functions
     override func configure() {
         super.configure()
         mainView.mapView.delegate = self
+        mainView.mapView.showsUserLocation = false // 사용자 위치표기 막기(파란색 원)
+        
+        // 사용자 현재 위치를 확인하고, 지도의 중심을 설정
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
+        goLocation(center: campusLocation)
+        
+        setBtnAction()
+    }
+    
+    func setBtnAction() {
         mainView.floatingButton.addTarget(self, action: #selector(floatingButtonTapped), for: .touchUpInside)
         mainView.locationbtn.addTarget(self, action: #selector(locationbtnTapped), for: .touchUpInside)
-        
         mainView.allbtn.addTarget(self, action: #selector(allbtnTapped), for: .touchUpInside)
         mainView.manbtn.addTarget(self, action: #selector(manbtnTapped), for: .touchUpInside)
         mainView.womanbtn.addTarget(self, action: #selector(womanbtnTapped), for: .touchUpInside)
     }
-    
-    // 위치권한 허용팝업 생성
-    func showRequestLocationServiceAlert() {
-        let requestLocationServiceAlert = UIAlertController(title: "위치정보 이용", message: "위치 서비스를 사용할 수 없습니다. 기기의 '설정>개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
-        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
-            
-            if let appSetting = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(appSetting)
-            }
-        }
-        
-        let cancel = UIAlertAction(title: "취소", style: .default)
-        
-        requestLocationServiceAlert.addAction(cancel)
-        requestLocationServiceAlert.addAction(goSetting)
-        
-        present(requestLocationServiceAlert, animated: true, completion: nil)
-    }
-}
-
-// MARK: - CLLocationManagerDelegate 프로토콜 선언
-extension MainViewController: CLLocationManagerDelegate {
-    
-    // 사용자의 위치를 성공적으로 가지고 온 경우
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(#function, locations)
-        
-        if let coordinate = locations.last?.coordinate {
-            print("업데이트된 사용자 현위치 = \(coordinate.latitude.description) / \(coordinate.latitude.description)")
-            goLocation(center: coordinate)
-            locationManager.stopUpdatingLocation()
-        }
-    }
-    
-    // 사용자의 위치를 못 가지고 온 경우
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(#function) // 처리 필요
-        self.mainView.makeToast("사용자의 위치정보 로드를 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-    }
-    
-    // 사용자의 권한 상태가 바뀔 경우
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkUserDeviceLocationServiceAuthorization()
-    }
-    
 }
 
 // MARK: - 위치 관련된 User Defined 메서드
 extension MainViewController {
     
-    // iOS 위치 서비스 활성화여부 확인 (먼저)
+    // iOS 위치 서비스 활성화여부 확인
     func checkUserDeviceLocationServiceAuthorization() {
-        
         let authorizationStatus: CLAuthorizationStatus
-        
-        if #available(iOS 14.0, *) {
-            authorizationStatus = locationManager.authorizationStatus
-        } else {
-            authorizationStatus = CLLocationManager.authorizationStatus()
-        }
-        
+        authorizationStatus = locationManager.authorizationStatus
         self.checkUserCurrentLocationAuthorization(authorizationStatus)
-        
     }
     
     func checkUserCurrentLocationAuthorization(_ authorizationStatus: CLAuthorizationStatus) {
         switch authorizationStatus {
         case .notDetermined:
-            print("NOTDETERMINED")
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
             
         case .restricted, .denied:
@@ -158,31 +97,64 @@ extension MainViewController {
         }
     }
     
+    // 위치권한 허용팝업 생성
+    func showRequestLocationServiceAlert() {
+        let requestLocationServiceAlert = UIAlertController(title: "위치정보 이용", message: "위치 서비스를 사용할 수 없습니다. 기기의 '설정>개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
+        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
+            
+            if let appSetting = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSetting)
+            }
+        }
+        
+        // 위치권한 거부시 영등포 캠퍼스가 맵뷰의 중심이 되도록 설정
+        let cancel = UIAlertAction(title: "취소", style: .default) { [weak self] _ in
+            self?.goLocation(center: self!.campusLocation)
+        }
+        
+        requestLocationServiceAlert.addAction(cancel)
+        requestLocationServiceAlert.addAction(goSetting)
+        
+        present(requestLocationServiceAlert, animated: true, completion: nil)
+    }
 }
 
-// MARK: - 맵관련 메서드
+// MARK: - CLLocationManagerDelegate 프로토콜 선언
+extension MainViewController: CLLocationManagerDelegate {
+    
+    // 사용자의 위치를 성공적으로 가지고 온 경우
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(#function)
+        if let coordinate = locations.last?.coordinate {
+            searchSesac(selectGender: selectGender)
+            goLocation(center: coordinate)
+            locationManager.stopUpdatingLocation()
+        }
+    }
+    
+    // 사용자의 위치를 못 가지고 온 경우
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.mainView.makeToast("사용자의 위치정보 로드를 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+    }
+    
+    // 사용자의 권한 상태가 바뀔 경우
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkUserDeviceLocationServiceAuthorization()
+    }
+}
+
+// MARK: - 맵관련 커스텀 메서드
 extension MainViewController {
     
-    // 맵뷰 중심잡기
+    // 맵뷰 위치 설정
     func goLocation(center: CLLocationCoordinate2D) {
-        let pLocation = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
-        let spanValue = MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007) // 700
-        let pRegion = MKCoordinateRegion(center: pLocation, span: spanValue)
+        let pRegion = MKCoordinateRegion(center: center, latitudinalMeters: 700, longitudinalMeters: 700)
         mainView.mapView.setRegion(pRegion, animated: true)
         
         let zoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 6000)
         mainView.mapView.setCameraZoomRange(zoomRange, animated: true)
     }
-    
-    // 지도 움직일 때마다 중심 업데이트
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print(#function)
         
-        mainView.mapView.removeAnnotations(mainView.mapView.annotations) // 전체 핀 삭제
-        //        locationManager.startUpdatingLocation()
-        searchSesac(selectGender: selectGender)
-    }
-    
     // 커스텀 어노테이션
     func addCustomPin(faceImage: Int, lat: Double, long: Double) {
         let sesacLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -195,80 +167,26 @@ extension MainViewController {
         switch gender {
         case .all:
             print("전체 보여주기")
-            print(sesacList)
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         case .man:
             print("남자만 보여주기")
-            print(sesacManList)
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         case .woman:
             print("여자만 보여주기")
-            print(sesacWomanList)
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
     }
-    
-    
-    
-    
+
 }
 
-// MARK: - 기타 버튼 클릭시 액션들
+
+// MARK: - 서버통신
 extension MainViewController {
     
-    // 성별 필터링 버튼 액션
-    @objc func allbtnTapped() {
-        selectGender = .all
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
-    }
-    
-    @objc func manbtnTapped() {
-        selectGender = .man
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
-    }
-    
-    @objc func womanbtnTapped() {
-        selectGender = .woman
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
-    }
-    
-    // gps 버튼 액션
-    @objc func locationbtnTapped() {
-        checkUserDeviceLocationServiceAuthorization() // 위치가 거부되어 있다면 -> '위치 서비스 사용 불가' 얼럿 & 아이폰 전체 설정 화면으로 이동
-        searchSesac(selectGender: selectGender)
-    }
-    
-    // 플로팅 버튼 액션
-    @objc func floatingButtonTapped() {
-        switch matchingMode {
-        case .normal:
-            checkUserDeviceLocationServiceAuthorization()
-            
-            let authorizationStatus = locationManager.authorizationStatus
-            
-            if authorizationStatus == .denied || authorizationStatus == .restricted {
-                showRequestLocationServiceAlert()
-            } else {
-                let vc = SearchViewController()
-                transition(vc, transitionStyle: .push)
-            }
-    
-        case .standby:
-            let vc = SearchResultViewController()
-            transition(vc, transitionStyle: .push)
-        case .matched:
-            let vc = ChattingViewController()
-            transition(vc, transitionStyle: .push)
-        }
-    }
-    
-    // MARK: - 상태확인 서버통신
+    // 상태확인
     func checkState() {
         let api = APIRouter.myQueueState
         Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
@@ -332,7 +250,7 @@ extension MainViewController {
         }
     }
     
-    // MARK: - 새싹찾기 서버통신
+    // 새싹찾기
     func searchSesac(selectGender: MapGenderMode) {
         print(#function)
         UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
@@ -344,7 +262,7 @@ extension MainViewController {
             
             switch response {
             case .success(let result):
-                print("===✅새싹찾기 통신 성공!====")
+                print("===✅새싹찾기 통신 성공! ====")
                 
                 // 배열 다 비우기
                 self?.sesacList.removeAll()
@@ -355,6 +273,10 @@ extension MainViewController {
                 self?.sesacList.append(contentsOf: result.fromQueueDB)
                 self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
                 self?.sesacManList = self!.sesacList.filter { $0.gender == 0 }
+                
+                print("sesacList : \(self?.sesacList)")
+                print("sesacManList : \(self?.sesacManList)")
+                print("sesacWomanList : \(self?.sesacWomanList)")
                        
                 // 새싹 지도 표기
                 self?.showSesacMap(gender: selectGender)
@@ -425,15 +347,27 @@ extension MainViewController {
 
 }
 
-// MARK: - annotation image resizing
-extension MainViewController {
+// MARK: - MapView 메서드
+extension MainViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        print(#function)
+        searchSesac(selectGender: selectGender)
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        print(#function)
+        mainView.mapView.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            self.mainView.mapView.isUserInteractionEnabled = true
+        }
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         guard let annotation = annotation as? CustomAnnotation else { return nil }
         
         var annotationView = self.mainView.mapView.dequeueReusableAnnotationView(withIdentifier: CustomAnnotationView.reuseIdentifier)
-
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CustomAnnotationView.reuseIdentifier)
             annotationView?.canShowCallout = false
@@ -445,18 +379,12 @@ extension MainViewController {
         var sesacImage: UIImage!
         
         switch annotation.faceImage {
-        case 0:
-            setImage(w: 85, h: 85, img: Constants.ImageName.face1.rawValue)
-        case 1:
-            setImage(w: 85, h: 85, img: Constants.ImageName.face2.rawValue)
-        case 2:
-            setImage(w: 85, h: 85, img: Constants.ImageName.face3.rawValue)
-        case 3:
-            setImage(w: 85, h: 85, img: Constants.ImageName.face4.rawValue)
-        case 4:
-            setImage(w: 85, h: 85, img: Constants.ImageName.face5.rawValue)
-        default:
-            setImage(w: 48, h: 48, img: Constants.ImageName.basicPin.rawValue)
+        case 0: setImage(w: 85, h: 85, img: Constants.ImageName.face1.rawValue)
+        case 1: setImage(w: 85, h: 85, img: Constants.ImageName.face2.rawValue)
+        case 2: setImage(w: 85, h: 85, img: Constants.ImageName.face3.rawValue)
+        case 3: setImage(w: 85, h: 85, img: Constants.ImageName.face4.rawValue)
+        case 4: setImage(w: 85, h: 85, img: Constants.ImageName.face5.rawValue)
+        default: setImage(w: 48, h: 48, img: Constants.ImageName.basicPin.rawValue)
         }
 
         func setImage(w: Double, h: Double, img: String) {
@@ -471,7 +399,62 @@ extension MainViewController {
         
         return annotationView
     }
+}
+
+// MARK: - 기타 버튼 클릭시 액션들
+extension MainViewController {
     
+    // (성별) 전체
+    @objc func allbtnTapped() {
+        selectGender = .all
+        searchSesac(selectGender: selectGender)
+        mainView.genderBtnClr(selectGender: selectGender)
+    }
+    
+    // (성별) 남자
+    @objc func manbtnTapped() {
+        selectGender = .man
+        searchSesac(selectGender: selectGender)
+        mainView.genderBtnClr(selectGender: selectGender)
+    }
+    
+    // (성별) 여자
+    @objc func womanbtnTapped() {
+        selectGender = .woman
+        searchSesac(selectGender: selectGender)
+        mainView.genderBtnClr(selectGender: selectGender)
+    }
+    
+    // gps
+    @objc func locationbtnTapped() {
+        checkUserDeviceLocationServiceAuthorization() // 위치가 거부되어 있다면 -> '위치 서비스 사용 불가' 얼럿 & 아이폰 전체 설정 화면으로 이동
+        searchSesac(selectGender: selectGender)
+    }
+    
+    // 플로팅 (test 필요)
+    @objc func floatingButtonTapped() {
+        switch matchingMode {
+        case .normal:
+            checkUserDeviceLocationServiceAuthorization()
+            
+            let authorizationStatus = locationManager.authorizationStatus
+            
+            if authorizationStatus == .denied || authorizationStatus == .restricted {
+                showRequestLocationServiceAlert()
+            } else {
+                let vc = SearchViewController()
+                transition(vc, transitionStyle: .push)
+            }
+            
+        case .standby:
+            let vc = SearchResultViewController()
+            transition(vc, transitionStyle: .push)
+            
+        case .matched:
+            let vc = ChattingViewController()
+            transition(vc, transitionStyle: .push)
+        }
+    }
     
 }
 

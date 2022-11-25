@@ -134,7 +134,7 @@ final class MainView: BaseView {
         }
     }
     
-    func genderBtnClr(selectGender: MapGenderMode) {        
+    func genderBtnClr(selectGender: MapGenderMode) {
         switch selectGender {
         case .all:
             allbtn.setTitleColor(.white, for: .normal)

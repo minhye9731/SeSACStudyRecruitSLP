@@ -18,7 +18,7 @@ final class SearchViewController: BaseViewController {
     var searchCoordinate = UserLocationDTO(lat: 37.517819364682694, long: 126.88647317074734) // 화면 넘어올떄 받아주는 값
     //test
     var aroundTagList: [String] = ["swift", "alamofire", "수도"]
-    var mywishTagList: [String] = [] // ["주식", "부동산 공부", "하하하"]
+    var mywishTagList: [String] = []
     var rocommendNum = 0
     
     // MARK: - Lifecycle

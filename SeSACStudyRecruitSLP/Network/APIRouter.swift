@@ -66,11 +66,11 @@ enum APIRouter: URLRequestConvertible {
 
     var headers: HTTPHeaders {
         switch self {
-        case .login, .myQueueState, .search:
+        case .login, .myQueueState:
             return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete, .requestStudy, .acceptStudy:
+        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete, .requestStudy, .acceptStudy, .search:
             return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
         }
