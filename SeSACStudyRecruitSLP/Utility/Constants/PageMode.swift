@@ -19,6 +19,12 @@ enum MatchingMode {
     case matched
 }
 
+enum MapGenderMode {
+    case all
+    case man
+    case woman
+}
+
 enum PopupMode {
     case withdraw
     case askStudy
