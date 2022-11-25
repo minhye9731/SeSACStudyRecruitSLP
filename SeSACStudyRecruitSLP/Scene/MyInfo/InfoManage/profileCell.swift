@@ -64,20 +64,22 @@ final class ProfileCell: BaseTableViewCell {
         return button
     }()
     
-//    let title2 : UILabel = {
-//        let label = UILabel()
-//        label.text = "하고 싶은 스터디"
-//        label.textColor = UIColor.black
-//        label.font = CustomFonts.title6_R12()
-//        label.textAlignment = .left
-//        return label
-//    }()
-//    let wantedStudy: UIButton = {
-//       let button = UIButton()
-//        button.configuration = UIButton.textButton(title: "test") // 변경필요
-//        button.isEnabled = false
-//        return button
-//    }()
+    // [새싹 찾기]용
+    let title2 : UILabel = {
+        let label = UILabel()
+        label.text = "하고 싶은 스터디"
+        label.textColor = UIColor.black
+        label.font = CustomFonts.title6_R12()
+        label.textAlignment = .left
+        return label
+    }()
+    let wantedStudy: UIButton = {
+       let button = UIButton()
+        button.configuration = UIButton.textButton(title: "부동산 투자") // test
+        button.isEnabled = false
+        return button
+    }()
+    //
     
     let title3 : UILabel = {
         let label = UILabel()
@@ -103,7 +105,7 @@ final class ProfileCell: BaseTableViewCell {
     override func configure() {
         super.configure()
         contentView.addSubview(usercardView)
-        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title3, reviewTextField].forEach {
+        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title3, reviewTextField, title2, wantedStudy].forEach {
             usercardView.addSubview($0)
         }
     }
@@ -163,9 +165,21 @@ final class ProfileCell: BaseTableViewCell {
             make.height.equalTo(32)
         }
         
+        // [새싹 찾기]용
+        title2.snp.makeConstraints {
+            $0.top.equalTo(titleButton5.snp.bottom).offset(24)
+            $0.leading.equalTo(usercardView).offset(spacing)
+        }
+        wantedStudy.snp.makeConstraints {
+            $0.top.equalTo(title3.snp.bottom).offset(16)
+            $0.leading.equalTo(usercardView).offset(spacing)
+            $0.width.equalTo(100) // test
+        }
+        //
+        
         title3.snp.makeConstraints { make in
             make.leading.equalTo(usercardView).offset(spacing)
-            make.top.equalTo(titleButton5.snp.bottom).offset(24)
+            make.top.equalTo(wantedStudy.snp.bottom).offset(24)
         }
         reviewTextField.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(usercardView).inset(spacing)
@@ -175,6 +189,7 @@ final class ProfileCell: BaseTableViewCell {
         
     }
     
+    // [my info] 정리 필요
     func setData() {
         var result = UserDefaultsManager.reputation
         var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
@@ -192,8 +207,34 @@ final class ProfileCell: BaseTableViewCell {
         } else {
             reviewTextField.text = UserDefaultsManager.comment[0] as? String
         }
-        
     }
+    
+    // [새싹 찾기]
+    func setSesacData(data: [FromQueueDB], section: Int) {
+        
+        var reputationList = data[section].reputation
+        var reviewList = data[section].reviews
+        var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
+        
+        for i in 0...5 {
+            if reputationList[i] != 0 {
+                btnGroup[i].configuration?.baseBackgroundColor = ColorPalette.green
+                btnGroup[i].configuration?.background.strokeColor = ColorPalette.green
+                btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
+            }
+        }
+        
+        if reviewList.isEmpty {
+            reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!"
+        } else {
+            reviewTextField.text = reviewList[0]
+        }
+    }
+    
+    
+    
+    
+    
 
 }
 
