@@ -90,7 +90,12 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             profileCell.selectionStyle = .none
+            
+            profileCell.title2.isHidden = true // my info에서는 안보이도록
+            profileCell.wantedStudy.isHidden = true // my info에서는 안보이도록
+            
             profileCell.setData()
+            
             return profileCell
         } else {
             switch indexPath.row {
