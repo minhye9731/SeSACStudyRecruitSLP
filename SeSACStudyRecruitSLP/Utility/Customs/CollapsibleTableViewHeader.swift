@@ -135,18 +135,26 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
         updownButton.setImage(UIImage(systemName: collapsed ? "chevron.down" : "chevron.up" ), for: .normal)
     }
     
+    func setAskAcceptBtn(page: Int) {
+        askAcceptbtn.setTitle(page == 0 ? "요청하기" : "수락하기", for: .normal)
+        askAcceptbtn.backgroundColor = page == 0 ? ColorPalette.error : ColorPalette.success
+    }
+    
+    // my info
     func setData(bgNum: Int, fcNum: Int, name: String) {
         backgroundImage.image = UIImage(named: "sesac_background_\(bgNum + 1)")
         sesacImage.image = UIImage(named: "sesac_face_\(fcNum + 1)")
         nameLabel.text = name
     }
     
-    // 화면종류별 요청하기&수락하기 문구와 색상 구분
-    func setAskAcceptBtn(page: Int) {
-        askAcceptbtn.setTitle(page == 0 ? "요청하기" : "수락하기", for: .normal)
-        askAcceptbtn.backgroundColor = page == 0 ? ColorPalette.error : ColorPalette.success
+    // 새싹 찾기
+    func setSesacData(data: [FromQueueDB], section: Int) {
+        let row = data[section]
+        
+        backgroundImage.image = UIImage(named: "sesac_background_\(row.background + 1)")
+        sesacImage.image = UIImage(named: "sesac_face_\(row.sesac + 1)")
+        nameLabel.text = row.nick
     }
-    
     
     
     
