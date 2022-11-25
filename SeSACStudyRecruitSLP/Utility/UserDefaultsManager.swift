@@ -118,6 +118,13 @@ struct UserDefaultsManager {
     static var genderSU: String
     
     // MARK: - 친구 입력
+    @UserDefaultsWrapper(key: "searchLAT", defaultValue: "") // 검색하고 싶은 위치 lat
+    static var searchLAT: String
+    
+    @UserDefaultsWrapper(key: "searchLONG", defaultValue: "") // 검색하고 싶은 위치 lat
+    static var searchLONG: String
+    
+    // MARK: - 친구 입력
     @UserDefaultsWrapper(key: "mywishTagList", defaultValue: []) // 내가 하고싶은 스터디
     static var mywishTagList: Array
     
