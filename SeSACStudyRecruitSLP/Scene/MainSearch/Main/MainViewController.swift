@@ -37,22 +37,22 @@ final class MainViewController: BaseViewController {
         
         navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
-
-        checkState() // mystate 확인 & 플로팅 버튼 이미지 설정
-        checkUserDeviceLocationServiceAuthorization() // 사용자 위치사용 권한여부 확인 및 처리
-        searchSesac(selectGender: selectGender) // (성별 필터 적용) 주변새싹 찾기 & 지도표기
+        
+        checkUserDeviceLocationServiceAuthorization()
+        checkState() // myQueueState
+        searchSesac(selectGender: selectGender) // search
     }
     
     // MARK: - functions
     override func configure() {
         super.configure()
         mainView.mapView.delegate = self
-        mainView.mapView.showsUserLocation = false // 사용자 위치표기 막기(파란색 원)
+        mainView.mapView.showsUserLocation = false
         
         // 사용자 현재 위치를 확인하고, 지도의 중심을 설정
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
+        locationManager.requestWhenInUseAuthorization()
         goLocation(center: campusLocation)
         
         setBtnAction()
@@ -70,8 +70,7 @@ final class MainViewController: BaseViewController {
 // MARK: - 위치 관련된 User Defined 메서드
 extension MainViewController {
     
-    // iOS 위치 서비스 활성화여부 확인
-    func checkUserDeviceLocationServiceAuthorization() {
+    func checkUserDeviceLocationServiceAuthorization() {  // iOS 위치 서비스 활성화여부 확인
         let authorizationStatus: CLAuthorizationStatus
         authorizationStatus = locationManager.authorizationStatus
         self.checkUserCurrentLocationAuthorization(authorizationStatus)
@@ -179,9 +178,7 @@ extension MainViewController {
             sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
     }
-
 }
-
 
 // MARK: - 서버통신
 extension MainViewController {
@@ -266,26 +263,26 @@ extension MainViewController {
     // 새싹찾기
     func searchSesac(selectGender: MapGenderMode) {
         print(#function)
-        UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
-        UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+//        UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
+//        UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+//
+//        let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
+//        print("===새싹찾기 통신할 위치!|| \(UserDefaultsManager.searchLAT) \(UserDefaultsManager.searchLONG)====")
         
-        let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-        print("===새싹찾기 통신할 위치!|| \(UserDefaultsManager.searchLAT) \(UserDefaultsManager.searchLONG)====")
+        let api = APIRouter.search(lat: String(mainView.mapView.centerCoordinate.latitude), long: String(mainView.mapView.centerCoordinate.longitude))
         Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let result):
                 print("===✅새싹찾기 통신 성공! ====")
                 
-                // 배열 다 비우기
                 self?.sesacList.removeAll()
                 self?.sesacManList.removeAll()
                 self?.sesacWomanList.removeAll()
                 
-                // 해당 위치에서 검색된 정보를 배열에 담기
                 self?.sesacList.append(contentsOf: result.fromQueueDB)
                 self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
-                self?.sesacManList = self!.sesacList.filter { $0.gender == 0 }
+                self?.sesacWomanList = self!.sesacList.filter { $0.gender == 0 }
                 
                 print("sesacList : \(self?.sesacList)")
                 print("sesacManList : \(self?.sesacManList)")
@@ -417,21 +414,18 @@ extension MainViewController: MKMapViewDelegate {
 // MARK: - 기타 버튼 클릭시 액션들
 extension MainViewController {
     
-    // (성별) 전체
     @objc func allbtnTapped() {
         selectGender = .all
         searchSesac(selectGender: selectGender)
         mainView.genderBtnClr(selectGender: selectGender)
     }
     
-    // (성별) 남자
     @objc func manbtnTapped() {
         selectGender = .man
         searchSesac(selectGender: selectGender)
         mainView.genderBtnClr(selectGender: selectGender)
     }
     
-    // (성별) 여자
     @objc func womanbtnTapped() {
         selectGender = .woman
         searchSesac(selectGender: selectGender)
@@ -444,7 +438,7 @@ extension MainViewController {
         searchSesac(selectGender: selectGender)
     }
     
-    // 플로팅 (test 필요)
+    // 플로팅
     @objc func floatingButtonTapped() {
         switch matchingMode {
         case .normal:
@@ -456,6 +450,7 @@ extension MainViewController {
                 showRequestLocationServiceAlert()
             } else {
                 let vc = SearchViewController()
+                vc.searchCoordinate = UserLocationDTO(lat: mainView.mapView.centerCoordinate.latitude, long: mainView.mapView.centerCoordinate.longitude)
                 transition(vc, transitionStyle: .push)
             }
             return
