@@ -92,7 +92,7 @@ final class MainView: BaseView {
         }
         
         filterStackView.snp.makeConstraints {
-            $0.top.equalTo(self).offset(52)
+            $0.top.equalTo(self).offset(75)
             $0.leading.equalTo(self.safeAreaLayoutGuide).offset(spacing)
         }
         allbtn.snp.makeConstraints {
