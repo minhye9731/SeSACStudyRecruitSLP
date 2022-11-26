@@ -11,13 +11,14 @@ import RxCocoa
 import Toast
 import FirebaseAuth
 
+import Alamofire
+
 final class SearchViewController: BaseViewController {
     
     // MARK: - property
     let mainView = SearchView()
-    var searchCoordinate = UserLocationDTO(lat: 37.517819364682694, long: 126.88647317074734) // 화면 넘어올떄 받아주는 값
-    //test
-    var aroundTagList: [String] = ["swift", "alamofire", "수도"]
+    var searchCoordinate = UserLocationDTO(lat: 0.0, long: 0.0)
+    var aroundTagList: [String] = []
     var mywishTagList: [String] = []
     var rocommendNum = 0
     
@@ -30,9 +31,8 @@ final class SearchViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        searchNetwork(location: searchCoordinate) // 검색하고자 하는 위치 근방의 새싹들의 스터디 목록 표현하기 서버통신
+        searchNetwork(location: searchCoordinate)
     }
-    
     
     // MARK: - functions
     override func configure() {
@@ -143,12 +143,10 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - textfield
 extension SearchViewController: UITextFieldDelegate {
     
-    //    func textFieldDidEndEditing(_ textField: UITextField) {
-    //        // 리턴키가 아닌,, [새싹찾기] 액세서리 버튼 클릭시 실행됨...
-    //
-    //    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        queueNetwork()
+    }
     
-    // 서치바 입력(리턴키)을 통해 스터디를 [내가 하고싶은] 섹션에 추가
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if mywishTagList.count == 8 {
@@ -167,8 +165,7 @@ extension SearchViewController: UITextFieldDelegate {
         
         print(inputStudy)
         print(inputStudyLength)
-        
-        
+
         if inputStudyLength.min()! < 1 || inputStudyLength.max()! > 8  {
             mainView.makeToast("스터디명은 최소 한 자 이상, 최대 8글자까지 작성 가능합니다.", duration: 0.5, position: .center)
             return true
@@ -201,34 +198,29 @@ extension SearchViewController {
     }
     
     @objc func searchBtnTapped() {
-        // 스터디를 함께할 새싹을 찾는 요청을 서버에 보냄
         queueNetwork()
     }
-    
 }
 
 // MARK: - search 통신
 extension SearchViewController {
-    
-    // tag에 나타낼 스터디 검색용 네트워크 (search)
+
     func searchNetwork(location: UserLocationDTO) {
-        print(#function)
-        
         let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
         Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let searchResult):
-                print("🦄search 통신 성공!!")
-                print("🦄searchResult = \(searchResult)")
+                print("🦄search 통신 성공!! searchResult = \(searchResult)")
                 self?.aroundTagList.removeAll()
                 
-                self?.aroundTagList.append(contentsOf: searchResult.fromRecommend) // 추천스터디 추가
-                self?.rocommendNum = searchResult.fromRecommend.count // 추천스터디 수
-                searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) } // fromQueueDB 스터디 추가
-                searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) } // fromQueueDBRequested 스터디 추가
-                print("👍🏻추천스터디 + 주변새싹들의 스터디 모음 : \(self?.aroundTagList)")
+                self?.aroundTagList.append(contentsOf: searchResult.fromRecommend)
+                self?.rocommendNum = searchResult.fromRecommend.count
                 
+                searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                
+                self?.aroundTagList = Array(Set(self!.aroundTagList))
                 self?.mainView.collectionView.reloadData()
                 
             case .failure(let error):
@@ -267,16 +259,16 @@ extension SearchViewController {
                     
                     switch response {
                     case .success(let searchResult):
-                        print("🦄search 통신 성공!!")
                         print("🦄searchResult = \(searchResult)")
                         self?.aroundTagList.removeAll()
                         
-                        self?.aroundTagList.append(contentsOf: searchResult.fromRecommend) // 추천스터디 추가
-                        self?.rocommendNum = searchResult.fromRecommend.count // 추천스터디 수
-                        searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) } // fromQueueDB 스터디 추가
-                        searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) } // fromQueueDBRequested 스터디 추가
-                        print("👍🏻추천스터디 + 주변새싹들의 스터디 모음 : \(self?.aroundTagList)")
+                        self?.aroundTagList.append(contentsOf: searchResult.fromRecommend)
+                        self?.rocommendNum = searchResult.fromRecommend.count
                         
+                        searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                        searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                        
+                        self?.aroundTagList = Array(Set(self!.aroundTagList))
                         self?.mainView.collectionView.reloadData()
                         
                     case .failure(let error):
@@ -298,25 +290,18 @@ extension SearchViewController {
 // MARK: - queue 통신
 extension SearchViewController {
     
-    // 다음화면 넘어가기 전, queue 확인용 네트워크 (queue)
     func queueNetwork() {
         
-        //        let studyList = (UserDefaultsManager.mywishTagList) // 수정필요 (인코딩 하자)
-        // 아무것도 없을 경우, anything으로 배열 생성해서 적용 필요
-        let studyList = "주식왕초보" // test dummy
-        
-        let api = APIRouter.queue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studylist: studyList) // 여기 studylist에 넣을 배열을 encoding해서 적용해주자
-        
-        Network.share.requestForResponseString(router: api) { [weak self] response in
+        let studylist = mywishTagList.isEmpty ? ["anything"] : mywishTagList
+        // test
+        Network.share.requestQueue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studyList: studylist) { [weak self] response in
             
             switch response {
             case .success(let success):
+                print("👻queue 통신 성공!!)")
+                print("👻 studylist = \(studylist)")
                 let vc = SearchResultViewController()
-                // 화면은 search result로 가면서, 데이터는 그 위에 올라가는 aroundOrAccepted로 줄 수 있을까??
-//                let listVC = ListViewController()
-//                listVC.searchCoordinate = self!.searchCoordinate  // 데이터 전달은 list, guard let 처리 혹은 기본값을 캠퍼스 위치로 줘버리자
-                self?.transition(vc, transitionStyle: .push) // 화면이동은 search
-                
+                self?.transition(vc, transitionStyle: .push)
             case .failure(let error):
                 let code = (error as NSError).code
                 guard let errorCode = SignupError(rawValue: code) else { return }
@@ -327,10 +312,13 @@ extension SearchViewController {
                     self?.mainView.makeToast("신고가 누적되어 이용하실 수 없습니다", duration: 1.0, position: .center)
                 case .cancelPenalty1:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                    // 1분간 찾기 불가 적용!!
                 case .cancelPenalty2:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                    // 1분간 찾기 불가 적용!!
                 case .cancelPenalty3:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                    // 1분간 찾기 불가 적용!!
                 case .fbTokenError:
                     self?.refreshIDTokenQueue()
                 default:
@@ -338,6 +326,47 @@ extension SearchViewController {
                 }
             }
         }
+        
+        
+        
+        
+        
+//        let studyList = "주식왕초보"
+//
+//        let api = APIRouter.queue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studylist: studyList)
+//
+//        Network.share.requestForResponseString(router: api) { [weak self] response in
+//            switch response {
+//            case .success(let success):
+//                print("👻queue 통신 성공!!)")
+//                let vc = SearchResultViewController()
+//
+//                self?.transition(vc, transitionStyle: .push)
+//
+//            case .failure(let error):
+//                let code = (error as NSError).code
+//                guard let errorCode = SignupError(rawValue: code) else { return }
+//                print("failure // code = \(code), errorCode = \(errorCode)")
+//
+//                switch errorCode {
+//                case .existUser: // 201
+//                    self?.mainView.makeToast("신고가 누적되어 이용하실 수 없습니다", duration: 1.0, position: .center)
+//                case .cancelPenalty1:
+//                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+//                    // 1분간 찾기 불가 적용!!
+//                case .cancelPenalty2:
+//                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+//                    // 1분간 찾기 불가 적용!!
+//                case .cancelPenalty3:
+//                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+//                    // 1분간 찾기 불가 적용!!
+//                case .fbTokenError:
+//                    self?.refreshIDTokenQueue()
+//                default:
+//                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+//                }
+//            }
+//        }
     }
     
     func refreshIDTokenQueue() {

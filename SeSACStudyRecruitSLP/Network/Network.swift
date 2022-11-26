@@ -49,24 +49,40 @@ final class Network {
         }
     }
 
-    // my queue state(get)
-//    func requestMyState<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
-//
-//        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
-//
-//            switch response.result {
-//            case .success(let data):
-//                print("Network > my queue state > 통신성공 : 200~500 내부임!!!✅")
-//                completion(.success(data))
-//
-//            case .failure(_):
-//                guard let statusCode = response.response?.statusCode else { return }
-//                guard let error = LoginError(rawValue: statusCode) else { return }
-//                print("Network > my queue state > 통신실패!!!🔥")
-//                completion(.failure(error))
-//            }
-//        }
-//    }
+
+    func requestQueue(long: String, lat: String, studyList: [String], completion: @escaping (Result<String, Error>) -> Void) {
+        
+        let url = "http://api.sesac.co.kr:1210" + "/v1/queue"
+        
+        let header: HTTPHeaders = [
+            "idtoken": UserDefaultsManager.idtoken,
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        
+        let parameter: [String : Any] = [
+            "long": long,
+            "lat": lat,
+            "studylist": studyList
+        ]
+        
+        let enc: ParameterEncoding = URLEncoding(arrayEncoding: .noBrackets)
+//        let encoder: ParameterEncoding = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(arrayEncoding: .noBrackets)) as! ParameterEncoding
+        
+        AF.request(url, method: .post, parameters: parameter, encoding: enc, headers: header).validate(statusCode: 200...500).responseString { response in
+            
+            switch response.result {
+                
+            case .success(let data):
+                completion(.success(data))
+                
+            case .failure(_):
+                guard let statusCode = response.response?.statusCode else { return }
+                guard let error = LoginError(rawValue: statusCode) else { return }
+                completion(.failure(error))
+                
+            }
+        }
+    }
     
     
     // fcm messaging token 갱신
