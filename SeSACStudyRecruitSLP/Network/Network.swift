@@ -15,7 +15,7 @@ final class Network {
     
     private init() { }
     
-    // login(get), search(post)
+    // login(get), search(post), my queue state(get)
     func requestLogin<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
@@ -50,24 +50,24 @@ final class Network {
     }
 
     // my queue state(get)
-    func requestMyState<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
-        
-        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
-            
-            switch response.result {
-            case .success(let data):
-                print("Network > my queue state > 통신성공 : 200~500 내부임!!!✅")
-                completion(.success(data))
-                
-            case .failure(_):
-                guard let statusCode = response.response?.statusCode else { return }
-                guard let error = LoginError(rawValue: statusCode) else { return }
-                print("Network > my queue state > 통신실패!!!🔥")
-                completion(.failure(error))
-                
-            }
-        }
-    }
+//    func requestMyState<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
+//
+//        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+//
+//            switch response.result {
+//            case .success(let data):
+//                print("Network > my queue state > 통신성공 : 200~500 내부임!!!✅")
+//                completion(.success(data))
+//
+//            case .failure(_):
+//                guard let statusCode = response.response?.statusCode else { return }
+//                guard let error = LoginError(rawValue: statusCode) else { return }
+//                print("Network > my queue state > 통신실패!!!🔥")
+//                completion(.failure(error))
+//            }
+//        }
+//    }
+    
     
     // fcm messaging token 갱신
     func requestFCMTokenUpdate(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {

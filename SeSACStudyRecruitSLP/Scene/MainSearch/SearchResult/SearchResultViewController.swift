@@ -174,7 +174,7 @@ extension SearchResultViewController {
     
     func myQueueState() {
         let api = APIRouter.myQueueState
-        Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+        Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let stateData):
@@ -220,7 +220,7 @@ extension SearchResultViewController {
                 UserDefaultsManager.idtoken = idToken
                 
                 let api = APIRouter.myQueueState
-                Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
                     
                     switch response {
                     case .success(let stateData):

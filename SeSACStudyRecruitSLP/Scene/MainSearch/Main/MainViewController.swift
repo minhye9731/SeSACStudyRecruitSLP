@@ -188,26 +188,35 @@ extension MainViewController {
     
     // 상태확인
     func checkState() {
+        print("⭐️내상태 확인 긔긔")
         let api = APIRouter.myQueueState
-        Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+        print("⭐️ idtoken = \(UserDefaultsManager.idtoken)")
+        Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let stateData):
                 print("⭐️현재 matched 여부 : \(stateData.matched)")
                 self?.matchingMode = stateData.matched == 0 ? .standby : .matched
+                
                 self?.mainView.showProperStateImage(state: self!.matchingMode)
-                
-                
+                return
             case .failure(let error):
                 let code = (error as NSError).code
                 guard let errorCode = SignupError(rawValue: code) else { return }
+                
                 print("⭐️⭐️⭐️현재 매칭모드 실패 : errorCode = \(errorCode), error설명 = \(error.localizedDescription)")
                 
                 switch errorCode {
+                case .existUser: // 201
+                    self?.matchingMode == .normal
+                    self?.mainView.showProperStateImage(state: self!.matchingMode)
+                    return
                 case .fbTokenError:
                     self?.refreshIDTokenQueue()
+                    return
                 default :
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+                    return
                 }
             }
         }
@@ -229,18 +238,22 @@ extension MainViewController {
                 UserDefaultsManager.idtoken = idToken
                 
                 let api = APIRouter.myQueueState
-                Network.share.requestMyState(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
                     
                     switch response {
                     case .success(let stateData):
                         print("토큰재발급해서 재시도해서 얻은 결과 : \(stateData.matched)")
                         self?.matchingMode = stateData.matched == 0 ? .standby : .matched
-                        self?.mainView.showProperStateImage(state: self?.matchingMode ?? .normal)
-                        
+                        self?.mainView.showProperStateImage(state: self!.matchingMode)
+                        return
                     case .failure(let error):
                         let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        guard let errorCode = SignupError(rawValue: code) else { return }
                         switch errorCode {
+                        case .existUser: // 201
+                            self?.matchingMode == .normal
+                            self?.mainView.showProperStateImage(state: self!.matchingMode)
+                            return
                         default:
                             self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
                         }
@@ -257,7 +270,7 @@ extension MainViewController {
         UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
         
         let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-        print("===✅새싹찾기 통신할 위치!|| \(UserDefaultsManager.searchLAT) \(UserDefaultsManager.searchLONG)====")
+        print("===새싹찾기 통신할 위치!|| \(UserDefaultsManager.searchLAT) \(UserDefaultsManager.searchLONG)====")
         Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
@@ -427,7 +440,7 @@ extension MainViewController {
     
     // gps
     @objc func locationbtnTapped() {
-        checkUserDeviceLocationServiceAuthorization() // 위치가 거부되어 있다면 -> '위치 서비스 사용 불가' 얼럿 & 아이폰 전체 설정 화면으로 이동
+        checkUserDeviceLocationServiceAuthorization()
         searchSesac(selectGender: selectGender)
     }
     
@@ -445,7 +458,7 @@ extension MainViewController {
                 let vc = SearchViewController()
                 transition(vc, transitionStyle: .push)
             }
-            
+            return
         case .standby:
             let vc = SearchResultViewController()
             transition(vc, transitionStyle: .push)
