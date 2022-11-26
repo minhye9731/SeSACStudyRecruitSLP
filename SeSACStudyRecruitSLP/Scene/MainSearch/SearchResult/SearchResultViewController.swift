@@ -20,7 +20,8 @@ final class SearchResultViewController: TabmanViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "새싹 찾기"
-        view.backgroundColor = .white
+        self.tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
         setBarButtonItem()
         setVC()
     }
@@ -100,11 +101,17 @@ extension SearchResultViewController {
         Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
             case .success(let _):
-                let viewControllers: [UIViewController] = self?.navigationController!.viewControllers as [UIViewController]
-                // 사용자의 현재상태는 '일반 상태'로 설정 (user defaults??)
-                // 타이머 등 새싹 찾기 화면에서 진행중인 로직을 정리
-                self?.navigationController?.popToViewController(viewControllers[viewControllers.count - 2], animated: true) // 홈화면으로 돌아가기
+                print("👽찾기 중단 성공@@")
+                                
+                let vc = TabBarController()
+                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                guard let delegate = sceneDelegate else {
+                    self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+                    return
+                }
+                delegate.window?.rootViewController = vc
                 return
+                
             case .failure(let error):
                 let code = (error as NSError).code
                 guard let errorCode = SignupError(rawValue: code) else { return }
@@ -143,11 +150,16 @@ extension SearchResultViewController {
                 Network.share.requestForResponseString(router: api) { [weak self] response in
                     
                     switch response {
-                    case .success(let stateData):
-                        let viewControllers: [UIViewController] = self?.navigationController!.viewControllers as [UIViewController]
-                        // 사용자의 현재상태는 '일반 상태'로 설정 (user defaults??)
-                        // 타이머 등 새싹 찾기 화면에서 진행중인 로직을 정리
-                        self?.navigationController?.popToViewController(viewControllers[viewControllers.count - 2], animated: true) // 홈화면으로 돌아가기
+                    case .success(let _):
+                        print("👽idtoken 재발급 후, 찾기 중단 성공@@")
+                                        
+                        let vc = TabBarController()
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                        guard let delegate = sceneDelegate else {
+                            self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+                            return
+                        }
+                        delegate.window?.rootViewController = vc
                         return
                         
                     case .failure(let error):
@@ -161,10 +173,6 @@ extension SearchResultViewController {
                 }
             }
         }
-        
-        
-        
-        
     }
     
 }

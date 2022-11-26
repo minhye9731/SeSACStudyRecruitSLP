@@ -288,7 +288,6 @@ extension MainViewController {
                 print("sesacManList : \(self?.sesacManList)")
                 print("sesacWomanList : \(self?.sesacWomanList)")
                        
-                // 새싹 지도 표기
                 self?.showSesacMap(gender: selectGender)
                 
             case .failure(let error):
@@ -456,6 +455,7 @@ extension MainViewController {
             return
         case .standby:
             let vc = SearchResultViewController()
+            
             transition(vc, transitionStyle: .push)
             
         case .matched:

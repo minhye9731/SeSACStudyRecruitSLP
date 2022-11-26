@@ -99,6 +99,7 @@ extension MyInfoViewController {
             
             switch response {
             case .success(let loginData):
+                print("🥰login data = \(loginData)")
                 UserDefaultsManager.background = loginData.background
                 UserDefaultsManager.sesac = loginData.sesac
                 UserDefaultsManager.nick = loginData.nick
