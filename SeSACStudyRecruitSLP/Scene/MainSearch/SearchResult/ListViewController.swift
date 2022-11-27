@@ -39,6 +39,7 @@ final class ListViewController: BaseViewController {
         
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     func configureEmptyView() {
@@ -146,7 +147,6 @@ extension ListViewController {
 //            searchSesac() // **호출시점 4-2
 //            // 여기 떄문에, 클릭 하자마자 user card 접혔다가 바로 펼쳐짐
 //        }
-        
     }
     
     @objc func moreReviewTapped(sender: moreReviewButton) {
@@ -166,7 +166,6 @@ extension ListViewController {
     @objc func refreshBtnTapped() {
         print("새로고침 버튼 눌림")
         searchSesac() // **호출시점3
-//        self.navigationController?.popViewController(animated: true)
     }
     
 }
