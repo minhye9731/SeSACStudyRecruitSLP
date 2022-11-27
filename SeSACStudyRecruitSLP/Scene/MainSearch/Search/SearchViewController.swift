@@ -32,6 +32,7 @@ final class SearchViewController: BaseViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
         searchNetwork(location: searchCoordinate)
+        print(searchCoordinate)
     }
     
     // MARK: - functions
@@ -305,7 +306,7 @@ extension SearchViewController {
                 print("👻 queue 통신 성공!! studylist = \(studylist)")
                 let vc = SearchResultViewController()
                 // 화면 넘어가는 거는 그릇이 되는 SearchResultViewController인데,
-                // 넘어간 화면에서 사용자의 위치를 사용할때는 ListViewController에서 데이터를 써야 한다 흠.....어떻게 전달하징
+                // 넘어간 화면에서 사용자의 위치를 사용할때는 ListViewController에서 데이터를 써야 한다 흠.....어떻게 전달하징..우선UserDefaultsManager 쓴다
                 
                 UserDefaultsManager.searchLAT = String(self!.searchCoordinate.lat)
                 UserDefaultsManager.searchLONG = String(self!.searchCoordinate.long)

@@ -58,6 +58,8 @@ final class MainViewController: BaseViewController {
         goLocation(center: campusLocation)
         
         setBtnAction()
+        
+        print(UserDefaultsManager.idtoken)
     }
     
     func setBtnAction() {

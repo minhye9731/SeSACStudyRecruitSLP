@@ -155,13 +155,12 @@ extension ListViewController {
         
         let vc = MoreReviewViewController()
         vc.reviewList = info[row].reviews
-//        let a = info[row].reviews
         transition(vc, transitionStyle: .push)
     }
     
     
     @objc func studyChangeBtnTapped() {
-        print("스터디 변경하기 버튼 눌림")
+        stopSearchSesac()
     }
     
     @objc func refreshBtnTapped() {
@@ -174,6 +173,7 @@ extension ListViewController {
 
 extension ListViewController {
     
+    // search
     func searchSesac() {
         print(#function)
         
@@ -302,6 +302,64 @@ extension ListViewController {
         }
     }
     
+    // delete queue
+    func stopSearchSesac() {
+        let api = APIRouter.delete
+        Network.share.requestForResponseString(router: api) { [weak self] response in
+            switch response {
+            case .success( _):
+                self?.navigationController?.popViewController(animated: true)
+                return
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                switch errorCode {
+                case .fbTokenError:
+                    self?.refreshIDTokenDelete()
+                    return
+                default:
+                    self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                    return
+                }
+            }
+        }
+    }
+    
+    func refreshIDTokenDelete() {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = APIRouter.delete
+                Network.share.requestForResponseString(router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success( _):
+                        print("👽idtoken 재발급 후, 찾기 중단 성공@@")
+                        self?.navigationController?.popViewController(animated: true)
+                        return
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = LoginError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
 }
