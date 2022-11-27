@@ -263,14 +263,11 @@ extension MainViewController {
     // 새싹찾기
     func searchSesac(selectGender: MapGenderMode) {
         print(#function)
-//        UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
-//        UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
-//
-//        let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-//        print("===새싹찾기 통신할 위치!|| \(UserDefaultsManager.searchLAT) \(UserDefaultsManager.searchLONG)====")
         
-        let api = APIRouter.search(lat: String(mainView.mapView.centerCoordinate.latitude), long: String(mainView.mapView.centerCoordinate.longitude))
-        Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+        let api = APIRouter.search(
+            lat: String(mainView.mapView.centerCoordinate.latitude),
+            long: String(mainView.mapView.centerCoordinate.longitude))
+        Network.share.requestSearch(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let result):
@@ -318,12 +315,11 @@ extension MainViewController {
                 return
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
-                
-                UserDefaultsManager.searchLAT = String(self.mainView.mapView.centerCoordinate.latitude)
-                UserDefaultsManager.searchLONG = String(self.mainView.mapView.centerCoordinate.longitude)
-                
-                let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-                Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+
+                let api = APIRouter.search(
+                    lat: String(mainView.mapView.centerCoordinate.latitude),
+                    long: String(mainView.mapView.centerCoordinate.longitude))
+                Network.share.requestSearch(type: SearchResponse.self, router: api) { [weak self] response in
                     switch response {
                     case .success(let result):
                         print("===✅새싹찾기 통신 성공!====")
@@ -455,7 +451,6 @@ extension MainViewController {
             return
         case .standby:
             let vc = SearchResultViewController()
-            
             transition(vc, transitionStyle: .push)
             
         case .matched:
