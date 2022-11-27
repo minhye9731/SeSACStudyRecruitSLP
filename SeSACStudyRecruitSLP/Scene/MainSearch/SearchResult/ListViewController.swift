@@ -6,8 +6,6 @@
 //
 
 import UIKit
-//import RxSwift
-//import RxCocoa
 import FirebaseAuth
 import Tabman
 
@@ -17,10 +15,7 @@ final class ListViewController: BaseViewController {
     let mainView = ListView()
     var aroundOrAccepted: SearchMode = .aroundSesac
     
-    //test용 더미데이터
-    var searchCoordinate = UserLocationDTO(lat: 37.517819364682694, long: 126.88647317074734) // 화면 넘어올떄 받아주는 값
-    var isExpandedList = [false, false, false, false, false, false, false, false, false, false] // teset
-    
+    var isExpandedList: [Bool] = []
     var aroundSesacList: [FromQueueDB] = []
     var receivedSesacList: [FromQueueDB] = []
     
@@ -32,7 +27,7 @@ final class ListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchSesac(location: searchCoordinate) // **호출시점2 (주변새싹 / 받은 요청 탭 전환시
+        searchSesac() // **호출시점2 (주변새싹 / 받은 요청 탭 전환시)
     }
     
     // MARK: - functions
@@ -40,7 +35,7 @@ final class ListViewController: BaseViewController {
         super.configure()
         configureEmptyView()
         
-        searchSesac(location: searchCoordinate) // **호출시점1
+        searchSesac() // **호출시점1
         
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
@@ -73,6 +68,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         return .leastNormalMagnitude
     }
     
+    // 이거 소용있나??
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let tableView = scrollView as? UITableView,
               let visible = tableView.indexPathsForVisibleRows,
@@ -88,11 +84,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
-        // headerview에 section, func 연결
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
         
-        // 버튼
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
         headerView.askAcceptbtn.header = headerView
         headerView.askAcceptbtn.section = section
@@ -111,7 +105,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
         
         profileCell.selectionStyle = .none
-//        profileCell.setData() // 여기!!!!!!! search 결과 데이터 세팅 추가해야함.
+//        profileCell.setData() // 여기!!!!!!! search 결과 데이터 세팅 추가해야함. test
         
         profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
         return profileCell
@@ -122,7 +116,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
 extension ListViewController {
     
     @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
-        guard let header = sender.header else { return }
+//        guard let header = sender.header else { return }
         guard let section = sender.section else { return }
         print("\(section)번째 요청하기 or 수락하기 버튼 클릭")
         
@@ -140,11 +134,13 @@ extension ListViewController {
         
         isExpandedList[section].toggle()
         header.setCollapsed(isExpandedList[section])
-        mainView.tableView.reloadData()
         
-        if isExpandedList[section] { // 펼친 카드를 받을 경우??
-            searchSesac(location: searchCoordinate) // **호출시점 4-2
-        }
+        mainView.tableView.reloadData()// 접었다펼쳤다 할 때 tableview 갱신 때문에 화면이 버벅거림
+        
+//        if isExpandedList[section] { // 펼친 카드를 받을 경우??
+//            searchSesac() // **호출시점 4-2
+//            // 여기 떄문에, 클릭 하자마자 user card 접혔다가 바로 펼쳐짐
+//        }
         
     }
     
@@ -155,7 +151,7 @@ extension ListViewController {
     
     @objc func refreshBtnTapped() {
         print("새로고침 버튼 눌림")
-        searchSesac(location: searchCoordinate) // **호출시점3
+        searchSesac() // **호출시점3
 //        self.navigationController?.popViewController(animated: true)
     }
     
@@ -163,10 +159,16 @@ extension ListViewController {
 
 extension ListViewController {
     
-    func searchSesac(location: UserLocationDTO) {
+    func searchSesac() {
         print(#function)
         
-        let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+        let api = APIRouter.search(
+            lat: UserDefaultsManager.searchLAT,
+            long: UserDefaultsManager.searchLONG)
+        
+        print("🤑UserDefaultsManager.searchLAT = \(UserDefaultsManager.searchLAT)")
+        print("🤑UserDefaultsManager.searchLONG = \(UserDefaultsManager.searchLONG)")
+        
         Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
@@ -174,7 +176,6 @@ extension ListViewController {
                 print("🦄search 통신 성공!!")
                 
                 if self?.pageboyPageIndex == 0 {
-                    // 주변 새싹
                     self?.aroundSesacList = searchResult.fromQueueDB
                     
                     if self!.aroundSesacList.isEmpty {
@@ -188,7 +189,6 @@ extension ListViewController {
                         self?.mainView.tableView.reloadData()
                     }
                 } else {
-                    // 받은 요청
                     self?.receivedSesacList = searchResult.fromQueueDBRequested
                     
                     if self!.receivedSesacList.isEmpty {
@@ -211,7 +211,7 @@ extension ListViewController {
                 
                 switch errorCode {
                 case .fbTokenError:
-                    self?.refreshIDTokenSearchSesac(location: location)
+                    self?.refreshIDTokenSearchSesac()
                 default :
                     self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                 }
@@ -219,7 +219,7 @@ extension ListViewController {
         }
     }
     
-    func refreshIDTokenSearchSesac(location: UserLocationDTO) {
+    func refreshIDTokenSearchSesac() {
         
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
@@ -235,7 +235,9 @@ extension ListViewController {
                 UserDefaultsManager.idtoken = idToken
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
-                let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+                let api = APIRouter.search(
+                    lat: UserDefaultsManager.searchLAT,
+                    long: UserDefaultsManager.searchLONG)
                 Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
                     
                     switch response {
@@ -243,7 +245,6 @@ extension ListViewController {
                         print("🦄search 통신 성공!!")
 
                         if self?.pageboyPageIndex == 0 {
-                            // 주변 새싹
                             self?.aroundSesacList = searchResult.fromQueueDB
                             
                             if self!.aroundSesacList.isEmpty {
@@ -257,7 +258,6 @@ extension ListViewController {
                                 self?.mainView.tableView.reloadData()
                             }
                         } else {
-                            // 받은 요청
                             self?.receivedSesacList = searchResult.fromQueueDBRequested
                             
                             if self!.receivedSesacList.isEmpty {
