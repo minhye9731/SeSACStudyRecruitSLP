@@ -24,6 +24,7 @@ final class SearchResultViewController: TabmanViewController {
         navigationController?.navigationBar.isHidden = false
         setBarButtonItem()
         setVC()
+        
     }
     
     // MARK: - functions
@@ -91,6 +92,7 @@ extension SearchResultViewController {
         barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
         navibarAppearance.buttonAppearance = barbuttonItemAppearance
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "찾기중단", style: .plain, target: self, action: #selector(stopTapped))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     @objc func stopTapped() {

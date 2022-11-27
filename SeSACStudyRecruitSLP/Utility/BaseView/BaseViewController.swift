@@ -17,10 +17,14 @@ class BaseViewController: UIViewController {
     
     func configure() {
         self.view.backgroundColor = .white
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        setNavi()
     }
     
     func setConstraints() {}
+    
+    func setNavi() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    }
     
     func showAlertMessage(title: String, button: String = "확인") {
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -30,10 +34,8 @@ class BaseViewController: UIViewController {
     }
     
     func giveColorString(label: UILabel, colorStr: String, color: UIColor) {
-        
         let attributeLabelStr = NSMutableAttributedString(string: label.text!)
         attributeLabelStr.addAttribute(.foregroundColor, value: color, range: (label.text! as NSString).range(of: colorStr))
-        
         label.attributedText = attributeLabelStr
     }
     

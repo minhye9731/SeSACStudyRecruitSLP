@@ -31,13 +31,15 @@ final class MainViewController: BaseViewController {
         self.view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     //홈화면 보일 때마다
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-        
         checkUserDeviceLocationServiceAuthorization()
         checkState() // myQueueState
         searchSesac(selectGender: selectGender) // search
