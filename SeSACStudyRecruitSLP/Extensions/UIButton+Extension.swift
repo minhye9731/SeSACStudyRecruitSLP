@@ -110,4 +110,19 @@ extension UIButton {
         return config
     }
     
+    static func moreMenuButton(title: String, image: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .white
+        config.image = UIImage(named: image)
+        config.imagePadding = 4
+        config.imagePlacement = .top
+        var title = AttributedString.init(title)
+        title.font = CustomFonts.title3_M14()
+        title.foregroundColor = .black
+        config.attributedTitle = title
+        return config
+    }
+    
+    
+    
 }

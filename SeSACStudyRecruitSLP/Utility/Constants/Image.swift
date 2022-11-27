@@ -35,13 +35,24 @@ enum Constants {
         case graySesac = "defaultSesac"
         case refresh = "arrow.clockwise"
         
+        // chat
+        case moreDot = "more"
+        case bell = "bell"
+        case sendInact = "Property 1=send, Property 2=inact"
+        case sendAct = "Property 1=send, Property 2=act"
+        case report = "siren"
+        case cancelFace = "cancel_match"
+        case reviewWrite = "write"
+        
+        // review popup
+        case bigClose = "close_big"
+        
         // my info
         case notice = "notice"
         case faq = "faq"
         case qna = "qna"
         case alarm = "setting_alarm"
         case permit = "permit"
-        
         case moreArrow = "more_arrow"
         
         // sesac face
