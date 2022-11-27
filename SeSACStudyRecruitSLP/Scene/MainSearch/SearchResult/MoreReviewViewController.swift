@@ -16,13 +16,7 @@ final class MoreReviewViewController: BaseViewController {
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, String>!
-    
-    // test dummy
-    let reviewList: [String] = [
-    "가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사",
-    "여행가고 싶다~~여행가고 싶다~~여행가고 싶다~~여행가고 싶다~~여행가고 싶다~~여행가고 싶다~~여행가고 싶다~~",
-    "Can i call you baby? can you be my friend? let me show you love, oh, no pretend. stick by my side even when the world is caving in, yeah. oh, oh, oh don't don'y you worry. I'll be there whenever you want me. I need somebody who can love me at my worst."
-    ]
+    var reviewList: [String] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

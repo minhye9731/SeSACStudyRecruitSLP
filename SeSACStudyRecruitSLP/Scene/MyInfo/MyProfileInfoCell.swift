@@ -30,7 +30,7 @@ final class MyProfileInfoCell: BaseTableViewCell {
     let moreViewImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
-        image.image = UIImage(named: Constants.ImageName.more.rawValue)
+        image.image = UIImage(named: Constants.ImageName.moreArrow.rawValue)
         return image
     }()
     

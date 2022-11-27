@@ -95,6 +95,15 @@ final class ProfileCell: BaseTableViewCell {
         label.textAlignment = .left
         return label
     }()
+
+    let moreReview : moreReviewButton = {
+        let btn = moreReviewButton()
+        btn.setImage(UIImage(named: Constants.ImageName.moreArrow.rawValue), for: .normal)
+        btn.tintColor = ColorPalette.gray7
+        btn.contentMode = .scaleAspectFit
+        return btn
+    }()
+    
     let reviewTextField: UITextField = {
         let textfield = UITextField()
         textfield.attributedPlaceholder = NSAttributedString(string: "첫 리뷰를 기다리는 중이에요!", attributes: [NSAttributedString.Key.foregroundColor : ColorPalette.gray6])
@@ -111,7 +120,7 @@ final class ProfileCell: BaseTableViewCell {
     override func configure() {
         super.configure()
         contentView.addSubview(usercardView)
-        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title2, wantedStudy, title3, reviewTextField].forEach {
+        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title2, wantedStudy, title3, moreReview, reviewTextField].forEach {
             usercardView.addSubview($0)
         }
     }
@@ -190,6 +199,13 @@ final class ProfileCell: BaseTableViewCell {
             make.leading.equalTo(usercardView).offset(spacing)
             make.top.equalTo(wantedStudy.snp.bottom).offset(24)
         }
+        
+        moreReview.snp.makeConstraints {
+            $0.trailing.equalTo(usercardView).offset(-16)
+            $0.centerY.equalTo(title3.snp.centerY)
+            $0.width.height.equalTo(usercardView.snp.width).multipliedBy(0.046)
+        }
+        
         reviewTextField.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(usercardView).inset(spacing)
             make.top.equalTo(title3.snp.bottom).offset(16)
@@ -242,6 +258,7 @@ final class ProfileCell: BaseTableViewCell {
 //        }
         
         reviewList.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = reviewList[0])
+        reviewList.isEmpty ? (moreReview.isHidden = true) : (moreReview.isHidden = false)
     }
     
     

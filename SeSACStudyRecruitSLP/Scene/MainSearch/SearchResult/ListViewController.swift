@@ -108,6 +108,11 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
 //        profileCell.setData() // 여기!!!!!!! search 결과 데이터 세팅 추가해야함. test
         
         profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
+        
+        profileCell.moreReview.addTarget(self, action: #selector(moreReviewTapped), for: .touchUpInside)
+        profileCell.moreReview.data =  pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList
+        profileCell.moreReview.section = indexPath.section
+        
         return profileCell
     }
 }
@@ -142,6 +147,16 @@ extension ListViewController {
 //            // 여기 떄문에, 클릭 하자마자 user card 접혔다가 바로 펼쳐짐
 //        }
         
+    }
+    
+    @objc func moreReviewTapped(sender: moreReviewButton) {
+        guard let info = sender.data else { return }
+        guard let row = sender.section else { return }
+        
+        let vc = MoreReviewViewController()
+        vc.reviewList = info[row].reviews
+//        let a = info[row].reviews
+        transition(vc, transitionStyle: .push)
     }
     
     

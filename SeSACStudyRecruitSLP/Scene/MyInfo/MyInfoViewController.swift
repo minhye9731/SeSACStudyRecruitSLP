@@ -16,7 +16,7 @@ struct MenuList: Hashable {
     let nextimage: String?
     
     static let menuContents = [
-        MenuList(title: UserDefaultsManager.nick, image: "sesac_face_\(UserDefaultsManager.background + 1)", nextimage: Constants.ImageName.more.rawValue),
+        MenuList(title: UserDefaultsManager.nick, image: "sesac_face_\(UserDefaultsManager.background + 1)", nextimage: Constants.ImageName.moreArrow.rawValue),
         MenuList(title: "공지사항", image: Constants.ImageName.notice.rawValue, nextimage: nil),
         MenuList(title: "자주 묻는 질문", image: Constants.ImageName.faq.rawValue, nextimage: nil),
         MenuList(title: "1:1 문의", image: Constants.ImageName.qna.rawValue, nextimage: nil),

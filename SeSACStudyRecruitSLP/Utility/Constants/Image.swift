@@ -42,7 +42,7 @@ enum Constants {
         case alarm = "setting_alarm"
         case permit = "permit"
         
-        case more = "more_arrow"
+        case moreArrow = "more_arrow"
         
         // sesac face
         case face1 = "sesac_face_1"
