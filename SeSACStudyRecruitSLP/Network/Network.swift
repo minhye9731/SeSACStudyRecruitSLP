@@ -15,7 +15,37 @@ final class Network {
     
     private init() { }
     
-    // login(get), search(post), my queue state(get)
+    // session 정의
+    let sessionManager: Session = {
+        let configuration = URLSessionConfiguration.af.default
+        configuration.timeoutIntervalForRequest = 5 // 재호출 제한 시간간격
+        configuration.waitsForConnectivity = true
+        return Session(configuration: configuration)
+    }()
+
+    // search(post) - timeout interval 적용
+    func requestSearch<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
+        
+        // 적용 안되는데?;;
+        sessionManager.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+            
+            switch response.result {
+                
+            case .success(let data):
+                completion(.success(data))
+                
+            case .failure(_):
+                guard let statusCode = response.response?.statusCode else { return }
+                guard let error = LoginError(rawValue: statusCode) else { return }
+                completion(.failure(error))
+                
+            }
+        }
+    }
+    
+    
+    
+    // login(get), my queue state(get)
     func requestLogin<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
@@ -66,8 +96,7 @@ final class Network {
         ]
         
         let enc: ParameterEncoding = URLEncoding(arrayEncoding: .noBrackets)
-//        let encoder: ParameterEncoding = URLEncodedFormParameterEncoder(encoder: URLEncodedFormEncoder(arrayEncoding: .noBrackets)) as! ParameterEncoding
-        
+   
         AF.request(url, method: .post, parameters: parameter, encoding: enc, headers: header).validate(statusCode: 200...500).responseString { response in
             
             switch response.result {
