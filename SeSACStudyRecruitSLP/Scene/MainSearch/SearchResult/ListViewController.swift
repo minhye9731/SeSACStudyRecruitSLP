@@ -39,7 +39,6 @@ final class ListViewController: BaseViewController {
         
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     func configureEmptyView() {
@@ -106,7 +105,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
         
         profileCell.selectionStyle = .none
-//        profileCell.setData() // 여기!!!!!!! search 결과 데이터 세팅 추가해야함. test
         
         profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
         
@@ -122,9 +120,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
 extension ListViewController {
     
     @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
-//        guard let header = sender.header else { return }
         guard let section = sender.section else { return }
-        print("\(section)번째 요청하기 or 수락하기 버튼 클릭")
         
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
@@ -157,7 +153,6 @@ extension ListViewController {
         vc.reviewList = info[row].reviews
         transition(vc, transitionStyle: .push)
     }
-    
     
     @objc func studyChangeBtnTapped() {
         stopSearchSesac()
@@ -359,8 +354,6 @@ extension ListViewController {
             }
         }
     }
-    
-    
 }
 
 

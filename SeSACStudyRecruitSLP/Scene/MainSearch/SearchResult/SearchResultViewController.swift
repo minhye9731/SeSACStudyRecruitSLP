@@ -22,9 +22,30 @@ final class SearchResultViewController: TabmanViewController {
         self.title = "새싹 찾기"
         self.tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         setBarButtonItem()
         setVC()
+    }
+    
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
+        // 홈화면으로 이동하기는 하지만,,
+        // (이슈) 이전 화면까지 보이면서 뒤로가서 버벅임
+        // (이슈) 홈화면에서의 상태가 [일반]임 -> [매칭 대기중]이어야 함
+        let vc = TabBarController()
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        guard let delegate = sceneDelegate else {
+            self.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+            return
+        }
+        delegate.window?.rootViewController = vc
+
+    }
+    
+    deinit {
+        print("📡 새싹 찾기 화면 deinit")
     }
     
     // MARK: - functions
@@ -83,9 +104,9 @@ extension SearchResultViewController: PageboyViewControllerDataSource, TMBarData
     }
 }
 
-
-// MARK: - 찾기 중단 메서드
+// MARK: - 기타
 extension SearchResultViewController {
+    
     func setBarButtonItem() {
         let navibarAppearance = UINavigationBarAppearance()
         let barbuttonItemAppearance = UIBarButtonItemAppearance()
@@ -95,14 +116,17 @@ extension SearchResultViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
+}
+
+
+// MARK: - delete queue (API)
+extension SearchResultViewController {
+    
     @objc func stopTapped() {
-        print("찾기 중단 클릭됨!! :)")
-        
         let api = APIRouter.delete
-        
         Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
-            case .success(let _):
+            case .success( _):
                 print("👽찾기 중단 성공@@")
                                 
                 let vc = TabBarController()
@@ -152,7 +176,7 @@ extension SearchResultViewController {
                 Network.share.requestForResponseString(router: api) { [weak self] response in
                     
                     switch response {
-                    case .success(let _):
+                    case .success( _):
                         print("👽idtoken 재발급 후, 찾기 중단 성공@@")
                                         
                         let vc = TabBarController()
@@ -176,10 +200,9 @@ extension SearchResultViewController {
             }
         }
     }
-    
 }
 
-// MARK: - myQueueState
+// MARK: - myQueueState (API)
 extension SearchResultViewController {
     
     func myQueueState() {
@@ -194,9 +217,8 @@ extension SearchResultViewController {
                         let vc = ChattingViewController()
                         self?.transition(vc, transitionStyle: .push)
                     }
-                } else if stateData.matched == 0 {
-                    // 사용자 현재 상태는 매칭 대기중 상태
                 }
+                return
                 
             case .failure(let error):
                 let code = (error as NSError).code
@@ -234,16 +256,12 @@ extension SearchResultViewController {
                     switch response {
                     case .success(let stateData):
                         if stateData.matched == 1 {
-                            // 사용자 현재 상태를 매칭 상태로 변경
-                            
                             self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
                                 let vc = ChattingViewController()
                                 self?.transition(vc, transitionStyle: .push)
                             }
-                        } else if stateData.matched == 0 {
-                            // 사용자 현재 상태는 매칭 대기중 상태
                         }
-                        
+                        return
                         
                     case .failure(let error):
                         let code = (error as NSError).code
@@ -257,5 +275,5 @@ extension SearchResultViewController {
             }
         }
     }
- 
 }
+

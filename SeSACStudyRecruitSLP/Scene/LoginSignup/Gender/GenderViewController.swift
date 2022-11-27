@@ -110,8 +110,8 @@ final class GenderViewController: BaseViewController {
                 case .invalidNickname:
                     self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        let vc = NickNameViewController()
-                        self?.changeRootVC(vc: vc)
+                        let vc = NickNameViewController() // 이거말고 뷰컨기준 3개 뒤로가기 하자
+                        self?.changeRootVC(vc: vc) // 이거말고 뷰컨기준 3개 뒤로가기 하자
                     }
                 case .fbTokenError:
                     self?.refreshIDToken()

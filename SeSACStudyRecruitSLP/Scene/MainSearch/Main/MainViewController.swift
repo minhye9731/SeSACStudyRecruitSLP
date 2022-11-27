@@ -209,7 +209,7 @@ extension MainViewController {
                 
                 switch errorCode {
                 case .existUser: // 201
-                    self?.matchingMode == .normal
+                    self?.matchingMode = .normal
                     self?.mainView.showProperStateImage(state: self!.matchingMode)
                     return
                 case .fbTokenError:
@@ -252,7 +252,7 @@ extension MainViewController {
                         guard let errorCode = SignupError(rawValue: code) else { return }
                         switch errorCode {
                         case .existUser: // 201
-                            self?.matchingMode == .normal
+                            self?.matchingMode = .normal
                             self?.mainView.showProperStateImage(state: self!.matchingMode)
                             return
                         default:
@@ -285,9 +285,9 @@ extension MainViewController {
                 self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
                 self?.sesacWomanList = self!.sesacList.filter { $0.gender == 0 }
                 
-                print("sesacList : \(self?.sesacList)")
-                print("sesacManList : \(self?.sesacManList)")
-                print("sesacWomanList : \(self?.sesacWomanList)")
+//                print("sesacList : \(self?.sesacList)")
+//                print("sesacManList : \(self?.sesacManList)")
+//                print("sesacWomanList : \(self?.sesacWomanList)")
                        
                 self?.showSesacMap(gender: selectGender)
                 

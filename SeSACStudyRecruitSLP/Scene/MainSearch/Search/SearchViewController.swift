@@ -199,12 +199,13 @@ extension SearchViewController {
         searchBar.placeholder = "띄어쓰기로 복수 입력이 가능해요"
         searchBar.searchTextField.inputAccessoryView = self.mainView.accSearchBtn
         searchBar.searchTextField.delegate = self
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
     }
     
     @objc func searchBtnTapped() {
         queueNetwork()
     }
+
 }
 
 // MARK: - search 통신
