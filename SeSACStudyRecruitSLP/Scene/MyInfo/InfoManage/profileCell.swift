@@ -75,8 +75,14 @@ final class ProfileCell: BaseTableViewCell {
     }()
     let wantedStudy: UIButton = {
        let button = UIButton()
-        button.configuration = UIButton.textButton(title: "부동산 투자") // test
-        button.isEnabled = false
+        button.backgroundColor = .white
+        button.layer.borderColor = ColorPalette.gray3.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = CustomFonts.title4_R14()
+        button.isUserInteractionEnabled = false
+        button.sizeToFit()
         return button
     }()
     //
@@ -105,7 +111,7 @@ final class ProfileCell: BaseTableViewCell {
     override func configure() {
         super.configure()
         contentView.addSubview(usercardView)
-        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title3, reviewTextField, title2, wantedStudy].forEach {
+        [title1, titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6, title2, wantedStudy, title3, reviewTextField].forEach {
             usercardView.addSubview($0)
         }
     }
@@ -113,6 +119,7 @@ final class ProfileCell: BaseTableViewCell {
     override func setConstraints() {
         super.setConstraints()
         
+//        let wantedStudyWidth = wantedStudy.frame.size.width
         let btnWidth = (contentView.frame.width - 72) / 2
         let spacing = 16
         
@@ -171,9 +178,11 @@ final class ProfileCell: BaseTableViewCell {
             $0.leading.equalTo(usercardView).offset(spacing)
         }
         wantedStudy.snp.makeConstraints {
-            $0.top.equalTo(title3.snp.bottom).offset(16)
+            $0.top.equalTo(title2.snp.bottom).offset(16)
             $0.leading.equalTo(usercardView).offset(spacing)
-            $0.width.equalTo(100) // test
+            $0.height.equalTo(32)
+//            $0.width.equalTo(wantedStudyWidth + 32.0)
+            $0.width.equalTo(100)
         }
         //
         
@@ -224,11 +233,15 @@ final class ProfileCell: BaseTableViewCell {
             }
         }
         
-        if reviewList.isEmpty {
-            reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!"
-        } else {
-            reviewTextField.text = reviewList[0]
-        }
+        let study = data[section].studylist.isEmpty ? "아무거나" : data[section].studylist[0]
+        wantedStudy.setTitle(study, for: .normal)
+        
+//        let wantedStudyWidth = wantedStudy.frame.size.width
+//        wantedStudy.snp.makeConstraints {
+//            $0.width.equalTo(wantedStudyWidth + 32)
+//        }
+        
+        reviewList.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = reviewList[0])
     }
     
     

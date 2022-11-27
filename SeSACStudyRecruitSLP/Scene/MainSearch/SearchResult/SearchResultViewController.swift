@@ -187,8 +187,7 @@ extension SearchResultViewController {
             switch response {
             case .success(let stateData):
                 if stateData.matched == 1 {
-                    // 사용자 현재 상태를 매칭 상태로 변경
-                    
+
                     self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
                         let vc = ChattingViewController()
                         self?.transition(vc, transitionStyle: .push)
