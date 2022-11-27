@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E1164022933769200501EBD /* MoreReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1164012933769200501EBD /* MoreReviewViewController.swift */; };
+		0E11640429337D6100501EBD /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */; };
 		0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E72918D63E0040BD85 /* AppDelegate.swift */; };
 		0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E92918D63E0040BD85 /* SceneDelegate.swift */; };
 		0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410ED2918D63E0040BD85 /* Main.storyboard */; };
@@ -123,6 +125,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E1164012933769200501EBD /* MoreReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreReviewViewController.swift; sourceTree = "<group>"; };
+		0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACStudyRecruitSLP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1410E72918D63E0040BD85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1410E92918D63E0040BD85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -393,6 +397,8 @@
 				0E46E2AE29288C390058A50E /* SearchResultViewController.swift */,
 				0E46E2B329288F3C0058A50E /* ListViewController.swift */,
 				0EA57486292903070064599F /* ListView.swift */,
+				0E1164012933769200501EBD /* MoreReviewViewController.swift */,
+				0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */,
 			);
 			path = SearchResult;
 			sourceTree = "<group>";
@@ -679,6 +685,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E4F630A291CFD0900F36167 /* PhoneNumberViewModel.swift in Sources */,
+				0E1164022933769200501EBD /* MoreReviewViewController.swift in Sources */,
 				0EA57489292912910064599F /* SearchViewController.swift in Sources */,
 				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
@@ -715,6 +722,7 @@
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
 				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
+				0E11640429337D6100501EBD /* ReviewCollectionViewCell.swift in Sources */,
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
 				0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */,
 				0E49C6BF292244F1004E7875 /* ageRangeCell.swift in Sources */,
