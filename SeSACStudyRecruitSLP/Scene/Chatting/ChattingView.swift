@@ -15,8 +15,9 @@ final class ChattingView: BaseView {
         view.isScrollEnabled = true
         view.showsVerticalScrollIndicator = true
         view.separatorStyle = .none
+        view.allowsSelection = false
         
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.rowHeight = UITableView.automaticDimension
         
         view.register(MyChatTableViewCell.self, forCellReuseIdentifier: MyChatTableViewCell.reuseIdentifier)
@@ -80,7 +81,7 @@ final class ChattingView: BaseView {
         return view
     }()
     
-    lazy var reviewTextField: UITextField = {
+    lazy var chatTextField: UITextField = {
         let textfield = UITextField()
         textfield.attributedPlaceholder = NSAttributedString(string: "메세지를 입력하세요", attributes: [NSAttributedString.Key.foregroundColor : ColorPalette.gray7])
         textfield.font = CustomFonts.body3_R14()
@@ -116,7 +117,7 @@ final class ChattingView: BaseView {
         [bellImage, matchingSesacLabel].forEach { matchingSesacStackView.addArrangedSubview($0)
         }
 
-        [reviewTextField, sendbtn].forEach {
+        [chatTextField, sendbtn].forEach {
             inputTextView.addSubview($0)
         }
     }
@@ -163,7 +164,7 @@ final class ChattingView: BaseView {
             $0.width.equalTo(sendbtn.snp.height)
         }
         
-        reviewTextField.snp.makeConstraints {
+        chatTextField.snp.makeConstraints {
             $0.leading.equalTo(inputTextView.snp.leading).offset(12)
             $0.verticalEdges.equalTo(inputTextView).inset(14)
             $0.trailing.equalTo(sendbtn.snp.leading).offset(-10)
