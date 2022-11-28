@@ -128,7 +128,8 @@ struct UserDefaultsManager {
     @UserDefaultsWrapper(key: "mywishTagList", defaultValue: []) // 내가 하고싶은 스터디
     static var mywishTagList: Array
     
-    
-    
+    // MARK: - 채팅
+    @UserDefaultsWrapper(key: "chatTO", defaultValue: "") // 채팅 메시지를 받을 상대방 uid
+    static var chatTO: String
     
 }
