@@ -16,6 +16,12 @@
 		0E11640E2933DA0200501EBD /* YourChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11640D2933DA0200501EBD /* YourChatTableViewCell.swift */; };
 		0E1164102933F1DD00501EBD /* MoreMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11640F2933F1DD00501EBD /* MoreMenuViewController.swift */; };
 		0E1164142933F80600501EBD /* WriteReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1164132933F80600501EBD /* WriteReviewViewController.swift */; };
+		0E1164392934B90500501EBD /* ChatAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1164382934B90500501EBD /* ChatAPIRouter.swift */; };
+		0E11643B2934C6F500501EBD /* SendChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11643A2934C6F500501EBD /* SendChatResponse.swift */; };
+		0E11643D2934C7F900501EBD /* LastChatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11643C2934C7F900501EBD /* LastChatResponse.swift */; };
+		0E11643F2934CD6500501EBD /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11643E2934CD6500501EBD /* APIKey.swift */; };
+		0E1164412934DBC600501EBD /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1164402934DBC600501EBD /* SocketIOManager.swift */; };
+		0E1164442934DC2000501EBD /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 0E1164432934DC2000501EBD /* SocketIO */; };
 		0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E72918D63E0040BD85 /* AppDelegate.swift */; };
 		0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E92918D63E0040BD85 /* SceneDelegate.swift */; };
 		0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410ED2918D63E0040BD85 /* Main.storyboard */; };
@@ -141,6 +147,11 @@
 		0E11640D2933DA0200501EBD /* YourChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourChatTableViewCell.swift; sourceTree = "<group>"; };
 		0E11640F2933F1DD00501EBD /* MoreMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuViewController.swift; sourceTree = "<group>"; };
 		0E1164132933F80600501EBD /* WriteReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewViewController.swift; sourceTree = "<group>"; };
+		0E1164382934B90500501EBD /* ChatAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAPIRouter.swift; sourceTree = "<group>"; };
+		0E11643A2934C6F500501EBD /* SendChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatResponse.swift; sourceTree = "<group>"; };
+		0E11643C2934C7F900501EBD /* LastChatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastChatResponse.swift; sourceTree = "<group>"; };
+		0E11643E2934CD6500501EBD /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		0E1164402934DBC600501EBD /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACStudyRecruitSLP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1410E72918D63E0040BD85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1410E92918D63E0040BD85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -260,6 +271,7 @@
 				0E4F6301291CE00700F36167 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				0EA6A9ED291F9D8200F71EC6 /* Alamofire in Frameworks */,
 				0E4F6305291CE00700F36167 /* FirebaseCrashlytics in Frameworks */,
+				0E1164442934DC2000501EBD /* SocketIO in Frameworks */,
 				0E4F62F3291C276500F36167 /* RxCocoa in Frameworks */,
 				0E4F62F7291C276500F36167 /* RxSwift in Frameworks */,
 				0EA6AA0629216FA800F71EC6 /* IQKeyboardManagerSwift in Frameworks */,
@@ -345,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				0EA6A9F62920E79300F71EC6 /* GoogleService-Info.plist */,
+				0E11643E2934CD6500501EBD /* APIKey.swift */,
 			);
 			path = Key;
 			sourceTree = "<group>";
@@ -533,6 +546,8 @@
 				0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */,
 				0EA57494292A33840064599F /* MyQueueStateResponse.swift */,
 				0EA57498292B631E0064599F /* SearchResponse.swift */,
+				0E11643A2934C6F500501EBD /* SendChatResponse.swift */,
+				0E11643C2934C7F900501EBD /* LastChatResponse.swift */,
 				0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */,
 				0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */,
 				0EA1F680292DF6830062DBED /* UserLocationDTO.swift */,
@@ -557,9 +572,11 @@
 			isa = PBXGroup;
 			children = (
 				0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */,
+				0E1164382934B90500501EBD /* ChatAPIRouter.swift */,
 				0EA6A9E7291F9D2B00F71EC6 /* Network.swift */,
 				0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */,
 				0EA6A9F229209E9600F71EC6 /* SignupError.swift */,
+				0E1164402934DBC600501EBD /* SocketIOManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -634,6 +651,7 @@
 				0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */,
 				0E49C6C8292280E2004E7875 /* MultiSlider */,
 				0E46E2B129288D3B0058A50E /* Tabman */,
+				0E1164432934DC2000501EBD /* SocketIO */,
 			);
 			productName = SeSACStudyRecruitSLP;
 			productReference = 0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */;
@@ -672,6 +690,7 @@
 				0EA6AA0429216FA800F71EC6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				0E49C6C7292280E2004E7875 /* XCRemoteSwiftPackageReference "MultiSlider" */,
 				0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */,
+				0E1164422934DC2000501EBD /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 			);
 			productRefGroup = 0E1410E52918D63E0040BD85 /* Products */;
 			projectDirPath = "";
@@ -712,6 +731,7 @@
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
+				0E1164392934B90500501EBD /* ChatAPIRouter.swift in Sources */,
 				0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */,
 				0E49C6E42924A585004E7875 /* MainView.swift in Sources */,
 				0E49C6D6292287F0004E7875 /* Comparable+Extension.swift in Sources */,
@@ -756,6 +776,7 @@
 				0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */,
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
 				0EA5749B292BE6290064599F /* CustomAnnotationView.swift in Sources */,
+				0E11643D2934C7F900501EBD /* LastChatResponse.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
 				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,
 				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
@@ -767,6 +788,8 @@
 				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
+				0E1164412934DBC600501EBD /* SocketIOManager.swift in Sources */,
+				0E11643F2934CD6500501EBD /* APIKey.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0EA57495292A33840064599F /* MyQueueStateResponse.swift in Sources */,
 				0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */,
@@ -776,6 +799,7 @@
 				0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */,
 				0EA57499292B631E0064599F /* SearchResponse.swift in Sources */,
 				0EF3751029261E4E0074FC64 /* PopUpViewController.swift in Sources */,
+				0E11643B2934C6F500501EBD /* SendChatResponse.swift in Sources */,
 				0EA57497292AA0390064599F /* String+Extension.swift in Sources */,
 				0EA6A9FD29216B6A00F71EC6 /* ShopViewController.swift in Sources */,
 				0E49C6C12922454A004E7875 /* pnumPermitCell.swift in Sources */,
@@ -1033,6 +1057,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0E1164422934DC2000501EBD /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 16.0.1;
+			};
+		};
 		0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uias/Tabman.git";
@@ -1100,6 +1132,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0E1164432934DC2000501EBD /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E1164422934DC2000501EBD /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
 		0E46E2B129288D3B0058A50E /* Tabman */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0E46E2B029288D3B0058A50E /* XCRemoteSwiftPackageReference "Tabman" */;
