@@ -12,6 +12,7 @@ enum Constants {
         case icon = "AppIcon"
         case splashLogo = "splash_logo"
         case splashText = "splash_text"
+        case back = "sesacBack"
 
         //main
         case homeAct = "Property 1=home, Property 2=act"

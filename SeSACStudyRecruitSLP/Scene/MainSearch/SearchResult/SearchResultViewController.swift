@@ -39,18 +39,6 @@ final class SearchResultViewController: TabmanViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         timer?.invalidate()
-//
-//        // 홈화면으로 이동하기는 하지만,,
-//        // (이슈) 이전 화면까지 보이면서 뒤로가서 버벅임
-//        // (이슈) 홈화면에서의 상태가 [일반]임 -> [매칭 대기중]이어야 함
-//        let vc = TabBarController()
-//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-//        guard let delegate = sceneDelegate else {
-//            self.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
-//            return
-//        }
-//        delegate.window?.rootViewController = vc
-//
     }
     
     deinit {
@@ -122,9 +110,20 @@ extension SearchResultViewController {
         barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
         navibarAppearance.buttonAppearance = barbuttonItemAppearance
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "찾기중단", style: .plain, target: self, action: #selector(stopTapped))
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: Constants.ImageName.back.rawValue), style: .plain, target: self, action: #selector(backtwice))
     }
     
+    @objc func backtwice() {
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        let vc = TabBarController()
+        let nav = UINavigationController(rootViewController: vc)
+        
+        sceneDelegate?.window?.rootViewController = nav
+        sceneDelegate?.window?.makeKeyAndVisible()
+        nav.popViewControllers(2)
+    }
 }
 
 
