@@ -113,20 +113,40 @@ final class Network {
         }
     }
     
-    
-    // fcm messaging token 갱신
-    func requestFCMTokenUpdate(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+    func requestSendChat<T: Codable>(type: T.Type = T.self, router: ChatAPIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
-        AF.request(router).validate(statusCode: 200...500).responseString { response in
+        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+            
             switch response.result {
+                
             case .success(let data):
                 completion(.success(data))
+                
             case .failure(_):
                 guard let statusCode = response.response?.statusCode else { return }
-                guard let error = SignupError(rawValue: statusCode) else { return }
+                guard let error = LoginError(rawValue: statusCode) else { return }
                 completion(.failure(error))
+                
             }
         }
     }
+    
+    
+    
+    
+    // fcm messaging token 갱신
+//    func requestFCMTokenUpdate(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
+//
+//        AF.request(router).validate(statusCode: 200...500).responseString { response in
+//            switch response.result {
+//            case .success(let data):
+//                completion(.success(data))
+//            case .failure(_):
+//                guard let statusCode = response.response?.statusCode else { return }
+//                guard let error = SignupError(rawValue: statusCode) else { return }
+//                completion(.failure(error))
+//            }
+//        }
+//    }
     
 }
