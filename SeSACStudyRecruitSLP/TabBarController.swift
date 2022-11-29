@@ -53,3 +53,17 @@ class TabBarController: UITabBarController {
         tabBar.tintColor = ColorPalette.green
     }
 }
+
+extension TabBarController: UITabBarControllerDelegate {
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        
+        guard let theItems = self.tabBar.items, let index = theItems.firstIndex(of: item), let controllers = self.viewControllers else { return }
+        
+        if let nav = controllers[index] as? UINavigationController, let homeVC = nav.topViewController as? MainViewController {
+            homeVC.searchSesac()
+        }
+    }
+    
+    
+}
