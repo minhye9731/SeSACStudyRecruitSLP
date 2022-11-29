@@ -14,6 +14,7 @@ final class ListViewController: BaseViewController {
     // MARK: - property
     let mainView = ListView()
     var aroundOrAccepted: SearchMode = .aroundSesac
+    var limitOvercallAPI = false
     
     var isExpandedList: [Bool] = []
     var aroundSesacList: [FromQueueDB] = []
@@ -34,9 +35,6 @@ final class ListViewController: BaseViewController {
     override func configure() {
         super.configure()
         configureEmptyView()
-        
-        searchSesac() // **호출시점1
-        
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
     }
@@ -46,7 +44,6 @@ final class ListViewController: BaseViewController {
         mainView.emptyView.refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
         mainView.emptyView.studyChangeBtn.addTarget(self, action: #selector(studyChangeBtnTapped), for: .touchUpInside)
     }
-
 }
 // MARK: - tableview
 extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
@@ -66,19 +63,6 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return .leastNormalMagnitude
-    }
-    
-    // 이거 소용있나??
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let tableView = scrollView as? UITableView,
-              let visible = tableView.indexPathsForVisibleRows,
-              let first = visible.first else {
-            return
-        }
-
-        let headerHeight = tableView.rectForHeader(inSection: first.section).size.height
-        let offset =  max(min(0, -tableView.contentOffset.y), -headerHeight)
-        self.mainView.tableView.contentInset = UIEdgeInsets(top: offset, left: 0, bottom: -offset, right: 0)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -154,18 +138,27 @@ extension ListViewController {
         transition(vc, transitionStyle: .push)
     }
     
+    // [스터디 변경하기] 버튼
     @objc func studyChangeBtnTapped() {
         stopSearchSesac()
     }
     
+    // [새로고침 버튼]
     @objc func refreshBtnTapped() {
-        print("새로고침 버튼 눌림")
-        searchSesac() // **호출시점3
+        searchSesac()
     }
     
 }
 
 extension ListViewController {
+    
+    // 과호출 제한 - timeout 방안으로 추가 조사 필요
+    func limitOvercall() {
+        limitOvercallAPI = true
+        DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            self?.limitOvercallAPI = false
+        }
+    }
     
     // search
     func searchSesac() {
@@ -178,53 +171,58 @@ extension ListViewController {
         print("🤑UserDefaultsManager.searchLAT = \(UserDefaultsManager.searchLAT)")
         print("🤑UserDefaultsManager.searchLONG = \(UserDefaultsManager.searchLONG)")
         
-        Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
-            
-            switch response {
-            case .success(let searchResult):
-                print("🦄search 통신 성공!!")
+        if !limitOvercallAPI {
+            Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
                 
-                if self?.pageboyPageIndex == 0 {
-                    self?.aroundSesacList = searchResult.fromQueueDB
+                switch response {
+                case .success(let searchResult):
+                    print("🦄search 통신 성공!!")
+                    self?.limitOvercall()
                     
-                    if self!.aroundSesacList.isEmpty {
-                        self?.mainView.emptyView.isHidden = false
-                        self?.mainView.tableView.isHidden = true
-                    } else {
-                        self?.mainView.emptyView.isHidden = true
-                        self?.mainView.tableView.isHidden = false
+                    if self?.pageboyPageIndex == 0 {
+                        self?.aroundSesacList = searchResult.fromQueueDB
                         
-                        self?.isExpandedList = Array(repeating: false, count: self!.aroundSesacList.count)
-                        self?.mainView.tableView.reloadData()
+                        if self!.aroundSesacList.isEmpty {
+                            self?.mainView.emptyView.isHidden = false
+                            self?.mainView.tableView.isHidden = true
+                        } else {
+                            self?.mainView.emptyView.isHidden = true
+                            self?.mainView.tableView.isHidden = false
+                            
+                            self?.isExpandedList = Array(repeating: false, count: self!.aroundSesacList.count)
+                            self?.mainView.tableView.reloadData()
+                        }
+                    } else {
+                        self?.receivedSesacList = searchResult.fromQueueDBRequested
+                        
+                        if self!.receivedSesacList.isEmpty {
+                            self?.mainView.emptyView.isHidden = false
+                            self?.mainView.tableView.isHidden = true
+                        } else {
+                            self?.mainView.emptyView.isHidden = true
+                            self?.mainView.tableView.isHidden = false
+                            
+                            self?.isExpandedList = Array(repeating: false, count: self!.receivedSesacList.count)
+                            self?.mainView.tableView.reloadData()
+                        }
                     }
-                } else {
-                    self?.receivedSesacList = searchResult.fromQueueDBRequested
+                    return
                     
-                    if self!.receivedSesacList.isEmpty {
-                        self?.mainView.emptyView.isHidden = false
-                        self?.mainView.tableView.isHidden = true
-                    } else {
-                        self?.mainView.emptyView.isHidden = true
-                        self?.mainView.tableView.isHidden = false
-                        
-                        self?.isExpandedList = Array(repeating: false, count: self!.receivedSesacList.count)
-                        self?.mainView.tableView.reloadData()
+                case .failure(let error):
+                    let code = (error as NSError).code
+                    guard let errorCode = LoginError(rawValue: code) else { return }
+                    print("failure // code = \(code), errorCode = \(errorCode)")
+                    
+                    switch errorCode {
+                    case .fbTokenError:
+                        self?.refreshIDTokenSearchSesac()
+                    default :
+                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                     }
-                }
-                return
-                
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = LoginError(rawValue: code) else { return }
-                print("failure // code = \(code), errorCode = \(errorCode)")
-                
-                switch errorCode {
-                case .fbTokenError:
-                    self?.refreshIDTokenSearchSesac()
-                default :
-                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                 }
             }
+        } else {
+            return
         }
     }
     
@@ -302,7 +300,7 @@ extension ListViewController {
         Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
             case .success( _):
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: true) // 이거말고 [새싹 입력] 화면으로 특정해서 돌아가야 함!!!!!
                 return
             case .failure(let error):
                 let code = (error as NSError).code

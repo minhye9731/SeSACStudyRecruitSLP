@@ -25,6 +25,8 @@ final class MainViewController: BaseViewController {
     var sesacManList: [FromQueueDB] = []
     var sesacWomanList: [FromQueueDB] = []
     
+    var limitOvercallAPI = false
+    
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
@@ -37,12 +39,19 @@ final class MainViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    //홈화면 보일 때마다
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkUserDeviceLocationServiceAuthorization()
         checkState() // myQueueState
-        searchSesac(selectGender: selectGender) // search
+//        searchSesac(selectGender: selectGender) // search
+        
+        if !UserDefaultsManager.searchLAT.isEmpty && !UserDefaultsManager.searchLONG.isEmpty {
+            let searchedLocation = CLLocationCoordinate2D(latitude: Double(UserDefaultsManager.searchLAT)!, longitude: Double(UserDefaultsManager.searchLONG)!)
+            goLocation(center: searchedLocation)
+            print("저장된 사용자 위치로 위치이동 실행!")
+        }
+        
+        
     }
     
     // MARK: - functions
@@ -55,7 +64,10 @@ final class MainViewController: BaseViewController {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        goLocation(center: campusLocation)
+        
+        if UserDefaultsManager.searchLAT.isEmpty && UserDefaultsManager.searchLONG.isEmpty {
+            goLocation(center: campusLocation)
+        }
         
         setBtnAction()
         
@@ -128,11 +140,16 @@ extension MainViewController: CLLocationManagerDelegate {
     // 사용자의 위치를 성공적으로 가지고 온 경우
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(#function)
-        if let coordinate = locations.last?.coordinate {
-            searchSesac(selectGender: selectGender)
-            goLocation(center: coordinate)
-            locationManager.stopUpdatingLocation()
-        }
+        
+        // 사용자가 [새싹찾기] 등에서 되돌아왔을 경우,
+        // 실제 위치는 다른곳에 있더라도 UserDefaultsManager에 저장된 위치가 있으면 그걸로 위치설정하므로 아래처럼 위치설정&주변검색 안해도 됨
+//        if UserDefaultsManager.searchLAT.isEmpty && UserDefaultsManager.searchLONG.isEmpty {
+            if let coordinate = locations.last?.coordinate {
+//                searchSesac(selectGender: selectGender) // mapView(_:regionDidChangeAnimated:)에서 찾아주니까 여기서는 안해도 될듯?
+                goLocation(center: coordinate)
+                locationManager.stopUpdatingLocation()
+            }
+//        } else { return }
     }
     
     // 사용자의 위치를 못 가지고 온 경우
@@ -264,6 +281,14 @@ extension MainViewController {
         }
     }
     
+    // 과호출 제한 - timeout 방안으로 추가 조사 필요
+    func limitOvercall() {
+        limitOvercallAPI = true
+        DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [weak self] in
+            self?.limitOvercallAPI = false
+        }
+    }
+    
     // 새싹찾기
     func searchSesac(selectGender: MapGenderMode) {
         print(#function)
@@ -271,37 +296,43 @@ extension MainViewController {
         let api = APIRouter.search(
             lat: String(mainView.mapView.centerCoordinate.latitude),
             long: String(mainView.mapView.centerCoordinate.longitude))
-        Network.share.requestSearch(type: SearchResponse.self, router: api) { [weak self] response in
-            
-            switch response {
-            case .success(let result):
-                print("===✅새싹찾기 통신 성공! ====")
+        
+        if !limitOvercallAPI {
+            Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
                 
-                self?.sesacList.removeAll()
-                self?.sesacManList.removeAll()
-                self?.sesacWomanList.removeAll()
-                
-                self?.sesacList.append(contentsOf: result.fromQueueDB)
-                self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
-                self?.sesacWomanList = self!.sesacList.filter { $0.gender == 0 }
-                
-//                print("sesacList : \(self?.sesacList)")
-//                print("sesacManList : \(self?.sesacManList)")
-//                print("sesacWomanList : \(self?.sesacWomanList)")
-                       
-                self?.showSesacMap(gender: selectGender)
-                
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                print("새싹찾기 통신 failure🔥 // code = \(code), errorCode = \(errorCode)")
-                switch errorCode {
-                case .fbTokenError:
-                    self?.refreshIDTokenSearch(selectGender: selectGender)
-                default:
-                    self?.mainView.makeToast("친구찾기에 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 0.5, position: .center)
+                switch response {
+                case .success(let result):
+                    print("🦄search 통신 성공!!")
+                    self?.limitOvercall()
+                    
+                    self?.sesacList.removeAll()
+                    self?.sesacManList.removeAll()
+                    self?.sesacWomanList.removeAll()
+                    
+                    self?.sesacList.append(contentsOf: result.fromQueueDB)
+                    self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
+                    self?.sesacWomanList = self!.sesacList.filter { $0.gender == 0 }
+                    
+                    //                print("sesacList : \(self?.sesacList)")
+                    //                print("sesacManList : \(self?.sesacManList)")
+                    //                print("sesacWomanList : \(self?.sesacWomanList)")
+                    
+                    self?.showSesacMap(gender: selectGender)
+                    
+                case .failure(let error):
+                    let code = (error as NSError).code
+                    guard let errorCode = SignupError(rawValue: code) else { return }
+                    print("새싹찾기 통신 failure🔥 // code = \(code), errorCode = \(errorCode)")
+                    switch errorCode {
+                    case .fbTokenError:
+                        self?.refreshIDTokenSearch(selectGender: selectGender)
+                    default:
+                        self?.mainView.makeToast("친구찾기에 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 0.5, position: .center)
+                    }
                 }
             }
+        } else {
+            return
         }
     }
     
@@ -449,12 +480,19 @@ extension MainViewController {
                 showRequestLocationServiceAlert()
             } else {
                 let vc = SearchViewController()
-                vc.searchCoordinate = UserLocationDTO(lat: mainView.mapView.centerCoordinate.latitude, long: mainView.mapView.centerCoordinate.longitude)
+                
+                UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
+                UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+//                vc.searchCoordinate = UserLocationDTO(lat: mainView.mapView.centerCoordinate.latitude, long: mainView.mapView.centerCoordinate.longitude)
                 transition(vc, transitionStyle: .push)
             }
             return
         case .standby:
             let vc = SearchResultViewController()
+            
+            UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
+            UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+            
             transition(vc, transitionStyle: .push)
             
         case .matched:
