@@ -67,6 +67,9 @@ extension MoreMenuViewController {
     
     @objc func cancelButtonTapped() {
         print("취소버튼 눌림")
+        let vc = PopUpViewController()
+        vc.popupMode = .cancelStudy
+        transition(vc, transitionStyle: .presentOverFullScreen)
     }
     
     @objc func reviewButtonTapped() {

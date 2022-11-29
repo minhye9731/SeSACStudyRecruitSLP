@@ -235,12 +235,14 @@ extension PopUpViewController {
         print("해당 새싹에게 스터디 요청을 보냈습니다.")
         
         let api = APIRouter.requestStudy(otheruid: otheruid)
+        print("요청하기 보낸 상대방 uid : \(otheruid)")
         Network.share.requestForResponseString(router: api) { [weak self] response in
             
             switch response {
             case .success(let success):
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     let vc = ListViewController()
+                    print("🤩요청하기 완료!")
                     vc.mainView.makeToast("스터디 요청을 보냈습니다.", duration: 1, position: .bottom)
                 }
                 self?.dismiss(animated: true)
@@ -400,8 +402,97 @@ extension PopUpViewController {
 extension PopUpViewController {
     
     func studyCancel() {
-        print("스터디를 취소했습니다.")
+        
+        print("스터디 요청을 취소했습니다.")
+        
+        let api = APIRouter.cancelStudy(otheruid: otheruid)
+        Network.share.requestForResponseString(router: api) { [weak self] response in
+            
+            switch response {
+            case .success(let _):
+                
+                let vc = TabBarController()
+                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                guard let delegate = sceneDelegate else {
+                    self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+                    return
+                }
+                delegate.window?.rootViewController = vc
+                return
+                
+            case .failure(let error):
+                let code = (error as NSError).code
+                guard let errorCode = SignupError(rawValue: code) else { return }
+                print("failure // code = \(code), errorCode = \(errorCode)")
+                
+                switch errorCode {
+                case .existUser:
+                    self?.view.makeToast("취소하려는 새싹의 정보를 확인해주세요.", duration: 0.5, position: .center)
+                    return
+                case .fbTokenError:
+                    self?.refreshIDTokenStudyCancel()
+                    return
+                default:
+                    self?.view.makeToast("\(error.localizedDescription)", duration: 0.5, position: .center)
+                    return
+                }
+            }
+        }
     }
+
+    func refreshIDTokenStudyCancel() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
+                
+                let api = APIRouter.cancelStudy(otheruid: self.otheruid)
+                Network.share.requestForResponseString(router: api) { [weak self] response in
+                    
+                    switch response {
+                    case .success(let _):
+                        let vc = TabBarController()
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+                        guard let delegate = sceneDelegate else {
+                            self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+                            return
+                        }
+                        delegate.window?.rootViewController = vc
+                        return
+
+                    case .failure(let error):
+                        let code = (error as NSError).code
+                        guard let errorCode = SignupError(rawValue: code) else { return }
+                        switch errorCode {
+                        default:
+                            self?.showAlertMessage(title: "에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
+                            return
+                        }
+                    }
+                }
+            }
+        }
+    }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
 }
 
 // MARK: - addSesac
