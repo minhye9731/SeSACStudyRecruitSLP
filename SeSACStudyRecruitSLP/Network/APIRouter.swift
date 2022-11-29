@@ -21,6 +21,7 @@ enum APIRouter: URLRequestConvertible {
     case delete
     case requestStudy(otheruid: String)
     case acceptStudy(otheruid: String)
+    case cancelStudy(otheruid: String)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -30,7 +31,7 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .login, .myQueueState:
             return .get
-        case .signup, .withdraw, .search, .queue, .requestStudy, .acceptStudy:
+        case .signup, .withdraw, .search, .queue, .requestStudy, .acceptStudy, .cancelStudy:
             return .post
         case .update, .fcmUpdate:
             return .put
@@ -61,6 +62,8 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/queue/studyrequest"
         case .acceptStudy:
             return "/v1/queue/studyaccept"
+        case .cancelStudy:
+            return "/v1/queue/dodge"
         }
     }
 
@@ -70,7 +73,7 @@ enum APIRouter: URLRequestConvertible {
             return [ "idtoken": UserDefaultsManager.idtoken,
                               "Content-Type": "application/json" ]
             
-        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete, .requestStudy, .acceptStudy, .search:
+        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete, .requestStudy, .acceptStudy, .search, .cancelStudy:
             return [ "idtoken": UserDefaultsManager.idtoken,
                                "Content-Type": "application/x-www-form-urlencoded" ]
         }
@@ -115,6 +118,10 @@ enum APIRouter: URLRequestConvertible {
                 "otheruid": otheruid
             ]
         case .acceptStudy(let otheruid):
+            return [
+                "otheruid": otheruid
+            ]
+        case .cancelStudy(let otheruid):
             return [
                 "otheruid": otheruid
             ]
