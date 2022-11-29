@@ -15,6 +15,7 @@ final class SearchResultViewController: TabmanViewController {
     // MARK: - property
     var viewControllers: Array<UIViewController> = []
     let listVC = ListViewController()
+    var timer: Timer?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -27,21 +28,29 @@ final class SearchResultViewController: TabmanViewController {
         setVC()
     }
     
+    // myQueueState 5초마다 확인 타이머
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { Timer in
+            self.myQueueState()
+        }
+    }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        // 홈화면으로 이동하기는 하지만,,
-        // (이슈) 이전 화면까지 보이면서 뒤로가서 버벅임
-        // (이슈) 홈화면에서의 상태가 [일반]임 -> [매칭 대기중]이어야 함
-        let vc = TabBarController()
-        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        guard let delegate = sceneDelegate else {
-            self.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
-            return
-        }
-        delegate.window?.rootViewController = vc
-
+        timer?.invalidate()
+//
+//        // 홈화면으로 이동하기는 하지만,,
+//        // (이슈) 이전 화면까지 보이면서 뒤로가서 버벅임
+//        // (이슈) 홈화면에서의 상태가 [일반]임 -> [매칭 대기중]이어야 함
+//        let vc = TabBarController()
+//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+//        guard let delegate = sceneDelegate else {
+//            self.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
+//            return
+//        }
+//        delegate.window?.rootViewController = vc
+//
     }
     
     deinit {
@@ -122,12 +131,13 @@ extension SearchResultViewController {
 // MARK: - delete queue (API)
 extension SearchResultViewController {
     
+    // [찾기중단]
     @objc func stopTapped() {
         let api = APIRouter.delete
         Network.share.requestForResponseString(router: api) { [weak self] response in
             switch response {
             case .success( _):
-                print("👽찾기 중단 성공@@")
+                print("👽찾기중단 성공@@")
                                 
                 let vc = TabBarController()
                 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
@@ -137,7 +147,7 @@ extension SearchResultViewController {
                 }
                 delegate.window?.rootViewController = vc
                 return
-                
+
             case .failure(let error):
                 let code = (error as NSError).code
                 guard let errorCode = SignupError(rawValue: code) else { return }
@@ -211,6 +221,8 @@ extension SearchResultViewController {
             
             switch response {
             case .success(let stateData):
+                print("😎현재 상태는?!?! = \(stateData.matched)")
+                
                 if stateData.matched == 1 {
 
                     self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
