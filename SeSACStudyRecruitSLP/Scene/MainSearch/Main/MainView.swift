@@ -134,25 +134,10 @@ final class MainView: BaseView {
         }
     }
     
-    func genderBtnClr(selectGender: MapGenderMode) {
-        switch selectGender {
-        case .all:
-            allbtn.setTitleColor(.white, for: .normal)
-            allbtn.backgroundColor = ColorPalette.green
-            manbtn.setTitleColor(.black, for: .normal)
-            manbtn.backgroundColor = .white
-            womanbtn.setTitleColor(.black, for: .normal)
-            womanbtn.backgroundColor = .white
-            return
-        case .man:
-            manbtn.setTitleColor(.white, for: .normal)
-            manbtn.backgroundColor = ColorPalette.green
-            allbtn.setTitleColor(.black, for: .normal)
-            allbtn.backgroundColor = .white
-            womanbtn.setTitleColor(.black, for: .normal)
-            womanbtn.backgroundColor = .white
-            return
-        case .woman:
+    func genderBtnClr() {
+        
+        switch UserDefaultsManager.selectedGender {
+        case "0":
             womanbtn.setTitleColor(.white, for: .normal)
             womanbtn.backgroundColor = ColorPalette.green
             allbtn.setTitleColor(.black, for: .normal)
@@ -160,8 +145,50 @@ final class MainView: BaseView {
             manbtn.setTitleColor(.black, for: .normal)
             manbtn.backgroundColor = .white
             return
+        case "1":
+            manbtn.setTitleColor(.white, for: .normal)
+            manbtn.backgroundColor = ColorPalette.green
+            allbtn.setTitleColor(.black, for: .normal)
+            allbtn.backgroundColor = .white
+            womanbtn.setTitleColor(.black, for: .normal)
+            womanbtn.backgroundColor = .white
+            return
+        default:
+            allbtn.setTitleColor(.white, for: .normal)
+            allbtn.backgroundColor = ColorPalette.green
+            manbtn.setTitleColor(.black, for: .normal)
+            manbtn.backgroundColor = .white
+            womanbtn.setTitleColor(.black, for: .normal)
+            womanbtn.backgroundColor = .white
+            return
         }
     }
+//        switch selectGender {
+//        case .all:
+//            allbtn.setTitleColor(.white, for: .normal)
+//            allbtn.backgroundColor = ColorPalette.green
+//            manbtn.setTitleColor(.black, for: .normal)
+//            manbtn.backgroundColor = .white
+//            womanbtn.setTitleColor(.black, for: .normal)
+//            womanbtn.backgroundColor = .white
+//            return
+//        case .man:
+//            manbtn.setTitleColor(.white, for: .normal)
+//            manbtn.backgroundColor = ColorPalette.green
+//            allbtn.setTitleColor(.black, for: .normal)
+//            allbtn.backgroundColor = .white
+//            womanbtn.setTitleColor(.black, for: .normal)
+//            womanbtn.backgroundColor = .white
+//            return
+//        case .woman:
+//            womanbtn.setTitleColor(.white, for: .normal)
+//            womanbtn.backgroundColor = ColorPalette.green
+//            allbtn.setTitleColor(.black, for: .normal)
+//            allbtn.backgroundColor = .white
+//            manbtn.setTitleColor(.black, for: .normal)
+//            manbtn.backgroundColor = .white
+//            return
+//        }
     
     
 }

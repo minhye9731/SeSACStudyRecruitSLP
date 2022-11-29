@@ -25,7 +25,6 @@ struct UserDefaultsManager {
     @UserDefaultsWrapper(key: "idtoken", defaultValue: "")
     static var idtoken: String
     
-
     
     // MARK: - 로그인
     
@@ -117,19 +116,25 @@ struct UserDefaultsManager {
     @UserDefaultsWrapper(key: "genderSU", defaultValue: "")
     static var genderSU: String
     
-    // MARK: - 친구 입력
+    // MARK: - home
+    @UserDefaultsWrapper(key: "selectedGender", defaultValue: "") // 검색필터 성별값
+    static var selectedGender: String
+    
+    // MARK: - sesac 입력
     @UserDefaultsWrapper(key: "searchLAT", defaultValue: "") // 검색하고 싶은 위치 lat
     static var searchLAT: String
     
     @UserDefaultsWrapper(key: "searchLONG", defaultValue: "") // 검색하고 싶은 위치 lat
     static var searchLONG: String
     
-    // MARK: - 친구 입력
     @UserDefaultsWrapper(key: "mywishTagList", defaultValue: []) // 내가 하고싶은 스터디
     static var mywishTagList: Array
     
     // MARK: - 채팅
     @UserDefaultsWrapper(key: "chatTO", defaultValue: "") // 채팅 메시지를 받을 상대방 uid
     static var chatTO: String
+    
+    @UserDefaultsWrapper(key: "chatFROM", defaultValue: "") // (이전기록 가져오기용) 상대방 uid
+    static var chatFROM: String
     
 }

@@ -17,7 +17,7 @@ final class SearchViewController: BaseViewController {
     
     // MARK: - property
     let mainView = SearchView()
-    var searchCoordinate = UserLocationDTO(lat: 0.0, long: 0.0)
+//    var searchCoordinate = UserLocationDTO(lat: 0.0, long: 0.0)
     var aroundTagList: [String] = []
     var mywishTagList: [String] = []
     var rocommendNum = 0
@@ -31,8 +31,8 @@ final class SearchViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        searchNetwork(location: searchCoordinate)
-        print(searchCoordinate)
+        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
+        searchNetwork()
     }
     
     // MARK: - functions
@@ -175,8 +175,8 @@ extension SearchViewController: UITextFieldDelegate {
             mainView.collectionView.reloadData() // 화면 갱신
             textField.resignFirstResponder() // 키보드 내리고
             inputStudy.removeAll() // 배열 비우고
-            
             return true
+            
         } else {
             mywishTagList.append(contentsOf: inputStudy) // [내가 하고 싶은] 스터디에 추가
             UserDefaultsManager.mywishTagList = mywishTagList // userdefaults에 저장
@@ -211,8 +211,10 @@ extension SearchViewController {
 // MARK: - search 통신
 extension SearchViewController {
 
-    func searchNetwork(location: UserLocationDTO) {
-        let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+//    func searchNetwork(location: UserLocationDTO) {
+    func searchNetwork() {
+//        let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+        let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
         Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
             
             switch response {
@@ -236,7 +238,8 @@ extension SearchViewController {
                 
                 switch errorCode {
                 case .fbTokenError:
-                    self?.refreshIDTokenSearch(location: location)
+//                    self?.refreshIDTokenSearch(location: location)
+                    self?.refreshIDTokenSearch()
                 default :
                     self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                 }
@@ -244,7 +247,8 @@ extension SearchViewController {
         }
     }
     
-    func refreshIDTokenSearch(location: UserLocationDTO) {
+    func refreshIDTokenSearch() {
+//        func refreshIDTokenSearch(location: UserLocationDTO) {
         
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
@@ -260,7 +264,8 @@ extension SearchViewController {
                 UserDefaultsManager.idtoken = idToken
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
-                let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+//                let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
+                let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
                 Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
                     
                     switch response {
@@ -300,7 +305,8 @@ extension SearchViewController {
         
         let studylist = mywishTagList.isEmpty ? ["anything"] : mywishTagList
 
-        Network.share.requestQueue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studyList: studylist) { [weak self] response in
+//        Network.share.requestQueue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studyList: studylist) { [weak self] response in
+        Network.share.requestQueue(long: UserDefaultsManager.searchLONG, lat: UserDefaultsManager.searchLAT, studyList: studylist) { [weak self] response in
             
             switch response {
             case .success( _):
@@ -309,8 +315,8 @@ extension SearchViewController {
                 // 화면 넘어가는 거는 그릇이 되는 SearchResultViewController인데,
                 // 넘어간 화면에서 사용자의 위치를 사용할때는 ListViewController에서 데이터를 써야 한다 흠.....어떻게 전달하징..우선UserDefaultsManager 쓴다
                 
-                UserDefaultsManager.searchLAT = String(self!.searchCoordinate.lat)
-                UserDefaultsManager.searchLONG = String(self!.searchCoordinate.long)
+//                UserDefaultsManager.searchLAT = String(self!.searchCoordinate.lat)
+//                UserDefaultsManager.searchLONG = String(self!.searchCoordinate.long)
                 
                 self?.transition(vc, transitionStyle: .push)
             case .failure(let error):
@@ -357,14 +363,15 @@ extension SearchViewController {
                 
                 let studylist = self.mywishTagList.isEmpty ? ["anything"] : self.mywishTagList
 
-                Network.share.requestQueue(long: String(self.searchCoordinate.long), lat: String(self.searchCoordinate.lat), studyList: studylist) { [weak self] response in
+//                Network.share.requestQueue(long: String(self.searchCoordinate.long), lat: String(self.searchCoordinate.lat), studyList: studylist) { [weak self] response in
+                Network.share.requestQueue(long: UserDefaultsManager.searchLONG, lat: UserDefaultsManager.searchLAT, studyList: studylist) { [weak self] response in
                     
                     switch response {
                     case .success( _):
                         print("👻 idkoten 재발급 후, queue 통신 성공!! studylist = \(studylist)")
                         let vc = SearchResultViewController()
-                        UserDefaultsManager.searchLAT = String(self!.searchCoordinate.lat)
-                        UserDefaultsManager.searchLONG = String(self!.searchCoordinate.long)
+//                        UserDefaultsManager.searchLAT = String(self!.searchCoordinate.lat)
+//                        UserDefaultsManager.searchLONG = String(self!.searchCoordinate.long)
                         self?.transition(vc, transitionStyle: .push)
                         
                     case .failure(let error):

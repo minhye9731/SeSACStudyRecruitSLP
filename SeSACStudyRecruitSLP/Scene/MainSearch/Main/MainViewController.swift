@@ -17,7 +17,7 @@ final class MainViewController: BaseViewController {
     let mainView = MainView()
     let locationManager = CLLocationManager()
     var matchingMode: MatchingMode = .normal
-    var selectGender: MapGenderMode = .all
+//    var selectGender: MapGenderMode = .all
     
     let campusLocation = CLLocationCoordinate2D(latitude: 37.517819364682694, longitude: 126.88647317074734)
     
@@ -42,6 +42,8 @@ final class MainViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkState()
+        searchSesac()
+        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
     }
     
     // MARK: - functions
@@ -53,8 +55,13 @@ final class MainViewController: BaseViewController {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
+        goLocation(center: campusLocation)
         checkUserDeviceLocationServiceAuthorization()
         setBtnAction()
+    }
+
+    deinit {
+        print("map 화면 deinit됨")
     }
     
     func setBtnAction() {
@@ -86,7 +93,6 @@ extension MainViewController {
             locationManager.startUpdatingLocation() // 현재위치를 맵뷰 중심으로
         default:
             print("")
-//            locationManager.startUpdatingLocation() // 현재위치를 맵뷰 중심으로
         }
     }
     
@@ -116,15 +122,11 @@ extension MainViewController: CLLocationManagerDelegate {
     // 사용자의 위치를 성공적으로 가지고 온 경우
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(#function)
-        
             if let coordinate = locations.last?.coordinate {
-                searchSesac(selectGender: selectGender)
+                searchSesac()
                 goLocation(center: coordinate)
-//                locationManager.stopUpdatingLocation()
+                locationManager.stopUpdatingLocation()
             }
-        locationManager.stopUpdatingLocation()
-
-        
     }
     
     // 사용자의 위치를 못 가지고 온 경우
@@ -134,6 +136,7 @@ extension MainViewController: CLLocationManagerDelegate {
     
     // 사용자의 권한 상태가 바뀔 경우
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        searchSesac()
         checkUserDeviceLocationServiceAuthorization()
     }
 }
@@ -158,18 +161,31 @@ extension MainViewController {
     }
     
     // 선택한 성별에 따른 sesac들 어노테이션 표기하기
-    func showSesacMap(gender: MapGenderMode) {
-        switch gender {
-        case .all:
-            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-        case .man:
-            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-        case .woman:
+    func showSesacMap() {
+        
+        switch UserDefaultsManager.selectedGender {
+        case "0":
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+        case "1":
+            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+        default:
+            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
+        
+//        switch gender {
+//        case .all:
+//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+//            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+//        case .man:
+//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+//            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+//        case .woman:
+//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+//            sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+//        }
     }
 }
 
@@ -253,13 +269,13 @@ extension MainViewController {
     // 과호출 제한 - timeout 방안으로 추가 조사 필요
     func limitOvercall() {
         limitOvercallAPI = true
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.8) { [weak self] in
             self?.limitOvercallAPI = false
         }
     }
     
     // 새싹찾기
-    func searchSesac(selectGender: MapGenderMode) {
+    func searchSesac() {
         print(#function)
         
         let api = APIRouter.search(
@@ -286,7 +302,7 @@ extension MainViewController {
                     //                print("sesacManList : \(self?.sesacManList)")
                     //                print("sesacWomanList : \(self?.sesacWomanList)")
                     
-                    self?.showSesacMap(gender: selectGender)
+                    self?.showSesacMap()
                     
                 case .failure(let error):
                     let code = (error as NSError).code
@@ -294,7 +310,7 @@ extension MainViewController {
                     print("새싹찾기 통신 failure🔥 // code = \(code), errorCode = \(errorCode)")
                     switch errorCode {
                     case .fbTokenError:
-                        self?.refreshIDTokenSearch(selectGender: selectGender)
+                        self?.refreshIDTokenSearch()
                     default:
                         self?.mainView.makeToast("친구찾기에 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 0.5, position: .center)
                     }
@@ -305,7 +321,7 @@ extension MainViewController {
         }
     }
     
-    func refreshIDTokenSearch(selectGender: MapGenderMode) {
+    func refreshIDTokenSearch() {
         
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { [self] idToken, error in
@@ -339,7 +355,7 @@ extension MainViewController {
                         self?.sesacManList = self!.sesacList.filter { $0.gender == 0 }
                                
                         // 새싹 지도 표기
-                        self?.showSesacMap(gender: selectGender)
+                        self?.showSesacMap()
    
                     case .failure(let error):
                         let code = (error as NSError).code
@@ -361,7 +377,7 @@ extension MainViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print(#function)
-        searchSesac(selectGender: selectGender)
+        searchSesac()
     }
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
@@ -414,34 +430,33 @@ extension MainViewController: MKMapViewDelegate {
 extension MainViewController {
     
     @objc func allbtnTapped() {
-        selectGender = .all
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
+        UserDefaultsManager.selectedGender = "2"
+        searchSesac()
+        mainView.genderBtnClr()
     }
     
     @objc func manbtnTapped() {
-        selectGender = .man
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
+        UserDefaultsManager.selectedGender = "1"
+        searchSesac()
+        mainView.genderBtnClr()
     }
     
     @objc func womanbtnTapped() {
-        selectGender = .woman
-        searchSesac(selectGender: selectGender)
-        mainView.genderBtnClr(selectGender: selectGender)
+        UserDefaultsManager.selectedGender = "0"
+        searchSesac()
+        mainView.genderBtnClr()
     }
     
     // gps
     @objc func locationbtnTapped() {
         checkUserDeviceLocationServiceAuthorization()
-        searchSesac(selectGender: selectGender)
+        searchSesac()
     }
     
     // 플로팅
     @objc func floatingButtonTapped() {
         UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
         UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
-        UserDefaultsManager.selectedGender = String(selectGender.rawValue)
         
         switch matchingMode {
         case .normal:

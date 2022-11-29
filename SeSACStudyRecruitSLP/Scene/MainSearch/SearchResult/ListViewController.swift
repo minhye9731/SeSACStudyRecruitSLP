@@ -29,6 +29,7 @@ final class ListViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searchSesac() // **호출시점2 (주변새싹 / 받은 요청 탭 전환시)
+        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
     }
     
     // MARK: - functions
