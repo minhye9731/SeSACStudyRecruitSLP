@@ -112,8 +112,7 @@ final class ChattingView: BaseView {
             self.addSubview($0)
         }
         matchingDateLabel.layer.cornerRadius = width * 0.3 * 0.245 * 0.5
-        tableView.backgroundColor = .orange
-        
+
         [bellImage, matchingSesacLabel].forEach { matchingSesacStackView.addArrangedSubview($0)
         }
 
