@@ -41,17 +41,7 @@ final class MainViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkUserDeviceLocationServiceAuthorization()
-        checkState() // myQueueState
-//        searchSesac(selectGender: selectGender) // search
-        
-        if !UserDefaultsManager.searchLAT.isEmpty && !UserDefaultsManager.searchLONG.isEmpty {
-            let searchedLocation = CLLocationCoordinate2D(latitude: Double(UserDefaultsManager.searchLAT)!, longitude: Double(UserDefaultsManager.searchLONG)!)
-            goLocation(center: searchedLocation)
-            print("저장된 사용자 위치로 위치이동 실행!")
-        }
-        
-        
+        checkState()
     }
     
     // MARK: - functions
@@ -60,18 +50,11 @@ final class MainViewController: BaseViewController {
         mainView.mapView.delegate = self
         mainView.mapView.showsUserLocation = false
         
-        // 사용자 현재 위치를 확인하고, 지도의 중심을 설정
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
-        
-        if UserDefaultsManager.searchLAT.isEmpty && UserDefaultsManager.searchLONG.isEmpty {
-            goLocation(center: campusLocation)
-        }
-        
+        checkUserDeviceLocationServiceAuthorization()
         setBtnAction()
-        
-        print(UserDefaultsManager.idtoken)
     }
     
     func setBtnAction() {
@@ -96,40 +79,33 @@ extension MainViewController {
         switch authorizationStatus {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization() // 위치 권한요청 팝업
-            
         case .restricted, .denied:
-            print("DENIED, 청년취업사관학교 영등포 캠퍼스가 맵뷰의 중심이 되도록 설정합니다.")
             goLocation(center: campusLocation)
             showRequestLocationServiceAlert() // 위치권한 허용팝업 생성 -> 설정화면 유도
-            
         case .authorizedWhenInUse:
-            print("WHEN IN USE")
             locationManager.startUpdatingLocation() // 현재위치를 맵뷰 중심으로
-            
         default:
-            print("DEFAULT")
-            locationManager.startUpdatingLocation() // 현재위치를 맵뷰 중심으로
+            print("")
+//            locationManager.startUpdatingLocation() // 현재위치를 맵뷰 중심으로
         }
     }
     
-    // 위치권한 허용팝업 생성
+    // 위치권한 허용팝업
     func showRequestLocationServiceAlert() {
         let requestLocationServiceAlert = UIAlertController(title: "위치정보 이용", message: "위치 서비스를 사용할 수 없습니다. 기기의 '설정>개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
         let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
-            
             if let appSetting = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(appSetting)
             }
         }
         
-        // 위치권한 거부시 영등포 캠퍼스가 맵뷰의 중심이 되도록 설정
+        // 위치권한 거부시 영등포 캠퍼스를 맵뷰 중심
         let cancel = UIAlertAction(title: "취소", style: .default) { [weak self] _ in
             self?.goLocation(center: self!.campusLocation)
         }
         
         requestLocationServiceAlert.addAction(cancel)
         requestLocationServiceAlert.addAction(goSetting)
-        
         present(requestLocationServiceAlert, animated: true, completion: nil)
     }
 }
@@ -141,15 +117,14 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(#function)
         
-        // 사용자가 [새싹찾기] 등에서 되돌아왔을 경우,
-        // 실제 위치는 다른곳에 있더라도 UserDefaultsManager에 저장된 위치가 있으면 그걸로 위치설정하므로 아래처럼 위치설정&주변검색 안해도 됨
-//        if UserDefaultsManager.searchLAT.isEmpty && UserDefaultsManager.searchLONG.isEmpty {
             if let coordinate = locations.last?.coordinate {
-//                searchSesac(selectGender: selectGender) // mapView(_:regionDidChangeAnimated:)에서 찾아주니까 여기서는 안해도 될듯?
+                searchSesac(selectGender: selectGender)
                 goLocation(center: coordinate)
-                locationManager.stopUpdatingLocation()
+//                locationManager.stopUpdatingLocation()
             }
-//        } else { return }
+        locationManager.stopUpdatingLocation()
+
+        
     }
     
     // 사용자의 위치를 못 가지고 온 경우
@@ -186,15 +161,12 @@ extension MainViewController {
     func showSesacMap(gender: MapGenderMode) {
         switch gender {
         case .all:
-            print("전체 보여주기")
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         case .man:
-            print("남자만 보여주기")
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         case .woman:
-            print("여자만 보여주기")
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
@@ -208,20 +180,17 @@ extension MainViewController {
     func checkState() {
         print("⭐️내상태 확인 긔긔")
         let api = APIRouter.myQueueState
-        print("⭐️ idtoken = \(UserDefaultsManager.idtoken)")
         Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
             
             switch response {
             case .success(let stateData):
                 print("⭐️현재 matched 여부 : \(stateData.matched)")
                 self?.matchingMode = stateData.matched == 0 ? .standby : .matched
-                
                 self?.mainView.showProperStateImage(state: self!.matchingMode)
                 return
             case .failure(let error):
                 let code = (error as NSError).code
                 guard let errorCode = SignupError(rawValue: code) else { return }
-                
                 print("⭐️⭐️⭐️현재 매칭모드 실패 : errorCode = \(errorCode), error설명 = \(error.localizedDescription)")
                 
                 switch errorCode {
@@ -284,7 +253,7 @@ extension MainViewController {
     // 과호출 제한 - timeout 방안으로 추가 조사 필요
     func limitOvercall() {
         limitOvercallAPI = true
-        DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [weak self] in
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.limitOvercallAPI = false
         }
     }
@@ -470,6 +439,10 @@ extension MainViewController {
     
     // 플로팅
     @objc func floatingButtonTapped() {
+        UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
+        UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+        UserDefaultsManager.selectedGender = String(selectGender.rawValue)
+        
         switch matchingMode {
         case .normal:
             checkUserDeviceLocationServiceAuthorization()
@@ -480,27 +453,29 @@ extension MainViewController {
                 showRequestLocationServiceAlert()
             } else {
                 let vc = SearchViewController()
-                
-                UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
-                UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
-//                vc.searchCoordinate = UserLocationDTO(lat: mainView.mapView.centerCoordinate.latitude, long: mainView.mapView.centerCoordinate.longitude)
                 transition(vc, transitionStyle: .push)
             }
             return
+            
         case .standby:
-            let vc = SearchResultViewController()
+            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let sceneDelegate = windowScene?.delegate as? SceneDelegate
+            let vc = TabBarController()
+            let nav = UINavigationController(rootViewController: vc)
             
-            UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
-            UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
+            let firstVC = SearchViewController()
+            let targetVC = SearchResultViewController()
+            let vcs = [firstVC, targetVC]
             
-            transition(vc, transitionStyle: .push)
+            sceneDelegate?.window?.rootViewController = nav
+            sceneDelegate?.window?.makeKeyAndVisible()
+            nav.push(vcs)
             
         case .matched:
             let vc = ChattingViewController()
             transition(vc, transitionStyle: .push)
         }
     }
-    
 }
 
 
