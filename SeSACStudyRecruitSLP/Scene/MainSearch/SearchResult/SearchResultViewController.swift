@@ -75,7 +75,6 @@ final class SearchResultViewController: TabmanViewController {
         ctBar.indicator.tintColor = ColorPalette.green
         ctBar.indicator.overscrollBehavior = .compress
     }
-    
 }
 
 extension SearchResultViewController: PageboyViewControllerDataSource, TMBarDataSource {
@@ -115,17 +114,9 @@ extension SearchResultViewController {
     }
     
     @objc func backtwice() {
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        let sceneDelegate = windowScene?.delegate as? SceneDelegate
-        let vc = TabBarController()
-        let nav = UINavigationController(rootViewController: vc)
-        
-        sceneDelegate?.window?.rootViewController = nav
-        sceneDelegate?.window?.makeKeyAndVisible()
-        nav.popViewControllers(2)
+        backTwoPop()
     }
 }
-
 
 // MARK: - delete queue (API)
 extension SearchResultViewController {
@@ -137,14 +128,8 @@ extension SearchResultViewController {
             switch response {
             case .success( _):
                 print("👽찾기중단 성공@@")
-                                
-                let vc = TabBarController()
-                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-                guard let delegate = sceneDelegate else {
-                    self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
-                    return
-                }
-                delegate.window?.rootViewController = vc
+//                self?.myQueueState() // 한번 상태 업데이트 해주고 가자
+                self?.backTwoPop()
                 return
 
             case .failure(let error):
@@ -187,14 +172,7 @@ extension SearchResultViewController {
                     switch response {
                     case .success( _):
                         print("👽idtoken 재발급 후, 찾기 중단 성공@@")
-                                        
-                        let vc = TabBarController()
-                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-                        guard let delegate = sceneDelegate else {
-                            self?.view.makeToast("알 수 없는 에러 발생!", duration: 1.0, position: .center)
-                            return
-                        }
-                        delegate.window?.rootViewController = vc
+                        self?.backTwoPop()
                         return
                         
                     case .failure(let error):
@@ -287,4 +265,17 @@ extension SearchResultViewController {
         }
     }
 }
+
+// MARK: - 기타
+extension SearchResultViewController {
+    
+    func backTwoPop() {
+        self.navigationController?.popViewControllers(2)
+    }
+    
+}
+
+
+
+
 
