@@ -177,8 +177,6 @@ extension PopUpViewController {
                 }
             }
         }
-        
-        
     }
     
     func refreshIDToken() {
@@ -323,7 +321,7 @@ extension PopUpViewController {
             
             switch response {
             case .success(let _):
-                // 사용자의 현재 상태를 매칭 상태로 변경!! 이거는 어떻게 관리하지..userdefaults로 넣어둬야 하나
+                self?.myQueueState()
                 self?.dismiss(animated: true, completion: {
                     let vc = ChattingViewController()
                     self?.transition(vc, transitionStyle: .push)
