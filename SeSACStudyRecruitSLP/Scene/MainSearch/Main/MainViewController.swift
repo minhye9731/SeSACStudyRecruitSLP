@@ -35,15 +35,10 @@ final class MainViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         checkState()
         searchSesac()
-        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
+        navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - functions
@@ -121,12 +116,12 @@ extension MainViewController: CLLocationManagerDelegate {
     
     // 사용자의 위치를 성공적으로 가지고 온 경우
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(#function)
+        print("didUpdateLocations!!!!.////////////////////////")
             if let coordinate = locations.last?.coordinate {
                 searchSesac()
                 goLocation(center: coordinate)
-                locationManager.stopUpdatingLocation()
             }
+        locationManager.stopUpdatingLocation()
     }
     
     // 사용자의 위치를 못 가지고 온 경우
@@ -460,7 +455,7 @@ extension MainViewController {
         
         switch matchingMode {
         case .normal:
-            checkUserDeviceLocationServiceAuthorization()
+//            checkUserDeviceLocationServiceAuthorization()
             
             let authorizationStatus = locationManager.authorizationStatus
             
@@ -473,18 +468,10 @@ extension MainViewController {
             return
             
         case .standby:
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let sceneDelegate = windowScene?.delegate as? SceneDelegate
-            let vc = TabBarController()
-            let nav = UINavigationController(rootViewController: vc)
-            
             let firstVC = SearchViewController()
             let targetVC = SearchResultViewController()
             let vcs = [firstVC, targetVC]
-            
-            sceneDelegate?.window?.rootViewController = nav
-            sceneDelegate?.window?.makeKeyAndVisible()
-            nav.push(vcs)
+            self.navigationController?.push(vcs)
             
         case .matched:
             let vc = ChattingViewController()
