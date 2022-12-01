@@ -75,6 +75,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
         headerView.askAcceptbtn.header = headerView
         headerView.askAcceptbtn.section = section
+        
         headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
         headerView.namebtn.header = headerView
         headerView.namebtn.section = section
@@ -109,7 +110,7 @@ extension ListViewController {
         
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
-        vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[0].uid : receivedSesacList[section].uid
+        vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[section].uid : receivedSesacList[section].uid
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     
