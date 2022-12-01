@@ -24,12 +24,18 @@ final class ChattingViewController: BaseViewController {
         self.view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     // MARK: - functions
     override func configure() {
         super.configure()
-        
+        self.tabBarController?.tabBar.isHidden = true
         setBarButtonItem()
         self.title = "고래밥" // test
+        
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         
@@ -43,8 +49,10 @@ final class ChattingViewController: BaseViewController {
         
         // 발송용 test
         mainView.sendbtn.addTarget(self, action: #selector(sendbtnTapped), for: .touchUpInside)
-        
+         
     }
+    
+    
     
     @objc func getMessage(notification: NSNotification) {
             

@@ -33,13 +33,13 @@ final class MyChatTableViewCell: BaseTableViewCell {
         return label
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         self.selectionStyle = .none
         [myProfileView, myChatLabel, myTimeLabel].forEach {
             contentView.addSubview($0)
         }
-        
     }
     
     override func setConstraints() {
