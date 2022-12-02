@@ -14,14 +14,7 @@ enum APIRouter: URLRequestConvertible {
     case signup(phoneNumber: String, FCMtoken: String, nick: String, birth: String, email: String, gender: String)
     case withdraw
     case update(searchable: String, ageMin: String, ageMax: String, gender: String, study: String?)
-    case myQueueState
     case fcmUpdate(fcmToken: String)
-    case search(lat: String, long: String)
-    case queue(long: String, lat: String, studylist: String)
-    case delete
-    case requestStudy(otheruid: String)
-    case acceptStudy(otheruid: String)
-    case cancelStudy(otheruid: String)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -29,14 +22,12 @@ enum APIRouter: URLRequestConvertible {
 
     var method: HTTPMethod {
         switch self {
-        case .login, .myQueueState:
+        case .login:
             return .get
-        case .signup, .withdraw, .search, .queue, .requestStudy, .acceptStudy, .cancelStudy:
+        case .signup, .withdraw:
             return .post
         case .update, .fcmUpdate:
             return .put
-        case .delete:
-            return .delete
         }
     }
 
@@ -50,32 +41,16 @@ enum APIRouter: URLRequestConvertible {
             return "/v1/user/withdraw"
         case .update:
             return "/v1/user/mypage"
-        case .myQueueState:
-            return "/v1/queue/myQueueState"
         case .fcmUpdate:
             return "/v1/user/update_fcm_token"
-        case .search:
-            return "/v1/queue/search"
-        case .queue, .delete:
-            return "/v1/queue"
-        case .requestStudy:
-            return "/v1/queue/studyrequest"
-        case .acceptStudy:
-            return "/v1/queue/studyaccept"
-        case .cancelStudy:
-            return "/v1/queue/dodge"
         }
     }
 
     var headers: HTTPHeaders {
         switch self {
-        case .login, .myQueueState:
+        case .login, .signup, .withdraw, .update, .fcmUpdate:
             return [ "idtoken": UserDefaultsManager.idtoken,
-                              "Content-Type": "application/json" ]
-            
-        case .signup, .withdraw, .update, .fcmUpdate, .queue, .delete, .requestStudy, .acceptStudy, .search, .cancelStudy:
-            return [ "idtoken": UserDefaultsManager.idtoken,
-                               "Content-Type": "application/x-www-form-urlencoded" ]
+                     "Content-Type": "application/x-www-form-urlencoded" ]
         }
     }
 
@@ -101,29 +76,6 @@ enum APIRouter: URLRequestConvertible {
         case .fcmUpdate(let fcmToken):
             return [
                 "FCMtoken": fcmToken
-            ]
-        case .search(let lat, let long):
-            return [
-                "lat": lat,
-                "long": long
-            ]
-        case .queue(let long, let lat, let studylist):
-            return [
-                "long": long,
-                "lat": lat,
-                "studylist": studylist
-            ]
-        case .requestStudy(let otheruid):
-            return [
-                "otheruid": otheruid
-            ]
-        case .acceptStudy(let otheruid):
-            return [
-                "otheruid": otheruid
-            ]
-        case .cancelStudy(let otheruid):
-            return [
-                "otheruid": otheruid
             ]
         default: return ["":""]
         }

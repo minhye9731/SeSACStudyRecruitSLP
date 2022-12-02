@@ -10,7 +10,7 @@ import Alamofire
 
 enum ChatAPIRouter: URLRequestConvertible {
 
-case send(chat: String)
+    case send(chat: String, uid: String)
 case takeList(lastchatDate: String)
 
     var baseURL: URL {
@@ -28,8 +28,8 @@ case takeList(lastchatDate: String)
 
     var path: String {
         switch self {
-        case .send:
-            return "/v1/chat/\(UserDefaultsManager.chatTO)"
+        case .send(_, let uid):
+            return "/v1/chat/\(uid)"
         case .takeList:
             return "/v1/chat/\(UserDefaultsManager.chatFROM)"
         }
@@ -39,20 +39,16 @@ case takeList(lastchatDate: String)
         switch self {
         case .send, .takeList:
             return [ "idtoken": UserDefaultsManager.idtoken,
-                     "Content-Type": "application/json" ]
+                               "Content-Type": "application/x-www-form-urlencoded" ]
         }
     }
 
-    var parameters: [String: String?] {
+    var parameters: [String: String] {
         switch self {
-        case .send(let chat):
-            return [
-                "chat": chat
-            ]
+        case .send(let chat, _):
+            return [ "chat": chat ]
         case .takeList(let lastchatDate):
-            return [
-                "lastchatDate": lastchatDate
-            ]
+            return [ "lastchatDate": lastchatDate ]
         default: return ["":""]
         }
     }
