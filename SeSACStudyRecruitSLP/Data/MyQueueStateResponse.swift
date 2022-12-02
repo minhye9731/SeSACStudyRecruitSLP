@@ -9,5 +9,5 @@ import Foundation
 
 struct MyQueueStateResponse: Codable {
     let dodged, matched, reviewed: Int
-    let matchedNick, matchedUid: String? // 옵셔널값 필수
+    let matchedNick, matchedUid: String
 }

@@ -9,6 +9,7 @@ import UIKit
 
 class MyTagCell: BaseCollectionViewCell {
     
+    // MARK: - property
     let myTabButton: UIButton = {
        let btn = UIButton()
         var config = UIButton.Configuration.filled()
@@ -27,6 +28,7 @@ class MyTagCell: BaseCollectionViewCell {
         return btn
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         contentView.addSubview(myTabButton)

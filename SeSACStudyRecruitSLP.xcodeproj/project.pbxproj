@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E03524D2938F97900D5FEE5 /* ChattingTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */; };
+		0E03525129392AF700D5FEE5 /* SendChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03525029392AF700D5FEE5 /* SendChatError.swift */; };
+		0E0352532939306900D5FEE5 /* LastChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0352522939306900D5FEE5 /* LastChatError.swift */; };
+		0E03525D29394AE500D5FEE5 /* StudyAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03525C29394AE500D5FEE5 /* StudyAPIRouter.swift */; };
+		0E03525F29394C8300D5FEE5 /* QueueAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03525E29394C8300D5FEE5 /* QueueAPIRouter.swift */; };
+		0E0352612939509900D5FEE5 /* DodgeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0352602939509900D5FEE5 /* DodgeError.swift */; };
 		0E1164022933769200501EBD /* MoreReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1164012933769200501EBD /* MoreReviewViewController.swift */; };
 		0E11640429337D6100501EBD /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */; };
 		0E11640629339BF300501EBD /* moreReviewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11640529339BF300501EBD /* moreReviewButton.swift */; };
@@ -100,6 +106,11 @@
 		0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */; };
 		0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CA291AA8BD0038B429 /* SplashView.swift */; };
 		0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5095CD291AAE380038B429 /* SplashContent.swift */; };
+		0E597AB62939E24A005939CB /* MyQueueStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AB52939E24A005939CB /* MyQueueStateError.swift */; };
+		0E597AB82939EE61005939CB /* TotalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AB72939EE61005939CB /* TotalError.swift */; };
+		0E597ABA2939F57C005939CB /* WithdrawError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AB92939F57C005939CB /* WithdrawError.swift */; };
+		0E597ABC2939FA34005939CB /* StudyRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABB2939FA34005939CB /* StudyRequestError.swift */; };
+		0E597ABE293A04DC005939CB /* StudyAcceptError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABD293A04DC005939CB /* StudyAcceptError.swift */; };
 		0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */; };
 		0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F680292DF6830062DBED /* UserLocationDTO.swift */; };
 		0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */; };
@@ -139,6 +150,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingTableViewHeader.swift; sourceTree = "<group>"; };
+		0E03525029392AF700D5FEE5 /* SendChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatError.swift; sourceTree = "<group>"; };
+		0E0352522939306900D5FEE5 /* LastChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastChatError.swift; sourceTree = "<group>"; };
+		0E03525C29394AE500D5FEE5 /* StudyAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyAPIRouter.swift; sourceTree = "<group>"; };
+		0E03525E29394C8300D5FEE5 /* QueueAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueAPIRouter.swift; sourceTree = "<group>"; };
+		0E0352602939509900D5FEE5 /* DodgeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DodgeError.swift; sourceTree = "<group>"; };
 		0E1164012933769200501EBD /* MoreReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreReviewViewController.swift; sourceTree = "<group>"; };
 		0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E11640529339BF300501EBD /* moreReviewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moreReviewButton.swift; sourceTree = "<group>"; };
@@ -223,6 +240,11 @@
 		0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		0E5095CA291AA8BD0038B429 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		0E5095CD291AAE380038B429 /* SplashContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashContent.swift; sourceTree = "<group>"; };
+		0E597AB52939E24A005939CB /* MyQueueStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQueueStateError.swift; sourceTree = "<group>"; };
+		0E597AB72939EE61005939CB /* TotalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalError.swift; sourceTree = "<group>"; };
+		0E597AB92939F57C005939CB /* WithdrawError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawError.swift; sourceTree = "<group>"; };
+		0E597ABB2939FA34005939CB /* StudyRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRequestError.swift; sourceTree = "<group>"; };
+		0E597ABD293A04DC005939CB /* StudyAcceptError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyAcceptError.swift; sourceTree = "<group>"; };
 		0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionPassButton.swift; sourceTree = "<group>"; };
 		0EA1F680292DF6830062DBED /* UserLocationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationDTO.swift; sourceTree = "<group>"; };
 		0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardNameTapGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -284,6 +306,96 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E03524E2939257100D5FEE5 /* Chatting */ = {
+			isa = PBXGroup;
+			children = (
+				0E11643A2934C6F500501EBD /* SendChatResponse.swift */,
+				0E11643C2934C7F900501EBD /* LastChatResponse.swift */,
+			);
+			path = Chatting;
+			sourceTree = "<group>";
+		};
+		0E03524F29392AD800D5FEE5 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */,
+				0EA6A9F229209E9600F71EC6 /* SignupError.swift */,
+				0E597AB92939F57C005939CB /* WithdrawError.swift */,
+				0E597ABB2939FA34005939CB /* StudyRequestError.swift */,
+				0E597ABD293A04DC005939CB /* StudyAcceptError.swift */,
+				0E03525029392AF700D5FEE5 /* SendChatError.swift */,
+				0E0352522939306900D5FEE5 /* LastChatError.swift */,
+				0E0352602939509900D5FEE5 /* DodgeError.swift */,
+				0E597AB52939E24A005939CB /* MyQueueStateError.swift */,
+				0E597AB72939EE61005939CB /* TotalError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		0E03525429393DBA00D5FEE5 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */,
+				0E1164382934B90500501EBD /* ChatAPIRouter.swift */,
+				0E03525C29394AE500D5FEE5 /* StudyAPIRouter.swift */,
+				0E03525E29394C8300D5FEE5 /* QueueAPIRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		0E0352552939465000D5FEE5 /* CustomTableHeader */ = {
+			isa = PBXGroup;
+			children = (
+				0E49C71729252F91004E7875 /* CollapsibleTableViewHeader.swift */,
+				0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */,
+			);
+			path = CustomTableHeader;
+			sourceTree = "<group>";
+		};
+		0E0352562939468E00D5FEE5 /* CustomCollectionHeader */ = {
+			isa = PBXGroup;
+			children = (
+				0EA574C0292CEF6E0064599F /* SectionTitleSupplementaryView.swift */,
+			);
+			path = CustomCollectionHeader;
+			sourceTree = "<group>";
+		};
+		0E0352572939469E00D5FEE5 /* CustomButtom */ = {
+			isa = PBXGroup;
+			children = (
+				0E49C6D129228559004E7875 /* ThumbButton.swift */,
+				0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */,
+				0E11640529339BF300501EBD /* moreReviewButton.swift */,
+			);
+			path = CustomButtom;
+			sourceTree = "<group>";
+		};
+		0E035258293946E800D5FEE5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				0E46E2B52928F6710058A50E /* EmptyView.swift */,
+				0E4F632E291D6DAE00F36167 /* InputDateView.swift */,
+				0EA5749A292BE6290064599F /* CustomAnnotationView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		0E0352592939471A00D5FEE5 /* CustomSlider */ = {
+			isa = PBXGroup;
+			children = (
+				0E49C6D3292285A5004E7875 /* CustomSlider.swift */,
+			);
+			path = CustomSlider;
+			sourceTree = "<group>";
+		};
+		0E03525A2939472B00D5FEE5 /* CustomTapGesture */ = {
+			isa = PBXGroup;
+			children = (
+				0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */,
+			);
+			path = CustomTapGesture;
+			sourceTree = "<group>";
+		};
 		0E1410DB2918D63E0040BD85 = {
 			isa = PBXGroup;
 			children = (
@@ -453,16 +565,12 @@
 		0E49C6C62922460A004E7875 /* Customs */ = {
 			isa = PBXGroup;
 			children = (
-				0E4F632E291D6DAE00F36167 /* InputDateView.swift */,
-				0E49C6D129228559004E7875 /* ThumbButton.swift */,
-				0E49C6D3292285A5004E7875 /* CustomSlider.swift */,
-				0E49C71729252F91004E7875 /* CollapsibleTableViewHeader.swift */,
-				0E46E2B52928F6710058A50E /* EmptyView.swift */,
-				0EA5749A292BE6290064599F /* CustomAnnotationView.swift */,
-				0EA574C0292CEF6E0064599F /* SectionTitleSupplementaryView.swift */,
-				0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */,
-				0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */,
-				0E11640529339BF300501EBD /* moreReviewButton.swift */,
+				0E03525A2939472B00D5FEE5 /* CustomTapGesture */,
+				0E0352592939471A00D5FEE5 /* CustomSlider */,
+				0E035258293946E800D5FEE5 /* CustomView */,
+				0E0352572939469E00D5FEE5 /* CustomButtom */,
+				0E0352562939468E00D5FEE5 /* CustomCollectionHeader */,
+				0E0352552939465000D5FEE5 /* CustomTableHeader */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -549,12 +657,11 @@
 				0EA6A9F029209D4E00F71EC6 /* LoginResponse.swift */,
 				0EA57494292A33840064599F /* MyQueueStateResponse.swift */,
 				0EA57498292B631E0064599F /* SearchResponse.swift */,
-				0E11643A2934C6F500501EBD /* SendChatResponse.swift */,
-				0E11643C2934C7F900501EBD /* LastChatResponse.swift */,
 				0EA6A9F42920A28300F71EC6 /* UserInfoDTO.swift */,
 				0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */,
 				0EA1F680292DF6830062DBED /* UserLocationDTO.swift */,
 				0E1164092933D1A100501EBD /* Chat.swift */,
+				0E03524E2939257100D5FEE5 /* Chatting */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -574,12 +681,10 @@
 		0EA6A9E4291F9CC100F71EC6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				0EA6A9E5291F9D2200F71EC6 /* APIRouter.swift */,
-				0E1164382934B90500501EBD /* ChatAPIRouter.swift */,
 				0EA6A9E7291F9D2B00F71EC6 /* Network.swift */,
-				0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */,
-				0EA6A9F229209E9600F71EC6 /* SignupError.swift */,
 				0E1164402934DBC600501EBD /* SocketIOManager.swift */,
+				0E03525429393DBA00D5FEE5 /* Router */,
+				0E03524F29392AD800D5FEE5 /* Error */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -742,6 +847,7 @@
 				0E4F6313291D0D1D00F36167 /* NickNameViewController.swift in Sources */,
 				0EA574BF292CE7D80064599F /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				0EA574C3292D1E680064599F /* MyTagCell.swift in Sources */,
+				0E03525F29394C8300D5FEE5 /* QueueAPIRouter.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
@@ -756,16 +862,20 @@
 				0E49C6DA2922C301004E7875 /* InfoManageView.swift in Sources */,
 				0E11640A2933D1A100501EBD /* Chat.swift in Sources */,
 				0E1164082933CBB200501EBD /* ChattingView.swift in Sources */,
+				0E597ABA2939F57C005939CB /* WithdrawError.swift in Sources */,
 				0E46E2B82928F8B00058A50E /* PageMode.swift in Sources */,
 				0EA57493292935850064599F /* ChattingViewController.swift in Sources */,
 				0E1411092918EC530040BD85 /* Image.swift in Sources */,
+				0E0352532939306900D5FEE5 /* LastChatError.swift in Sources */,
 				0E4F6338291D8C5000F36167 /* BaseNavigationController.swift in Sources */,
+				0E03525129392AF700D5FEE5 /* SendChatError.swift in Sources */,
 				0E4F631A291D120000F36167 /* BirthdayViewController.swift in Sources */,
 				0EA574BD292CE30B0064599F /* TagCell.swift in Sources */,
 				0E1164102933F1DD00501EBD /* MoreMenuViewController.swift in Sources */,
 				0E46E2B62928F6710058A50E /* EmptyView.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
+				0E597AB62939E24A005939CB /* MyQueueStateError.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
 				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
@@ -785,6 +895,7 @@
 				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
 				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,
 				0E4F6336291D7D7900F36167 /* CommonViewModel.swift in Sources */,
+				0E597ABC2939FA34005939CB /* StudyRequestError.swift in Sources */,
 				0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */,
 				0E49C6C529224566004E7875 /* genderCell.swift in Sources */,
 				0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */,
@@ -792,6 +903,7 @@
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1164412934DBC600501EBD /* SocketIOManager.swift in Sources */,
+				0E597AB82939EE61005939CB /* TotalError.swift in Sources */,
 				0E11643F2934CD6500501EBD /* APIKey.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0EA57495292A33840064599F /* MyQueueStateResponse.swift in Sources */,
@@ -799,6 +911,7 @@
 				0E11640E2933DA0200501EBD /* YourChatTableViewCell.swift in Sources */,
 				0EA574C1292CEF6E0064599F /* SectionTitleSupplementaryView.swift in Sources */,
 				0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */,
+				0E0352612939509900D5FEE5 /* DodgeError.swift in Sources */,
 				0E49C6DC2922C48E004E7875 /* profileCell.swift in Sources */,
 				0EA57499292B631E0064599F /* SearchResponse.swift in Sources */,
 				0EF3751029261E4E0074FC64 /* PopUpViewController.swift in Sources */,
@@ -816,6 +929,7 @@
 				0E11640629339BF300501EBD /* moreReviewButton.swift in Sources */,
 				0E5095C9291AA6720038B429 /* PhoneNumberViewController.swift in Sources */,
 				0E49C6D82922A926004E7875 /* MyProfileInfoCell.swift in Sources */,
+				0E03524D2938F97900D5FEE5 /* ChattingTableViewHeader.swift in Sources */,
 				0EA6A9EA291F9D4900F71EC6 /* LoginError.swift in Sources */,
 				0EA6A9EF291FDE7600F71EC6 /* Date+Extension.swift in Sources */,
 				0EA6A9F92921625B00F71EC6 /* TabBarController.swift in Sources */,
@@ -830,6 +944,8 @@
 				0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */,
 				0E5095CE291AAE380038B429 /* SplashContent.swift in Sources */,
 				0E4F6322291D192000F36167 /* EmailViewController.swift in Sources */,
+				0E597ABE293A04DC005939CB /* StudyAcceptError.swift in Sources */,
+				0E03525D29394AE500D5FEE5 /* StudyAPIRouter.swift in Sources */,
 				0E1164142933F80600501EBD /* WriteReviewViewController.swift in Sources */,
 				0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */,
 				0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */,

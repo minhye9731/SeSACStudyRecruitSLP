@@ -236,6 +236,7 @@ final class ProfileCell: BaseTableViewCell {
     
     // [새싹 찾기]
     func setSesacData(data: [FromQueueDB], section: Int) {
+        print("화면에 보여줄 검색된 새싹정보 : \(data)")
         
         var reputationList = data[section].reputation
         var reviewList = data[section].reviews
@@ -262,9 +263,20 @@ final class ProfileCell: BaseTableViewCell {
     }
     
     
-    
-    
-    
+    // 재사용 이슈 해결 (test필요)
+    override func prepareForReuse() {
+        
+        titleButton1.setImage(nil, for: .normal)
+        titleButton2.setImage(nil, for: .normal)
+        titleButton3.setImage(nil, for: .normal)
+        titleButton4.setImage(nil, for: .normal)
+        titleButton5.setImage(nil, for: .normal)
+        titleButton6.setImage(nil, for: .normal)
+        
+        wantedStudy.setTitle(nil, for: .normal)
+        
+        reviewTextField.text = nil
+    }
 
 }
 
