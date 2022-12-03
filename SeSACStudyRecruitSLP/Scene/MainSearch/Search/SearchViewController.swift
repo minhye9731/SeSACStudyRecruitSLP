@@ -211,45 +211,43 @@ extension SearchViewController {
 // MARK: - search 통신
 extension SearchViewController {
 
-//    func searchNetwork(location: UserLocationDTO) {
     func searchNetwork() {
-//        let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
-        let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-        Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+        
+        let api = QueueAPIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
+        Network.share.requestSearch(router: api) { [weak self] (value, statusCode, error) in
             
-            switch response {
-            case .success(let searchResult):
-                print("🦄search 통신 성공!! searchResult = \(searchResult)")
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = StudyRequestError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                
                 self?.aroundTagList.removeAll()
                 
-                self?.aroundTagList.append(contentsOf: searchResult.fromRecommend)
-                self?.rocommendNum = searchResult.fromRecommend.count
+                self?.aroundTagList.append(contentsOf: value.fromRecommend)
+                self?.rocommendNum = value.fromRecommend.count
                 
-                searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
-                searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                value.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                value.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
                 
                 self?.aroundTagList = Array(Set(self!.aroundTagList))
                 self?.mainView.collectionView.reloadData()
+                return
                 
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = LoginError(rawValue: code) else { return }
-                print("failure // code = \(code), errorCode = \(errorCode)")
-                
-                switch errorCode {
-                case .fbTokenError:
-//                    self?.refreshIDTokenSearch(location: location)
-                    self?.refreshIDTokenSearch()
-                default :
-                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                }
+            case .fbTokenError:
+                self?.refreshIDTokenSearch()
+                return
+            default :
+                self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
             }
         }
     }
     
+//    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+    
     func refreshIDTokenSearch() {
-//        func refreshIDTokenSearch(location: UserLocationDTO) {
-        
+     
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
             
@@ -264,35 +262,33 @@ extension SearchViewController {
                 UserDefaultsManager.idtoken = idToken
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
-//                let api = APIRouter.search(lat: String(location.lat), long: String(location.long))
-                let api = APIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
-                Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+                let api = QueueAPIRouter.search(lat: UserDefaultsManager.searchLAT, long: UserDefaultsManager.searchLONG)
+                Network.share.requestSearch(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success(let searchResult):
-                        print("🦄searchResult = \(searchResult)")
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = StudyRequestError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        
                         self?.aroundTagList.removeAll()
                         
-                        self?.aroundTagList.append(contentsOf: searchResult.fromRecommend)
-                        self?.rocommendNum = searchResult.fromRecommend.count
+                        self?.aroundTagList.append(contentsOf: value.fromRecommend)
+                        self?.rocommendNum = value.fromRecommend.count
                         
-                        searchResult.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
-                        searchResult.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                        value.fromQueueDB.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
+                        value.fromQueueDBRequested.forEach { self?.aroundTagList.append(contentsOf: $0.studylist) }
                         
                         self?.aroundTagList = Array(Set(self!.aroundTagList))
                         self?.mainView.collectionView.reloadData()
-                        
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        print("failure // code = \(code), errorCode = \(errorCode)")
-                        
-                        switch errorCode {
-                        default :
-                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                        }
+                        return
+
+                    default :
+                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
                     }
                 }
+                
             }
         }
     }

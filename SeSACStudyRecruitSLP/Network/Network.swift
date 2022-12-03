@@ -15,40 +15,10 @@ final class Network {
     
     private init() { }
     
-    // session 정의
-    let sessionManager: Session = {
-        let configuration = URLSessionConfiguration.af.default
-        configuration.timeoutIntervalForRequest = 5 // 재호출 제한 시간간격
-        configuration.waitsForConnectivity = true
-        return Session(configuration: configuration)
-    }()
-
-    // search(post) - timeout interval 적용
-    func requestSearch<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
-        
-        // 적용 안되는데?;;
-        sessionManager.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
-            
-            switch response.result {
-                
-            case .success(let data):
-                completion(.success(data))
-                
-            case .failure(_):
-                guard let statusCode = response.response?.statusCode else { return }
-                guard let error = LoginError(rawValue: statusCode) else { return }
-                completion(.failure(error))
-                
-            }
-        }
-    }
-    
-    
-    
     // login(get), my queue state(get)
     func requestLogin<T: Codable>(type: T.Type = T.self, router: APIRouter, completion: @escaping (Result<T, Error>) -> Void) {
         
-        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+        AF.request(router).responseDecodable(of: T.self) { response in
             
             switch response.result {
                 
@@ -64,7 +34,7 @@ final class Network {
         }
     }
     
-    // signup(post), withdraw(post), 내정보 update(put), delete(delete), requestStudy(post), acceptStudy(post)
+    // signup(post), 내정보 update(put), delete(delete), requestStudy(post), acceptStudy(post)
     func requestForResponseString(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in
@@ -78,8 +48,56 @@ final class Network {
             }
         }
     }
-
-
+    
+    // MARK: - test
+    func requestForResponseStringTest(router: URLRequestConvertible, completion: @escaping (String?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseString { response in
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
+    // 탈퇴 withdraw(post)
+    func requestWithdraw(router: APIRouter, completion: @escaping (String?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseString { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
+    // search(post)
+    func requestSearch(router: QueueAPIRouter, completion: @escaping (SearchResponse?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseDecodable(of: SearchResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
     func requestQueue(long: String, lat: String, studyList: [String], completion: @escaping (Result<String, Error>) -> Void) {
         
         let url = "http://api.sesac.co.kr:1210" + "/v1/queue"
@@ -96,7 +114,7 @@ final class Network {
         ]
         
         let enc: ParameterEncoding = URLEncoding(arrayEncoding: .noBrackets)
-   
+        
         AF.request(url, method: .post, parameters: parameter, encoding: enc, headers: header).validate(statusCode: 200...500).responseString { response in
             
             switch response.result {
@@ -113,40 +131,71 @@ final class Network {
         }
     }
     
-    func requestSendChat<T: Codable>(type: T.Type = T.self, router: ChatAPIRouter, completion: @escaping (Result<T, Error>) -> Void) {
+    
+    // my queue state
+    func requestMyQueueState(router: QueueAPIRouter, completion: @escaping (MyQueueStateResponse?, Int?, Error?) -> Void) {
         
-        AF.request(router).validate(statusCode: 200...500).responseDecodable(of: T.self) { response in
+        AF.request(router).responseDecodable(of: MyQueueStateResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
             
             switch response.result {
-                
             case .success(let data):
-                completion(.success(data))
+                completion(data, statusCode, nil)
                 
-            case .failure(_):
-                guard let statusCode = response.response?.statusCode else { return }
-                guard let error = LoginError(rawValue: statusCode) else { return }
-                completion(.failure(error))
-                
+            case .failure(let error):
+                completion(nil, statusCode, error)
             }
         }
     }
     
+    // 채팅 보내기 (post)
+    func requestPostChat(router: ChatAPIRouter, completion: @escaping (SendChatResponse?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseDecodable(of: SendChatResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
     
+    // 채팅 목록 가져오기 (get)
+    func requestLastChat(router: ChatAPIRouter, completion: @escaping (LastChatResponse?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseDecodable(of: LastChatResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
     
-    
-    // fcm messaging token 갱신
-//    func requestFCMTokenUpdate(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
-//
-//        AF.request(router).validate(statusCode: 200...500).responseString { response in
-//            switch response.result {
-//            case .success(let data):
-//                completion(.success(data))
-//            case .failure(_):
-//                guard let statusCode = response.response?.statusCode else { return }
-//                guard let error = SignupError(rawValue: statusCode) else { return }
-//                completion(.failure(error))
-//            }
-//        }
-//    }
-    
+    func requestCancelStudy(router: StudyAPIRouter, completion: @escaping (String?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseString { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
 }

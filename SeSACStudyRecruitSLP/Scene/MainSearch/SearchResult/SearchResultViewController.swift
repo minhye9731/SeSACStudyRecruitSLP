@@ -41,10 +41,6 @@ final class SearchResultViewController: TabmanViewController {
         timer?.invalidate()
     }
     
-    deinit {
-        print("📡 새싹 찾기 화면 deinit")
-    }
-    
     // MARK: - functions
     func setVC() {
         viewControllers.append(listVC)
@@ -123,30 +119,29 @@ extension SearchResultViewController {
     
     // [찾기중단]
     @objc func stopTapped() {
-        let api = APIRouter.delete
-        Network.share.requestForResponseString(router: api) { [weak self] response in
-            switch response {
-            case .success( _):
+        let api = QueueAPIRouter.delete
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = QueueDeleteError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
                 print("👽찾기중단 성공@@")
-//                self?.myQueueState() // 한번 상태 업데이트 해주고 가자
                 self?.backTwoPop()
                 return
-
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                switch errorCode {
-                case .existUser:
-                    self?.view.makeToast("누군가와 스터디를 함께하기로 약속하셨어요!", duration: 1.0, position: .center)
+            case .alreayMatched:
+                self?.view.makeToast("누군가와 스터디를 함께하기로 약속하셨어요!", duration: 1.0, position: .center) { didTap in
                     self?.myQueueState()
-                    return
-                case .fbTokenError:
-                    self?.refreshIDTokenDelete()
-                    return
-                default:
-                    self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
-                    return
                 }
+                return
+            case .fbTokenError:
+                self?.refreshIDTokenDelete()
+                return
+            default:
+                self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                return
             }
         }
     }
@@ -166,60 +161,62 @@ extension SearchResultViewController {
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
                 
-                let api = APIRouter.delete
-                Network.share.requestForResponseString(router: api) { [weak self] response in
+                let api = QueueAPIRouter.delete
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success( _):
-                        print("👽idtoken 재발급 후, 찾기 중단 성공@@")
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = QueueDeleteError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        print("👽찾기중단 성공@@")
                         self?.backTwoPop()
                         return
-                        
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default:
-                            self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
-                        }
+                    
+                    default:
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
         }
     }
+    
 }
 
 // MARK: - myQueueState (API)
 extension SearchResultViewController {
     
     func myQueueState() {
-        let api = APIRouter.myQueueState
-        Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
-            
-            switch response {
-            case .success(let stateData):
-                print("😎현재 상태는?!?! = \(stateData.matched)")
-                
-                if stateData.matched == 1 {
+        let api = QueueAPIRouter.myQueueState
+        Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
 
-                    self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+            
+            switch status {
+            case .success:
+                
+                if value.matched  == 1 {
+                    self?.view.makeToast("\(value.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
                         let vc = ChattingViewController()
+                        vc.otherSesacUID = value.matchedUid
+                        vc.otherSesacNick = value.matchedNick
                         self?.transition(vc, transitionStyle: .push)
                     }
                 }
                 return
-                
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                print("⭐️⭐️⭐️현재 매칭모드 실패 : errorCode = \(errorCode), error설명 = \(error.localizedDescription)")
-                
-                switch errorCode {
-                case .fbTokenError:
-                    self?.refreshIDTokenQueue()
-                default :
-                    self?.view.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                }
+                     
+            case .fbTokenError:
+                self?.refreshIDTokenQueue()
+                return
+            default :
+                self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                return
             }
         }
     }
@@ -239,26 +236,31 @@ extension SearchResultViewController {
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
                 
-                let api = APIRouter.myQueueState
-                Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                let api = QueueAPIRouter.myQueueState
+                Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+
+                    print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
                     
-                    switch response {
-                    case .success(let stateData):
-                        if stateData.matched == 1 {
-                            self?.view.makeToast("\(stateData.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
+                    switch status {
+                    case .success:
+                        
+                        if value.matched  == 1 {
+                            self?.view.makeToast("\(value.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
                                 let vc = ChattingViewController()
+                                vc.otherSesacUID = value.matchedUid
+                                vc.otherSesacNick = value.matchedNick
                                 self?.transition(vc, transitionStyle: .push)
                             }
                         }
                         return
-                        
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default:
-                            self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
-                        }
+                            
+                    default :
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
                     }
                 }
             }

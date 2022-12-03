@@ -214,7 +214,7 @@ extension PopUpViewController {
 extension PopUpViewController {
     
     func studyRequest() {
-        
+    
         let api = StudyAPIRouter.requestStudy(otheruid: otheruid)
         print("요청하기 보낸 상대방 uid : \(otheruid)")
         
