@@ -17,25 +17,33 @@ final class ChattingViewController: BaseViewController {
     // MARK: - property
     let mainView = ChattingView()
     var chat: [Chat] = []
+    var otherSesacUID = ""
+    var otherSesacNick = ""
+    
     
     // MARK: - Lifecycle
     override func loadView()  {
-        super.loadView()
         self.view = mainView
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = false
+        print("👄현재 대화중인 상대방 = \(otherSesacNick) | \(otherSesacUID)")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        SocketIOManager.shared.closeConnection()
     }
     
     // MARK: - functions
     override func configure() {
         super.configure()
-        self.tabBarController?.tabBar.isHidden = true
-        setBarButtonItem()
-        self.title = "고래밥" // test
         
+        setBarButtonItem()
+        self.title = otherSesacNick
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         
@@ -45,14 +53,12 @@ final class ChattingViewController: BaseViewController {
 //        fetchChats()
         
         // on sesac 으로 받은 이벤트를 처리하기 위한 Notification Observer
-        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
         
         // 발송용 test
+        // 화면상 수동 발송 test
         mainView.sendbtn.addTarget(self, action: #selector(sendbtnTapped), for: .touchUpInside)
-         
     }
-    
-    
     
     @objc func getMessage(notification: NSNotification) {
             
@@ -64,6 +70,12 @@ final class ChattingViewController: BaseViewController {
         // 채팅 구조체로 만든다
         let value = Chat(text: chat, userID: userID, name: name, username: "", id: "", createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         
+        // test
+//        chat = [
+//            Chat(text: chat, userID: userID, name: name, username: "", id: "", createdAt: createdAt, updatedAt: "", v: 0, ID: "")
+//        ]
+        
+        
         self.chat.append(value)
         mainView.tableView.reloadData()
         mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
@@ -71,10 +83,13 @@ final class ChattingViewController: BaseViewController {
     
     // test용
     @objc func sendbtnTapped() {
-        print("발송!")
-//        postChat(text: contentTextField.text ?? "")
+        
+        guard let text = mainView.chatTextField.text else { return }
+        print("발송! : \(text)")
+        
+        postChat(text: text)
     }
-//
+
 //    func keyboardObserver() {
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -88,29 +103,37 @@ final class ChattingViewController: BaseViewController {
 extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2// chat.count
+        return chat.count
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let result = view.frame.width * 0.28
+        return result
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ChattingTableViewHeader.reuseIdentifier) as? ChattingTableViewHeader else { return UIView() }
+
+        // 첫 매칭시점 일자 가져오기
+        headerView.matchingSesacLabel.text = "\(otherSesacNick)님과 매칭되었습니다"
+        return headerView
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        let data = chat[indexPath.row]
-//
-//        if data.userID == APIKey.userId {
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
-        myCell.myChatLabel.text = "내일 아침에는 식빵 구워서 브리 치즈랑 같이 먹자! 그리고 커피도 마실건데 커피는 따뜻한 아메리카노를 내려서 마시자~ :)"// data.text
-//            return cell
-//        } else {
+        let data = chat[indexPath.row] // 시간순 정렬?
+        
+        if data.userID == otherSesacUID {
             let yourCell = tableView.dequeueReusableCell(withIdentifier: "YourChatTableViewCell", for: indexPath) as! YourChatTableViewCell
-        yourCell.yourChatLabel.text = "내일 아침에는 뭐먹지??"// data.text
-//            return cell
-//        }
-        
-        return indexPath.row == 0 ? yourCell : myCell
-        
-        
-        
+            yourCell.yourChatLabel.text = data.text
+            return yourCell
+        } else {
+            let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
+            myCell.myChatLabel.text = data.text
+            return myCell
+        }
     }
-    
     
 }
 
@@ -144,22 +167,36 @@ extension ChattingViewController {
 //
 //    }
     
-//
-//    private func postChat(text: String) {
-//        let header: HTTPHeaders = [
-//            "Authorization": "Bearer \(APIKey.header)",
-//            "Content-Type": "application/json"
-//        ]
-//        AF.request(APIKey.url, method: .post, parameters: ["text": text], encoder: JSONParameterEncoder.default, headers: header).responseString { data in
-//            print("POST CHAT SUCCEED", data)
-//        }
-//    }
+    private func postChat(text: String) {
+
+        let api = ChatAPIRouter.send(chat: text, uid: otherSesacUID)
+        Network.share.requestPostChat(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  SendChatError(rawValue: statusCode) else { return }
+            print("👁채팅전송 statusCode : \(statusCode)")
+            
+            switch status {
+            case .success:
+                print("👁채팅전송 성공:::\(value.chat) || \(value.to)")
+                
+                chat.append(value.chat) // chat요소에 생성시간 or 발송시간 정보도 담는 튜플같은거로 만들까
+                self?.mainView.tableView.reloadData()
+                return
+            case .normalStatus:
+                print("상대방에게 채팅을 보낼 수 없는 '일반 상태'임")
+                return
+            case .fbTokenError:
+                print("토큰에러")
+                return
+            default : return print("에러당~~~~")
+            }
+        }
+    }
+    
     
 }
-
-
-
-
 
 // MARK: - 기타
 extension ChattingViewController {
@@ -175,7 +212,7 @@ extension ChattingViewController {
     @objc func chattingMoreMenuTapped() {
         print("위에서 아래로 스르르 내려오는 애니메이션")
         let vc = MoreMenuViewController()
-        transition(vc, transitionStyle: .presentFull) // test
+        transition(vc, transitionStyle: .present) // test
     }
     
 }

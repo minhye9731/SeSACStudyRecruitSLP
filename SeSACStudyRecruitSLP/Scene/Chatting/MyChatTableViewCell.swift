@@ -29,6 +29,7 @@ final class MyChatTableViewCell: BaseTableViewCell {
         let label = UILabel()
         label.font = CustomFonts.title6_R12()
         label.numberOfLines = 1
+        label.text = "13:55" //test
         label.textColor = ColorPalette.gray6
         return label
     }()
@@ -48,7 +49,7 @@ final class MyChatTableViewCell: BaseTableViewCell {
         myProfileView.snp.makeConstraints {
             $0.verticalEdges.equalTo(contentView).inset(12)
             $0.trailing.equalTo(contentView).offset(-16)
-            $0.leading.greaterThanOrEqualTo(contentView).offset(95) // 확인 필요
+            $0.leading.greaterThanOrEqualTo(contentView).offset(95)
         }
         
         myChatLabel.snp.makeConstraints {

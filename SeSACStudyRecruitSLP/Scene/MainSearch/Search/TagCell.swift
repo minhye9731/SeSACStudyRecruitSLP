@@ -9,6 +9,7 @@ import UIKit
 
 class TagCell: BaseCollectionViewCell {
     
+    // MARK: - property
     let tagLabel: UILabel = {
        let label = UILabel()
         label.font = CustomFonts.title4_R14()
