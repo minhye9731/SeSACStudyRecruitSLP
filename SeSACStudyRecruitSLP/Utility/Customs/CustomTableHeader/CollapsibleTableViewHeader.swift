@@ -150,12 +150,11 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
     // 새싹 찾기
     func setSesacData(data: [FromQueueDB], section: Int) {
         let row = data[section]
+        print("🥶새싹 찾기에서의 새싹들 데이터 = \(row)")
         
         backgroundImage.image = UIImage(named: "sesac_background_\(row.background + 1)")
         sesacImage.image = UIImage(named: "sesac_face_\(row.sesac + 1)")
         nameLabel.text = row.nick
     }
-    
-    
     
 }

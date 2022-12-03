@@ -20,7 +20,6 @@ final class InfoManageViewController: BaseViewController {
     
     // MARK: - Lifecycle
     override func loadView()  {
-        super.loadView()
         self.view = mainView
     }
     

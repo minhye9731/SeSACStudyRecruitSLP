@@ -24,5 +24,7 @@ class BaseTableViewCell: UITableViewCell {
     }
     
     func setConstraints() {}
+    
+    
 }
 
