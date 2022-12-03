@@ -28,8 +28,7 @@ final class ListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchSesac() // **호출시점2 (주변새싹 / 받은 요청 탭 전환시)
-        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
+        searchSesac()
     }
     
     // MARK: - functions
@@ -79,7 +78,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
         headerView.namebtn.header = headerView
         headerView.namebtn.section = section
-                
+        
         headerView.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: section)
         
         headerView.setAskAcceptBtn(page: pageboyPageIndex!)
@@ -111,6 +110,7 @@ extension ListViewController {
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
         vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[section].uid : receivedSesacList[section].uid
+        print("🥶내가 요청을 보내거나/받은 새싹 = \(aroundSesacList[section].nick)")
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     
@@ -125,10 +125,10 @@ extension ListViewController {
         
         mainView.tableView.reloadData()// 접었다펼쳤다 할 때 tableview 갱신 때문에 화면이 버벅거림
         
-//        if isExpandedList[section] { // 펼친 카드를 받을 경우??
-//            searchSesac() // **호출시점 4-2
-//            // 여기 떄문에, 클릭 하자마자 user card 접혔다가 바로 펼쳐짐
-//        }
+        //        if isExpandedList[section] { // 펼친 카드를 받을 경우??
+        //            searchSesac() // **호출시점 4-2
+        //            // 여기 떄문에, 클릭 하자마자 user card 접혔다가 바로 펼쳐짐
+        //        }
     }
     
     @objc func moreReviewTapped(sender: moreReviewButton) {
@@ -152,6 +152,7 @@ extension ListViewController {
     
 }
 
+// MARK: - search API
 extension ListViewController {
     
     // 과호출 제한 - timeout 방안으로 추가 조사 필요
@@ -166,7 +167,7 @@ extension ListViewController {
     func searchSesac() {
         print(#function)
         
-        let api = APIRouter.search(
+        let api = QueueAPIRouter.search(
             lat: UserDefaultsManager.searchLAT,
             long: UserDefaultsManager.searchLONG)
         
@@ -174,15 +175,20 @@ extension ListViewController {
         print("🤑UserDefaultsManager.searchLONG = \(UserDefaultsManager.searchLONG)")
         
         if !limitOvercallAPI {
-            Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+            Network.share.requestSearch(router: api) { [weak self] (value, statusCode, error) in
                 
-                switch response {
-                case .success(let searchResult):
+                guard let value = value else { return }
+                guard let statusCode = statusCode else { return }
+                guard let status = StudyRequestError(rawValue: statusCode) else { return }
+                
+                switch status {
+                case .success:
                     print("🦄search 통신 성공!!")
                     self?.limitOvercall()
                     
                     if self?.pageboyPageIndex == 0 {
-                        self?.aroundSesacList = searchResult.fromQueueDB
+                        self?.aroundSesacList =
+                        value.fromQueueDB
                         
                         if self!.aroundSesacList.isEmpty {
                             self?.mainView.emptyView.isHidden = false
@@ -195,7 +201,7 @@ extension ListViewController {
                             self?.mainView.tableView.reloadData()
                         }
                     } else {
-                        self?.receivedSesacList = searchResult.fromQueueDBRequested
+                        self?.receivedSesacList = value.fromQueueDBRequested
                         
                         if self!.receivedSesacList.isEmpty {
                             self?.mainView.emptyView.isHidden = false
@@ -210,17 +216,12 @@ extension ListViewController {
                     }
                     return
                     
-                case .failure(let error):
-                    let code = (error as NSError).code
-                    guard let errorCode = LoginError(rawValue: code) else { return }
-                    print("failure // code = \(code), errorCode = \(errorCode)")
-                    
-                    switch errorCode {
-                    case .fbTokenError:
-                        self?.refreshIDTokenSearchSesac()
-                    default :
-                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                    }
+                case .fbTokenError:
+                    self?.refreshIDTokenSearchSesac()
+                    return
+                default:
+                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                    return
                 }
             }
         } else {
@@ -244,17 +245,22 @@ extension ListViewController {
                 UserDefaultsManager.idtoken = idToken
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
-                let api = APIRouter.search(
+                let api = QueueAPIRouter.search(
                     lat: UserDefaultsManager.searchLAT,
                     long: UserDefaultsManager.searchLONG)
-                Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+                
+                Network.share.requestSearch(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success(let searchResult):
-                        print("🦄search 통신 성공!!")
-
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = StudyRequestError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        
                         if self?.pageboyPageIndex == 0 {
-                            self?.aroundSesacList = searchResult.fromQueueDB
+                            self?.aroundSesacList =
+                            value.fromQueueDB
                             
                             if self!.aroundSesacList.isEmpty {
                                 self?.mainView.emptyView.isHidden = false
@@ -267,7 +273,7 @@ extension ListViewController {
                                 self?.mainView.tableView.reloadData()
                             }
                         } else {
-                            self?.receivedSesacList = searchResult.fromQueueDBRequested
+                            self?.receivedSesacList = value.fromQueueDBRequested
                             
                             if self!.receivedSesacList.isEmpty {
                                 self?.mainView.emptyView.isHidden = false
@@ -281,40 +287,46 @@ extension ListViewController {
                             }
                         }
                         return
-                        
-                        
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default :
-                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                        }
+                    default:
+                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
         }
     }
+}
+
+// MARK: - delete queue API
+extension ListViewController {
     
-    // delete queue
     func stopSearchSesac() {
-        let api = APIRouter.delete
-        Network.share.requestForResponseString(router: api) { [weak self] response in
-            switch response {
-            case .success( _):
-                self?.navigationController?.popViewController(animated: true) // 이거말고 [새싹 입력] 화면으로 특정해서 돌아가야 함!!!!!
+        let api = QueueAPIRouter.delete
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = QueueDeleteError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                self?.navigationController?.popViewController(animated: true)
                 return
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                switch errorCode {
-                case .fbTokenError:
-                    self?.refreshIDTokenDelete()
-                    return
-                default:
-                    self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
-                    return
+            
+            case .alreayMatched:
+                self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center) { didTap in
+                    let vc = ChattingViewController()
+                    self?.transition(vc, transitionStyle: .push)
                 }
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenDelete()
+                return
+                
+            default:
+                self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                return
             }
         }
     }
@@ -333,30 +345,38 @@ extension ListViewController {
                 return
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
-                
-                let api = APIRouter.delete
-                Network.share.requestForResponseString(router: api) { [weak self] response in
+
+                let api = QueueAPIRouter.delete
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success( _):
-                        print("👽idtoken 재발급 후, 찾기 중단 성공@@")
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = QueueDeleteError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
                         self?.navigationController?.popViewController(animated: true)
                         return
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default:
-                            self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                    
+                    case .alreayMatched:
+                        self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center) { didTap in
+                            let vc = ChattingViewController()
+                            self?.transition(vc, transitionStyle: .push)
                         }
+                        return
+                        
+                    case .fbTokenError:
+                        self?.refreshIDTokenDelete()
+                        return
+                        
+                    default:
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
         }
     }
 }
-
-
-
 
 
