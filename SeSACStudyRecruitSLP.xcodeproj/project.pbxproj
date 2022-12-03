@@ -111,6 +111,8 @@
 		0E597ABA2939F57C005939CB /* WithdrawError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AB92939F57C005939CB /* WithdrawError.swift */; };
 		0E597ABC2939FA34005939CB /* StudyRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABB2939FA34005939CB /* StudyRequestError.swift */; };
 		0E597ABE293A04DC005939CB /* StudyAcceptError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABD293A04DC005939CB /* StudyAcceptError.swift */; };
+		0E597AC0293A2562005939CB /* QueueDeleteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABF293A2562005939CB /* QueueDeleteError.swift */; };
+		0E597AC2293A2D4B005939CB /* SearchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AC1293A2D4B005939CB /* SearchError.swift */; };
 		0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */; };
 		0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F680292DF6830062DBED /* UserLocationDTO.swift */; };
 		0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */; };
@@ -245,6 +247,8 @@
 		0E597AB92939F57C005939CB /* WithdrawError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawError.swift; sourceTree = "<group>"; };
 		0E597ABB2939FA34005939CB /* StudyRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRequestError.swift; sourceTree = "<group>"; };
 		0E597ABD293A04DC005939CB /* StudyAcceptError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyAcceptError.swift; sourceTree = "<group>"; };
+		0E597ABF293A2562005939CB /* QueueDeleteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueDeleteError.swift; sourceTree = "<group>"; };
+		0E597AC1293A2D4B005939CB /* SearchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchError.swift; sourceTree = "<group>"; };
 		0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionPassButton.swift; sourceTree = "<group>"; };
 		0EA1F680292DF6830062DBED /* UserLocationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationDTO.swift; sourceTree = "<group>"; };
 		0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardNameTapGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -321,12 +325,14 @@
 				0EA6A9E9291F9D4900F71EC6 /* LoginError.swift */,
 				0EA6A9F229209E9600F71EC6 /* SignupError.swift */,
 				0E597AB92939F57C005939CB /* WithdrawError.swift */,
+				0E597AC1293A2D4B005939CB /* SearchError.swift */,
 				0E597ABB2939FA34005939CB /* StudyRequestError.swift */,
 				0E597ABD293A04DC005939CB /* StudyAcceptError.swift */,
 				0E03525029392AF700D5FEE5 /* SendChatError.swift */,
 				0E0352522939306900D5FEE5 /* LastChatError.swift */,
 				0E0352602939509900D5FEE5 /* DodgeError.swift */,
 				0E597AB52939E24A005939CB /* MyQueueStateError.swift */,
+				0E597ABF293A2562005939CB /* QueueDeleteError.swift */,
 				0E597AB72939EE61005939CB /* TotalError.swift */,
 			);
 			path = Error;
@@ -540,8 +546,7 @@
 				0E46E2AE29288C390058A50E /* SearchResultViewController.swift */,
 				0E46E2B329288F3C0058A50E /* ListViewController.swift */,
 				0EA57486292903070064599F /* ListView.swift */,
-				0E1164012933769200501EBD /* MoreReviewViewController.swift */,
-				0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */,
+				0E90D02A293B0B98009C662D /* MoreReview */,
 			);
 			path = SearchResult;
 			sourceTree = "<group>";
@@ -664,6 +669,15 @@
 				0E03524E2939257100D5FEE5 /* Chatting */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		0E90D02A293B0B98009C662D /* MoreReview */ = {
+			isa = PBXGroup;
+			children = (
+				0E1164012933769200501EBD /* MoreReviewViewController.swift */,
+				0E11640329337D6100501EBD /* ReviewCollectionViewCell.swift */,
+			);
+			path = MoreReview;
 			sourceTree = "<group>";
 		};
 		0EA57491292935680064599F /* Chatting */ = {
@@ -888,6 +902,7 @@
 				0E50958F2918F5150038B429 /* BaseTableViewCell.swift in Sources */,
 				0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */,
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
+				0E597AC0293A2562005939CB /* QueueDeleteError.swift in Sources */,
 				0EA5749B292BE6290064599F /* CustomAnnotationView.swift in Sources */,
 				0E11643D2934C7F900501EBD /* LastChatResponse.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
@@ -947,6 +962,7 @@
 				0E597ABE293A04DC005939CB /* StudyAcceptError.swift in Sources */,
 				0E03525D29394AE500D5FEE5 /* StudyAPIRouter.swift in Sources */,
 				0E1164142933F80600501EBD /* WriteReviewViewController.swift in Sources */,
+				0E597AC2293A2D4B005939CB /* SearchError.swift in Sources */,
 				0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */,
 				0E49C6B82922298D004E7875 /* MyInfoCell.swift in Sources */,
 				0E5095CB291AA8BD0038B429 /* SplashView.swift in Sources */,
