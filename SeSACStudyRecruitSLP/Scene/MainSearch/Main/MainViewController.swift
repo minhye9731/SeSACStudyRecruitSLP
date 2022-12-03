@@ -17,7 +17,7 @@ final class MainViewController: BaseViewController {
     let mainView = MainView()
     let locationManager = CLLocationManager()
     var matchingMode: MatchingMode = .normal
-//    var selectGender: MapGenderMode = .all
+    //    var selectGender: MapGenderMode = .all
     
     let campusLocation = CLLocationCoordinate2D(latitude: 37.517819364682694, longitude: 126.88647317074734)
     
@@ -30,20 +30,35 @@ final class MainViewController: BaseViewController {
     // MARK: - Lifecycle
     override func loadView()  {
         super.loadView()
+        print(#function)
         self.view = mainView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(#function)
+        print("idtoken \(UserDefaultsManager.idtoken)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(#function)
         checkState()
-        searchSesac()
+        
         navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
+        searchSesac()
+    }
+    
+    deinit {
+        print("📡 홈화몆 화면 deinit")
     }
     
     // MARK: - functions
     override func configure() {
         super.configure()
+        print(#function)
+        
         mainView.mapView.delegate = self
         mainView.mapView.showsUserLocation = false
         
@@ -53,10 +68,6 @@ final class MainViewController: BaseViewController {
         goLocation(center: campusLocation)
         checkUserDeviceLocationServiceAuthorization()
         setBtnAction()
-    }
-
-    deinit {
-        print("map 화면 deinit됨")
     }
     
     func setBtnAction() {
@@ -117,10 +128,10 @@ extension MainViewController: CLLocationManagerDelegate {
     // 사용자의 위치를 성공적으로 가지고 온 경우
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("didUpdateLocations!!!!.////////////////////////")
-            if let coordinate = locations.last?.coordinate {
-                searchSesac()
-                goLocation(center: coordinate)
-            }
+        if let coordinate = locations.last?.coordinate {
+            searchSesac()
+            goLocation(center: coordinate)
+        }
         locationManager.stopUpdatingLocation()
     }
     
@@ -147,7 +158,7 @@ extension MainViewController {
         let zoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 6000)
         mainView.mapView.setCameraZoomRange(zoomRange, animated: true)
     }
-        
+    
     // 커스텀 어노테이션
     func addCustomPin(faceImage: Int, lat: Double, long: Double) {
         let sesacLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -170,17 +181,17 @@ extension MainViewController {
             sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
         
-//        switch gender {
-//        case .all:
-//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-//            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-//        case .man:
-//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-//            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-//        case .woman:
-//            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-//            sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-//        }
+        //        switch gender {
+        //        case .all:
+        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+        //            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+        //        case .man:
+        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+        //            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+        //        case .woman:
+        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
+        //            sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
+        //        }
     }
 }
 
@@ -189,33 +200,33 @@ extension MainViewController {
     
     // 상태확인
     func checkState() {
-        print("⭐️내상태 확인 긔긔")
-        let api = APIRouter.myQueueState
-        Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+        let api = QueueAPIRouter.myQueueState
+        Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
             
-            switch response {
-            case .success(let stateData):
-                print("⭐️현재 matched 여부 : \(stateData.matched)")
-                self?.matchingMode = stateData.matched == 0 ? .standby : .matched
+            guard let statusCode = statusCode else { return }
+            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+            
+            switch status {
+            case .success:
+                print("⭐️현재 matched 여부 : \(value?.matched)")
+                self?.matchingMode = value?.matched == 1 ? .matched : .standby
                 self?.mainView.showProperStateImage(state: self!.matchingMode)
                 return
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                print("⭐️⭐️⭐️현재 매칭모드 실패 : errorCode = \(errorCode), error설명 = \(error.localizedDescription)")
                 
-                switch errorCode {
-                case .existUser: // 201
-                    self?.matchingMode = .normal
-                    self?.mainView.showProperStateImage(state: self!.matchingMode)
-                    return
-                case .fbTokenError:
-                    self?.refreshIDTokenQueue()
-                    return
-                default :
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                    return
-                }
+            case .normalStatus:
+                print("⭐️현재 matched 여부 : \(value?.matched)")
+                self?.matchingMode = .normal
+                self?.mainView.showProperStateImage(state: self!.matchingMode)
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenQueue()
+                return
+                
+            default :
+                self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
             }
         }
     }
@@ -235,26 +246,28 @@ extension MainViewController {
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
                 
-                let api = APIRouter.myQueueState
-                Network.share.requestLogin(type: MyQueueStateResponse.self, router: api) { [weak self] response in
+                let api = QueueAPIRouter.myQueueState
+                Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success(let stateData):
-                        print("토큰재발급해서 재시도해서 얻은 결과 : \(stateData.matched)")
-                        self?.matchingMode = stateData.matched == 0 ? .standby : .matched
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        print("⭐️현재 matched 여부 : \(value?.matched)")
+                        self?.matchingMode = value?.matched == 1 ? .matched : .standby
                         self?.mainView.showProperStateImage(state: self!.matchingMode)
                         return
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = SignupError(rawValue: code) else { return }
-                        switch errorCode {
-                        case .existUser: // 201
-                            self?.matchingMode = .normal
-                            self?.mainView.showProperStateImage(state: self!.matchingMode)
-                            return
-                        default:
-                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
-                        }
+                        
+                    case .normalStatus:
+                        print("⭐️현재 matched 여부 : \(value?.matched)")
+                        self?.matchingMode = .normal
+                        self?.mainView.showProperStateImage(state: self!.matchingMode)
+                        return
+                        
+                    default :
+                        self?.mainView.makeToast("서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
@@ -273,15 +286,20 @@ extension MainViewController {
     func searchSesac() {
         print(#function)
         
-        let api = APIRouter.search(
+        let api = QueueAPIRouter.search(
             lat: String(mainView.mapView.centerCoordinate.latitude),
             long: String(mainView.mapView.centerCoordinate.longitude))
         
         if !limitOvercallAPI {
-            Network.share.requestLogin(type: SearchResponse.self, router: api) { [weak self] response in
+            
+            Network.share.requestSearch(router: api) { [weak self] (value, statusCode, error) in
                 
-                switch response {
-                case .success(let result):
+                guard let value = value else { return }
+                guard let statusCode = statusCode else { return }
+                guard let status =  SignupError(rawValue: statusCode) else { return }
+                
+                switch status {
+                case .success:
                     print("🦄search 통신 성공!!")
                     self?.limitOvercall()
                     
@@ -289,7 +307,7 @@ extension MainViewController {
                     self?.sesacManList.removeAll()
                     self?.sesacWomanList.removeAll()
                     
-                    self?.sesacList.append(contentsOf: result.fromQueueDB)
+                    self?.sesacList.append(contentsOf: value.fromQueueDB)
                     self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
                     self?.sesacWomanList = self!.sesacList.filter { $0.gender == 0 }
                     
@@ -298,17 +316,15 @@ extension MainViewController {
                     //                print("sesacWomanList : \(self?.sesacWomanList)")
                     
                     self?.showSesacMap()
+                    return
                     
-                case .failure(let error):
-                    let code = (error as NSError).code
-                    guard let errorCode = SignupError(rawValue: code) else { return }
-                    print("새싹찾기 통신 failure🔥 // code = \(code), errorCode = \(errorCode)")
-                    switch errorCode {
-                    case .fbTokenError:
-                        self?.refreshIDTokenSearch()
-                    default:
-                        self?.mainView.makeToast("친구찾기에 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 0.5, position: .center)
-                    }
+                case .fbTokenError:
+                    print("401 에러당") // 통일 처리필요
+                    return
+                    //                self?.refreshIDTokenSearch()
+                default:
+                    self?.mainView.makeToast("친구찾기에 실패했습니다. 잠시 후 다시 시도해주세요.", duration: 0.5, position: .center)
+                    return
                 }
             }
         } else {
@@ -316,6 +332,7 @@ extension MainViewController {
         }
     }
     
+    // 통일 처리필요
     func refreshIDTokenSearch() {
         
         let currentUser = Auth.auth().currentUser
@@ -329,42 +346,19 @@ extension MainViewController {
                 }
                 return
             } else if let idToken = idToken {
-                UserDefaultsManager.idtoken = idToken
-
-                let api = APIRouter.search(
-                    lat: String(mainView.mapView.centerCoordinate.latitude),
-                    long: String(mainView.mapView.centerCoordinate.longitude))
-                Network.share.requestSearch(type: SearchResponse.self, router: api) { [weak self] response in
-                    switch response {
-                    case .success(let result):
-                        print("===✅새싹찾기 통신 성공!====")
-                        
-                        // 배열 다 비우기
-                        self?.sesacList.removeAll()
-                        self?.sesacManList.removeAll()
-                        self?.sesacWomanList.removeAll()
-                        
-                        // 해당 위치에서 검색된 정보를 배열에 담기
-                        self?.sesacList.append(contentsOf: result.fromQueueDB)
-                        self?.sesacManList = self!.sesacList.filter { $0.gender == 1 }
-                        self?.sesacManList = self!.sesacList.filter { $0.gender == 0 }
-                               
-                        // 새싹 지도 표기
-                        self?.showSesacMap()
-   
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default:
-                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
-                        }
-                    }
-                }
+                print("401 에러 해결")
+                
+                
+                
+                
+                
+                
+                
+                
             }
         }
     }
-
+    
 }
 
 // MARK: - MapView 메서드
@@ -406,14 +400,14 @@ extension MainViewController: MKMapViewDelegate {
         case 4: setImage(w: 85, h: 85, img: Constants.ImageName.face5.rawValue)
         default: setImage(w: 48, h: 48, img: Constants.ImageName.basicPin.rawValue)
         }
-
+        
         func setImage(w: Double, h: Double, img: String) {
             let size = CGSize(width: w, height: h)
             UIGraphicsBeginImageContext(size)
             sesacImage = UIImage(named: img)
             sesacImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         }
-
+        
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
         
@@ -450,33 +444,82 @@ extension MainViewController {
     
     // 플로팅
     @objc func floatingButtonTapped() {
+        print("floatingButtonTapped 눌림~@@")
+        // 플로팅 버튼 클릭시, 사용자의 상태확인 한번 더
         UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
         UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
         
         switch matchingMode {
-        case .normal:
-//            checkUserDeviceLocationServiceAuthorization()
-            
-            let authorizationStatus = locationManager.authorizationStatus
-            
-            if authorizationStatus == .denied || authorizationStatus == .restricted {
-                showRequestLocationServiceAlert()
-            } else {
-                let vc = SearchViewController()
-                transition(vc, transitionStyle: .push)
-            }
-            return
-            
-        case .standby:
-            let firstVC = SearchViewController()
-            let targetVC = SearchResultViewController()
-            let vcs = [firstVC, targetVC]
-            self.navigationController?.push(vcs)
-            
-        case .matched:
-            let vc = ChattingViewController()
-            transition(vc, transitionStyle: .push)
-        }
+               case .normal:
+                   let authorizationStatus = locationManager.authorizationStatus
+                   
+                   if authorizationStatus == .denied || authorizationStatus == .restricted {
+                       showRequestLocationServiceAlert()
+                   } else {
+                       let vc = SearchViewController()
+                       transition(vc, transitionStyle: .push)
+                   }
+                   return
+                   
+               case .standby:
+                   let firstVC = SearchViewController()
+                   let targetVC = SearchResultViewController()
+                   let vcs = [firstVC, targetVC]
+                   self.navigationController?.push(vcs)
+                   
+               case .matched:
+                   let vc = ChattingViewController()
+                   transition(vc, transitionStyle: .push)
+               }
+        
+//        let api = QueueAPIRouter.myQueueState
+//        Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+//
+//            print(value)
+//
+//            guard let value = value else { return }
+//            guard let statusCode = statusCode else { return }
+//            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+//            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+//
+//            switch status {
+//            case .success:
+//                print("⭐️현재 matched 여부 : \(value.matched)")
+//
+//                if value.matched == 1 {
+//                    let vc = ChattingViewController()
+//                    vc.otherSesacUID = value.matchedUid
+//                    vc.otherSesacNick = value.matchedNick
+//                    self?.transition(vc, transitionStyle: .push)
+//                } else {
+//                    let firstVC = SearchViewController()
+//                    let targetVC = SearchResultViewController()
+//                    let vcs = [firstVC, targetVC]
+//                    self?.navigationController?.push(vcs)
+//                }
+//                return
+//
+//            case .normalStatus:
+//                print("⭐️현재 matched 여부 : \(value.matched)")
+//                let authorizationStatus = self?.locationManager.authorizationStatus
+//
+//                if authorizationStatus == .denied || authorizationStatus == .restricted {
+//                    self?.showRequestLocationServiceAlert()
+//                } else {
+//                    let vc = SearchViewController()
+//                    self?.transition(vc, transitionStyle: .push)
+//                }
+//                return
+//
+//            case .fbTokenError:
+//                return print("401 에러당~~~~") // 401에러 통일작업 필요
+//
+//            default :
+//                self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
+//                return
+//            }
+//        }
+        
     }
 }
 
