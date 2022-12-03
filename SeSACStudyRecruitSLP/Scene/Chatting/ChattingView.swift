@@ -11,7 +11,7 @@ final class ChattingView: BaseView {
     
     // MARK: - property
     lazy var tableView: UITableView = {
-        let view = UITableView()
+        let view = UITableView(frame: .zero, style: .grouped)
         view.isScrollEnabled = true
         view.showsVerticalScrollIndicator = true
         view.separatorStyle = .none
@@ -20,63 +20,15 @@ final class ChattingView: BaseView {
 //        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.rowHeight = UITableView.automaticDimension
         
-        view.register(ChattingInfoCell.self, forCellReuseIdentifier: ChattingInfoCell.reuseIdentifier)
+        view.register(ChattingTableViewHeader.self, forHeaderFooterViewReuseIdentifier: ChattingTableViewHeader.reuseIdentifier)
+        
         view.register(MyChatTableViewCell.self, forCellReuseIdentifier: MyChatTableViewCell.reuseIdentifier)
         view.register(YourChatTableViewCell.self, forCellReuseIdentifier: YourChatTableViewCell.reuseIdentifier)
         return view
     }()
-//
-//    let matchingDateLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = CustomFonts.title5_M12()
-//        label.numberOfLines = 1
-//        label.textColor = .white
-//        label.text = "0월 00일 0요일" // test
-//        label.textAlignment = .center
-//        label.backgroundColor = ColorPalette.gray7
-//        label.layer.masksToBounds = true
-//        return label
-//    }()
-//
-//    //stack
-//    let bellImage: UIImageView = {
-//        let img = UIImageView()
-//        img.image = UIImage(named: Constants.ImageName.bell.rawValue)
-//        img.contentMode = .scaleAspectFit
-//        img.tintColor = ColorPalette.gray7
-//        return img
-//    }()
-//    let matchingSesacLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = CustomFonts.title3_M14()
-//        label.numberOfLines = 1
-//        label.textColor = ColorPalette.gray7
-//        label.text = "ㅇㅇㅇ님과 매칭되었습니다" // test
-//        return label
-//    }()
-//    let matchingSesacStackView: UIStackView = {
-//       let view = UIStackView()
-//        view.axis = .horizontal
-//        view.alignment = .center
-//        view.distribution = .equalSpacing
-//        view.backgroundColor = .clear
-//        view.spacing = 8
-//        return view
-//    }()
-//
-//    let subLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = CustomFonts.title4_R14()
-//        label.numberOfLines = 1
-//        label.textColor = ColorPalette.gray6
-//        label.text = "채팅을 통해 약속을 정해보세요 :)"
-//        return label
-//    }()
     
-    // 입력창
     let chatInputView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
     
@@ -123,7 +75,6 @@ final class ChattingView: BaseView {
         }
     }
     
-    
     override func setConstraints() {
         super.setConstraints()
         
@@ -139,7 +90,7 @@ final class ChattingView: BaseView {
         chatInputView.snp.makeConstraints {
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.height.equalTo(height * 0.15)
+            $0.height.equalTo(height * 0.08)
         }
         
         grayTextView.snp.makeConstraints {
