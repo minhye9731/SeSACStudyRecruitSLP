@@ -23,7 +23,7 @@ extension SendChatError: LocalizedError {
         case .success:
             return "메시지 발송 성공"
         case .normalStatus:
-            return "상대방에게 채팅을 보낼 수 없는 상태입니다."
+            return "스터디가 종료되어 채팅을 전송할 수 없습니다"
         case .fbTokenError:
             return "토큰이 만료되었습니다. 전화번호 인증을 다시 해주세요."
         case .unknownUser:
