@@ -12,7 +12,7 @@ class ChatRealmModel: Object {
     
     @Persisted var text: String
     @Persisted var userID: String
-    @Persisted var name: String
+    @Persisted var name: String?
     @Persisted var username: String?
     @Persisted var id: String?
     @Persisted var createdAt: String
@@ -22,7 +22,7 @@ class ChatRealmModel: Object {
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(text: String, userID: String, name: String, username: String?, id: String?, createdAt: String, updatedAt: String?, v: Int?, ID: String?) {
+    convenience init(text: String, userID: String, name: String?, username: String?, id: String?, createdAt: String, updatedAt: String?, v: Int?, ID: String?) {
         self.init()
         self.text = text
         self.userID = userID

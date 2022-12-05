@@ -12,7 +12,7 @@ import RxKeyboard
 import RxSwift
 import SnapKit
 import RealmSwift
-
+import FirebaseAuth
 
 // scrollBottom
 // pagenation + database
@@ -21,8 +21,10 @@ final class ChattingViewController: BaseViewController {
     
     // MARK: - property
     let mainView = ChattingView()
-//    var chat: [Chat] = []
+    var chat: [Chat] = []
+    var pastDateArr = [Date]()
     var chatList: [GeneralChat] = []
+    
     var otherSesacUID = ""
     var otherSesacNick = ""
     let disposeBag = DisposeBag()
@@ -143,37 +145,56 @@ extension ChattingViewController {
         
         // 1) DB에 저장된 채팅 내역을 갖고온다
             //- 상대방 uid에 대항하는 채팅 내용을 필터해서 가져옴
+        ChatRepository.standard.filteredByUID(uid: otherSesacUID)
+        self.pastDateArr = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).map { $0.createdAt.toDate() }.sorted()
         
         // 2) 가장 마지막 날짜에 전송된 채팅 날짜를 서버에 요청한다
         //(만약 채팅 내역이 없어 가져올 날짜가 없다면 "2000-01-01T00:00:00.000Z"를 사용
+        let latestDate = pastDateArr[0].toBirthDateForm()
         
         // 3) lastdate API를 호출해, 채팅 화면에 들어갔을 때 마지막에 받은 채팅 이후의 채팅 내역을 불러옴
-            // 새로운 데이터가 있다면 DB에 저장
+        let api = ChatAPIRouter.takeList(lastchatDate: latestDate, uid: otherSesacUID)
+        Network.share.requestLastChat(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  LastChatError(rawValue: statusCode) else { return }
+            print("👁요청시점 이후 새로 들어온 chat 데이터ㅣ statusCode : \(statusCode)")
+            print("👁요청시점 이후 새로 들어온 chat 데이터ㅣ value : \(value)")
+            
+            switch status {
+            case .success:
+               
+                // 새로운 데이터가 있다면 DB에 저장
+                if !value.payload.isEmpty {
+                    value.payload.forEach { data in
+                        let chat = data.chat
+                        let userID = data.from
+                        let id = data.id
+                        let createdAt = data.createdAt
+                        
+                        let value = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: Date().toBirthDateForm(), v: 0, ID: "")
+                        print("👄신규데이터 = \(value)")
+                        self?.chat.append(value)
+                    }
+                }
+                
+                // 4) 테이블뷰 갱신함
+                self?.mainView.tableView.reloadData()
+                self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
+                
+                // 5) 소켓을 연결
+                SocketIOManager.shared.establishConnection()
+                
+                return
+                
+            case .fbTokenError:
+                print("토큰에러")
+                return
+            default : return print("에러당~~~~")
+            }
+        }
         
-        // 4) 테이블뷰 갱신함
-        
-        
-        // 5) 소켓을 연결
-        
-        
-//        let latestChatTime = "" // userdefaults에서 가져오자. 해당 시간은 마지막으로 send된 시간
-//
-//        let api = ChatAPIRouter.takeList(lastchatDate: latestChatTime)
-//        Network.share.requestSendChat(type: [Chat].self, router: api) { [weak self] response in
-//
-//            switch response.result {
-//            case .success(let value):
-//                self?.chat = value
-//                self?.mainView.tableView.reloadData()
-//                self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
-//
-//                // 이전의 데이터를 다 받아서 갱신해준 후에, 소켓통신을 해주자
-//                SocketIOManager.shared.establishConnection()
-//            case .failure(let error):
-//                print("FAIL", error)
-//            }
-//        }
-//
     }
     
     private func postChat(text: String) {
@@ -227,6 +248,7 @@ extension ChattingViewController {
         barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
         navibarAppearance.buttonAppearance = barbuttonItemAppearance
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: Constants.ImageName.moreDot.rawValue), style: .plain, target: self, action: #selector(chattingMoreMenuTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: Constants.ImageName.back.rawValue), style: .plain, target: self, action: #selector(backToHome))
     }
     
     @objc func chattingMoreMenuTapped() {
@@ -241,6 +263,10 @@ extension ChattingViewController {
         }, completion: { (_) in
             self.mainView.menuButtonBackView.frame = CGRect(x: 0, y: 0, width: width, height: width * 0.192)
         })
+    }
+    
+    @objc func backToHome() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 
 }
@@ -299,10 +325,7 @@ extension ChattingViewController {
         // 취소버튼
         mainView.cancelButton.rx.tap
             .bind {
-                self.mainView.moreMenuView.isHidden = true
-                let vc = PopUpViewController()
-                vc.popupMode = .cancelStudy
-                self.transition(vc, transitionStyle: .presentOverFullScreen)
+                self.myQueueState() // 취소시 상대방의 취소여부에 따라 나의 상태도 달라짐.
             }
             .disposed(by: disposeBag)
         
@@ -316,8 +339,80 @@ extension ChattingViewController {
             .disposed(by: disposeBag)
         
     }
-    
+}
 
+extension ChattingViewController {
+    
+    func myQueueState() {
+        let api = QueueAPIRouter.myQueueState
+        Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+            
+            switch status {
+            case .success:
+                self?.mainView.moreMenuView.isHidden = true
+                let vc = PopUpViewController()
+                vc.popupMode = .cancelStudy
+                vc.matchingMode = value.matched == 1 ? .matched : .normal
+                self?.transition(vc, transitionStyle: .presentOverFullScreen)
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenQueue()
+                return
+                
+            default :
+                self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
+            }
+            
+        }
+    }
+    
+    func refreshIDTokenQueue() {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = QueueAPIRouter.myQueueState
+                Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+                    
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        self?.mainView.moreMenuView.isHidden = true
+                        let vc = PopUpViewController()
+                        vc.popupMode = .cancelStudy
+                        vc.matchingMode = value.matched == 1 ? .matched : .normal
+                        self?.transition(vc, transitionStyle: .presentOverFullScreen)
+                        return
+                        
+                    default :
+                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 

@@ -113,6 +113,7 @@ extension UIButton {
     static func moreMenuButton(title: String, image: String) -> UIButton.Configuration {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = .white
+        config.baseForegroundColor = .black
         config.background.cornerRadius = 0
         config.image = UIImage(named: image)
         config.imagePadding = 4

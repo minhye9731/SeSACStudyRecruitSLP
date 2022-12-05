@@ -10,11 +10,11 @@ import RealmSwift
 
 protocol ChatRepositoryType {
     func fetchRealm()
+    func filteredByUID(uid: String)
     func plusChat(item: ChatRealmModel)
 }
 
 class ChatRepository: ChatRepositoryType {
-    
     // MARK: - property
     private init() { }
     static let standard = ChatRepository()
@@ -27,6 +27,12 @@ class ChatRepository: ChatRepositoryType {
     // MARK: - functions
     func fetchRealm() {
         tasks = ChatRepository.standard.localRealm.objects(ChatRealmModel.self)
+    }
+    
+    func filteredByUID(uid: String) {
+        tasks = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).where {
+            $0.userID == uid
+        }
     }
     
     func plusChat(item: ChatRealmModel) {

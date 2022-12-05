@@ -118,6 +118,8 @@
 		0E90D037293C96FA009C662D /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 0E90D036293C96FA009C662D /* RxKeyboard */; };
 		0E90D03E293D6310009C662D /* ChatRealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D03D293D6310009C662D /* ChatRealmModel.swift */; };
 		0E90D040293D658B009C662D /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D03F293D658B009C662D /* ChatRepository.swift */; };
+		0E90D042293E1147009C662D /* ShopSesacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D041293E1147009C662D /* ShopSesacViewController.swift */; };
+		0E90D044293E1205009C662D /* ShopBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D043293E1205009C662D /* ShopBackgroundViewController.swift */; };
 		0EA1F681292DF6830062DBED /* UserLocationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F680292DF6830062DBED /* UserLocationDTO.swift */; };
 		0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */; };
 		0EA57487292903070064599F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA57486292903070064599F /* ListView.swift */; };
@@ -255,6 +257,8 @@
 		0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionPassButton.swift; sourceTree = "<group>"; };
 		0E90D03D293D6310009C662D /* ChatRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRealmModel.swift; sourceTree = "<group>"; };
 		0E90D03F293D658B009C662D /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
+		0E90D041293E1147009C662D /* ShopSesacViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSesacViewController.swift; sourceTree = "<group>"; };
+		0E90D043293E1205009C662D /* ShopBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBackgroundViewController.swift; sourceTree = "<group>"; };
 		0EA1F680292DF6830062DBED /* UserLocationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationDTO.swift; sourceTree = "<group>"; };
 		0EA1F682292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardNameTapGestureRecognizer.swift; sourceTree = "<group>"; };
 		0EA57486292903070064599F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -756,6 +760,8 @@
 			isa = PBXGroup;
 			children = (
 				0EA6A9FC29216B6A00F71EC6 /* ShopViewController.swift */,
+				0E90D041293E1147009C662D /* ShopSesacViewController.swift */,
+				0E90D043293E1205009C662D /* ShopBackgroundViewController.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -882,6 +888,7 @@
 				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
+				0E90D042293E1147009C662D /* ShopSesacViewController.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
 				0E1164392934B90500501EBD /* ChatAPIRouter.swift in Sources */,
 				0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */,
@@ -936,6 +943,7 @@
 				0EA5749B292BE6290064599F /* CustomAnnotationView.swift in Sources */,
 				0E11643D2934C7F900501EBD /* LastChatResponse.swift in Sources */,
 				0E5095952918F6BD0038B429 /* ThirdViewController.swift in Sources */,
+				0E90D044293E1205009C662D /* ShopBackgroundViewController.swift in Sources */,
 				0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */,
 				0E4F633A291E91ED00F36167 /* MainViewController.swift in Sources */,
 				0E4F6311291CFF4200F36167 /* VerifyNumberViewModel.swift in Sources */,

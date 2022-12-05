@@ -27,5 +27,12 @@ extension String {
         return addNationality
     }
     
+    func toDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        return dateFormatter.date(from: self) ?? dateFormatter.date(from: "2000-01-01T00:00:00.000Z")!
+    }
+    
     
 }

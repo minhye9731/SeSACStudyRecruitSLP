@@ -11,8 +11,6 @@ import SocketIO
 class SocketIOManager {
     
     static let shared = SocketIOManager()
-    
-    // 서버와 메시지를 주고 받기 위한 클래스
     var manager: SocketManager!
     
     var socket: SocketIOClient!
@@ -20,16 +18,17 @@ class SocketIOManager {
     
     private init() {
         
-        manager = SocketManager(socketURL: URL(string: APIKey.socket)!, config: [
-//            .log(true),
-            .extraHeaders(["auth": APIKey.header])
+        manager = SocketManager(socketURL: URL(string: "http://api.sesac.co.kr:1210")!, config: [
+            .forceWebsockets(true)
         ])
         
-        socket = manager.defaultSocket // http://api.sesac.co.kr:2022/ 로 통신을 하겠다. 여기서 / 이후로 수많은 링크가 있을 수 있다.
+        socket = manager.defaultSocket
         
-        //연결
+        // 연결
+        // (채팅 수신을 위해) 소켓이 연결(connect)된 직후 “changesocketid” 이벤트를 사용자(본인)의 uid와 함께 방출(emit)해야함
         socket.on(clientEvent: .connect) { data, ack in
             print("SOCKET IS CONNECTED", data, ack)
+            self.socket.emit("changesocketid", "myUID")
         }
         
         //연결 해제
@@ -38,18 +37,20 @@ class SocketIOManager {
         }
         
         //이벤트 수신
-        socket.on("sesac") { dataArray, ack in
-            print("SESAC RECEIVED", dataArray, ack)
+        // 상대방 메시지만 chat들을 수 있고, 내가 보낸 메시지는 chat들을 수 없음
+        socket.on("chat") { (dataArray, ack) in
+            print("CHAT RECEIVED", dataArray, ack)
             
             let data = dataArray[0] as! NSDictionary
-            let chat = data["text"] as! String
-            let name = data["name"] as! String
-            let userId = data["userId"] as! String
+            let id = data["_id"] as! String
+            let chat = data["chat"] as! String
             let createdAt = data["createdAt"] as! String
+            let from = data["from"] as! String
+            let to = data["to"] as! String
             
-            print("CHECK >>>", chat, name, createdAt)
+            print("CHECK >>>", chat, from, createdAt)
             
-            NotificationCenter.default.post(name: NSNotification.Name("getMessage"), object: self, userInfo: ["chat": chat, "name": name, "createdAt": createdAt, "userId": userId])
+            NotificationCenter.default.post(name: NSNotification.Name("getMessage"), object: self, userInfo: ["id": id, "chat": chat, "createdAt": createdAt, "from": from, "to": to])
         }
     }
     
