@@ -17,6 +17,7 @@ class TagCell: BaseCollectionViewCell {
         return label
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         contentView.addSubview(tagLabel)

@@ -471,11 +471,13 @@ extension PopUpViewController {
                         }
                     }
                     return
+                    
                 case .cancelStudy:
                     if value.matched == 1 {
                         
                     }
                     return
+                    
                 default:
                     print("")
                     return
