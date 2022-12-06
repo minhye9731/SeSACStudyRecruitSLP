@@ -18,7 +18,7 @@ final class ShopSesacViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        self.view.backgroundColor = .red
+
     }
     
     override func setConstraints() {

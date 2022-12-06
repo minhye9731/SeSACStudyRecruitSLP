@@ -18,7 +18,7 @@ final class ShopBackgroundViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        self.view.backgroundColor = .green
+
         
     }
     
