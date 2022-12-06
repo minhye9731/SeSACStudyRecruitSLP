@@ -7,162 +7,123 @@
 
 import UIKit
 
-final class UnderlineSegmentedControl: UISegmentedControl {
-    // MARK: - property
-    
-    
-    
-    // MARK: - init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.clearBackgroundAndDivider()
-    }
-    
-    override init(items: [Any]?) {
-        super.init(items: items)
-        self.clearBackgroundAndDivider()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-    
-    // MARK: - functions
-    private func clearBackgroundAndDivider() {
-        let img = UIImage()
-        self.setBackgroundImage(img, for: .normal, barMetrics: .default)
-        self.setBackgroundImage(img, for: .selected, barMetrics: .default)
-        self.setBackgroundImage(img, for: .highlighted, barMetrics: .default)
-        
-        self.setDividerImage(img, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
-    }
-}
-
 final class ShopViewController: BaseViewController {
-    
+
     // MARK: - property
-    
     let preView: UIView = {
        let view = UIView()
         view.backgroundColor = .gray
         return view
     }()
     
-//    private let segmentedControl: UISegmentedControl = {
-//
-//    }()
-    
-//    lazy var navigatinView: UIView = {
-//       let view = UIView()
-//        view.backgroundColor = .systemMint
-//        return view
-//    }()
-
-    private let vc1: UIViewController = {
-        let vc = ShopSesacViewController()
-        return vc
+    private let segmentedControl: UISegmentedControl = {
+      let segmentedControl = UnderlineSegmentedControl(items: ["새싹", "배경"])
+      return segmentedControl
     }()
 
-    private let vc2: UIViewController = {
-        let vc = ShopBackgroundViewController()
-        return vc
+    private let vc1: ShopSesacViewController = {
+      let vc = ShopSesacViewController()
+      return vc
     }()
     
+    private let vc2: ShopBackgroundViewController = {
+      let vc = ShopBackgroundViewController()
+      return vc
+    }()
+
     private lazy var pageViewController: UIPageViewController = {
-        let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
-        vc.dataSource = self
-        vc.delegate = self
-        return vc
+      let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+      vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
+      vc.delegate = self
+      vc.dataSource = self
+      return vc
     }()
-
+    
     var dataViewControllers: [UIViewController] {
-        [self.vc1, self.vc2]
+      [self.vc1, self.vc2]
     }
-    
-    var currentPage: Int = 0 {
-        didSet {
-            print(oldValue, self.currentPage)
-            let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
-            self.pageViewController.setViewControllers(
-                [dataViewControllers[self.currentPage]],
-                direction: direction,
-                animated: true,
-                completion: nil)
-        }
-    }
-    
-    // MARK: - Lifecycle
-    override func loadView()  {
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupDelegate()
 
-        
+    var currentPage: Int = 0 {
+      didSet {
+        print(oldValue, self.currentPage)
+        let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
+        self.pageViewController.setViewControllers(
+          [dataViewControllers[self.currentPage]],
+          direction: direction,
+          animated: true,
+          completion: nil
+        )
+      }
     }
     
     // MARK: - functions
-    private func setupDelegate() {
-        
-    }
-    
     override func configure() {
         super.configure()
         self.title = "새싹샵"
-        view.backgroundColor = .orange
         
-//        view.addSubview(navigatinView)
-        addChild(pageViewController)
-        view.addSubview(pageViewController.view)
-    }
-    
-    override func setConstraints() {
-        super.setConstraints()
-        
+        [preView , segmentedControl, pageViewController.view].forEach {
+            view.addSubview($0)
+        }
+
         preView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(150)
+            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.height.equalTo(preView.snp.width).multipliedBy(0.5)
         }
         
-//        navigatinView.snp.makeConstraints {
-//            $0.width.equalToSuperview()
-//            $0.top.equalTo(preView.snp.bottom)
-//            $0.height.equalTo(72)
-//        }
+        segmentedControl.snp.makeConstraints {
+            $0.top.equalTo(preView.snp.bottom)
+            $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(segmentedControl.snp.width).multipliedBy(0.117)
+        }
         
         pageViewController.view.snp.makeConstraints {
-//            $0.top.equalTo(navigatinView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(5)
+            $0.directionalHorizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
         
-        pageViewController.didMove(toParent: self)
+        setSegmentedControl()
     }
-    
-    
-    
-    
+
+    func setSegmentedControl() {
+    self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
+    self.segmentedControl.setTitleTextAttributes(
+      [
+        NSAttributedString.Key.foregroundColor: UIColor.green,
+        .font: UIFont.systemFont(ofSize: 13, weight: .semibold)
+      ],
+      for: .selected
+    )
+    self.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+    self.segmentedControl.selectedSegmentIndex = 0
+    self.changeValue(control: self.segmentedControl)
+    }
+
+    @objc private func changeValue(control: UISegmentedControl) {
+        self.currentPage = control.selectedSegmentIndex
+    }
 
 }
 
-extension ShopViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    
+extension ShopViewController: UIPageViewControllerDataSource {
+
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let index = dataViewControllers.firstIndex(of: viewController) else { return nil }
-        let previousIndex = index - 1
-        if previousIndex < 0 {
-            return nil
-        }
-        return dataViewControllers[previousIndex]
+        guard let index = dataViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
+        return dataViewControllers[index - 1]
     }
-    
+
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let index = dataViewControllers.firstIndex(of: viewController) else { return nil }
-        let nextIndex = index + 1
-        if nextIndex == dataViewControllers.count {
-            return nil
-        }
-        return dataViewControllers[nextIndex]
+        guard let index = dataViewControllers.firstIndex(of: viewController), index + 1 < self.dataViewControllers.count else { return nil }
+        return dataViewControllers[index + 1]
+    }
+}
+
+extension ShopViewController: UIPageViewControllerDelegate {
+
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let viewController = pageViewController.viewControllers?[0],
+              let index = self.dataViewControllers.firstIndex(of: viewController)
+        else { return }
+        self.currentPage = index
+        self.segmentedControl.selectedSegmentIndex = index
     }
 }

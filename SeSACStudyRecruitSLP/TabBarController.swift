@@ -19,7 +19,7 @@ class TabBarController: UITabBarController {
         let firstVC = MainViewController()
         firstVC.tabBarItem = UITabBarItem(title: "홈",
                                           image: UIImage(named: Constants.ImageName.homeAct.rawValue),
-                                          selectedImage: UIImage(named: Constants.ImageName.homeInact.rawValue))
+                                          selectedImage: UIImage(named: Constants.ImageName.homeAct.rawValue))
         let firstNav = UINavigationController(rootViewController: firstVC)
         
         let secondVC = ShopViewController()
