@@ -25,6 +25,9 @@ final class MainViewController: BaseViewController {
     var sesacManList: [FromQueueDB] = []
     var sesacWomanList: [FromQueueDB] = []
     
+    var matchedUID = ""
+    var matchedName = ""
+    
     var limitOvercallAPI = false
     
     // MARK: - Lifecycle
@@ -212,6 +215,8 @@ extension MainViewController {
                 print("⭐️현재 matched 여부 : \(value?.matched)")
                 self?.matchingMode = value?.matched == 1 ? .matched : .standby
                 self?.mainView.showProperStateImage(state: self!.matchingMode)
+                self?.matchedUID = value?.matchedUid ?? ""
+                self?.matchedName = value?.matchedNick ?? ""
                 return
                 
             case .normalStatus:
@@ -445,7 +450,7 @@ extension MainViewController {
     // 플로팅
     @objc func floatingButtonTapped() {
         print("floatingButtonTapped 눌림~@@")
-        // 플로팅 버튼 클릭시, 사용자의 상태확인 한번 더
+        // 버튼 클릭시 myqueuestate 한번 더 확ㅇ니하는 코드 추가해야 할 듯
         UserDefaultsManager.searchLAT = String(mainView.mapView.centerCoordinate.latitude)
         UserDefaultsManager.searchLONG = String(mainView.mapView.centerCoordinate.longitude)
         
@@ -469,6 +474,8 @@ extension MainViewController {
                    
                case .matched:
                    let vc = ChattingViewController()
+            vc.otherSesacUID = self.matchedUID
+            vc.otherSesacNick = self.matchedName
                    transition(vc, transitionStyle: .push)
                }
         

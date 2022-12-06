@@ -16,7 +16,7 @@ class BaseViewController: UIViewController {
     }
     
     func configure() {
-        self.view.backgroundColor = .white
+        view.backgroundColor = .white
         setNavi()
     }
     

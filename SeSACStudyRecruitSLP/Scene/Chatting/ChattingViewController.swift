@@ -21,13 +21,14 @@ final class ChattingViewController: BaseViewController {
     
     // MARK: - property
     let mainView = ChattingView()
+    let viewModel = ChattingViewModel()
+    let disposeBag = DisposeBag()
+    
     var chat: [Chat] = []
     var pastDateArr = [Date]()
-    var chatList: [GeneralChat] = []
     
     var otherSesacUID = ""
     var otherSesacNick = ""
-    let disposeBag = DisposeBag()
     var menuTapped = false
 
     
@@ -57,6 +58,7 @@ final class ChattingViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
         
         setBarButtonItem()
         self.title = otherSesacNick
@@ -67,35 +69,29 @@ final class ChattingViewController: BaseViewController {
         IQKeyboardManager.shared.enable = false
         
         subscribe()
+        bind()
         
-//        fetchChats()
+        fetchChats()
         
         // on sesac 으로 받은 이벤트를 처리하기 위한 Notification Observer
         NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
         
-        // 발송용 test
-
         mainView.moreMenuView.isHidden = menuTapped ? false : true
     }
     
     @objc func getMessage(notification: NSNotification) {
-//        let chat = notification.userInfo!["chat"] as! String
+        
+        let id = notification.userInfo!["id"] as! String
+        let chat = notification.userInfo!["chat"] as! String
+        let userID = notification.userInfo!["from"] as! String
 //        let name = notification.userInfo!["name"] as! String
-//        let createdAt = notification.userInfo!["createdAt"] as! String
-//        let userID = notification.userInfo!["userId"] as! String
+        let createdAt = notification.userInfo!["createdAt"] as! String
         
-        // 채팅 구조체로 만든다
-//        let value = Chat(text: chat, userID: userID, name: name, username: "", id: "", createdAt: createdAt, updatedAt: "", v: 0, ID: "")
+        let newChat = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         
-        // test
-//        chat = [
-//            Chat(text: chat, userID: userID, name: name, username: "", id: "", createdAt: createdAt, updatedAt: "", v: 0, ID: "")
-//        ]
-        
-        
-//        self.chat.append(value)
-//        mainView.tableView.reloadData()
-//        mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
+        self.chat.append(newChat)
+        mainView.tableView.reloadData()
+        mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
     }
 
 }
@@ -104,7 +100,7 @@ final class ChattingViewController: BaseViewController {
 extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chatList.count
+        return chat.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -123,15 +119,17 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let data = chatList[indexPath.row] // 시간순 정렬?
+        let data = chat[indexPath.row] // 시간순 정렬?
         
-        if data.id == otherSesacUID {
+        if data.userID == otherSesacUID {
             let yourCell = tableView.dequeueReusableCell(withIdentifier: "YourChatTableViewCell", for: indexPath) as! YourChatTableViewCell
-            yourCell.yourChatLabel.text = data.chat
+            yourCell.yourChatLabel.text = data.text
+            yourCell.yourTimeLabel.text = data.createdAt
             return yourCell
         } else {
             let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
-            myCell.myChatLabel.text = data.chat
+            myCell.myChatLabel.text = data.text
+            myCell.myTimeLabel.text = data.createdAt
             return myCell
         }
     }
@@ -147,10 +145,13 @@ extension ChattingViewController {
             //- 상대방 uid에 대항하는 채팅 내용을 필터해서 가져옴
         ChatRepository.standard.filteredByUID(uid: otherSesacUID)
         self.pastDateArr = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).map { $0.createdAt.toDate() }.sorted()
+        print("📆pastDateArr = \(pastDateArr)")
         
         // 2) 가장 마지막 날짜에 전송된 채팅 날짜를 서버에 요청한다
         //(만약 채팅 내역이 없어 가져올 날짜가 없다면 "2000-01-01T00:00:00.000Z"를 사용
-        let latestDate = pastDateArr[0].toBirthDateForm()
+        let defaultDate = "2000-01-01T00:00:00.000Z"
+        let latestDate = pastDateArr.isEmpty ? defaultDate : pastDateArr[0].toBirthDateForm()
+        print("📆latestDate = \(latestDate)")
         
         // 3) lastdate API를 호출해, 채팅 화면에 들어갔을 때 마지막에 받은 채팅 이후의 채팅 내역을 불러옴
         let api = ChatAPIRouter.takeList(lastchatDate: latestDate, uid: otherSesacUID)
@@ -191,7 +192,9 @@ extension ChattingViewController {
             case .fbTokenError:
                 print("토큰에러")
                 return
-            default : return print("에러당~~~~")
+            default :
+                print("에러당~~~~")
+                return
             }
         }
         
@@ -211,17 +214,20 @@ extension ChattingViewController {
             case .success:
                 print("👁채팅전송 성공:::\(value.chat) || \(value.to)")
                 
-                let id = value.id
-                let to = value.to
-                let from = value.from
                 let chat = value.chat
+                let userID = value.from
+                let id = value.id
                 let createdAt = value.createdAt
                 
-                let mychat = GeneralChat(id: id, to: to, from: from, chat: chat, createdAt: createdAt)
+                let value = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: Date().toBirthDateForm(), v: 0, ID: "")
+                let valueForRealm = ChatRealmModel(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: Date().toBirthDateForm(), v: 0, ID: "")
+                print("👄내가보낸 채팅 신규데이터 = \(value)")
                 
-                // 응답값인 mychat을 DB에 저장함
+                self?.chat.append(value) // 화면표기용 (chat에 추가)
+                ChatRepository.standard.plusChat(item: valueForRealm) // DB에 저장
                 
                 self?.mainView.tableView.reloadData()
+                self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
                 return
                 
             case .normalStatus:
@@ -298,17 +304,51 @@ extension ChattingViewController: UITextViewDelegate {
 // MARK: - rx 액션들
 extension ChattingViewController {
     
+    func bind() {
+        let input = ChattingViewModel.Input(
+            chatText: mainView.chatTextView.rx.text,
+            tap: mainView.sendbtn.rx.tap)
+        let output = viewModel.transform(input: input)
+        
+        output.validStatus
+            .withUnretained(self)
+            .bind { (vc, value) in
+                let borderColor: UIColor = value ? ColorPalette.gray6 : ColorPalette.green
+                let backgroundColor: UIColor = value ? .clear : ColorPalette.green
+                vc.mainView.sendbtn.layer.borderColor = borderColor.cgColor
+                vc.mainView.sendbtn.backgroundColor = backgroundColor
+            }
+            .disposed(by: disposeBag)
+        
+        output.tap
+            .withUnretained(self)
+            .bind { _ in
+                guard let text = self.mainView.chatTextView.text else { return }
+                
+                if self.mainView.chatTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    self.mainView.makeToast("채팅은 1자 이상부터 발송 가능합니다.", duration: 1.0, position: .center)
+                } else {
+                    print("발송! : \(text)")
+                    self.postChat(text: text)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+    }
+    
+    
+    // 정리해서 input/output으로 옮기자
     func subscribe() {
         
         // 전송 버튼
-        mainView.sendbtn.rx.tap
-            .bind {
-                guard let text = self.mainView.chatTextView.text else { return }
-                print("발송! : \(text)")
-                
-                self.postChat(text: text)
-            }
-            .disposed(by: disposeBag)
+//        mainView.sendbtn.rx.tap
+//            .bind {
+//                guard let text = self.mainView.chatTextView.text else { return }
+//                print("발송! : \(text)")
+//
+//                self.postChat(text: text)
+//            }
+//            .disposed(by: disposeBag)
         
         // textview 입력시 높이조절
         RxKeyboard.instance.visibleHeight

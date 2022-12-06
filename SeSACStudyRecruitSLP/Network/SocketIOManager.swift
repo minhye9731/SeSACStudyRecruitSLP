@@ -12,9 +12,7 @@ class SocketIOManager {
     
     static let shared = SocketIOManager()
     var manager: SocketManager!
-    
     var socket: SocketIOClient!
-    
     
     private init() {
         
@@ -28,7 +26,7 @@ class SocketIOManager {
         // (채팅 수신을 위해) 소켓이 연결(connect)된 직후 “changesocketid” 이벤트를 사용자(본인)의 uid와 함께 방출(emit)해야함
         socket.on(clientEvent: .connect) { data, ack in
             print("SOCKET IS CONNECTED", data, ack)
-            self.socket.emit("changesocketid", "myUID")
+            self.socket.emit("changesocketid", "7tAqBYumg6UPyIfy4fMqfXQRoar1")
         }
         
         //연결 해제
@@ -37,7 +35,6 @@ class SocketIOManager {
         }
         
         //이벤트 수신
-        // 상대방 메시지만 chat들을 수 있고, 내가 보낸 메시지는 chat들을 수 없음
         socket.on("chat") { (dataArray, ack) in
             print("CHAT RECEIVED", dataArray, ack)
             
@@ -53,10 +50,7 @@ class SocketIOManager {
             NotificationCenter.default.post(name: NSNotification.Name("getMessage"), object: self, userInfo: ["id": id, "chat": chat, "createdAt": createdAt, "from": from, "to": to])
         }
     }
-    
-    
-    
-    
+
     func establishConnection() {
         socket.connect()
     }
@@ -64,7 +58,5 @@ class SocketIOManager {
     func closeConnection() {
         socket.disconnect()
     }
-    
-    
     
 }
