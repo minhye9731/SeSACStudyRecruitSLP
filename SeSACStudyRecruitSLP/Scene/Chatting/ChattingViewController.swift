@@ -84,7 +84,6 @@ final class ChattingViewController: BaseViewController {
         let id = notification.userInfo!["id"] as! String
         let chat = notification.userInfo!["chat"] as! String
         let userID = notification.userInfo!["from"] as! String
-//        let name = notification.userInfo!["name"] as! String
         let createdAt = notification.userInfo!["createdAt"] as! String
         
         let newChat = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
@@ -269,6 +268,8 @@ extension ChattingViewController {
         }, completion: { (_) in
             self.mainView.menuButtonBackView.frame = CGRect(x: 0, y: 0, width: width, height: width * 0.192)
         })
+        
+        self.myQueueState()
     }
     
     @objc func backToHome() {
@@ -352,7 +353,11 @@ extension ChattingViewController {
         // 취소버튼
         mainView.cancelButton.rx.tap
             .bind {
-                self.myQueueState() // 취소시 상대방의 취소여부에 따라 나의 상태도 달라짐.
+                self.mainView.moreMenuView.isHidden = true
+                let vc = PopUpViewController()
+                vc.popupMode = .cancelStudy
+                // vc.matchingMode = value.matched == 1 ? .matched : .normal
+                self.transition(vc, transitionStyle: .presentOverFullScreen)
             }
             .disposed(by: disposeBag)
         
@@ -381,11 +386,12 @@ extension ChattingViewController {
             
             switch status {
             case .success:
-                self?.mainView.moreMenuView.isHidden = true
-                let vc = PopUpViewController()
-                vc.popupMode = .cancelStudy
-                vc.matchingMode = value.matched == 1 ? .matched : .normal
-                self?.transition(vc, transitionStyle: .presentOverFullScreen)
+                
+                if value.matched == 1 {
+                    self?.mainView.cancelButton.setTitle("스터디 취소", for: .normal)
+                    return
+                }
+                self?.mainView.cancelButton.setTitle("스터디 종료", for: .normal)
                 return
                 
             case .fbTokenError:
