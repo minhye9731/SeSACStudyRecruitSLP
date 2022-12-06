@@ -27,12 +27,12 @@ final class EmailViewModel: CommonViewModel {
         let emailForm = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailCheck = NSPredicate(format: "SELF MATCHES %@", emailForm)
         
-        let nicknameResult = input.emailText
+        let emailResult = input.emailText
             .orEmpty
             .map { emailCheck.evaluate(with: $0) }
             .share()
         
-        return Output(validStatus: nicknameResult, tap: input.tap)
+        return Output(validStatus: emailResult, tap: input.tap)
     }
     
 }
