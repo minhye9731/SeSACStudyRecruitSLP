@@ -313,10 +313,8 @@ extension ChattingViewController {
         output.validStatus
             .withUnretained(self)
             .bind { (vc, value) in
-                let borderColor: UIColor = value ? ColorPalette.gray6 : ColorPalette.green
-                let backgroundColor: UIColor = value ? .clear : ColorPalette.green
-                vc.mainView.sendbtn.layer.borderColor = borderColor.cgColor
-                vc.mainView.sendbtn.backgroundColor = backgroundColor
+                let sendBtnImg = value ? Constants.ImageName.sendAct.rawValue : Constants.ImageName.sendInact.rawValue
+                vc.mainView.sendbtn.setImage(UIImage(named: sendBtnImg), for: .normal)
             }
             .disposed(by: disposeBag)
         
@@ -339,17 +337,6 @@ extension ChattingViewController {
     
     // 정리해서 input/output으로 옮기자
     func subscribe() {
-        
-        // 전송 버튼
-//        mainView.sendbtn.rx.tap
-//            .bind {
-//                guard let text = self.mainView.chatTextView.text else { return }
-//                print("발송! : \(text)")
-//
-//                self.postChat(text: text)
-//            }
-//            .disposed(by: disposeBag)
-        
         // textview 입력시 높이조절
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [unowned self] keyboardHeight in
