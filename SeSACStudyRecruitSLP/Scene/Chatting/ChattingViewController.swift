@@ -15,7 +15,7 @@ import RealmSwift
 import FirebaseAuth
 
 // scrollBottom
-// pagenation + database
+// pagenation
 
 final class ChattingViewController: BaseViewController {
     
@@ -29,6 +29,8 @@ final class ChattingViewController: BaseViewController {
     
     var otherSesacUID = ""
     var otherSesacNick = ""
+    var firstMatchedDate = "" // 날짜 나타내기
+    
     var menuTapped = false
 
     
@@ -54,6 +56,9 @@ final class ChattingViewController: BaseViewController {
         SocketIOManager.shared.closeConnection()
     }
     
+    deinit {
+        print("📡채팅화면 deinit")
+    }
     
     // MARK: - functions
     override func configure() {
@@ -73,7 +78,6 @@ final class ChattingViewController: BaseViewController {
         
         fetchChats()
         
-        // on sesac 으로 받은 이벤트를 처리하기 위한 Notification Observer
         NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
         
         mainView.moreMenuView.isHidden = menuTapped ? false : true
@@ -89,6 +93,7 @@ final class ChattingViewController: BaseViewController {
         let newChat = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         
         self.chat.append(newChat)
+        // db에 여기서도 저장을 해줘야 하나..
         mainView.tableView.reloadData()
         mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
     }
@@ -118,7 +123,7 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let data = chat[indexPath.row] // 시간순 정렬?
+        let data = chat[indexPath.row]
         
         if data.userID == otherSesacUID {
             let yourCell = tableView.dequeueReusableCell(withIdentifier: "YourChatTableViewCell", for: indexPath) as! YourChatTableViewCell
@@ -143,6 +148,7 @@ extension ChattingViewController {
         // 1) DB에 저장된 채팅 내역을 갖고온다
             //- 상대방 uid에 대항하는 채팅 내용을 필터해서 가져옴
         ChatRepository.standard.filteredByUID(uid: otherSesacUID)
+        
         self.pastDateArr = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).map { $0.createdAt.toDate() }.sorted()
         print("📆pastDateArr = \(pastDateArr)")
         
@@ -179,9 +185,13 @@ extension ChattingViewController {
                     }
                 }
                 
-                // 4) 테이블뷰 갱신함
-                self?.mainView.tableView.reloadData()
-                self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
+                // 4) 테이블뷰 갱신함 - 아예 처음 대화하는 상대와 기존대화없는 상태에서 채팅방 입장시,scrolltorow때문에 에러남
+                guard let chat = self?.chat else { return }
+                if !chat.isEmpty {
+                    self?.mainView.tableView.reloadData()
+                    self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
+                }
+                
                 
                 // 5) 소켓을 연결
                 SocketIOManager.shared.establishConnection()
@@ -332,7 +342,6 @@ extension ChattingViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
     }
     
     
@@ -353,11 +362,7 @@ extension ChattingViewController {
         // 취소버튼
         mainView.cancelButton.rx.tap
             .bind {
-                self.mainView.moreMenuView.isHidden = true
-                let vc = PopUpViewController()
-                vc.popupMode = .cancelStudy
-                // vc.matchingMode = value.matched == 1 ? .matched : .normal
-                self.transition(vc, transitionStyle: .presentOverFullScreen)
+                self.myQueueState2()
             }
             .disposed(by: disposeBag)
         
@@ -386,27 +391,90 @@ extension ChattingViewController {
             
             switch status {
             case .success:
-                
-                if value.matched == 1 {
-                    self?.mainView.cancelButton.setTitle("스터디 취소", for: .normal)
-                    return
-                }
-                self?.mainView.cancelButton.setTitle("스터디 종료", for: .normal)
+                let buttonTitle = value.matched == 1 ? "스터디 취소" : "스터디 종료"
+                self?.mainView.cancelButton.setTitle(buttonTitle, for: .normal)
                 return
                 
             case .fbTokenError:
                 self?.refreshIDTokenQueue()
+                return
+            default :
+                self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
+            }
+        }
+    }
+    
+    func refreshIDTokenQueue() {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.mainView.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = QueueAPIRouter.myQueueState
+                Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+                    
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        let buttonTitle = value.matched == 1 ? "스터디 취소" : "스터디 종료"
+                        self?.mainView.cancelButton.setTitle(buttonTitle, for: .normal)
+                        return
+                        
+                    default :
+                        self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
+    // 취소버튼 눌러서 팝업창 갈때
+    func myQueueState2() {
+        let api = QueueAPIRouter.myQueueState
+        Network.share.requestMyQueueState(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+            guard let otherUID = self?.otherSesacUID else { return }
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode), ⭐️otherUID: \(otherUID)")
+            
+            switch status {
+            case .success:
+                self?.mainView.moreMenuView.isHidden = true
+                let vc = PopUpViewController()
+                vc.popupMode = .cancelStudy
+                vc.matchingMode = value.matched == 1 ? .matched : .normal
+                vc.otheruid = otherUID
+                self?.transition(vc, transitionStyle: .presentOverFullScreen)
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenQueue2()
                 return
                 
             default :
                 self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
                 return
             }
-            
         }
     }
     
-    func refreshIDTokenQueue() {
+    func refreshIDTokenQueue2() {
         
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
