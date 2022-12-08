@@ -110,6 +110,7 @@ extension ListViewController {
         let vc = PopUpViewController()
         vc.popupMode = pageboyPageIndex == 0 ? .askStudy : .acceptStudy
         vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[section].uid : receivedSesacList[section].uid
+        
         vc.matchingMode = .standby
 //        print("🥶내가 요청을 보내거나/받은 새싹 = \(aroundSesacList[section].nick)")
         transition(vc, transitionStyle: .presentOverFullScreen)

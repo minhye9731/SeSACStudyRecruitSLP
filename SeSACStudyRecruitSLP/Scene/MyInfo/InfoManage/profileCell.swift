@@ -190,7 +190,6 @@ final class ProfileCell: BaseTableViewCell {
             $0.top.equalTo(title2.snp.bottom).offset(16)
             $0.leading.equalTo(usercardView).offset(spacing)
             $0.height.equalTo(32)
-//            $0.width.equalTo(wantedStudyWidth + 32.0)
             $0.width.equalTo(100)
         }
         //
@@ -216,15 +215,21 @@ final class ProfileCell: BaseTableViewCell {
     
     // [my info] 정리 필요
     func setData() {
+        title2.isHidden = true
+        wantedStudy.isHidden = true
+        
         var result = UserDefaultsManager.reputation
         var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
         
         for i in 0...5 {
-            if result[i] != 0 {
-                btnGroup[i].configuration?.baseBackgroundColor = ColorPalette.green
-                btnGroup[i].configuration?.background.strokeColor = ColorPalette.green
-                btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
-            }
+            
+            let bgClr: UIColor = result[i] == 0 ? .white : ColorPalette.green
+            let brClr: UIColor = result[i] == 0 ? ColorPalette.gray4 : ColorPalette.green
+            let txClr: UIColor = result[i] == 0 ? .black : .white
+            
+            btnGroup[i].configuration?.baseBackgroundColor = bgClr
+            btnGroup[i].configuration?.background.strokeColor = brClr
+            btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
         }
         
         if UserDefaultsManager.comment.isEmpty {
@@ -248,6 +253,9 @@ final class ProfileCell: BaseTableViewCell {
                 btnGroup[i].configuration?.background.strokeColor = ColorPalette.green
                 btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
             }
+            btnGroup[i].configuration?.baseBackgroundColor = .white
+            btnGroup[i].configuration?.background.strokeColor = ColorPalette.gray4
+            btnGroup[i].configuration?.attributedTitle?.foregroundColor = .black
         }
         
         let study = data[section].studylist.isEmpty ? "아무거나" : data[section].studylist[0]
@@ -262,8 +270,6 @@ final class ProfileCell: BaseTableViewCell {
         reviewList.isEmpty ? (moreReview.isHidden = true) : (moreReview.isHidden = false)
     }
     
-    
-    // 재사용 이슈 해결 (test필요)
     override func prepareForReuse() {
         
         titleButton1.setImage(nil, for: .normal)

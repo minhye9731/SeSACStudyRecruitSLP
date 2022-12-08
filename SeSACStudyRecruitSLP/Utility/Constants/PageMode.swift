@@ -34,7 +34,7 @@ enum PopupMode {
     var popupHeight: ConstraintRelatableTarget {
         switch self {
         case .askStudy: return 178
-        default : return 156
+        default : return 160
         }
     }
     

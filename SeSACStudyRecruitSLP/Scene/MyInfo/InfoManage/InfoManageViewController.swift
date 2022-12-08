@@ -67,13 +67,11 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
                            name: UserDefaultsManager.nick)
         headerView.setCollapsed(isExpanded)
         headerView.section = section
-
-        let userCardTapGesture = UserCardNameTapGestureRecognizer(target: self, action: #selector(headerTapped))
-        userCardTapGesture.header = headerView
-        userCardTapGesture.section = section
-        
         headerView.askAcceptbtn.isHidden = true
-        headerView.nameView.addGestureRecognizer(userCardTapGesture)
+
+        headerView.namebtn.addTarget(self, action: #selector(headerNameTapped), for: .touchUpInside)
+        headerView.namebtn.header = headerView
+        headerView.namebtn.section = section
 
         return section == 0 ? headerView : nil
     }
@@ -92,8 +90,8 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
             
 //            profileCell.title2.isHidden = true // my info에서는 안보이도록
 //            profileCell.wantedStudy.isHidden = true // my info에서는 안보이도록
-            
             profileCell.setData()
+//            profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
             
             return profileCell
         } else {
@@ -146,15 +144,28 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - 접었다폈다 로직
 extension InfoManageViewController {
     
-    @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
+//    @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
+//        guard let header = sender.header else { return }
+//        guard let section = sender.section else { return }
+//
+//        isExpanded.toggle()
+//        header.setCollapsed(isExpanded)
+//        header.setData(bgNum: UserDefaultsManager.background, fcNum: UserDefaultsManager.sesac, name: UserDefaultsManager.nick)
+//
+//        mainView.tableView.reloadData()
+//    }
+    
+    @objc func headerNameTapped(sender: HeaderSectionPassButton) {
         guard let header = sender.header else { return }
         guard let section = sender.section else { return }
-
+        
+        print("\(section)번째 유저카드 클릭!!")
+        
         isExpanded.toggle()
         header.setCollapsed(isExpanded)
-        
         mainView.tableView.reloadData()
     }
+    
 }
 
 // MARK: - 성별버튼 클릭
