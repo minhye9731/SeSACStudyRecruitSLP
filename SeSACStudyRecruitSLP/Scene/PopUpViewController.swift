@@ -48,6 +48,12 @@ final class PopUpViewController: BaseViewController {
         return button
     }()
     
+    // MARK: - lifecycle
+    deinit {
+        print("📡팝업화면 deinit")
+    }
+    
+    
     // MARK: - functions
     override func configure() {
         super.configure()
@@ -147,6 +153,7 @@ extension PopUpViewController {
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
             guard let status = WithdrawError(rawValue: statusCode) else { return }
+            print("탈퇴 상태 결과 : \(value), \(statusCode)")
             
             switch status {
             case .success:
@@ -387,16 +394,28 @@ extension PopUpViewController {
         print("스터디 요청을 취소했습니다.")
         
         let api = StudyAPIRouter.cancelStudy(otheruid: otheruid)
+        print("otheruid = \(otheruid)")
         Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
-            guard let status =  DodgeError(rawValue: statusCode) else { return }
+            guard let status = DodgeError(rawValue: statusCode) else { return }
+            print("취소 상태 결과 : \(value), \(statusCode)")
             
             switch status {
             case .success:
-                self?.navigationController?.popViewControllers(3)
+                print("스터디 취소는 성공이다~")
+                
+                self?.dismiss(animated: true, completion: {
+                    guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.navigationController?.topViewController else { return }
+                    
+                    viewController.navigationController?.popToRootViewController(animated: true)
+                    
+                })
+
+                
                 return
+                
             case .wrongOtherUid:
                 self?.view.makeToast("스터디 취소 상대방 정보를 다시 확인해주세요.", duration: 1.0, position: .center)
                 return
@@ -404,6 +423,7 @@ extension PopUpViewController {
             case .fbTokenError:
                 self?.refreshIDTokenStudyCancel()
                 return
+                
             default:
                 self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
                 return
@@ -435,8 +455,9 @@ extension PopUpViewController {
                     
                     switch status {
                     case .success:
-                        self?.navigationController?.popViewControllers(3)
+//                        self?.navigationController?.popViewControllers(3)
                         return
+                        
                     default:
                         self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
                         return
@@ -549,6 +570,23 @@ extension PopUpViewController {
         }
     }
     
+    
+    // test
+//    func topViewController() -> UIViewController? {
+//        if let keyWindow = UIApplication.shared.keyWindow {
+//            if var viewController = keyWindow.rootViewController {
+//                while viewController.presentedViewController != nil {
+//                    viewController = viewController.presentedViewController!
+//                }
+//                print("topViewController -> \(String(describing: viewController))")
+//                return viewController
+//            }
+//        }
+//        return nil
+//    }
+    
 }
+
+
 
 
