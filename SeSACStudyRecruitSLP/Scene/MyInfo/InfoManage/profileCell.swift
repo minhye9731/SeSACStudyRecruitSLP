@@ -110,9 +110,7 @@ final class ProfileCell: BaseTableViewCell {
         textfield.font = CustomFonts.body3_R14()
         textfield.tintColor = .black
         textfield.textAlignment = .left
-        textfield.keyboardType = .default
-        textfield.autocorrectionType = .no
-        textfield.autocapitalizationType = .none
+        textfield.isUserInteractionEnabled = false
         return textfield
     }()
     
@@ -260,11 +258,6 @@ final class ProfileCell: BaseTableViewCell {
         
         let study = data[section].studylist.isEmpty ? "아무거나" : data[section].studylist[0]
         wantedStudy.setTitle(study, for: .normal)
-        
-//        let wantedStudyWidth = wantedStudy.frame.size.width
-//        wantedStudy.snp.makeConstraints {
-//            $0.width.equalTo(wantedStudyWidth + 32)
-//        }
         
         reviewList.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = reviewList[0])
         reviewList.isEmpty ? (moreReview.isHidden = true) : (moreReview.isHidden = false)

@@ -87,11 +87,8 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             profileCell.selectionStyle = .none
-            
-//            profileCell.title2.isHidden = true // my info에서는 안보이도록
-//            profileCell.wantedStudy.isHidden = true // my info에서는 안보이도록
             profileCell.setData()
-//            profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
+            profileCell.moreReview.addTarget(self, action: #selector(moreReviewTapped), for: .touchUpInside)
             
             return profileCell
         } else {
@@ -141,29 +138,21 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-// MARK: - 접었다폈다 로직
+// MARK: - header
 extension InfoManageViewController {
-    
-//    @objc func headerTapped(sender: UserCardNameTapGestureRecognizer) {
-//        guard let header = sender.header else { return }
-//        guard let section = sender.section else { return }
-//
-//        isExpanded.toggle()
-//        header.setCollapsed(isExpanded)
-//        header.setData(bgNum: UserDefaultsManager.background, fcNum: UserDefaultsManager.sesac, name: UserDefaultsManager.nick)
-//
-//        mainView.tableView.reloadData()
-//    }
     
     @objc func headerNameTapped(sender: HeaderSectionPassButton) {
         guard let header = sender.header else { return }
-        guard let section = sender.section else { return }
-        
-        print("\(section)번째 유저카드 클릭!!")
-        
+
         isExpanded.toggle()
         header.setCollapsed(isExpanded)
         mainView.tableView.reloadData()
+    }
+    
+    @objc func moreReviewTapped(sender: moreReviewButton) {
+        let vc = MoreReviewViewController()
+        vc.reviewList = UserDefaultsManager.comment as! [String]
+        transition(vc, transitionStyle: .push)
     }
     
 }
