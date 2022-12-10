@@ -119,6 +119,11 @@ extension WriteReviewViewController {
     }
     
     @objc func registerbtnTapped() {
+        
+        if !reputation.contains("1") {
+            self.mainView.makeToast("리뷰 항목은 최소 한 개 이상 선택해주세요", duration: 1.0, position: .center)
+            return
+        }
         requestRateAPI()
         print("리뷰쓰기")
     }
