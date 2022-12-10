@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class WriteReviewViewController : BaseViewController {
     
@@ -15,6 +16,10 @@ final class WriteReviewViewController : BaseViewController {
     
     // MARK: - property
     let mainView = WriteReviewView()
+    var otherSesacUID = ""
+    var otherSesacNick = ""
+    var reputation = [0, 0, 0, 0, 0, 0]
+    
     var dataSource: UICollectionViewDiffableDataSource<Section, String>! = nil
     let reviewSet = ["좋은 매너", "정확한 시간 약속", "빠른 응답", "친절한 성격", "능숙한 실력", "유익한 시간"]
     
@@ -30,6 +35,7 @@ final class WriteReviewViewController : BaseViewController {
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
 
         mainView.closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
+        mainView.registerbtn.addTarget(self, action: #selector(registerbtnTapped), for: .touchUpInside)
         configureDataSource()
         mainView.collectionView.delegate = self
         mainView.reviewTextView.delegate = self
@@ -42,12 +48,8 @@ extension WriteReviewViewController {
 
     func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<TagCell, String> { (cell, indexPath, identifier) in
-
-            cell.tagLabel.text = identifier
-            cell.layer.borderColor = ColorPalette.gray4.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8
-            cell.isUserInteractionEnabled = true
+            
+            cell.setReviewData(reputation: self.reputation, indexPath: indexPath, identifier: identifier)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, String>(collectionView: mainView.collectionView) {
@@ -67,17 +69,8 @@ extension WriteReviewViewController {
 extension WriteReviewViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let review = self.dataSource.itemIdentifier(for: indexPath) else { return }
-        
-        print(review)
-        print("👍🏻선택한 리뷰 = \(reviewSet[indexPath.row])")
-        
-        
-        
-        
-        
-        
+        reputation[indexPath.row] = reputation[indexPath.row] == 0 ? 1 : 0
+        self.mainView.collectionView.reloadData()
     }
 }
 
@@ -115,4 +108,9 @@ extension WriteReviewViewController {
         self.dismiss(animated: true)
     }
     
+    @objc func registerbtnTapped() {
+//        requestRateAPI()
+        print("리뷰쓰기")
+    }
 }
+
