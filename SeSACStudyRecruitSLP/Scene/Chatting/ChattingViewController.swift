@@ -371,6 +371,8 @@ extension ChattingViewController {
             .bind {
                 self.mainView.moreMenuView.isHidden = true
                 let vc = WriteReviewViewController()
+                vc.otherSesacUID = self.otherSesacUID
+                vc.otherSesacNick = self.otherSesacNick
                 self.transition(vc, transitionStyle: .presentOverFullScreen)
             }
             .disposed(by: disposeBag)
@@ -515,23 +517,3 @@ extension ChattingViewController {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
