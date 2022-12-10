@@ -43,7 +43,6 @@ final class WriteReviewView: BaseView {
     let subtitle: UILabel = {
         let label = UILabel()
         label.textColor = ColorPalette.green
-        label.text = "ooo님과의 스터디는 어떠셨나요?" //test
         label.font = CustomFonts.title4_R14()
         label.textAlignment = .center
         return label

@@ -33,9 +33,11 @@ final class WriteReviewViewController : BaseViewController {
         super.configure()
         
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
+        mainView.subtitle.text = "\(otherSesacNick)님과의 스터디는 어떠셨나요?"
 
         mainView.closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
         mainView.registerbtn.addTarget(self, action: #selector(registerbtnTapped), for: .touchUpInside)
+        
         configureDataSource()
         mainView.collectionView.delegate = self
         mainView.reviewTextView.delegate = self
