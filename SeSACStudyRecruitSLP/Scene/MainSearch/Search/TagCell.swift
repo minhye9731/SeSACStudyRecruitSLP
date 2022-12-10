@@ -50,13 +50,13 @@ class TagCell: BaseCollectionViewCell {
         contentView.layer.borderColor = indexPath.row <= rcmNum ? ColorPalette.error.cgColor : ColorPalette.gray4.cgColor
     }
     
-    func setReviewData(reputation: [Int], indexPath: IndexPath, identifier: String) {
+    func setReviewData(reputation: [String], indexPath: IndexPath, identifier: String) {
         
         let value = reputation[indexPath.row]
         
-        let bgColor: UIColor = value == 0 ? .white : ColorPalette.green
-        let bdrColor: CGColor = value == 0 ? ColorPalette.gray4.cgColor : ColorPalette.green.cgColor
-        let textColor: UIColor = value == 0 ? .black : .white
+        let bgColor: UIColor = value == "0" ? .white : ColorPalette.green
+        let bdrColor: CGColor = value == "0" ? ColorPalette.gray4.cgColor : ColorPalette.green.cgColor
+        let textColor: UIColor = value == "0" ? .black : .white
         
         contentView.backgroundColor = bgColor
         contentView.layer.borderColor = bdrColor
