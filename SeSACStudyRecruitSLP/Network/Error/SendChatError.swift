@@ -35,11 +35,3 @@ extension SendChatError: LocalizedError {
         }
     }
 }
-
-//{
-//    "_id": "61e3c18b9411a6190a19428b",
-//    "to": "xGpE8KeXgMTnQtpR90fhdR4IVsO2",
-//    "from": "NuK12cdVaDVcc9e4ctxsLMNCrHQ2",
-//    "chat" : "반갑습니다 :)",
-//    "createdAt": "2022-11-16T06:55:54.784Z"
-//}
