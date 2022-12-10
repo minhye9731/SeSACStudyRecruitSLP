@@ -22,6 +22,10 @@ class TagCell: BaseCollectionViewCell {
         super.configure()
         contentView.addSubview(tagLabel)
         contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 8
+        contentView.layer.borderWidth = 1
+        contentView.isUserInteractionEnabled = true
+        contentView.layer.masksToBounds = true
     }
     
     override func setConstraints() {
@@ -38,12 +42,26 @@ class TagCell: BaseCollectionViewCell {
         let value = data[indexPath.row]
         tagLabel.text = value
         
-        contentView.layer.masksToBounds = true
-        contentView.layer.cornerRadius = 8
-        contentView.layer.borderWidth = 1
+//        contentView.layer.masksToBounds = true
+//        contentView.layer.cornerRadius = 8
+//        contentView.layer.borderWidth = 1
         
         tagLabel.textColor = indexPath.row <= rcmNum ? ColorPalette.error : .black
         contentView.layer.borderColor = indexPath.row <= rcmNum ? ColorPalette.error.cgColor : ColorPalette.gray4.cgColor
+    }
+    
+    func setReviewData(reputation: [Int], indexPath: IndexPath, identifier: String) {
+        
+        let value = reputation[indexPath.row]
+        
+        let bgColor: UIColor = value == 0 ? .white : ColorPalette.green
+        let bdrColor: CGColor = value == 0 ? ColorPalette.gray4.cgColor : ColorPalette.green.cgColor
+        let textColor: UIColor = value == 0 ? .black : .white
+        
+        contentView.backgroundColor = bgColor
+        contentView.layer.borderColor = bdrColor
+        tagLabel.textColor = textColor
+        tagLabel.text = identifier
     }
     
 }
