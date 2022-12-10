@@ -35,14 +35,21 @@ final class WriteReviewViewController : BaseViewController {
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
         mainView.subtitle.text = "\(otherSesacNick)님과의 스터디는 어떠셨나요?"
 
-        mainView.closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
-        mainView.registerbtn.addTarget(self, action: #selector(registerbtnTapped), for: .touchUpInside)
-        
         configureDataSource()
+        setDelegate()
+        setAddTarget()
+    }
+    
+    func setDelegate() {
         mainView.collectionView.delegate = self
         mainView.reviewTextView.delegate = self
     }
     
+    func setAddTarget() {
+        mainView.closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
+        mainView.registerbtn.addTarget(self, action: #selector(registerbtnTapped), for: .touchUpInside)
+    }
+
 }
 
 // MARK: - collectionView
@@ -73,6 +80,7 @@ extension WriteReviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         reputation[indexPath.row] = reputation[indexPath.row] == "0" ? "1" : "0"
         self.mainView.collectionView.reloadData()
+        self.mainView.setUIbasedOnData(reputation: reputation)
     }
 }
 

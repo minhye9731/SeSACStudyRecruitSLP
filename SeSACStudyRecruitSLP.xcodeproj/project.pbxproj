@@ -84,7 +84,6 @@
 		0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6325291D199700F36167 /* EmailViewModel.swift */; };
 		0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6327291D1E4B00F36167 /* GenderViewController.swift */; };
 		0E4F632A291D1E5900F36167 /* GenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6329291D1E5900F36167 /* GenderView.swift */; };
-		0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F632B291D1E6600F36167 /* GenderViewModel.swift */; };
 		0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F632E291D6DAE00F36167 /* InputDateView.swift */; };
 		0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F6330291D793F00F36167 /* UITextField+Extension.swift */; };
 		0E4F6334291D7B9900F36167 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 0E4F6333291D7B9900F36167 /* Toast */; };
@@ -236,7 +235,6 @@
 		0E4F6325291D199700F36167 /* EmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailViewModel.swift; sourceTree = "<group>"; };
 		0E4F6327291D1E4B00F36167 /* GenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewController.swift; sourceTree = "<group>"; };
 		0E4F6329291D1E5900F36167 /* GenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderView.swift; sourceTree = "<group>"; };
-		0E4F632B291D1E6600F36167 /* GenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewModel.swift; sourceTree = "<group>"; };
 		0E4F632E291D6DAE00F36167 /* InputDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDateView.swift; sourceTree = "<group>"; };
 		0E4F6330291D793F00F36167 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		0E4F6335291D7D7900F36167 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -667,7 +665,6 @@
 			children = (
 				0E4F6327291D1E4B00F36167 /* GenderViewController.swift */,
 				0E4F6329291D1E5900F36167 /* GenderView.swift */,
-				0E4F632B291D1E6600F36167 /* GenderViewModel.swift */,
 			);
 			path = Gender;
 			sourceTree = "<group>";
@@ -942,7 +939,6 @@
 				0E1164022933769200501EBD /* MoreReviewViewController.swift in Sources */,
 				0EA57489292912910064599F /* SearchViewController.swift in Sources */,
 				0E90D051293FA287009C662D /* SesacController.swift in Sources */,
-				0E4F632C291D1E6600F36167 /* GenderViewModel.swift in Sources */,
 				0EA6A9F129209D4E00F71EC6 /* LoginResponse.swift in Sources */,
 				0E4F6324291D198600F36167 /* EmailView.swift in Sources */,
 				0E90D042293E1147009C662D /* ShopSesacViewController.swift in Sources */,

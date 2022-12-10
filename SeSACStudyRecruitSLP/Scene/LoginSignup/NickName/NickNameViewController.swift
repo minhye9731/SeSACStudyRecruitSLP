@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Toast
 
 final class NickNameViewController: BaseViewController {
     

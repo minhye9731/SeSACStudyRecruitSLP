@@ -75,7 +75,7 @@ final class WriteReviewView: BaseView {
         [closebtn, collectionView, maintitle, subtitle, reviewTextView, registerbtn].forEach {
             popupView.addSubview($0)
         }
-        
+
     }
     
     override func setConstraints() {
@@ -140,6 +140,14 @@ final class WriteReviewView: BaseView {
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    func setUIbasedOnData(reputation: [String]) {     
+        let bgColor = reputation.contains("1") ? ColorPalette.green : ColorPalette.gray6
+        let textColor = reputation.contains("1") ? .white : ColorPalette.gray3
+        
+        registerbtn.backgroundColor = bgColor
+        registerbtn.setTitleColor(textColor, for: .normal)
     }
     
 }
