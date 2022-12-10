@@ -51,9 +51,11 @@ final class WriteReviewView: BaseView {
     
     let reviewTextView: UITextView = {
         let view = UITextView()
+        view.textContainerInset = UIEdgeInsets(top: 14, left: 12, bottom: 12, right: 14)
         view.backgroundColor = ColorPalette.gray1
         view.layer.cornerRadius = 8
         view.text = Constants.Word.reviewPlaceholder.rawValue
+        view.textColor = ColorPalette.gray7
         view.font = CustomFonts.body3_R14()
         view.autocorrectionType = .no
         view.autocapitalizationType = .none
