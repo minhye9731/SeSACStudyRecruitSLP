@@ -53,7 +53,10 @@ final class WriteReviewView: BaseView {
         let view = UITextView()
         view.backgroundColor = ColorPalette.gray1
         view.layer.cornerRadius = 8
-        
+        view.text = Constants.Word.reviewPlaceholder.rawValue
+        view.font = CustomFonts.body3_R14()
+        view.autocorrectionType = .no
+        view.autocapitalizationType = .none
         return view
     }()
     
@@ -119,22 +122,20 @@ final class WriteReviewView: BaseView {
     }
     
     func createLayout() -> UICollectionViewLayout {
-        
-//        var btnWidth = (collectionView.frame.height - 20) / 3
-        
+
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44))
+                                               heightDimension: .fractionalHeight(0.28))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        let spacing = CGFloat(10)
+        let spacing = CGFloat(8)
         group.interItemSpacing = .fixed(spacing)
 
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = spacing
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
