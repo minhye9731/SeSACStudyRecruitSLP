@@ -32,6 +32,7 @@ final class WriteReviewViewController : BaseViewController {
         mainView.closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
         configureDataSource()
         mainView.collectionView.delegate = self
+        mainView.reviewTextView.delegate = self
     }
     
 }
@@ -68,8 +69,43 @@ extension WriteReviewViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let review = self.dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        print(review)
         print("👍🏻선택한 리뷰 = \(reviewSet[indexPath.row])")
+        
+        
+        
+        
+        
+        
     }
+}
+
+// MARK: - textview
+extension WriteReviewViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.textColor = ColorPalette.gray7
+            textView.text = Constants.Word.reviewPlaceholder.rawValue
+        } else if textView.text == Constants.Word.reviewPlaceholder.rawValue {
+            textView.textColor = .black
+            textView.text = nil
+        }
+        textView.textColor = .black
+    }
+        
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count > 500 { textView.deleteBackward() }
+    }
+        
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || textView.text == Constants.Word.reviewPlaceholder.rawValue {
+            textView.textColor = ColorPalette.gray7
+            textView.text = Constants.Word.reviewPlaceholder.rawValue
+        }
+    }
+        
 }
 
 // MARK: - 기타
