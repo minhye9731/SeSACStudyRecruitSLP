@@ -131,7 +131,7 @@ final class Network {
         }
     }
     
-    func requestRate(router: QueueAPIRouter, uid: String, rep: [String], com: String, completion: @escaping (String?, Int?, Error?) -> Void) {
+    func requestRate(uid: String, rep: [String], com: String, completion: @escaping (String?, Int?, Error?) -> Void) {
         
         let url = "http://api.sesac.co.kr:1210" + "/v1/queue/rate/\(uid)"
         
