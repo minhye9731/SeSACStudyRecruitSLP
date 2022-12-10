@@ -36,6 +36,7 @@
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
 		0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411062918EBF90040BD85 /* ReusableProtocol.swift */; };
 		0E1411092918EC530040BD85 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411082918EC530040BD85 /* Image.swift */; };
+		0E3474A82944CCEE008D0889 /* WriteReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474A72944CCEE008D0889 /* WriteReviewView.swift */; };
 		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
 		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
 		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
@@ -193,6 +194,7 @@
 		0E1411042918DD9A0040BD85 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		0E1411062918EBF90040BD85 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		0E1411082918EC530040BD85 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		0E3474A72944CCEE008D0889 /* WriteReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewView.swift; sourceTree = "<group>"; };
 		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0E46E2B52928F6710058A50E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
@@ -484,7 +486,6 @@
 			children = (
 				0EF37511292655200074FC64 /* LaunchScreenViewController.swift */,
 				0EF3750F29261E4E0074FC64 /* PopUpViewController.swift */,
-				0E1164132933F80600501EBD /* WriteReviewViewController.swift */,
 				0E14110A2918EF1D0040BD85 /* WalkThrough */,
 				0EA6A9FA2921694700F71EC6 /* LoginSignup */,
 				0E4F632D291D1F6200F36167 /* MainSearch */,
@@ -540,6 +541,15 @@
 				0E5095CA291AA8BD0038B429 /* SplashView.swift */,
 			);
 			path = WalkThrough;
+			sourceTree = "<group>";
+		};
+		0E3474A62944CCB2008D0889 /* RegisterReview */ = {
+			isa = PBXGroup;
+			children = (
+				0E1164132933F80600501EBD /* WriteReviewViewController.swift */,
+				0E3474A72944CCEE008D0889 /* WriteReviewView.swift */,
+			);
+			path = RegisterReview;
 			sourceTree = "<group>";
 		};
 		0E46E2AB29288BAA0058A50E /* Main */ = {
@@ -755,6 +765,7 @@
 				0E90D045293E5472009C662D /* ChattingViewModel.swift */,
 				0E11640B2933D1C300501EBD /* MyChatTableViewCell.swift */,
 				0E11640D2933DA0200501EBD /* YourChatTableViewCell.swift */,
+				0E3474A62944CCB2008D0889 /* RegisterReview */,
 			);
 			path = Chatting;
 			sourceTree = "<group>";
@@ -996,6 +1007,7 @@
 				0EA1F683292EAF9E0062DBED /* UserCardNameTapGestureRecognizer.swift in Sources */,
 				0E4F6326291D199700F36167 /* EmailViewModel.swift in Sources */,
 				0E5095882918F27F0038B429 /* BaseViewController.swift in Sources */,
+				0E3474A82944CCEE008D0889 /* WriteReviewView.swift in Sources */,
 				0E1411072918EBF90040BD85 /* ReusableProtocol.swift in Sources */,
 				0E1164412934DBC600501EBD /* SocketIOManager.swift in Sources */,
 				0E597AB82939EE61005939CB /* TotalError.swift in Sources */,

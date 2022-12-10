@@ -1,23 +1,22 @@
 //
-//  WriteReviewViewController.swift
+//  WriteReviewView.swift
 //  SeSACStudyRecruitSLP
 //
-//  Created by 강민혜 on 11/28/22.
+//  Created by 강민혜 on 12/10/22.
 //
 
 import UIKit
 
-final class WriteReviewViewController : BaseViewController {
-    
-    enum Section {
-        case main
-    }
+final class WriteReviewView: BaseView {
     
     // MARK: - property
-    
-    var dataSource: UICollectionViewDiffableDataSource<Section, String>! = nil
-    var collectionView: UICollectionView! = nil
-    let reviewSet = ["좋은 매너", "정확한 시간 약속", "빠른 응답", "친절한 성격", "능숙한 실력", "유익한 시간"]
+    lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.backgroundColor = .white
+        view.isScrollEnabled = false
+        return view
+    }()
     
     let popupView: UIView = {
         let view = UIView()
@@ -33,7 +32,6 @@ final class WriteReviewViewController : BaseViewController {
         button.contentMode = .scaleAspectFit
         return button
     }()
-    
     let maintitle: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -66,30 +64,23 @@ final class WriteReviewViewController : BaseViewController {
     }()
     
     // MARK: - functions
-    override func configure() {
-        super.configure()
+    override func configureUI() {
+        super.configureUI()
         
-        view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
-       
-        view.addSubview(popupView)
-        [closebtn, maintitle, subtitle, reviewTextView, registerbtn].forEach {
+        self.addSubview(popupView)
+        [closebtn, collectionView, maintitle, subtitle, reviewTextView, registerbtn].forEach {
             popupView.addSubview($0)
         }
         
-        closebtn.addTarget(self, action: #selector(closebtnTapped), for: .touchUpInside)
-        
-        configureHierarchy()
-        configureDataSource()
-        collectionView.delegate = self // modern 방식이고, diffable로 데이터를 준다해도 didselect 인식하려면 delegate 등록해야함
     }
     
     override func setConstraints() {
         super.setConstraints()
-
+        
         popupView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(15)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(15)
             $0.height.equalTo(popupView.snp.width).multipliedBy(1.3)
-            $0.centerY.equalTo(self.view.center)
+            $0.centerY.equalTo(safeAreaLayoutGuide)
         }
         
         closebtn.snp.makeConstraints {
@@ -124,21 +115,19 @@ final class WriteReviewViewController : BaseViewController {
             $0.bottom.equalTo(popupView.snp.bottom).offset(-16)
             $0.height.equalTo(registerbtn.snp.width).multipliedBy(0.154)
         }
+        
     }
     
-    
-}
-
-// MARK: - collectionView
-extension WriteReviewViewController {
-    
     func createLayout() -> UICollectionViewLayout {
+        
+//        var btnWidth = (collectionView.frame.height - 20) / 3
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .absolute(44))
+                                               heightDimension: .absolute(44))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
         let spacing = CGFloat(10)
         group.interItemSpacing = .fixed(spacing)
@@ -149,54 +138,6 @@ extension WriteReviewViewController {
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-    }
-    
-    func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .white
-        collectionView.isScrollEnabled = false
-        popupView.addSubview(collectionView)
-    }
-    
-    func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<TagCell, String> { (cell, indexPath, identifier) in
-
-            cell.tagLabel.text = identifier
-            cell.layer.borderColor = ColorPalette.gray4.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8
-            cell.isUserInteractionEnabled = true
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, String>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: String) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(reviewSet)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-    
-}
-
-// MARK: - 리뷰 클릭시
-extension WriteReviewViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let review = self.dataSource.itemIdentifier(for: indexPath) else { return }
-        print("👍🏻선택한 리뷰 = \(reviewSet[indexPath.row])")
-    }
-}
-
-// MARK: - 기타
-extension WriteReviewViewController {
-    
-    @objc func closebtnTapped() {
-        self.dismiss(animated: true)
     }
     
 }
