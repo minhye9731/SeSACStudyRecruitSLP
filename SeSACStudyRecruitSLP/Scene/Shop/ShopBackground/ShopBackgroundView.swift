@@ -13,6 +13,10 @@ final class ShopBackgroundView: BaseView {
         case main
     }
     
+    // MARK: - property
+    
+    var bgPriceButtonActionHandler: (() -> ())?
+    
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -67,6 +71,7 @@ final class ShopBackgroundView: BaseView {
             cell.productNameLabel.text = bgItem.name
             cell.descriptionLabel.text = bgItem.description
             cell.priceButton.setTitle(bgItem.price, for: .normal)
+            cell.priceButton.addTarget(self, action: #selector(self.priceBtnTappedClicked), for: .touchUpInside)
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, SesacController.SesacItem>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: SesacController.SesacItem) -> UICollectionViewCell? in
@@ -78,5 +83,9 @@ final class ShopBackgroundView: BaseView {
         snapshot.appendSections([.main])
         snapshot.appendItems(bgItems)
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    @objc func priceBtnTappedClicked() {
+        bgPriceButtonActionHandler!()
     }
 }
