@@ -63,14 +63,14 @@ final class ShopViewController: BaseViewController {
         self.title = "새싹샵"
         
         tableView.delegate = self
-        
+
         [tableView, segmentedControl, pageViewController.view].forEach {
             view.addSubview($0)
         }
 
         tableView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)//.inset(16)
-            $0.height.equalTo(tableView.snp.width).multipliedBy(0.5)
+            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(tableView.snp.width).multipliedBy(0.62)
         }
         
         segmentedControl.snp.makeConstraints {
@@ -114,14 +114,25 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         return 0
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        var bounds = UIScreen.main.bounds
+        var width = bounds.size.width
+        return width * 0.51
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
         
+        // 별도 정리
         headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue)
         headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue)
-        headerView.nameLabel.text = ""
-        headerView.nameLabel.isHidden = true
+        headerView.nameView.isHidden = true
         headerView.askAcceptbtn.setTitle("저장하기", for: .normal)
+        
+        headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
+        headerView.askAcceptbtn.header = headerView
+        headerView.askAcceptbtn.section = section
+        
         return headerView
     }
     
@@ -130,7 +141,6 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         return profileCell
     }
 
-    
 }
 
 // MARK: - pageview controller
@@ -156,4 +166,16 @@ extension ShopViewController: UIPageViewControllerDelegate {
         self.currentPage = index
         self.segmentedControl.selectedSegmentIndex = index
     }
+}
+
+// MARK: - 기타 함수
+extension ShopViewController {
+    
+    @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
+//        guard let section = sender.section else { return }
+     
+        print("저장하기! :)")
+        
+    }
+    
 }
