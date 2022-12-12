@@ -39,6 +39,7 @@
 		0E3474A82944CCEE008D0889 /* WriteReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474A72944CCEE008D0889 /* WriteReviewView.swift */; };
 		0E3474AA2944E135008D0889 /* RateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474A92944E135008D0889 /* RateError.swift */; };
 		0E3474AC2944E4EE008D0889 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474AB2944E4EE008D0889 /* Word.swift */; };
+		0E3474B32947977A008D0889 /* ShopBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B22947977A008D0889 /* ShopBackgroundView.swift */; };
 		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
 		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
 		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
@@ -198,6 +199,7 @@
 		0E3474A72944CCEE008D0889 /* WriteReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReviewView.swift; sourceTree = "<group>"; };
 		0E3474A92944E135008D0889 /* RateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateError.swift; sourceTree = "<group>"; };
 		0E3474AB2944E4EE008D0889 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		0E3474B22947977A008D0889 /* ShopBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBackgroundView.swift; sourceTree = "<group>"; };
 		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0E46E2B52928F6710058A50E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
@@ -755,6 +757,7 @@
 			isa = PBXGroup;
 			children = (
 				0E90D043293E1205009C662D /* ShopBackgroundViewController.swift */,
+				0E3474B22947977A008D0889 /* ShopBackgroundView.swift */,
 				0E90D04E293F7ED4009C662D /* ShopBackgroundCollectionViewCell.swift */,
 			);
 			path = ShopBackground;
@@ -944,6 +947,7 @@
 				0E90D042293E1147009C662D /* ShopSesacViewController.swift in Sources */,
 				0E49C6B629221F4F004E7875 /* MyInfoView.swift in Sources */,
 				0E90D046293E5472009C662D /* ChattingViewModel.swift in Sources */,
+				0E3474B32947977A008D0889 /* ShopBackgroundView.swift in Sources */,
 				0E1164392934B90500501EBD /* ChatAPIRouter.swift in Sources */,
 				0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */,
 				0E49C6E42924A585004E7875 /* MainView.swift in Sources */,
