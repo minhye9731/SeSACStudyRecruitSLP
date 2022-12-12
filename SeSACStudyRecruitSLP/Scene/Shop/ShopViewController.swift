@@ -71,6 +71,7 @@ final class ShopViewController: BaseViewController {
         
         setSegmentedControl()
         setDelegate()
+        setPriceButtonAction()
     }
     
     func setDelegate() {
@@ -79,6 +80,16 @@ final class ShopViewController: BaseViewController {
         vc2.mainView.collectionView.delegate = self
     }
     
+    func setPriceButtonAction() {
+        vc1.mainView.ssPriceButtonActionHandler = {
+            print("ssPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
+        }
+        
+        vc2.mainView.bgPriceButtonActionHandler = {
+            print("bgPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
+        }
+    }
+
     override func setConstraints() {
         super.setConstraints()
         
