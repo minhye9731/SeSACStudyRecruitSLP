@@ -41,6 +41,7 @@
 		0E3474AC2944E4EE008D0889 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474AB2944E4EE008D0889 /* Word.swift */; };
 		0E3474B32947977A008D0889 /* ShopBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B22947977A008D0889 /* ShopBackgroundView.swift */; };
 		0E3474B529479E1E008D0889 /* ShopSesacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B429479E1E008D0889 /* ShopSesacView.swift */; };
+		0E3474B72947B379008D0889 /* ShopAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B62947B379008D0889 /* ShopAPIRouter.swift */; };
 		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
 		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
 		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
@@ -202,6 +203,7 @@
 		0E3474AB2944E4EE008D0889 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		0E3474B22947977A008D0889 /* ShopBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopBackgroundView.swift; sourceTree = "<group>"; };
 		0E3474B429479E1E008D0889 /* ShopSesacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSesacView.swift; sourceTree = "<group>"; };
+		0E3474B62947B379008D0889 /* ShopAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopAPIRouter.swift; sourceTree = "<group>"; };
 		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0E46E2B52928F6710058A50E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				0E1164382934B90500501EBD /* ChatAPIRouter.swift */,
 				0E03525C29394AE500D5FEE5 /* StudyAPIRouter.swift */,
 				0E03525E29394C8300D5FEE5 /* QueueAPIRouter.swift */,
+				0E3474B62947B379008D0889 /* ShopAPIRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -990,6 +993,7 @@
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
 				0E597AB62939E24A005939CB /* MyQueueStateError.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
+				0E3474B72947B379008D0889 /* ShopAPIRouter.swift in Sources */,
 				0E4F6328291D1E4B00F36167 /* GenderViewController.swift in Sources */,
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
 				0E11640429337D6100501EBD /* ReviewCollectionViewCell.swift in Sources */,
