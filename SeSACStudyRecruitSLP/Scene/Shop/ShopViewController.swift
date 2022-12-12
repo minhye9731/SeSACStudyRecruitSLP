@@ -75,7 +75,7 @@ final class ShopViewController: BaseViewController {
     
     func setDelegate() {
         tableView.delegate = self
-        vc1.collectionView.delegate = self
+        vc1.mainView.collectionView.delegate = self
         vc2.mainView.collectionView.delegate = self
     }
     
@@ -197,20 +197,17 @@ extension ShopViewController {
 // MARK: - vc1, vc2내 collectionview cell 클릭시 액션
 extension ShopViewController: UICollectionViewDelegate {
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let sesacsVC = SesacController()
         let bgItems = sesacsVC.backgrounds
+        let fcItems = sesacsVC.faces
         
-        if collectionView == vc1.collectionView {
-            print("새싹 선택!")
+        if collectionView == vc1.mainView.collectionView {
+            self.selectedFC = fcItems[indexPath.row].image
         } else {
             self.selectedBG = bgItems[indexPath.row].image
         }
-        
         tableView.reloadData()
     }
-    
-    
 }
