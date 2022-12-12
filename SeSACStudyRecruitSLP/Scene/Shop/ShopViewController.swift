@@ -62,12 +62,23 @@ final class ShopViewController: BaseViewController {
         super.configure()
         self.title = "새싹샵"
         
-        tableView.delegate = self
-
         [tableView, segmentedControl, pageViewController.view].forEach {
             view.addSubview($0)
         }
-
+        
+        setSegmentedControl()
+        setDelegate()
+    }
+    
+    func setDelegate() {
+        tableView.delegate = self
+        vc1.collectionView.delegate = self
+        vc2.mainView.collectionView.delegate = self
+    }
+    
+    override func setConstraints() {
+        super.setConstraints()
+        
         tableView.snp.makeConstraints {
             $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(tableView.snp.width).multipliedBy(0.62)
@@ -84,9 +95,9 @@ final class ShopViewController: BaseViewController {
             $0.directionalHorizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
         }
         
-        setSegmentedControl()
     }
-
+    
+    
     func setSegmentedControl() {
     self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
     self.segmentedControl.setTitleTextAttributes(
@@ -177,5 +188,21 @@ extension ShopViewController {
         print("저장하기! :)")
         
     }
+    
+}
+
+// MARK: - vc1, vc2내 collectionview cell 클릭시 액션
+extension ShopViewController: UICollectionViewDelegate {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if collectionView == vc1.collectionView {
+            print("새싹 선택!")
+        } else {
+            print("배경 선택!")
+        }
+    }
+    
     
 }
