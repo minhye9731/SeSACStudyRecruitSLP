@@ -10,9 +10,10 @@ import UIKit
 final class ShopViewController: BaseViewController {
 
     // MARK: - property
-    let preView: UIView = {
-       let view = UIView()
-        view.backgroundColor = .gray
+    let tableView: UITableView = {
+       let view = UITableView()
+        view.isScrollEnabled = false
+        view.register(CollapsibleTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CollapsibleTableViewHeader.reuseIdentifier)
         return view
     }()
     
@@ -61,17 +62,19 @@ final class ShopViewController: BaseViewController {
         super.configure()
         self.title = "새싹샵"
         
-        [preView , segmentedControl, pageViewController.view].forEach {
+        tableView.delegate = self
+        
+        [tableView, segmentedControl, pageViewController.view].forEach {
             view.addSubview($0)
         }
 
-        preView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
-            $0.height.equalTo(preView.snp.width).multipliedBy(0.5)
+        tableView.snp.makeConstraints {
+            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)//.inset(16)
+            $0.height.equalTo(tableView.snp.width).multipliedBy(0.5)
         }
         
         segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(preView.snp.bottom)
+            $0.top.equalTo(tableView.snp.bottom)
             $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(segmentedControl.snp.width).multipliedBy(0.117)
         }
@@ -104,6 +107,33 @@ final class ShopViewController: BaseViewController {
 
 }
 
+// MARK: - pageview controller
+extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
+        
+        headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue)
+        headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue)
+        headerView.nameLabel.text = ""
+        headerView.nameLabel.isHidden = true
+        headerView.askAcceptbtn.setTitle("저장하기", for: .normal)
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
+        return profileCell
+    }
+
+    
+}
+
+// MARK: - pageview controller
 extension ShopViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {

@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: scene.coordinateSpace.bounds)
         window?.windowScene = scene
                 
-        let viewController = ChattingViewController() // OnBoardingViewController() // test
+        let viewController = ShopViewController() // OnBoardingViewController() // test
         window?.rootViewController = UINavigationController(rootViewController: viewController)
 //        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
