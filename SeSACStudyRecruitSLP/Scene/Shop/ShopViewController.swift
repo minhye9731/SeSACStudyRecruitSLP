@@ -57,6 +57,9 @@ final class ShopViewController: BaseViewController {
       }
     }
     
+    var selectedBG = Constants.ImageName.bg1.rawValue
+    var selectedFC = Constants.ImageName.face1.rawValue
+    
     // MARK: - functions
     override func configure() {
         super.configure()
@@ -135,8 +138,8 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
         
         // 별도 정리
-        headerView.backgroundImage.image = UIImage(named: Constants.ImageName.bg1.rawValue)
-        headerView.sesacImage.image = UIImage(named: Constants.ImageName.face1.rawValue)
+        headerView.backgroundImage.image = UIImage(named: selectedBG)
+        headerView.sesacImage.image = UIImage(named: selectedFC)
         headerView.nameView.isHidden = true
         headerView.askAcceptbtn.setTitle("저장하기", for: .normal)
         
@@ -197,11 +200,16 @@ extension ShopViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let sesacsVC = SesacController()
+        let bgItems = sesacsVC.backgrounds
+        
         if collectionView == vc1.collectionView {
             print("새싹 선택!")
         } else {
-            print("배경 선택!")
+            self.selectedBG = bgItems[indexPath.row].image
         }
+        
+        tableView.reloadData()
     }
     
     
