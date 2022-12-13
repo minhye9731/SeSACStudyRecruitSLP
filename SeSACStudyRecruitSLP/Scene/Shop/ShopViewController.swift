@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class ShopViewController: BaseViewController {
 
@@ -59,6 +60,13 @@ final class ShopViewController: BaseViewController {
     
     var selectedBG = Constants.ImageName.bg1.rawValue
     var selectedFC = Constants.ImageName.face1.rawValue
+    
+    // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        checkShopMyInfo()
+    }
     
     // MARK: - functions
     override func configure() {
@@ -221,4 +229,82 @@ extension ShopViewController: UICollectionViewDelegate {
         }
         tableView.reloadData()
     }
+}
+
+// MARK: - checkShopMyInfo
+extension ShopViewController {
+    
+    func checkShopMyInfo() {
+        let api = ShopAPIRouter.myinfo
+        Network.share.requestShopMyInfo(router: api) {  [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status =  GeneralError(rawValue: statusCode) else { return }
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+            
+            switch status {
+            case .success:
+                self?.setShopMyInfoData(value: value)
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenShopMyInfo()
+                return
+                
+            default:
+                self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
+            }
+        }
+    }
+    
+    func refreshIDTokenShopMyInfo() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+                
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = ShopAPIRouter.myinfo
+                Network.share.requestShopMyInfo(router: api) {  [weak self] (value, statusCode, error) in
+                    
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  GeneralError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        self?.setShopMyInfoData(value: value)
+                        return
+                        
+                    default :
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
+    func setShopMyInfoData(value: LoginResponse) {
+        selectedBG = "sesac_background_\(value.background + 1)"
+        selectedFC = "sesac_face_\(value.sesac + 1)"
+        tableView.reloadData()
+        
+        vc1.mainView.sesacCollection = value.sesacCollection
+        vc2.mainView.backgroundCollection = value.backgroundCollection
+        vc1.mainView.collectionView.reloadData()
+        vc2.mainView.collectionView.reloadData()
+    }
+    
+    
 }
