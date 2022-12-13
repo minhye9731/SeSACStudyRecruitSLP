@@ -143,7 +143,7 @@ extension WriteReviewViewController {
         Network.share.requestRate(uid: otherSesacUID, rep: self.reputation, com: review ) { [weak self] (value, statusCode, error) in
 
             guard let statusCode = statusCode else { return }
-            guard let status =  RateError(rawValue: statusCode) else { return }
+            guard let status =  GeneralError(rawValue: statusCode) else { return }
             print("👁리뷰쓰기 statusCode : \(statusCode)")
             switch status {
             case .success:
@@ -184,7 +184,7 @@ extension WriteReviewViewController {
                 Network.share.requestRate(uid: self.otherSesacUID, rep: self.reputation, com: review) { [weak self] (value, statusCode, error) in
 
                     guard let statusCode = statusCode else { return }
-                    guard let status =  RateError(rawValue: statusCode) else { return }
+                    guard let status =  GeneralError(rawValue: statusCode) else { return }
                     print("👁리뷰쓰기 statusCode : \(statusCode)")
 
                     switch status {

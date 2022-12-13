@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoginError: Int, Error { // 삭제예정
+enum LoginError: Int, Error {
     case fbTokenError = 401
     case unknownUser = 406
     case serverError = 500
@@ -19,7 +19,7 @@ extension LoginError: LocalizedError {
     var errorDescription: String {
         switch self {
         case .fbTokenError:
-            return "토큰이 만료되었습니다. 전화번호 인증을 다시 해주세요."
+            return "토큰이 만료되었습니다."
         case .unknownUser:
             return "미가입된 사용자입니다. 회원가입을 진행해주세요."
         case .serverError:
