@@ -14,7 +14,7 @@ final class ShopSesacView: BaseView {
     }
     
     // MARK: - property
-    
+    var sesacCollection: [Int] = []
     var ssPriceButtonActionHandler: (() -> ())?
     
     lazy var collectionView: UICollectionView = {
@@ -34,39 +34,12 @@ final class ShopSesacView: BaseView {
     
     override func setConstraints() {
         super.setConstraints()
-        
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(safeAreaLayoutGuide)
         }
     }
     
-    func configureDataSource() {
-        
-        let faceController = SesacController()
-        
-        let cellRegistration = UICollectionView.CellRegistration<ShopSesacCollectionViewCell, SesacController.SesacItem> { (cell, indexPath, faceItem) in
-
-            cell.productImg.image = UIImage(named: faceItem.image)
-            cell.productNameLabel.text = faceItem.name
-            cell.descriptionLabel.text = faceItem.description
-            cell.priceButton.setTitle(faceItem.price, for: .normal)
-            cell.priceButton.addTarget(self, action: #selector(self.priceBtnTappedClicked), for: .touchUpInside)
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, SesacController.SesacItem>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: SesacController.SesacItem) -> UICollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-        }
-        
-        let fcItems = faceController.faces
-        var snapshot = NSDiffableDataSourceSnapshot<Section, SesacController.SesacItem>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(fcItems)
-        dataSource.apply(snapshot, animatingDifferences: false)
-    }
-    
     func createLayout() -> UICollectionViewLayout {
-        
         var bounds = UIScreen.main.bounds
         var width = bounds.size.width
 
@@ -85,6 +58,28 @@ final class ShopSesacView: BaseView {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    func configureDataSource() {
+        let faceController = SesacController()
+        
+        let cellRegistration = UICollectionView.CellRegistration<ShopSesacCollectionViewCell, SesacController.SesacItem> { (cell, indexPath, faceItem) in
+            
+            cell.setData(data: faceItem, collection: self.sesacCollection, indexPath: indexPath)
+            
+            cell.priceButton.addTarget(self, action: #selector(self.priceBtnTappedClicked), for: .touchUpInside)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, SesacController.SesacItem>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: SesacController.SesacItem) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+        let fcItems = faceController.faces
+        var snapshot = NSDiffableDataSourceSnapshot<Section, SesacController.SesacItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(fcItems)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     @objc func priceBtnTappedClicked() {

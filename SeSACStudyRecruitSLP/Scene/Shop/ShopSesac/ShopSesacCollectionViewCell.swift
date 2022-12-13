@@ -21,10 +21,10 @@ final class ShopSesacCollectionViewCell: BaseCollectionViewCell {
     }()
     let priceButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = ColorPalette.gray2
-        btn.setTitle("보유", for: .normal) // test
-        btn.setTitleColor(ColorPalette.gray7, for: .normal)
+        btn.contentEdgeInsets = UIEdgeInsets(top: 1.5, left: 6, bottom: 1.5, right: 6)
         btn.titleLabel?.font = CustomFonts.title5_M12()
+        btn.layer.cornerRadius = 10 // check
+        btn.clipsToBounds = true
         return btn
     }()
     let productNameLabel: UILabel = {
@@ -43,7 +43,6 @@ final class ShopSesacCollectionViewCell: BaseCollectionViewCell {
         label.lineBreakMode = .byCharWrapping
         return label
     }()
-    
     
     // MARK: - functions
     override func configure() {
@@ -68,7 +67,8 @@ final class ShopSesacCollectionViewCell: BaseCollectionViewCell {
         }
         
         priceButton.snp.makeConstraints {
-            $0.top.equalTo(productImg.snp.bottom).offset(8)
+            $0.centerY.equalTo(productNameLabel.snp.centerY)
+            $0.height.equalTo(20) // check
             $0.trailing.equalTo(contentView)
         }
         
@@ -76,7 +76,21 @@ final class ShopSesacCollectionViewCell: BaseCollectionViewCell {
             $0.top.equalTo(productNameLabel.snp.bottom).offset(8)
             $0.directionalHorizontalEdges.bottom.equalTo(contentView)
         }
-     
+    }
+    
+    func setData(data: SesacController.SesacItem, collection: [Int], indexPath: IndexPath) {
+        
+        productImg.image = UIImage(named: data.image)
+        productNameLabel.text = data.name
+        descriptionLabel.text = data.description
+        
+        let price = collection.contains(indexPath.row) ? "보유" : data.price
+        let bgColor = collection.contains(indexPath.row) ? ColorPalette.gray2 : ColorPalette.green
+        let textColor =  collection.contains(indexPath.row) ? ColorPalette.gray7 : .white
+        
+        priceButton.setTitle(price, for: .normal)
+        priceButton.setTitleColor(textColor, for: .normal)
+        priceButton.backgroundColor = bgColor
     }
     
 }
