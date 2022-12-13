@@ -158,8 +158,8 @@ extension MainViewController {
         let pRegion = MKCoordinateRegion(center: center, latitudinalMeters: 700, longitudinalMeters: 700)
         mainView.mapView.setRegion(pRegion, animated: true)
         
-        let zoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 6000)
-        mainView.mapView.setCameraZoomRange(zoomRange, animated: true)
+//        let zoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: 100, maxCenterCoordinateDistance: 6000)
+//        mainView.mapView.setCameraZoomRange(zoomRange, animated: true)
     }
     
     // 커스텀 어노테이션

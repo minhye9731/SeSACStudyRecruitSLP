@@ -43,7 +43,7 @@ enum ShopAPIRouter: URLRequestConvertible {
         }
     }
     
-    var parameters: [String: String?] {
+    var parameters: [String: String] {
         switch self {
         case .shopitem(let sesac, let background):
             return [
