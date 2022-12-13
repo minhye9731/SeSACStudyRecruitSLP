@@ -60,13 +60,10 @@ final class ShopViewController: BaseViewController {
     
     var selectedBG = 0
     var selectedFC = 0
-    var sesacCollection: [Int] = []
-    var backgroundCollection: [Int] = []
     
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         checkShopMyInfo()
     }
     
@@ -82,22 +79,6 @@ final class ShopViewController: BaseViewController {
         setSegmentedControl()
         setDelegate()
         setPriceButtonAction()
-    }
-    
-    func setDelegate() {
-        tableView.delegate = self
-        vc1.mainView.collectionView.delegate = self
-        vc2.mainView.collectionView.delegate = self
-    }
-    
-    func setPriceButtonAction() {
-        vc1.mainView.ssPriceButtonActionHandler = {
-            print("ssPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
-        }
-        
-        vc2.mainView.bgPriceButtonActionHandler = {
-            print("bgPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
-        }
     }
 
     override func setConstraints() {
@@ -121,7 +102,6 @@ final class ShopViewController: BaseViewController {
         
     }
     
-    
     func setSegmentedControl() {
     self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
     self.segmentedControl.setTitleTextAttributes(
@@ -134,6 +114,12 @@ final class ShopViewController: BaseViewController {
     self.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
     self.segmentedControl.selectedSegmentIndex = 0
     self.changeValue(control: self.segmentedControl)
+    }
+    
+    func setDelegate() {
+        tableView.delegate = self
+        vc1.mainView.collectionView.delegate = self
+        vc2.mainView.collectionView.delegate = self
     }
 
     @objc private func changeValue(control: UISegmentedControl) {
@@ -209,13 +195,18 @@ extension ShopViewController {
     
     // [저장하기] 버튼
     @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
-//        guard let section = sender.section else { return }
-        if !self.sesacCollection.contains(selectedFC) || !self.backgroundCollection.contains(selectedBG) {
-            
+        self.requestShopItem()
+    }
+    
+    // price 버튼
+    func setPriceButtonAction() {
+        vc1.mainView.ssPriceButtonActionHandler = {
+            print("ssPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
         }
-     
-        print("저장하기! :)")
         
+        vc2.mainView.bgPriceButtonActionHandler = {
+            print("bgPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
+        }
     }
     
 }
@@ -302,14 +293,74 @@ extension ShopViewController {
         selectedBG = value.background
         selectedFC = value.sesac
         
-        sesacCollection = value.sesacCollection
-        backgroundCollection = value.backgroundCollection
-        tableView.reloadData()
-        
         vc1.mainView.sesacCollection = value.sesacCollection
         vc2.mainView.backgroundCollection = value.backgroundCollection
+        
+        tableView.reloadData()
         vc1.mainView.collectionView.reloadData()
         vc2.mainView.collectionView.reloadData()
+    }
+}
+
+// MARK: - shop item API
+extension ShopViewController {
+    
+    func requestShopItem() {
+        let api = ShopAPIRouter.shopitem(sesac: String(selectedFC), background: String(selectedBG))
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = ShopItemError(rawValue: statusCode) else { return }
+            print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+            
+            switch status {
+            case .fbTokenError:
+                self?.refreshIDTokenShopItem()
+                return
+                
+            default:
+                self?.view.makeToast(status.shopItemErrorDescription, duration: 1.0, position: .center)
+                return
+            }
+        }
+    }
+    
+    func refreshIDTokenShopItem() {
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+                
+            } else if let idToken = idToken {
+                UserDefaultsManager.idtoken = idToken
+                
+                let api = ShopAPIRouter.shopitem(sesac: String(self.selectedFC), background: String(self.selectedBG))
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+                    
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status =  ShopItemError(rawValue: statusCode) else { return }
+                    print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
+                    
+                    switch status {
+                    case .success:
+                        self?.view.makeToast(status.shopItemErrorDescription, duration: 1.0, position: .center)
+                        return
+                        
+                    default :
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
     }
     
 }
