@@ -58,8 +58,10 @@ final class ShopViewController: BaseViewController {
       }
     }
     
-    var selectedBG = Constants.ImageName.bg1.rawValue
-    var selectedFC = Constants.ImageName.face1.rawValue
+    var selectedBG = 0
+    var selectedFC = 0
+    var sesacCollection: [Int] = []
+    var backgroundCollection: [Int] = []
     
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -157,8 +159,9 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
         
         // 별도 정리
-        headerView.backgroundImage.image = UIImage(named: selectedBG)
-        headerView.sesacImage.image = UIImage(named: selectedFC)
+        headerView.backgroundImage.image = UIImage(named: "sesac_background_\(selectedBG + 1)")
+        headerView.sesacImage.image = UIImage(named: "sesac_face_\(selectedFC + 1)")
+        
         headerView.nameView.isHidden = true
         headerView.askAcceptbtn.setTitle("저장하기", for: .normal)
         
@@ -204,8 +207,12 @@ extension ShopViewController: UIPageViewControllerDelegate {
 // MARK: - 기타 함수
 extension ShopViewController {
     
+    // [저장하기] 버튼
     @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
 //        guard let section = sender.section else { return }
+        if !self.sesacCollection.contains(selectedFC) || !self.backgroundCollection.contains(selectedBG) {
+            
+        }
      
         print("저장하기! :)")
         
@@ -217,21 +224,17 @@ extension ShopViewController {
 extension ShopViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let sesacsVC = SesacController()
-        let bgItems = sesacsVC.backgrounds
-        let fcItems = sesacsVC.faces
-        
+
         if collectionView == vc1.mainView.collectionView {
-            self.selectedFC = fcItems[indexPath.row].image
+            self.selectedFC = indexPath.row
         } else {
-            self.selectedBG = bgItems[indexPath.row].image
+            self.selectedBG = indexPath.row
         }
         tableView.reloadData()
     }
 }
 
-// MARK: - checkShopMyInfo
+// MARK: - checkShopMyInfo API
 extension ShopViewController {
     
     func checkShopMyInfo() {
@@ -296,8 +299,11 @@ extension ShopViewController {
     }
     
     func setShopMyInfoData(value: LoginResponse) {
-        selectedBG = "sesac_background_\(value.background + 1)"
-        selectedFC = "sesac_face_\(value.sesac + 1)"
+        selectedBG = value.background
+        selectedFC = value.sesac
+        
+        sesacCollection = value.sesacCollection
+        backgroundCollection = value.backgroundCollection
         tableView.reloadData()
         
         vc1.mainView.sesacCollection = value.sesacCollection
@@ -305,6 +311,5 @@ extension ShopViewController {
         vc1.mainView.collectionView.reloadData()
         vc2.mainView.collectionView.reloadData()
     }
-    
     
 }
