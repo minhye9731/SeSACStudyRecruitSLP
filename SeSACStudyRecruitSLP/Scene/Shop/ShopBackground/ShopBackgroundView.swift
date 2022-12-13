@@ -14,7 +14,7 @@ final class ShopBackgroundView: BaseView {
     }
     
     // MARK: - property
-    
+    var backgroundCollection: [Int] = []
     var bgPriceButtonActionHandler: (() -> ())?
     
     lazy var collectionView: UICollectionView = {
@@ -62,15 +62,12 @@ final class ShopBackgroundView: BaseView {
     }
     
     func configureDataSource() {
-        
         let backgroundController = SesacController()
         
         let cellRegistration = UICollectionView.CellRegistration<ShopBackgroundCollectionViewCell, SesacController.SesacItem> { (cell, indexPath, bgItem) in
+
+            cell.setData(data: bgItem, collection: self.backgroundCollection, indexPath: indexPath)
             
-            cell.productImg.image = UIImage(named: bgItem.image)
-            cell.productNameLabel.text = bgItem.name
-            cell.descriptionLabel.text = bgItem.description
-            cell.priceButton.setTitle(bgItem.price, for: .normal)
             cell.priceButton.addTarget(self, action: #selector(self.priceBtnTappedClicked), for: .touchUpInside)
         }
         

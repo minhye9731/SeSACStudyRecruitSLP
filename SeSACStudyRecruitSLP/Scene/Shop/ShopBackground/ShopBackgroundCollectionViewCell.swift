@@ -9,6 +9,7 @@ import UIKit
 
 final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
     
+    // MARK: - property
     let productImg: UIImageView = {
        let image = UIImageView()
         image.layer.cornerRadius = 8
@@ -25,10 +26,10 @@ final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
     }()
     let priceButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = ColorPalette.gray2
-        btn.setTitle("보유", for: .normal) // test
-        btn.setTitleColor(ColorPalette.gray7, for: .normal)
+        btn.contentEdgeInsets = UIEdgeInsets(top: 1.5, left: 6, bottom: 1.5, right: 6)
         btn.titleLabel?.font = CustomFonts.title5_M12()
+        btn.layer.cornerRadius = 10 // check
+        btn.clipsToBounds = true
         return btn
     }()
     let productNameLabel: UILabel = {
@@ -47,6 +48,7 @@ final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
     
+    // MARK: - functions
     override func configure() {
         super.configure()
         [productImg, infoView].forEach {
@@ -55,7 +57,6 @@ final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
         [priceButton, productNameLabel, descriptionLabel].forEach {
             infoView.addSubview($0)
         }
-        priceButton.layer.cornerRadius = priceButton.frame.height / 2.0
     }
     
     override func setConstraints() {
@@ -84,6 +85,21 @@ final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
             $0.top.equalTo(productNameLabel.snp.bottom).offset(8)
             $0.leading.bottom.trailing.equalTo(infoView)
         }
+    }
+    
+    func setData(data: SesacController.SesacItem, collection: [Int], indexPath: IndexPath) {
+        
+        productImg.image = UIImage(named: data.image)
+        productNameLabel.text = data.name
+        descriptionLabel.text = data.description
+        
+        let price = collection.contains(indexPath.row) ? "보유" : data.price
+        let bgColor = collection.contains(indexPath.row) ? ColorPalette.gray2 : ColorPalette.green
+        let textColor =  collection.contains(indexPath.row) ? ColorPalette.gray7 : .white
+        
+        priceButton.setTitle(price, for: .normal)
+        priceButton.setTitleColor(textColor, for: .normal)
+        priceButton.backgroundColor = bgColor
     }
     
 }
