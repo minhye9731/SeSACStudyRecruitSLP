@@ -43,6 +43,7 @@
 		0E3474B529479E1E008D0889 /* ShopSesacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B429479E1E008D0889 /* ShopSesacView.swift */; };
 		0E3474B72947B379008D0889 /* ShopAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3474B62947B379008D0889 /* ShopAPIRouter.swift */; };
 		0E3E0D432948EAB200130D70 /* ShopItemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3E0D422948EAB200130D70 /* ShopItemError.swift */; };
+		0E3E0D452948FBA000130D70 /* ShopIosError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3E0D442948FB9F00130D70 /* ShopIosError.swift */; };
 		0E46E2AF29288C390058A50E /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2AE29288C390058A50E /* SearchResultViewController.swift */; };
 		0E46E2B229288D3B0058A50E /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 0E46E2B129288D3B0058A50E /* Tabman */; };
 		0E46E2B429288F3C0058A50E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E46E2B329288F3C0058A50E /* ListViewController.swift */; };
@@ -206,6 +207,7 @@
 		0E3474B429479E1E008D0889 /* ShopSesacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopSesacView.swift; sourceTree = "<group>"; };
 		0E3474B62947B379008D0889 /* ShopAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopAPIRouter.swift; sourceTree = "<group>"; };
 		0E3E0D422948EAB200130D70 /* ShopItemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopItemError.swift; sourceTree = "<group>"; };
+		0E3E0D442948FB9F00130D70 /* ShopIosError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopIosError.swift; sourceTree = "<group>"; };
 		0E46E2AE29288C390058A50E /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E46E2B329288F3C0058A50E /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0E46E2B52928F6710058A50E /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 				0E597AB52939E24A005939CB /* MyQueueStateError.swift */,
 				0E597ABF293A2562005939CB /* QueueDeleteError.swift */,
 				0E3E0D422948EAB200130D70 /* ShopItemError.swift */,
+				0E3E0D442948FB9F00130D70 /* ShopIosError.swift */,
 				0E3474A92944E135008D0889 /* GeneralError.swift */,
 				0E597AB72939EE61005939CB /* TotalError.swift */,
 			);
@@ -966,6 +969,7 @@
 				0EA574BF292CE7D80064599F /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				0E3474AC2944E4EE008D0889 /* Word.swift in Sources */,
 				0EA574C3292D1E680064599F /* MyTagCell.swift in Sources */,
+				0E3E0D452948FBA000130D70 /* ShopIosError.swift in Sources */,
 				0E03525F29394C8300D5FEE5 /* QueueAPIRouter.swift in Sources */,
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0EA6AA0129216BDC00F71EC6 /* FriendViewController.swift in Sources */,

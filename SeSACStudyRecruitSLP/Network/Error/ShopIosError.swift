@@ -1,5 +1,5 @@
 //
-//  ShopItemError.swift
+//  ShopIosError.swift
 //  SeSACStudyRecruitSLP
 //
 //  Created by 강민혜 on 12/14/22.
@@ -7,23 +7,23 @@
 
 import Foundation
 
-enum ShopItemError: Int, Error {
+enum ShopIosError: Int, Error {
     case success = 200
-    case noPossessionRequest = 201
+    case failReceiptCheck = 201
     case fbTokenError = 401
     case unknownUser = 406
     case serverError = 500
     case clientError = 501
 }
 
-extension ShopItemError: LocalizedError {
+extension ShopIosError: LocalizedError {
     
-    var shopItemErrorDescription: String {
+    var shopIosErrorDescription: String {
         switch self {
         case .success:
-            return "성공적으로 저장되었습니다"
-        case .noPossessionRequest:
-            return "구매가 필요한 아이템이 있어요"
+            return "아이템 구매가 완료되었습니다"
+        case .failReceiptCheck:
+            return "아이템 구매에 실패했습니다."
         case .fbTokenError:
             return "토큰이 만료되었습니다."
         case .unknownUser:
