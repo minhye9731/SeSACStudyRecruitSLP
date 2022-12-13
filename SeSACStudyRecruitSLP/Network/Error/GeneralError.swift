@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RateError: Int, Error {
+enum GeneralError: Int, Error {
     case success = 200
     case fbTokenError = 401
     case unknownUser = 406
@@ -15,12 +15,12 @@ enum RateError: Int, Error {
     case clientError = 501
 }
 
-extension RateError: LocalizedError {
+extension GeneralError: LocalizedError {
     
     var errorDescription: String {
         switch self {
         case .success:
-            return "리뷰쓰기 성공"
+            return "성공"
         case .fbTokenError:
             return "토큰이 만료되었습니다. 전화번호 인증을 다시 해주세요."
         case .unknownUser:
