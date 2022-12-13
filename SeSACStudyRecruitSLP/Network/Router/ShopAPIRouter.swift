@@ -12,6 +12,7 @@ enum ShopAPIRouter: URLRequestConvertible {
 
     case myinfo
     case shopitem(sesac: String, background: String)
+    case ios(receipt: String, product: String)
     
     var baseURL: URL {
         return URL(string: "http://api.sesac.co.kr:1210")!
@@ -21,7 +22,7 @@ enum ShopAPIRouter: URLRequestConvertible {
         switch self {
         case .myinfo:
             return .get
-        case .shopitem:
+        case .shopitem, .ios:
             return .post
         }
     }
@@ -32,12 +33,14 @@ enum ShopAPIRouter: URLRequestConvertible {
             return "/v1/user/shop/myinfo"
         case .shopitem:
             return "/v1/user/shop/item"
+        case .ios:
+            return "/v1/user/shop/ios"
         }
     }
     
     var headers: HTTPHeaders {
         switch self {
-        case .myinfo, .shopitem:
+        case .myinfo, .shopitem, .ios:
             return [ "idtoken": UserDefaultsManager.idtoken,
                      "Content-Type": "application/x-www-form-urlencoded" ]
         }
@@ -49,6 +52,11 @@ enum ShopAPIRouter: URLRequestConvertible {
             return [
                 "sesac": sesac,
                 "background": background
+            ]
+        case .ios(let receipt, let product):
+            return [
+                "receipt": receipt,
+                "product": product
             ]
         default: return ["":""]
         }
