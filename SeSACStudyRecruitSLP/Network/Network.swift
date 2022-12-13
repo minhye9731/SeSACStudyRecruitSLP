@@ -131,38 +131,6 @@ final class Network {
         }
     }
     
-    func requestRate(uid: String, rep: [String], com: String, completion: @escaping (String?, Int?, Error?) -> Void) {
-        
-        let url = "http://api.sesac.co.kr:1210" + "/v1/queue/rate/\(uid)"
-        
-        let header: HTTPHeaders = [
-            "idtoken": UserDefaultsManager.idtoken,
-            "Content-Type": "application/x-www-form-urlencoded"
-        ]
-        
-        let parameter: [String : Any] = [
-            "otheruid": uid,
-            "reputation": rep,
-            "comment": com
-        ]
-        
-        let enc: ParameterEncoding = URLEncoding(arrayEncoding: .noBrackets)
-        
-        AF.request(url, method: .post, parameters: parameter, encoding: enc, headers: header).responseString { response in
-            
-            guard let statusCode = response.response?.statusCode else { return }
-            
-            switch response.result {
-            case .success(let data):
-                completion(data, statusCode, nil)
-                
-            case .failure(let error):
-                completion(nil, statusCode, error)
-            }
-        }
-    }
-    
-    
     // my queue state
     func requestMyQueueState(router: QueueAPIRouter, completion: @escaping (MyQueueStateResponse?, Int?, Error?) -> Void) {
         
@@ -214,6 +182,7 @@ final class Network {
         }
     }
     
+    // 채팅 취소하기
     func requestCancelStudy(router: StudyAPIRouter, completion: @escaping (String?, Int?, Error?) -> Void) {
         
         AF.request(router).responseString { response in
@@ -229,4 +198,54 @@ final class Network {
             }
         }
     }
+    
+    // 리뷰 쓰기
+    func requestRate(uid: String, rep: [String], com: String, completion: @escaping (String?, Int?, Error?) -> Void) {
+        
+        let url = "http://api.sesac.co.kr:1210" + "/v1/queue/rate/\(uid)"
+        
+        let header: HTTPHeaders = [
+            "idtoken": UserDefaultsManager.idtoken,
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        
+        let parameter: [String : Any] = [
+            "otheruid": uid,
+            "reputation": rep,
+            "comment": com
+        ]
+        
+        let enc: ParameterEncoding = URLEncoding(arrayEncoding: .noBrackets)
+        
+        AF.request(url, method: .post, parameters: parameter, encoding: enc, headers: header).responseString { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
+    // 새싹샵 내정보 요청
+    func requestShopMyInfo(router: ShopAPIRouter, completion: @escaping (LoginResponse?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseDecodable(of: LoginResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
 }
