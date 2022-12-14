@@ -34,7 +34,25 @@ final class Network {
         }
     }
     
-    // signup(post), 내정보 update(put), delete(delete), requestStudy(post), acceptStudy(post)
+    // login(수정 후)
+    func requestUserLogin(router: APIRouter, completion: @escaping (LoginResponse?, Int?, Error?) -> Void) {
+        
+        AF.request(router).responseDecodable(of: LoginResponse.self) { response in
+            
+            guard let statusCode = response.response?.statusCode else { return }
+            
+            switch response.result {
+            case .success(let data):
+                completion(data, statusCode, nil)
+                
+            case .failure(let error):
+                completion(nil, statusCode, error)
+            }
+        }
+    }
+    
+    
+    // 내정보 update(put), delete(delete), requestStudy(post), acceptStudy(post)
     func requestForResponseString(router: APIRouter, completion: @escaping (Result<String, Error>) -> Void) {
         
         AF.request(router).validate(statusCode: 200...500).responseString { response in
