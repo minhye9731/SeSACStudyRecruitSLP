@@ -235,6 +235,7 @@ extension ChattingViewController {
                 self?.chat.append(value) // 화면표기용 (chat에 추가)
                 ChatRepository.standard.plusChat(item: valueForRealm) // DB에 저장
                 
+                self?.mainView.chatTextView.text = ""
                 self?.mainView.tableView.reloadData()
                 self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
                 return
@@ -246,6 +247,7 @@ extension ChattingViewController {
             case .fbTokenError:
                 print("토큰에러")
                 return
+                
             default : return print("에러당~~~~")
             }
         }
