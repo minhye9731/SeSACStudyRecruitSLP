@@ -26,6 +26,10 @@ final class OnBoardingViewController: BaseViewController {
         return button
     }()
     
+    deinit {
+        print("🎬🎬🎬OnBoardingViewController deinit🎬🎬🎬")
+    }
+    
     // MARK: - functions
     override func configure() {
         super.configure()
@@ -77,20 +81,13 @@ final class OnBoardingViewController: BaseViewController {
     }
     
     @objc func startButtonTapped() {
-//        let vc = PhoneNumberViewController()
-//        let navigationVC = UINavigationController(rootViewController: vc)
-//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-//        guard let delegate = sceneDelegate else {
-//            print("알 수 없는 에러 발생 laert표기")
-//            return
-//        }
-//        delegate.window?.rootViewController = navigationVC
-        
-        changeRootVC(vc: PhoneNumberViewController())
+        UserDefaultsManager.firstRun = false
+        print(UserDefaultsManager.firstRun)
+        changeRootNavVC(vc: PhoneNumberViewController())
     }
-    
 }
 
+// MARK: - PageView 구성
 extension OnBoardingViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -116,7 +113,4 @@ extension OnBoardingViewController: UIPageViewControllerDataSource, UIPageViewCo
         guard let first = pageViewController.viewControllers?.first, let index = pageViewControllerList.firstIndex(of: first) else { return 0 }
         return index
     }
-    
-    
-    
 }
