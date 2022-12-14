@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,11 +8,6 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Dongle-Regular.ttf">
-            <string>Dongle-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -21,33 +16,8 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xgD-k6-jUk">
-                                <rect key="frame" x="86.666666666666686" y="230" width="220" height="264"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="264" id="0gJ-kV-jU6"/>
-                                    <constraint firstAttribute="width" constant="220" id="NDZ-XI-8Md"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SeSAC Study" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vmj-dl-0Qs">
-                                <rect key="frame" x="32.666666666666657" y="523.66666666666663" width="328" height="112"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="328" id="iqM-hE-TZP"/>
-                                    <constraint firstAttribute="height" constant="112" id="q4k-rr-vfU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Dongle-Regular" family="Dongle" pointSize="60"/>
-                                <color key="textColor" red="0.28627450980392155" green="0.86274509803921573" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="vmj-dl-0Qs" firstAttribute="top" secondItem="xgD-k6-jUk" secondAttribute="bottom" constant="29.440000000000001" id="2aX-AD-jiP"/>
-                            <constraint firstItem="xgD-k6-jUk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.85" id="4XE-9B-wWt"/>
-                            <constraint firstItem="vmj-dl-0Qs" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="XEW-ug-Mgu"/>
-                            <constraint firstItem="xgD-k6-jUk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="l1x-t3-ZIJ"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -56,7 +26,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splash_logo" width="220" height="264"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
