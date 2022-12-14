@@ -241,19 +241,18 @@ final class ProfileCell: BaseTableViewCell {
     func setSesacData(data: [FromQueueDB], section: Int) {
         print("화면에 보여줄 검색된 새싹정보 : \(data)")
         
-        var reputationList = data[section].reputation
-        var reviewList = data[section].reviews
-        var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
+        let reputationList = data[section].reputation
+        let reviewList = data[section].reviews
+        let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
         
         for i in 0...5 {
-            if reputationList[i] != 0 {
-                btnGroup[i].configuration?.baseBackgroundColor = ColorPalette.green
-                btnGroup[i].configuration?.background.strokeColor = ColorPalette.green
-                btnGroup[i].configuration?.attributedTitle?.foregroundColor = .white
-            }
-            btnGroup[i].configuration?.baseBackgroundColor = .white
-            btnGroup[i].configuration?.background.strokeColor = ColorPalette.gray4
-            btnGroup[i].configuration?.attributedTitle?.foregroundColor = .black
+            let bgClr: UIColor = reputationList[i] == 0 ? .white : ColorPalette.green
+            let brClr: UIColor = reputationList[i] == 0 ? ColorPalette.gray4 : ColorPalette.green
+            let txClr: UIColor = reputationList[i] == 0 ? .black : .white
+            
+            btnGroup[i].configuration?.baseBackgroundColor = bgClr
+            btnGroup[i].configuration?.background.strokeColor = brClr
+            btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
         }
         
         let study = data[section].studylist.isEmpty ? "아무거나" : data[section].studylist[0]
