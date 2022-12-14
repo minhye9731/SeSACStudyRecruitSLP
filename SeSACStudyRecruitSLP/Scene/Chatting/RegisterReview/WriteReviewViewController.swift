@@ -138,7 +138,6 @@ extension WriteReviewViewController {
         print(reputation)
         
         guard let review = mainView.reviewTextView.text == Constants.Word.reviewPlaceholder.rawValue ? "" : mainView.reviewTextView.text else { return }
-        print(review)
         
         Network.share.requestRate(uid: otherSesacUID, rep: self.reputation, com: review ) { [weak self] (value, statusCode, error) in
 
@@ -147,16 +146,15 @@ extension WriteReviewViewController {
             print("👁리뷰쓰기 statusCode : \(statusCode)")
             switch status {
             case .success:
-                print("홈 화면으로 이동")
-                guard let presentingViewController = self?.presentingViewController as? UINavigationController else { return }
-
-                self?.dismiss(animated: true, completion: {
-                    presentingViewController.popToRootViewController(animated: true)
-                })
+                print("👁작성한 리뷰 = \(review)")
+                let vc = TabBarController()
+                self?.changeRootVC(vc: vc)
+                return
                 
             case .fbTokenError:
                 self?.refreshIDTokenRate()
                 return
+                
             default :
                 self?.mainView.makeToast(status.errorDescription, duration: 1.0, position: .center)
                 return
@@ -190,11 +188,9 @@ extension WriteReviewViewController {
                     switch status {
                     case .success:
                         print("홈 화면으로 이동")
-                        guard let presentingViewController = self?.presentingViewController as? UINavigationController else { return }
-
-                        self?.dismiss(animated: true, completion: {
-                            presentingViewController.popToRootViewController(animated: true)
-                        })
+                        let vc = TabBarController()
+                        self?.changeRootVC(vc: vc)
+                        return
                         
                     default :
                         self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
