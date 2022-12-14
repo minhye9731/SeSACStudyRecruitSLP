@@ -8,6 +8,7 @@
 import Foundation
 
 enum LoginError: Int, Error {
+    case success = 200
     case fbTokenError = 401
     case unknownUser = 406
     case serverError = 500
@@ -16,8 +17,10 @@ enum LoginError: Int, Error {
 
 extension LoginError: LocalizedError {
     
-    var errorDescription: String {
+    var loginErrorDescription: String {
         switch self {
+        case .success:
+            return "로그인이 완료되었습니다."
         case .fbTokenError:
             return "토큰이 만료되었습니다."
         case .unknownUser:

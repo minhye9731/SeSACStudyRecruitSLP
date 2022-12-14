@@ -20,7 +20,7 @@ enum StudyAcceptError: Int, Error {
 
 extension StudyAcceptError: LocalizedError {
     
-    var errorDescription: String? {
+    var studyAccepterrorDescription: String {
         switch self {
         case .success:
             return "스터디 수락 성공"

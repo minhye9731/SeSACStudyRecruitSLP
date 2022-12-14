@@ -19,14 +19,14 @@ enum StudyRequestError: Int, Error {
 
 extension StudyRequestError: LocalizedError {
     
-    var errorDescription: String? {
+    var studyRequestErrorDescription: String? {
         switch self {
         case .success:
-            return "탈퇴 성공"
+            return "스터디 요청을 보냈습니다"
         case .alreadyRequest:
-            return "" // check
+            return "상대방도 스터디를 요청하여 매칭되었습니다. 잠시 후 채팅방으로 이동합니다"
         case .otherSesacStopped:
-            return "" // check
+            return "상대방이 스터디 찾기를 그만두었습니다"
         case .fbTokenError:
             return "토큰이 만료되었습니다."
         case .unknownUser:

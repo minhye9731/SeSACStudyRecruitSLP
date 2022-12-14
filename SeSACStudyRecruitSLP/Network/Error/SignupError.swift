@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SignupError: Int, Error { // 그냥 에러로 통합하자.
+enum SignupError: Int, Error {
     case success = 200
     case existUser = 201
     case invalidNickname = 202
@@ -22,12 +22,12 @@ enum SignupError: Int, Error { // 그냥 에러로 통합하자.
 
 extension SignupError: LocalizedError {
     
-    var errorDescription: String? {
+    var signupErrorDescription: String? {
         switch self {
         case .success:
-            return "로그인 성공"
+            return "회원가입 성공"
         case .existUser:
-            return "이미 가입된 사용자 정보입니다. 로그인 해주세요."
+            return "이미 가입된 사용자 정보입니다."
         case .invalidNickname:
             return "사용할 수 없는 닉네임입니다. 닉네임 변경 후 다시 회원가입 요청해주세요."
         case .cancelPenalty1:
