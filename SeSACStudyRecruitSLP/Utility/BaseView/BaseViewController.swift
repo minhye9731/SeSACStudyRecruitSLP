@@ -39,7 +39,7 @@ class BaseViewController: UIViewController {
         label.attributedText = attributeLabelStr
     }
     
-    func changeRootVC(vc : UIViewController) {
+    func changeRootNavVC(vc : UIViewController) {
         let navigationVC = UINavigationController(rootViewController: vc)
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         guard let delegate = sceneDelegate else {
@@ -47,6 +47,15 @@ class BaseViewController: UIViewController {
             return
         }
         delegate.window?.rootViewController = navigationVC
+    }
+    
+    func changeRootVC(vc : UIViewController) {
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        guard let delegate = sceneDelegate else {
+            showAlertMessage(title: "알 수 없는 에러 발생!")
+            return
+        }
+        delegate.window?.rootViewController = vc
     }
     
 }
