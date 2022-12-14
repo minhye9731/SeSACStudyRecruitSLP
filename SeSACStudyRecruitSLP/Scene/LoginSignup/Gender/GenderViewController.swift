@@ -80,48 +80,47 @@ final class GenderViewController: BaseViewController {
             email: UserDefaultsManager.emailSU,
             gender: UserDefaultsManager.genderSU
         )
+        print("회원가입 api = \(api)")
         
-        Network.share.requestForResponseString(router: api) { [weak self] response in
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
-            switch response {
-            case .success(let success):
-                print("===회원가입 성공! (홈 화면으로 전환)====")
-                print("회원가입 요청 바디 : \(api)")
+            guard let statusCode = statusCode else { return }
+            guard let status = SignupError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                UserDefaultsManager.nick = UserDefaultsManager.nickNameSU // 삭제예정
+                UserDefaultsManager.background = UserDefaultsManager.background // 삭제예정
                 
-                self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center) { didTap in
                     let vc = TabBarController()
                     self?.changeRootVC(vc: vc)
                 }
+                return
                 
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = SignupError(rawValue: code) else { return }
-                print("failure // code = \(code), errorCode = \(errorCode)")
-                
-                switch errorCode {
-                case .existUser:
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        let vc = PhoneNumberViewController()
-                        self?.changeRootVC(vc: vc)
-                    }
-                case .invalidNickname:
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        let vc = NickNameViewController() // 이거말고 뷰컨기준 3개 뒤로가기 하자
-                        self?.changeRootVC(vc: vc) // 이거말고 뷰컨기준 3개 뒤로가기 하자
-                    }
-                case .fbTokenError:
-                    self?.refreshIDToken()
-                default :
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
+            case .existUser:
+                self?.mainView.makeToast(status.signupErrorDescription, duration: 0.5, position: .center) { didTap in
+                    let vc = PhoneNumberViewController()
+                    self?.changeRootNavVC(vc: vc)
                 }
+                return
+
+            case .invalidNickname:
+                self?.mainView.makeToast(status.signupErrorDescription, duration: 0.5, position: .center) { didTap in
+                    self?.navigationController?.popViewControllers(3)
+                }
+                return
+
+            case .fbTokenError:
+                self?.refreshIDToken()
+                return
+                
+            default :
+                self?.mainView.makeToast(status.signupErrorDescription, duration: 1.0, position: .center)
+                return
             }
         }
     }
-    
     
     func refreshIDToken() {
         let currentUser = Auth.auth().currentUser
@@ -147,45 +146,44 @@ final class GenderViewController: BaseViewController {
                     gender: UserDefaultsManager.genderSU
                 )
                 
-                Network.share.requestForResponseString(router: api) { [weak self] response in
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success(let success):
-                        print("===회원가입 성공! (홈 화면으로 전환)====")
-                        print("회원가입 요청 바디 : \(api)")
+                    guard let statusCode = statusCode else { return }
+                    guard let status = SignupError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        UserDefaultsManager.nick = UserDefaultsManager.nickNameSU // 삭제예정
+                        UserDefaultsManager.background = UserDefaultsManager.background // 삭제예정
                         
-                        self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center) { didTap in
                             let vc = TabBarController()
                             self?.changeRootVC(vc: vc)
                         }
                         return
                         
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = SignupError(rawValue: code) else { return }
-                        switch errorCode {
-                        case .existUser:
-                            self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                let vc = PhoneNumberViewController()
-                                self?.changeRootVC(vc: vc)
-                            }
-                            return
-                        case .invalidNickname:
-                            self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                let vc = NickNameViewController()
-                                self?.changeRootVC(vc: vc)
-                            }
-                            return
-                        default:
-                            self?.showAlertMessage(title: "서버에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)")
-                            return
+                    case .existUser:
+                        self?.mainView.makeToast(status.signupErrorDescription, duration: 0.5, position: .center) { didTap in
+                            let vc = PhoneNumberViewController()
+                            self?.changeRootNavVC(vc: vc)
                         }
+                        return
+
+                    case .invalidNickname:
+                        self?.mainView.makeToast(status.signupErrorDescription, duration: 0.5, position: .center) { didTap in
+                            self?.navigationController?.popViewControllers(3)
+                        }
+                        return
+
+                    default :
+                        self?.mainView.makeToast(status.signupErrorDescription, duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
         }
     }
+    
+    
+    
 }
