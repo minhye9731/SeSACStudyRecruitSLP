@@ -32,14 +32,11 @@ final class MainViewController: BaseViewController {
     
     // MARK: - Lifecycle
     override func loadView()  {
-        super.loadView()
-        print(#function)
         self.view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         print("idtoken \(UserDefaultsManager.idtoken)")
     }
     

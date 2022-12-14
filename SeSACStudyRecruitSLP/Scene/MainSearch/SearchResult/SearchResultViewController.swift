@@ -131,14 +131,17 @@ extension SearchResultViewController {
                 print("👽찾기중단 성공@@")
                 self?.backTwoPop()
                 return
+                
             case .alreayMatched:
                 self?.view.makeToast("누군가와 스터디를 함께하기로 약속하셨어요!", duration: 1.0, position: .center) { didTap in
                     self?.myQueueState()
                 }
                 return
+                
             case .fbTokenError:
                 self?.refreshIDTokenDelete()
                 return
+                
             default:
                 self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
                 return

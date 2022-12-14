@@ -68,6 +68,8 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
+        
+        // 코드정리
         headerView.setCollapsed(isExpandedList[section])
         headerView.section = section
         
@@ -89,6 +91,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
         
+        // 코드정리
         profileCell.selectionStyle = .none
         
         profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
@@ -112,7 +115,7 @@ extension ListViewController {
         vc.otheruid = pageboyPageIndex == 0 ? aroundSesacList[section].uid : receivedSesacList[section].uid
         
         vc.matchingMode = .standby
-//        print("🥶내가 요청을 보내거나/받은 새싹 = \(aroundSesacList[section].nick)")
+        print("🥶내가 요청을 보내거나/받은 새싹 = \(vc.otheruid)")
         transition(vc, transitionStyle: .presentOverFullScreen)
     }
     

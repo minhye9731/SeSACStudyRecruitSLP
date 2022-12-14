@@ -9,7 +9,6 @@ import UIKit
 import FirebaseAuth
 import RxSwift
 import RxCocoa
-import Toast
 
 final class VerifyNumberViewController: BaseViewController {
     
@@ -96,41 +95,40 @@ final class VerifyNumberViewController: BaseViewController {
     
     func login() {
         let api = APIRouter.login
-        Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+        Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
             
-            switch response {
-            case .success(let loginData):
-                self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    let vc = TabBarController()
-                    UserDefaultsManager.nick = loginData.nick
-                    UserDefaultsManager.background = loginData.background
-                    print("배경이미지 번호 : \(UserDefaultsManager.background)")
-                    self?.changeRootVC(vc: vc)
-                }
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = LoginError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                UserDefaultsManager.nick = value.nick // 삭제예정
+                UserDefaultsManager.background = value.background // 삭제예정
                 
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = LoginError(rawValue: code) else { return }
-                print("failure // code = \(code), errorCode = \(errorCode)")
+                self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center, completion: { didTap in
+                    self?.changeRootVC(vc: TabBarController())
+                })
+                return
                 
-                switch errorCode {
-                case .unknownUser:
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 0.5, position: .center)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        let vc = NickNameViewController()
-                        self?.changeRootVC(vc: vc)
-                    }
-                case .fbTokenError:
-                    self?.refreshIDToken()
-                default :
-                    self?.mainView.makeToast(errorCode.errorDescription, duration: 1.0, position: .center)
-                }
+            case .unknownUser:
+                self?.mainView.makeToast(status.loginErrorDescription, duration: 0.5, position: .center, completion: { didTap in
+                    let vc = NickNameViewController()
+                    self?.transition(vc, transitionStyle: .push)
+                })
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDToken()
+                return
+                
+            default :
+                self?.mainView.makeToast(status.loginErrorDescription, duration: 1.0, position: .center)
+                return
             }
         }
     }
-    
-    
+
     func refreshIDToken() {
         let currentUser = Auth.auth().currentUser
         currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
@@ -147,27 +145,37 @@ final class VerifyNumberViewController: BaseViewController {
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
                 let api = APIRouter.login
-                Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
+                Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
                     
-                    switch response {
-                    case .success(let loginData):
-                        let vc = TabBarController()
-                        UserDefaultsManager.nick = loginData.nick
-                        UserDefaultsManager.background = loginData.background
-                        self?.changeRootVC(vc: vc)
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        case .unknownUser:
-                            self?.changeRootVC(vc: NickNameViewController())
-                        default:
-                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                        }
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = LoginError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        UserDefaultsManager.nick = value.nick // 삭제예정
+                        UserDefaultsManager.background = value.background // 삭제예정
+                        
+                        self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center, completion: { didTap in
+                            self?.changeRootVC(vc: TabBarController())
+                        })
+                        return
+                        
+                    case .unknownUser:
+                        self?.mainView.makeToast(status.loginErrorDescription, duration: 0.5, position: .center, completion: { didTap in
+                            let vc = NickNameViewController()
+                            self?.transition(vc, transitionStyle: .push)
+                        })
+                        return
+                        
+                    default :
+                        self?.mainView.makeToast(status.loginErrorDescription, duration: 1.0, position: .center)
+                        return
                     }
                 }
             }
         }
-    } 
+    }
+    
 }
     

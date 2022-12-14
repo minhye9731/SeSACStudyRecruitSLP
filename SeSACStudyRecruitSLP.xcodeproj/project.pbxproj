@@ -30,7 +30,6 @@
 		0E1164A02936635500501EBD /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11649F2936635500501EBD /* UINavigationController+Extension.swift */; };
 		0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E72918D63E0040BD85 /* AppDelegate.swift */; };
 		0E1410EA2918D63E0040BD85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1410E92918D63E0040BD85 /* SceneDelegate.swift */; };
-		0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410ED2918D63E0040BD85 /* Main.storyboard */; };
 		0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F02918D6400040BD85 /* Assets.xcassets */; };
 		0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */; };
 		0E1411052918DD9A0040BD85 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1411042918DD9A0040BD85 /* ColorPalette.swift */; };
@@ -161,6 +160,8 @@
 		0EA6AA0329216C2200F71EC6 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */; };
 		0EA6AA0629216FA800F71EC6 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0EA6AA0529216FA800F71EC6 /* IQKeyboardManagerSwift */; };
 		0EA6AA082921757F00F71EC6 /* InfoManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */; };
+		0ECBB478294979B300C1A381 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB477294979B300C1A381 /* LaunchScreenView.swift */; };
+		0ECBB47D2949DF8400C1A381 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECBB47C2949DF8400C1A381 /* UIApplication+Extension.swift */; };
 		0EF3751029261E4E0074FC64 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3750F29261E4E0074FC64 /* PopUpViewController.swift */; };
 		0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF37511292655200074FC64 /* LaunchScreenViewController.swift */; };
 		0EF3751429268E310074FC64 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */; };
@@ -193,7 +194,6 @@
 		0E1410E42918D63E0040BD85 /* SeSACStudyRecruitSLP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACStudyRecruitSLP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1410E72918D63E0040BD85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1410E92918D63E0040BD85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0E1410EE2918D63E0040BD85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0E1410F02918D6400040BD85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E1410F32918D6400040BD85 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E1410F52918D6400040BD85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -310,6 +310,8 @@
 		0EA6AA0029216BDC00F71EC6 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		0EA6AA0229216C2200F71EC6 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		0EA6AA072921757F00F71EC6 /* InfoManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewController.swift; sourceTree = "<group>"; };
+		0ECBB477294979B300C1A381 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		0ECBB47C2949DF8400C1A381 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		0EF3750F29261E4E0074FC64 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		0EF37511292655200074FC64 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -466,7 +468,6 @@
 				0E1410E72918D63E0040BD85 /* AppDelegate.swift */,
 				0E1410E92918D63E0040BD85 /* SceneDelegate.swift */,
 				0EA6A9F82921625B00F71EC6 /* TabBarController.swift */,
-				0E1410ED2918D63E0040BD85 /* Main.storyboard */,
 				0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */,
 				0E5095BC291A3F390038B429 /* NotoSansCJKkr-Medium.otf */,
 				0E5095BB291A3F390038B429 /* NotoSansCJKkr-Regular.otf */,
@@ -500,8 +501,8 @@
 		0E1410FC2918D6E90040BD85 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				0EF37511292655200074FC64 /* LaunchScreenViewController.swift */,
 				0EF3750F29261E4E0074FC64 /* PopUpViewController.swift */,
+				0ECBB47929497A0400C1A381 /* LaunchScreen */,
 				0E14110A2918EF1D0040BD85 /* WalkThrough */,
 				0EA6A9FA2921694700F71EC6 /* LoginSignup */,
 				0E4F632D291D1F6200F36167 /* MainSearch */,
@@ -532,6 +533,7 @@
 				0E49C6D5292287F0004E7875 /* Comparable+Extension.swift */,
 				0EA57496292AA0390064599F /* String+Extension.swift */,
 				0E11649F2936635500501EBD /* UINavigationController+Extension.swift */,
+				0ECBB47C2949DF8400C1A381 /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -634,12 +636,8 @@
 		0E4F62FC291C31E500F36167 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */,
-				0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */,
-				0E4F6309291CFD0900F36167 /* PhoneNumberViewModel.swift */,
-				0E4F630C291CFF1D00F36167 /* VerifyNumberViewController.swift */,
-				0E4F630E291CFF3900F36167 /* VerifyNumberView.swift */,
-				0E4F6310291CFF4200F36167 /* VerifyNumberViewModel.swift */,
+				0ECBB47A2949CC3900C1A381 /* PhoneNumber */,
+				0ECBB47B2949CC4F00C1A381 /* VerifyNumber */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -842,6 +840,35 @@
 			path = Friends;
 			sourceTree = "<group>";
 		};
+		0ECBB47929497A0400C1A381 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0EF37511292655200074FC64 /* LaunchScreenViewController.swift */,
+				0ECBB477294979B300C1A381 /* LaunchScreenView.swift */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		0ECBB47A2949CC3900C1A381 /* PhoneNumber */ = {
+			isa = PBXGroup;
+			children = (
+				0E5095C8291AA6720038B429 /* PhoneNumberViewController.swift */,
+				0E4F62F8291C2A9500F36167 /* PhoneNumberView.swift */,
+				0E4F6309291CFD0900F36167 /* PhoneNumberViewModel.swift */,
+			);
+			path = PhoneNumber;
+			sourceTree = "<group>";
+		};
+		0ECBB47B2949CC4F00C1A381 /* VerifyNumber */ = {
+			isa = PBXGroup;
+			children = (
+				0E4F630C291CFF1D00F36167 /* VerifyNumberViewController.swift */,
+				0E4F630E291CFF3900F36167 /* VerifyNumberView.swift */,
+				0E4F6310291CFF4200F36167 /* VerifyNumberViewModel.swift */,
+			);
+			path = VerifyNumber;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -938,7 +965,6 @@
 				0E5095C0291A432F0038B429 /* Dongle-Regular.ttf in Resources */,
 				0E1410F42918D6400040BD85 /* LaunchScreen.storyboard in Resources */,
 				0E1410F12918D6400040BD85 /* Assets.xcassets in Resources */,
-				0E1410EF2918D63E0040BD85 /* Main.storyboard in Resources */,
 				0E5095BE291A3F390038B429 /* NotoSansCJKkr-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -998,6 +1024,7 @@
 				0E46E2B62928F6710058A50E /* EmptyView.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
+				0ECBB47D2949DF8400C1A381 /* UIApplication+Extension.swift in Sources */,
 				0E597AB62939E24A005939CB /* MyQueueStateError.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
 				0E3474B72947B379008D0889 /* ShopAPIRouter.swift in Sources */,
@@ -1005,6 +1032,7 @@
 				0E4F62F0291C248300F36167 /* Transition+Extension.swift in Sources */,
 				0E11640429337D6100501EBD /* ReviewCollectionViewCell.swift in Sources */,
 				0E11640C2933D1C300501EBD /* MyChatTableViewCell.swift in Sources */,
+				0ECBB478294979B300C1A381 /* LaunchScreenView.swift in Sources */,
 				0E5095932918F6B40038B429 /* SecondViewController.swift in Sources */,
 				0E4F630D291CFF1D00F36167 /* VerifyNumberViewController.swift in Sources */,
 				0E49C6BF292244F1004E7875 /* ageRangeCell.swift in Sources */,
@@ -1091,14 +1119,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0E1410ED2918D63E0040BD85 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E1410EE2918D63E0040BD85 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0E1410F22918D6400040BD85 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1232,12 +1252,14 @@
 				CODE_SIGN_ENTITLEMENTS = SeSACStudyRecruitSLP/SeSACStudyRecruitSLP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U8U4L6FXAF;
+				DEVELOPMENT_TEAM = 2EZ5QWFYX2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SeSACStudyRecruitSLP/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SeSACStudy;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 기반으로 주변의 타사용자를 확인하고, 타 사용자에게 사용자의 위치를 지도로 알려주기 위함";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -1248,11 +1270,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.memolease.sesacslp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.memolease.sesac1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1264,12 +1289,14 @@
 				CODE_SIGN_ENTITLEMENTS = SeSACStudyRecruitSLP/SeSACStudyRecruitSLP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U8U4L6FXAF;
+				DEVELOPMENT_TEAM = 2EZ5QWFYX2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SeSACStudyRecruitSLP/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SeSACStudy;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 기반으로 주변의 타사용자를 확인하고, 타 사용자에게 사용자의 위치를 지도로 알려주기 위함";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -1280,11 +1307,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.memolease.sesacslp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.memolease.sesac1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
