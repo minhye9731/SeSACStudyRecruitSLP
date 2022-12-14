@@ -53,10 +53,11 @@ final class PopUpViewController: BaseViewController {
         print("📡팝업화면 deinit")
     }
     
-    
     // MARK: - functions
     override func configure() {
         super.configure()
+        
+        print("popupMode = \(popupMode), matchingMode = \(matchingMode)")
         
         view.layer.backgroundColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6).cgColor
         
@@ -224,28 +225,26 @@ extension PopUpViewController {
     
         let api = StudyAPIRouter.requestStudy(otheruid: otheruid)
         print("요청하기 보낸 상대방 uid : \(otheruid)")
-        
         Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
-            guard let value = value else { return }
             guard let statusCode = statusCode else { return }
             guard let status = StudyRequestError(rawValue: statusCode) else { return }
             
             switch status {
             case .success:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    let vc = ListViewController()
-                    vc.mainView.makeToast("스터디 요청을 보냈습니다.", duration: 1, position: .bottom)
-                }
-                self?.dismiss(animated: true)
+                self?.dismiss(animated: true, completion: {
+                    UIApplication.getTopVC()?.view.makeToast(status.studyRequestErrorDescription, duration: 1, position: .bottom)
+                })
                 return
                 
             case .alreadyRequest:
-                // study accept를 호출하고, 응답코드 200받으면 사용자 상태 matched==1로되면서 팝업 disdmiss
-                self?.studyaccept() // 팝업 화면이 사라진 이후에 새싹 찾기 화면 하단에 “상대방도 스터디를 요청하여 매칭되었습니다. 잠시 후 채팅방으로 이동합니다” 토스트 메시지를 띄운 뒤, 채팅 화면(1_5_chatting)으로 화면을 전환합니다.
+                self?.studyaccept()
+                return
                 
             case .otherSesacStopped:
-                self?.view.makeToast("상대방이 스터디 찾기를 그만두었습니다", duration: 1.0, position: .center)
+                self?.dismiss(animated: true, completion: {
+                    UIApplication.getTopVC()?.view.makeToast(status.studyRequestErrorDescription, duration: 1, position: .bottom)
+                })
                 return
                 
             case .fbTokenError:
@@ -253,7 +252,7 @@ extension PopUpViewController {
                 return
                 
             default:
-                self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                self?.view.makeToast(status.studyRequestErrorDescription, duration: 1.0, position: .center)
                 return
             }
         }
@@ -275,24 +274,30 @@ extension PopUpViewController {
                 print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
                 
                 let api = StudyAPIRouter.requestStudy(otheruid: self.otheruid)
-                
                 Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    guard let value = value else { return }
                     guard let statusCode = statusCode else { return }
                     guard let status = StudyRequestError(rawValue: statusCode) else { return }
                     
                     switch status {
                     case .success:
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            let vc = ListViewController()
-                            vc.mainView.makeToast("스터디 요청을 보냈습니다.", duration: 1, position: .bottom)
-                        }
-                        self?.dismiss(animated: true)
+                        self?.dismiss(animated: true, completion: {
+                            UIApplication.getTopVC()?.view.makeToast(status.studyRequestErrorDescription, duration: 1, position: .bottom)
+                        })
+                        return
+                        
+                    case .alreadyRequest:
+                        self?.studyaccept()
+                        return
+                        
+                    case .otherSesacStopped:
+                        self?.dismiss(animated: true, completion: {
+                            UIApplication.getTopVC()?.view.makeToast(status.studyRequestErrorDescription, duration: 1, position: .bottom)
+                        })
                         return
                         
                     default:
-                        self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                        self?.view.makeToast(status.studyRequestErrorDescription, duration: 1.0, position: .center)
                         return
                     }
                 }
@@ -311,25 +316,37 @@ extension PopUpViewController {
         let api = StudyAPIRouter.acceptStudy(otheruid: otheruid)
         Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
-            guard let value = value else { return }
             guard let statusCode = statusCode else { return }
             guard let status = StudyAcceptError(rawValue: statusCode) else { return }
             
             switch status {
             case .success:
-                self?.myQueueState()
+                
+                if self?.popupMode == .askStudy {
+                    self?.dismiss(animated: true, completion: {
+                        UIApplication.getTopVC()?.view.makeToast("상대방도 스터디를 요청하여 매칭되었습니다. 잠시 후 채팅방으로 이동합니다", duration: 1, position: .bottom) { didTap in
+                            let vc = ChattingViewController()
+                            UIApplication.getTopVC()?.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    })
+                } else {
+                    self?.dismiss(animated: true, completion: {
+                            let vc = ChattingViewController()
+                            UIApplication.getTopVC()?.navigationController?.pushViewController(vc, animated: true)
+                    })
+                }
                 return
                 
             case .otherSesacAlreadyMatched:
-                self?.view.makeToast(status.errorDescription, duration: 0.5, position: .center)
+                self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center)
                 return
                 
             case .otherSesacStopped:
-                self?.view.makeToast(status.errorDescription, duration: 0.5, position: .center)
+                self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center)
                 return
                 
             case .alreadyAccepted:
-                self?.view.makeToast(status.errorDescription, duration: 0.5, position: .center) {didTap in
+                self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center) {didTap in
                     self?.myQueueState()
                 }
                 return
@@ -363,17 +380,38 @@ extension PopUpViewController {
                 let api = StudyAPIRouter.acceptStudy(otheruid: self.otheruid)
                 Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    guard let value = value else { return }
                     guard let statusCode = statusCode else { return }
                     guard let status = StudyAcceptError(rawValue: statusCode) else { return }
                     
                     switch status {
                     case .success:
-                        self?.myQueueState() // 여기 안에서 분기처리를 해준다.
-                        //                self?.dismiss(animated: true, completion: {
-                        //                    let vc = ChattingViewController()
-                        //                    self?.transition(vc, transitionStyle: .push)
-                        //                })
+                        if self?.popupMode == .askStudy {
+                            self?.dismiss(animated: true, completion: {
+                                UIApplication.getTopVC()?.view.makeToast("상대방도 스터디를 요청하여 매칭되었습니다. 잠시 후 채팅방으로 이동합니다", duration: 1, position: .bottom) { didTap in
+                                    let vc = ChattingViewController()
+                                    UIApplication.getTopVC()?.navigationController?.pushViewController(vc, animated: true)
+                                }
+                            })
+                        } else {
+                            self?.dismiss(animated: true, completion: {
+                                    let vc = ChattingViewController()
+                                    UIApplication.getTopVC()?.navigationController?.pushViewController(vc, animated: true)
+                            })
+                        }
+                        return
+                        
+                    case .otherSesacAlreadyMatched:
+                        self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center)
+                        return
+                        
+                    case .otherSesacStopped:
+                        self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center)
+                        return
+                        
+                    case .alreadyAccepted:
+                        self?.view.makeToast(status.studyAccepterrorDescription, duration: 0.5, position: .center) {didTap in
+                            self?.myQueueState()
+                        }
                         return
                         
                     default:
@@ -486,10 +524,13 @@ extension PopUpViewController {
                 switch self?.popupMode {
                 case .acceptStudy:
                     if value.matched == 1 {
-                        self?.view.makeToast("\(value.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
-                            let vc = ChattingViewController()
-                            self?.transition(vc, transitionStyle: .push)
-                        }
+                        
+                        self?.dismiss(animated: true, completion: {
+                            UIApplication.getTopVC()?.view.makeToast("\(value.matchedNick)님과 매칭되셨습니다. 잠시 후 채팅방으로 이동합니다.", duration: 1.0, position: .center) { didTap in
+                                let vc = ChattingViewController()
+                                UIApplication.getTopVC()?.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        })
                     }
                     return
                     
@@ -570,21 +611,7 @@ extension PopUpViewController {
         }
     }
     
-    
-    // test
-//    func topViewController() -> UIViewController? {
-//        if let keyWindow = UIApplication.shared.keyWindow {
-//            if var viewController = keyWindow.rootViewController {
-//                while viewController.presentedViewController != nil {
-//                    viewController = viewController.presentedViewController!
-//                }
-//                print("topViewController -> \(String(describing: viewController))")
-//                return viewController
-//            }
-//        }
-//        return nil
-//    }
-    
+
 }
 
 
