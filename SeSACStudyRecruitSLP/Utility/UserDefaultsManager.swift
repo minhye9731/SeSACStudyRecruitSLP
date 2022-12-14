@@ -11,6 +11,8 @@ struct UserDefaultsManager {
 
     // MARK: - 기타
     // 첫 실행여부
+    @UserDefaultsWrapper(key: "firstRun", defaultValue: true)
+    static var firstRun: Bool
     
     // MARK: - 번호인증
     @UserDefaultsWrapper(key: "fcmTokenSU", defaultValue: "")
