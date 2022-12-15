@@ -24,8 +24,8 @@ final class ShopBackgroundCollectionViewCell: BaseCollectionViewCell {
         view.autoresizingMask = .flexibleHeight
         return view
     }()
-    let priceButton: UIButton = {
-        let btn = UIButton()
+    let priceButton: PriceButton = {
+        let btn = PriceButton()
         btn.contentEdgeInsets = UIEdgeInsets(top: 1.5, left: 6, bottom: 1.5, right: 6)
         btn.titleLabel?.font = CustomFonts.title5_M12()
         btn.layer.cornerRadius = 10 // check
