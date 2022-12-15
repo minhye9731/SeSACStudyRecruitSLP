@@ -65,6 +65,7 @@ final class ShopView: BaseView {
         
         setSegmentedUI()
         pageViewController.dataSource = self
+        pageViewController.delegate = self
     }
     
     
@@ -99,7 +100,7 @@ final class ShopView: BaseView {
     
 }
 
-
+// MARK: - pageViewController - DataSource
 extension ShopView: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -111,5 +112,16 @@ extension ShopView: UIPageViewControllerDataSource {
         guard let index = dataViewControllers.firstIndex(of: viewController), index + 1 < dataViewControllers.count else { return nil }
         return dataViewControllers[index + 1]
     }
-    
+}
+
+// MARK: - pageViewController - Delegate
+extension ShopView: UIPageViewControllerDelegate {
+
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let viewController = pageViewController.viewControllers?[0],
+              let index = dataViewControllers.firstIndex(of: viewController)
+        else { return }
+        currentPage = index
+        segmentedControl.selectedSegmentIndex = index
+    }
 }

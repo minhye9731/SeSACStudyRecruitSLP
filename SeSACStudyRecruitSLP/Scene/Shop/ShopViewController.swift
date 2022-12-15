@@ -40,8 +40,6 @@ final class ShopViewController: BaseViewController {
         super.configure()
         self.title = "새싹샵"
         
-        mainView.pageViewController.delegate = self
-        
         setSegmentedControl()
         setDelegate()
         setPriceButtonAction()
@@ -100,19 +98,6 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         return profileCell
     }
 
-}
-
-// MARK: - pageview controller
-
-extension ShopViewController: UIPageViewControllerDelegate {
-
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        guard let viewController = pageViewController.viewControllers?[0],
-              let index = mainView.dataViewControllers.firstIndex(of: viewController)
-        else { return }
-        mainView.currentPage = index
-        mainView.segmentedControl.selectedSegmentIndex = index
-    }
 }
 
 // MARK: - 기타 함수
