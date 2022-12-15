@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E01EE7E294AC9C50088E07E /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E01EE7D294AC9C50088E07E /* ShopView.swift */; };
 		0E03524D2938F97900D5FEE5 /* ChattingTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */; };
 		0E03525129392AF700D5FEE5 /* SendChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03525029392AF700D5FEE5 /* SendChatError.swift */; };
 		0E0352532939306900D5FEE5 /* LastChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0352522939306900D5FEE5 /* LastChatError.swift */; };
@@ -171,6 +172,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E01EE7D294AC9C50088E07E /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingTableViewHeader.swift; sourceTree = "<group>"; };
 		0E03525029392AF700D5FEE5 /* SendChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatError.swift; sourceTree = "<group>"; };
 		0E0352522939306900D5FEE5 /* LastChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastChatError.swift; sourceTree = "<group>"; };
@@ -825,6 +827,7 @@
 			isa = PBXGroup;
 			children = (
 				0EA6A9FC29216B6A00F71EC6 /* ShopViewController.swift */,
+				0E01EE7D294AC9C50088E07E /* ShopView.swift */,
 				0E90D050293FA287009C662D /* SesacController.swift */,
 				0E90D04C293F7E91009C662D /* ShopSesac */,
 				0E90D04D293F7E9C009C662D /* ShopBackground */,
@@ -1024,6 +1027,7 @@
 				0E46E2B62928F6710058A50E /* EmptyView.swift in Sources */,
 				0E4F62FB291C2C6600F36167 /* UIButton+Extension.swift in Sources */,
 				0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */,
+				0E01EE7E294AC9C50088E07E /* ShopView.swift in Sources */,
 				0ECBB47D2949DF8400C1A381 /* UIApplication+Extension.swift in Sources */,
 				0E597AB62939E24A005939CB /* MyQueueStateError.swift in Sources */,
 				0E49C6C32922455D004E7875 /* oftenStudyCell.swift in Sources */,
