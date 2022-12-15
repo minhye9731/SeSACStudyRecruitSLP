@@ -13,10 +13,11 @@ final class ShopViewController: BaseViewController {
 
     // MARK: - property
     let mainView = ShopView()
+//    let inAppPurchaseHelper = IAPHelper()
     
     // [인앱상품]
     // 인앱 상품 ID 정의
-    var productIdentifiers: Set<String> = ["com.memolease.sesac1.sprout1"]
+    var productIdentifiers: Set<String> = []
     // 인앱 상품 정보
     var productArray = Array<SKProduct>()
     // 인앱 상품 조회. 선택하거나 한 거를 특정해야 할 때 사용
@@ -44,6 +45,8 @@ final class ShopViewController: BaseViewController {
         mainView.shopSaveButtonActionHandler = {
             self.requestShopItem()
         }
+        
+//        requestProductData()
     }
     
     func setSegmentedControl() {
@@ -54,6 +57,27 @@ final class ShopViewController: BaseViewController {
     
     @objc private func changeValue(control: UISegmentedControl) {
         mainView.currentPage = control.selectedSegmentIndex
+
+        if mainView.currentPage == 0 {
+            productIdentifiers = [
+                "com.memolease.sesac1.sprout1",
+                "com.memolease.sesac1.sprout2",
+                "com.memolease.sesac1.sprout3",
+                "com.memolease.sesac1.sprout4"
+            ]
+        } else {
+            productIdentifiers = [
+                "com.memolease.sesac1.background1",
+                "com.memolease.sesac1.background2",
+                "com.memolease.sesac1.background3",
+                "com.memolease.sesac1.background4",
+                "com.memolease.sesac1.background5",
+                "com.memolease.sesac1.background6",
+                "com.memolease.sesac1.background7"
+            ]
+        }
+        
+        requestProductData()
     }
 
 }
@@ -66,18 +90,28 @@ extension ShopViewController {
     func setPriceButtonAction() {
         mainView.vc1.mainView.ssPriceButtonActionHandler = {
             print("ssPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
-            // requestProductData() {
+            
+            let payment = SKPayment(product: self.product!)
+            SKPaymentQueue.default().add(payment)
+            SKPaymentQueue.default().add(self)
+            
         }
         
         mainView.vc2.mainView.bgPriceButtonActionHandler = {
             print("bgPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
-            // requestProductData() {
+            
+            // productArray 에서 순서대로 꺼내야 하나
+            let payment = SKPayment(product: self.product!)
+            SKPaymentQueue.default().add(payment)
+            SKPaymentQueue.default().add(self)
         }
     }
     
     //  2. productIdentifiers에 정의된 상품ID에 대한 정보 가져오기 및 사용자의 디바이스가 인앱결제가 가능한지 여부 확인
     func requestProductData() {
         if SKPaymentQueue.canMakePayments() {
+            
+            // productIdentifiers에 url들을 sprout, bg 구분해서 담기도록 해야하나 전체?
             print("😎인앱 결제 가능😎")
             let request = SKProductsRequest(productIdentifiers: productIdentifiers) // productIdentifiers에 사용자가 클릭한 상품의 정보가 나오도록 해야하나
             request.delegate = self
@@ -87,6 +121,51 @@ extension ShopViewController {
         }
     }
     
+    // 신규추가함
+//    private func initIAP() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleIAPPurchase(_:)), name: NSNotification.Name("IAPHelperPurchaseNotification"), object: nil)
+//
+//        // IAP 불러오기
+//        InAppProducts.store.requestProductData { [weak self] success, products in
+//            guard let self = self, success else { return }
+//
+////            if mainView.currentPage == 0 {
+////                InAppProducts.productArray = products!
+////            }
+//
+////            InAppProducts.init(product: products)
+//            // ...
+//        }
+//    }
+    
+    // 추가
+    // 결제 후 Notification을 받아 처리 (수업시간에 한거는 observer. observer가 더 나은듯)
+//    @objc func handleIAPPurchase(_ notification: Notification) {
+//        guard let success = notification.object as? Bool else { return }
+//
+//        if success {
+//            DispatchQueue.main.async {
+//                let vc = UIAlertController(title: "알림", message: "구매성공", preferredStyle: .alert)
+//                let ok = UIAlertAction(title: "확인", style: .default) { _ in
+//
+//                    print("구매성공~ 아마 나는 info 서버 재호출해서 ui update 해야할듯")
+//
+//                }
+//
+//                vc.addAction(ok)
+//                self.present(vc, animated: true, completion: nil)
+//            }
+//        } else {
+//            DispatchQueue.main.async {
+//                let vc = UIAlertController(title: "알림", message: "구매에 실패했습니다.", preferredStyle: .alert)
+//                let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+//                vc.addAction(ok)
+//                self.present(vc, animated: true, completion: nil)
+//            }
+//        }
+//    }
+    
+    
 }
 
 // MARK: - 인앱상품 조회
@@ -94,10 +173,12 @@ extension ShopViewController: SKProductsRequestDelegate {
     
     // 3. 인앱 상품 정보 조회 응답 메서드
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        
-        let products = response.products
+        print(#function)
+        let products = response.products // 각 vc1, vc2가 viewWillAppear 할 때 상품조회를 매번 해야만, sprout와 background를 구분해서 받을 수 있을 것으로 보인다
+        print("상품조회한 정보들 : \(products)")
         
         if products.count > 0 {
+            
             for i in products {
                 productArray.append(i)
                 product = i //옵션. 테이블뷰 셀에서 구매하기 버튼 클릭 시, 버튼 클릭 시????
@@ -133,6 +214,7 @@ extension ShopViewController: SKPaymentTransactionObserver {
         for transaction in transactions {
             
             switch transaction.transactionState {
+                
             case .purchased: //구매 승인 이후에 영수증 검증
                 
                 print("Transaction Approved. \(transaction.payment.productIdentifier)")
