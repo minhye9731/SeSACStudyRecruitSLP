@@ -41,7 +41,6 @@ final class ShopViewController: BaseViewController {
         self.title = "새싹샵"
         
         mainView.pageViewController.delegate = self
-        mainView.pageViewController.dataSource = self
         
         setSegmentedControl()
         setDelegate()
@@ -104,18 +103,6 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - pageview controller
-extension ShopViewController: UIPageViewControllerDataSource {
-
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let index = mainView.dataViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
-        return mainView.dataViewControllers[index - 1]
-    }
-
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let index = mainView.dataViewControllers.firstIndex(of: viewController), index + 1 < mainView.dataViewControllers.count else { return nil }
-        return mainView.dataViewControllers[index + 1]
-    }
-}
 
 extension ShopViewController: UIPageViewControllerDelegate {
 

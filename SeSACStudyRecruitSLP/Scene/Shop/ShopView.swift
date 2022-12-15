@@ -64,7 +64,7 @@ final class ShopView: BaseView {
         }
         
         setSegmentedUI()
-
+        pageViewController.dataSource = self
     }
     
     
@@ -96,5 +96,20 @@ final class ShopView: BaseView {
             for: .selected)
     }
     
+    
+}
+
+
+extension ShopView: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = dataViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
+        return dataViewControllers[index - 1]
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = dataViewControllers.firstIndex(of: viewController), index + 1 < dataViewControllers.count else { return nil }
+        return dataViewControllers[index + 1]
+    }
     
 }
