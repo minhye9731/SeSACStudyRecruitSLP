@@ -38,7 +38,6 @@ final class ShopViewController: BaseViewController {
         self.title = "새싹샵"
         
         setSegmentedControl()
-        setDelegate()
         setPriceButtonAction()
         
         // tableview header
@@ -53,11 +52,6 @@ final class ShopViewController: BaseViewController {
         self.changeValue(control: mainView.segmentedControl)
     }
     
-    func setDelegate() {
-        mainView.vc1.mainView.collectionView.delegate = self
-        mainView.vc2.mainView.collectionView.delegate = self
-    }
-
     @objc private func changeValue(control: UISegmentedControl) {
         mainView.currentPage = control.selectedSegmentIndex
     }
@@ -160,23 +154,8 @@ extension ShopViewController: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
         print("removedTransactions")
     }
-    
-    
 }
 
-// MARK: - vc1, vc2내 collectionview cell 클릭시 액션
-extension ShopViewController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if collectionView == mainView.vc1.mainView.collectionView {
-            mainView.selectedFC = indexPath.row
-        } else {
-            mainView.selectedBG = indexPath.row
-        }
-        mainView.tableView.reloadData()
-    }
-}
 
 // MARK: - checkShopMyInfo API
 extension ShopViewController {

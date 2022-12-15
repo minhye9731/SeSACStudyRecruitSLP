@@ -68,11 +68,8 @@ final class ShopView: BaseView {
         }
         
         setSegmentedUI()
-        pageViewController.dataSource = self
-        pageViewController.delegate = self
-        tableView.delegate = self
+        setDelegate()
     }
-    
     
     override func setConstraints() {
         super.setConstraints()
@@ -102,7 +99,13 @@ final class ShopView: BaseView {
             for: .selected)
     }
     
-    
+    func setDelegate() {
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+        tableView.delegate = self
+        vc1.mainView.collectionView.delegate = self
+        vc2.mainView.collectionView.delegate = self
+    }
 }
 
 // MARK: - pageViewController - DataSource
@@ -134,7 +137,6 @@ extension ShopView: UIPageViewControllerDelegate {
 // MARK: - tableView
 extension ShopView: UITableViewDelegate {
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
@@ -164,3 +166,19 @@ extension ShopView: UITableViewDataSource {
         return profileCell
     }
 }
+
+// MARK: - vc1, vc2내 collectionview cell 클릭시 액션
+extension ShopView: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if collectionView == vc1.mainView.collectionView {
+            selectedFC = indexPath.row
+        } else {
+            selectedBG = indexPath.row
+        }
+        tableView.reloadData()
+    }
+    
+}
+
