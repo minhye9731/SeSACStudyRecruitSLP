@@ -10,6 +10,10 @@ import UIKit
 final class ShopView: BaseView {
     
     // MARK: - property
+    var shopSaveButtonActionHandler: (() -> ())?
+    var selectedBG = 0
+    var selectedFC = 0
+    
     let tableView: UITableView = {
        let view = UITableView()
         view.isScrollEnabled = false
@@ -66,6 +70,7 @@ final class ShopView: BaseView {
         setSegmentedUI()
         pageViewController.dataSource = self
         pageViewController.delegate = self
+        tableView.delegate = self
     }
     
     
@@ -123,5 +128,39 @@ extension ShopView: UIPageViewControllerDelegate {
         else { return }
         currentPage = index
         segmentedControl.selectedSegmentIndex = index
+    }
+}
+
+// MARK: - tableView
+extension ShopView: UITableViewDelegate {
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        var bounds = UIScreen.main.bounds
+        var width = bounds.size.width
+        return width * 0.51
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
+
+        headerView.setPreviewData(section: section, bg: selectedBG, sprout: selectedFC)
+        headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
+        return headerView
+    }
+    
+    @objc func askAcceptbtnTapped() {
+        shopSaveButtonActionHandler!()
+    }
+}
+
+extension ShopView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
+        return profileCell
     }
 }

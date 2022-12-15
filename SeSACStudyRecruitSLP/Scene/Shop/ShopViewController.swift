@@ -22,9 +22,6 @@ final class ShopViewController: BaseViewController {
     // 인앱 상품 조회. 선택하거나 한 거를 특정해야 할 때 사용
     var product: SKProduct?
 
-    var selectedBG = 0
-    var selectedFC = 0
-    
     // MARK: - Lifecycle
     override func loadView()  {
         self.view = mainView
@@ -43,6 +40,11 @@ final class ShopViewController: BaseViewController {
         setSegmentedControl()
         setDelegate()
         setPriceButtonAction()
+        
+        // tableview header
+        mainView.shopSaveButtonActionHandler = {
+            self.requestShopItem()
+        }
     }
     
     func setSegmentedControl() {
@@ -52,7 +54,6 @@ final class ShopViewController: BaseViewController {
     }
     
     func setDelegate() {
-        mainView.tableView.delegate = self
         mainView.vc1.mainView.collectionView.delegate = self
         mainView.vc2.mainView.collectionView.delegate = self
     }
@@ -63,50 +64,9 @@ final class ShopViewController: BaseViewController {
 
 }
 
-// MARK: - pageview controller
-extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        var bounds = UIScreen.main.bounds
-        var width = bounds.size.width
-        return width * 0.51
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
-        
-        // 별도 정리
-        headerView.backgroundImage.image = UIImage(named: "sesac_background_\(selectedBG + 1)")
-        headerView.sesacImage.image = UIImage(named: "sesac_face_\(selectedFC + 1)")
-        
-        headerView.nameView.isHidden = true
-        headerView.askAcceptbtn.setTitle("저장하기", for: .normal)
-        
-        headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
-        headerView.askAcceptbtn.header = headerView
-        headerView.askAcceptbtn.section = section
-        
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier) as? ProfileCell else { return UITableViewCell() }
-        return profileCell
-    }
-
-}
 
 // MARK: - 기타 함수
 extension ShopViewController {
-    
-    // [저장하기] 버튼
-    @objc func askAcceptbtnTapped(sender: HeaderSectionPassButton) {
-        self.requestShopItem()
-    }
     
     // price 버튼
     func setPriceButtonAction() {
@@ -210,9 +170,9 @@ extension ShopViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if collectionView == mainView.vc1.mainView.collectionView {
-            self.selectedFC = indexPath.row
+            mainView.selectedFC = indexPath.row
         } else {
-            self.selectedBG = indexPath.row
+            mainView.selectedBG = indexPath.row
         }
         mainView.tableView.reloadData()
     }
@@ -283,8 +243,8 @@ extension ShopViewController {
     }
     
     func setShopMyInfoData(value: LoginResponse) {
-        selectedBG = value.background
-        selectedFC = value.sesac
+        mainView.selectedBG = value.background
+        mainView.selectedFC = value.sesac
         
         mainView.vc1.mainView.sesacCollection = value.sesacCollection
         mainView.vc2.mainView.backgroundCollection = value.backgroundCollection
@@ -299,7 +259,7 @@ extension ShopViewController {
 extension ShopViewController {
     
     func requestShopItem() {
-        let api = ShopAPIRouter.shopitem(sesac: String(selectedFC), background: String(selectedBG))
+        let api = ShopAPIRouter.shopitem(sesac: String(mainView.selectedFC), background: String(mainView.selectedBG))
         Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
             guard let value = value else { return }
@@ -334,7 +294,7 @@ extension ShopViewController {
             } else if let idToken = idToken {
                 UserDefaultsManager.idtoken = idToken
                 
-                let api = ShopAPIRouter.shopitem(sesac: String(self.selectedFC), background: String(self.selectedBG))
+                let api = ShopAPIRouter.shopitem(sesac: String(self.mainView.selectedFC), background: String(self.mainView.selectedBG))
                 Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
                     guard let value = value else { return }
