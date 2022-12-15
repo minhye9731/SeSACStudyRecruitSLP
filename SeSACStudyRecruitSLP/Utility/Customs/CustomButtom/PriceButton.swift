@@ -8,5 +8,5 @@
 import UIKit
 
 class PriceButton: UIButton {
-    var indexPath: Int?
+    var row: Int?
 }
