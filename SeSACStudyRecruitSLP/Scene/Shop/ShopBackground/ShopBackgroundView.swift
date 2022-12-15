@@ -69,6 +69,7 @@ final class ShopBackgroundView: BaseView {
             cell.setData(data: bgItem, collection: self.backgroundCollection, indexPath: indexPath)
             
             cell.priceButton.addTarget(self, action: #selector(self.priceBtnTappedClicked), for: .touchUpInside)
+            cell.priceButton.row = indexPath.row
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, SesacController.SesacItem>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: SesacController.SesacItem) -> UICollectionViewCell? in
