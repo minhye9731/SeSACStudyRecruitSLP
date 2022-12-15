@@ -7,61 +7,29 @@
 
 import UIKit
 import FirebaseAuth
+import StoreKit
 
 final class ShopViewController: BaseViewController {
 
     // MARK: - property
-    let tableView: UITableView = {
-       let view = UITableView()
-        view.isScrollEnabled = false
-        view.register(CollapsibleTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CollapsibleTableViewHeader.reuseIdentifier)
-        return view
-    }()
+    let mainView = ShopView()
     
-    private let segmentedControl: UISegmentedControl = {
-      let segmentedControl = UnderlineSegmentedControl(items: ["새싹", "배경"])
-      return segmentedControl
-    }()
+    // [인앱상품]
+    // 인앱 상품 ID 정의
+    var productIdentifiers: Set<String> = ["com.memolease.sesac1.sprout1"]
+    // 인앱 상품 정보
+    var productArray = Array<SKProduct>()
+    // 인앱 상품 조회. 선택하거나 한 거를 특정해야 할 때 사용
+    var product: SKProduct?
 
-    private let vc1: ShopSesacViewController = {
-      let vc = ShopSesacViewController()
-      return vc
-    }()
-    
-    private let vc2: ShopBackgroundViewController = {
-      let vc = ShopBackgroundViewController()
-      return vc
-    }()
-
-    private lazy var pageViewController: UIPageViewController = {
-      let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-      vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
-      vc.delegate = self
-      vc.dataSource = self
-      return vc
-    }()
-    
-    var dataViewControllers: [UIViewController] {
-      [self.vc1, self.vc2]
-    }
-
-    var currentPage: Int = 0 {
-      didSet {
-        print(oldValue, self.currentPage)
-        let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
-        self.pageViewController.setViewControllers(
-          [dataViewControllers[self.currentPage]],
-          direction: direction,
-          animated: true,
-          completion: nil
-        )
-      }
-    }
-    
     var selectedBG = 0
     var selectedFC = 0
     
     // MARK: - Lifecycle
+    override func loadView()  {
+        self.view = mainView
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkShopMyInfo()
@@ -72,58 +40,28 @@ final class ShopViewController: BaseViewController {
         super.configure()
         self.title = "새싹샵"
         
-        [tableView, segmentedControl, pageViewController.view].forEach {
-            view.addSubview($0)
-        }
+        mainView.pageViewController.delegate = self
+        mainView.pageViewController.dataSource = self
         
         setSegmentedControl()
         setDelegate()
         setPriceButtonAction()
     }
-
-    override func setConstraints() {
-        super.setConstraints()
-        
-        tableView.snp.makeConstraints {
-            $0.directionalHorizontalEdges.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(tableView.snp.width).multipliedBy(0.62)
-        }
-        
-        segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(tableView.snp.bottom)
-            $0.directionalHorizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(segmentedControl.snp.width).multipliedBy(0.117)
-        }
-        
-        pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom).offset(5)
-            $0.directionalHorizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(4)
-        }
-        
-    }
     
     func setSegmentedControl() {
-    self.segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.gray], for: .normal)
-    self.segmentedControl.setTitleTextAttributes(
-      [
-        NSAttributedString.Key.foregroundColor: UIColor.green,
-        .font: UIFont.systemFont(ofSize: 13, weight: .semibold)
-      ],
-      for: .selected
-    )
-    self.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
-    self.segmentedControl.selectedSegmentIndex = 0
-    self.changeValue(control: self.segmentedControl)
+        mainView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+        mainView.segmentedControl.selectedSegmentIndex = 0
+        self.changeValue(control: mainView.segmentedControl)
     }
     
     func setDelegate() {
-        tableView.delegate = self
-        vc1.mainView.collectionView.delegate = self
-        vc2.mainView.collectionView.delegate = self
+        mainView.tableView.delegate = self
+        mainView.vc1.mainView.collectionView.delegate = self
+        mainView.vc2.mainView.collectionView.delegate = self
     }
 
     @objc private func changeValue(control: UISegmentedControl) {
-        self.currentPage = control.selectedSegmentIndex
+        mainView.currentPage = control.selectedSegmentIndex
     }
 
 }
@@ -169,13 +107,13 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
 extension ShopViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let index = dataViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
-        return dataViewControllers[index - 1]
+        guard let index = mainView.dataViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
+        return mainView.dataViewControllers[index - 1]
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let index = dataViewControllers.firstIndex(of: viewController), index + 1 < self.dataViewControllers.count else { return nil }
-        return dataViewControllers[index + 1]
+        guard let index = mainView.dataViewControllers.firstIndex(of: viewController), index + 1 < mainView.dataViewControllers.count else { return nil }
+        return mainView.dataViewControllers[index + 1]
     }
 }
 
@@ -183,10 +121,10 @@ extension ShopViewController: UIPageViewControllerDelegate {
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard let viewController = pageViewController.viewControllers?[0],
-              let index = self.dataViewControllers.firstIndex(of: viewController)
+              let index = mainView.dataViewControllers.firstIndex(of: viewController)
         else { return }
-        self.currentPage = index
-        self.segmentedControl.selectedSegmentIndex = index
+        mainView.currentPage = index
+        mainView.segmentedControl.selectedSegmentIndex = index
     }
 }
 
@@ -200,14 +138,97 @@ extension ShopViewController {
     
     // price 버튼
     func setPriceButtonAction() {
-        vc1.mainView.ssPriceButtonActionHandler = {
+        mainView.vc1.mainView.ssPriceButtonActionHandler = {
             print("ssPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
+            // requestProductData() {
         }
         
-        vc2.mainView.bgPriceButtonActionHandler = {
+        mainView.vc2.mainView.bgPriceButtonActionHandler = {
             print("bgPriceButtonActionHandler 클릭됨 || 인앱결제 실행 지점")
+            // requestProductData() {
         }
     }
+    
+    //  2. productIdentifiers에 정의된 상품ID에 대한 정보 가져오기 및 사용자의 디바이스가 인앱결제가 가능한지 여부 확인
+    func requestProductData() {
+        if SKPaymentQueue.canMakePayments() {
+            print("😎인앱 결제 가능😎")
+            let request = SKProductsRequest(productIdentifiers: productIdentifiers) // productIdentifiers에 사용자가 클릭한 상품의 정보가 나오도록 해야하나
+            request.delegate = self
+            request.start()  //인앱 상품 조회
+        } else {
+            self.view.makeToast("해당 상품은 인앱 결제가 불가능합니다.", duration: 1.0, position: .center)
+        }
+    }
+    
+}
+
+// MARK: - 인앱상품 조회
+extension ShopViewController: SKProductsRequestDelegate {
+    
+    // 3. 인앱 상품 정보 조회 응답 메서드
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        
+        let products = response.products
+        
+        if products.count > 0 {
+            for i in products {
+                productArray.append(i)
+                product = i //옵션. 테이블뷰 셀에서 구매하기 버튼 클릭 시, 버튼 클릭 시????
+                
+                print(i.localizedTitle, i.price, i.priceLocale, i.localizedDescription)
+            }
+        } else {
+            self.view.makeToast("해당 상품 조회에 실패했습니다.", duration: 1.0, position: .center)
+        }
+    }
+    
+    // 영수증 검증 => 여기서 서버를 통해 검증해야함
+    func receiptValidation(transaction: SKPaymentTransaction, productIdentifier: String) {
+        // SandBox: “https://sandbox.itunes.apple.com/verifyReceipt”
+        // iTunes Store : “https://buy.itunes.apple.com/verifyReceipt”
+        
+        //구매 영수증 정보
+        let receiptFileURL = Bundle.main.appStoreReceiptURL
+        let receiptData = try? Data(contentsOf: receiptFileURL!)
+        let receiptString = receiptData?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        print(receiptString)
+        
+        //거래 내역(transaction)을 큐에서 제거
+        SKPaymentQueue.default().finishTransaction(transaction)
+    }
+}
+
+// MARK: - 인앱결제 구매 Observer
+extension ShopViewController: SKPaymentTransactionObserver {
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        
+        for transaction in transactions {
+            
+            switch transaction.transactionState {
+            case .purchased: //구매 승인 이후에 영수증 검증
+                
+                print("Transaction Approved. \(transaction.payment.productIdentifier)")
+                
+                // 영수증 검증! (우리는 여기서 서버를 통해 검증해야함)
+                receiptValidation(transaction: transaction, productIdentifier: transaction.payment.productIdentifier)
+                
+            case .failed:
+                print("Transaction Failed")
+                SKPaymentQueue.default().finishTransaction(transaction)
+                
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
+        print("removedTransactions")
+    }
+    
     
 }
 
@@ -216,12 +237,12 @@ extension ShopViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        if collectionView == vc1.mainView.collectionView {
+        if collectionView == mainView.vc1.mainView.collectionView {
             self.selectedFC = indexPath.row
         } else {
             self.selectedBG = indexPath.row
         }
-        tableView.reloadData()
+        mainView.tableView.reloadData()
     }
 }
 
@@ -293,12 +314,12 @@ extension ShopViewController {
         selectedBG = value.background
         selectedFC = value.sesac
         
-        vc1.mainView.sesacCollection = value.sesacCollection
-        vc2.mainView.backgroundCollection = value.backgroundCollection
+        mainView.vc1.mainView.sesacCollection = value.sesacCollection
+        mainView.vc2.mainView.backgroundCollection = value.backgroundCollection
         
-        tableView.reloadData()
-        vc1.mainView.collectionView.reloadData()
-        vc2.mainView.collectionView.reloadData()
+        mainView.tableView.reloadData()
+        mainView.vc1.mainView.collectionView.reloadData()
+        mainView.vc2.mainView.collectionView.reloadData()
     }
 }
 

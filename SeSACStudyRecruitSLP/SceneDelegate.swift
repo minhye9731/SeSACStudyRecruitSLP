@@ -21,14 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: scene.coordinateSpace.bounds)
         window?.windowScene = scene
                 
-        let viewController = TabBarController() // OnBoardingViewController() // test
-        window?.rootViewController = UINavigationController(rootViewController: viewController)
-//        window?.rootViewController = viewController
+        let viewController = LaunchScreenViewController() // OnBoardingViewController() // test
+//        window?.rootViewController = UINavigationController(rootViewController: viewController)
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
-        
-
-//        viewController.checkFirstRun()
-
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
