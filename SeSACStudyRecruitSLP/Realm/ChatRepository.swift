@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 protocol ChatRepositoryType {
-    func fetchRealm()
+    func fetchRealm() -> [Chat]
     func filteredByUID(uid: String)
     func plusChat(item: ChatRealmModel)
 }
@@ -25,8 +25,24 @@ class ChatRepository: ChatRepositoryType {
     let calendar = Calendar.current
     
     // MARK: - functions
-    func fetchRealm() {
-        tasks = ChatRepository.standard.localRealm.objects(ChatRealmModel.self)
+    func fetchRealm() -> [Chat] {
+
+        var lastChatData: [Chat] = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).sorted(byKeyPath: "createdAt", ascending: true).map { data in
+            
+            let chat = data.text
+            let userId = data.userID
+            let name = data.name ?? ""
+            let username = data.username ?? ""
+            let id = data.id ?? ""
+            let createdAt = data.createdAt
+            let updatedAt = data.updatedAt ?? ""
+            let v = data.v ?? 0
+            let iD = data.ID ?? ""
+            
+            return Chat(text: chat, userID: userId, name: name, username: username, id: id, createdAt: createdAt, updatedAt: updatedAt, v: v, ID: iD)
+        }
+        dump(lastChatData)
+        return lastChatData
     }
     
     func filteredByUID(uid: String) {
