@@ -14,21 +14,21 @@ import IQKeyboardManagerSwift
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
-    }
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // Firebase 초기화 세팅
         FirebaseApp.configure()
-        Messaging.messaging().delegate = self
-        UNUserNotificationCenter.current().delegate = self
         
+        // 메시지 대리자 설정
+        Messaging.messaging().delegate = self
+        
+        // FCM 다시 사용 설정
+        Messaging.messaging().isAccessibilityElement = true
+        
+        // 푸시 알림 권한 설정 및 푸시 알림에 앱 등록
+        UNUserNotificationCenter.current().delegate = self
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in })
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { _, _ in })
         application.registerForRemoteNotifications()
         
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "sesacBack")?.withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: -12.0, bottom: 0.0, right: 0.0))
@@ -41,9 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    /// APN 토큰과 등록 토큰 매핑
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+    }
 
     // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -61,13 +66,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        Messaging.messaging().apnsToken = deviceToken
-//        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
-//    }
-    
+    // foreground 상태에서도 알림 발송되도록 하는 함수
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.badge, .sound, .banner, .list])
+        
+        // 현위치 확인
+        guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.navigationController?.topViewController else { return }
+        
+        if viewController is ChattingViewController {
+            completionHandler([])
+        } else {
+            completionHandler([.badge, .sound, .banner, .list])
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("사용자가 푸시를 클릭했습니다.")
+        print(response.notification.request.content.body)
+        
+        let userInfo = response.notification.request.content.userInfo
+        let application = UIApplication.shared
+        print(userInfo)
+        
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            print("사용자가 시스템 푸시를 탭했습니다~!")
+        }
+        
     }
     
 }
@@ -86,11 +109,6 @@ extension AppDelegate: MessagingDelegate {
             userInfo: dataDict
         )
     }
-    
-    
-    
-    
-    
     
 }
 
