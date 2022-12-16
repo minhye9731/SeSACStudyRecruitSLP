@@ -16,6 +16,7 @@ final class ShopSesacView: BaseView {
     // MARK: - property
     var sesacCollection: [Int] = []
     var ssPriceButtonActionHandler: (() -> ())?
+    var row = 0
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -40,8 +41,8 @@ final class ShopSesacView: BaseView {
     }
     
     func createLayout() -> UICollectionViewLayout {
-        var bounds = UIScreen.main.bounds
-        var width = bounds.size.width
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
 
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .fractionalHeight(1.0))
@@ -83,7 +84,8 @@ final class ShopSesacView: BaseView {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    @objc func priceBtnTappedClicked() {
+    @objc func priceBtnTappedClicked(sender: PriceButton) {
+        row = sender.row!
         ssPriceButtonActionHandler!()
     }
 }
