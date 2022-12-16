@@ -301,7 +301,6 @@ extension SearchViewController {
         
         let studylist = mywishTagList.isEmpty ? ["anything"] : mywishTagList
 
-//        Network.share.requestQueue(long: String(searchCoordinate.long), lat: String(searchCoordinate.lat), studyList: studylist) { [weak self] response in
         Network.share.requestQueue(long: UserDefaultsManager.searchLONG, lat: UserDefaultsManager.searchLAT, studyList: studylist) { [weak self] response in
             
             switch response {

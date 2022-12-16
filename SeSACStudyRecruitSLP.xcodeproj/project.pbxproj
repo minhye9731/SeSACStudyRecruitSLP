@@ -10,6 +10,7 @@
 		0E01EE7E294AC9C50088E07E /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E01EE7D294AC9C50088E07E /* ShopView.swift */; };
 		0E01EE80294AF84C0088E07E /* InAppProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E01EE7F294AF84C0088E07E /* InAppProducts.swift */; };
 		0E01EE82294AF8790088E07E /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E01EE81294AF8790088E07E /* IAPHelper.swift */; };
+		0E01EE84294B6C180088E07E /* PriceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E01EE83294B6C180088E07E /* PriceButton.swift */; };
 		0E03524D2938F97900D5FEE5 /* ChattingTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */; };
 		0E03525129392AF700D5FEE5 /* SendChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E03525029392AF700D5FEE5 /* SendChatError.swift */; };
 		0E0352532939306900D5FEE5 /* LastChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0352522939306900D5FEE5 /* LastChatError.swift */; };
@@ -177,6 +178,7 @@
 		0E01EE7D294AC9C50088E07E /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		0E01EE7F294AF84C0088E07E /* InAppProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppProducts.swift; sourceTree = "<group>"; };
 		0E01EE81294AF8790088E07E /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		0E01EE83294B6C180088E07E /* PriceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceButton.swift; sourceTree = "<group>"; };
 		0E03524C2938F97900D5FEE5 /* ChattingTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingTableViewHeader.swift; sourceTree = "<group>"; };
 		0E03525029392AF700D5FEE5 /* SendChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatError.swift; sourceTree = "<group>"; };
 		0E0352522939306900D5FEE5 /* LastChatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastChatError.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				0E49C6D129228559004E7875 /* ThumbButton.swift */,
 				0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */,
 				0E11640529339BF300501EBD /* moreReviewButton.swift */,
+				0E01EE83294B6C180088E07E /* PriceButton.swift */,
 			);
 			path = CustomButtom;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				0E1164412934DBC600501EBD /* SocketIOManager.swift in Sources */,
 				0E597AB82939EE61005939CB /* TotalError.swift in Sources */,
 				0E11643F2934CD6500501EBD /* APIKey.swift in Sources */,
+				0E01EE84294B6C180088E07E /* PriceButton.swift in Sources */,
 				0E1410E82918D63E0040BD85 /* AppDelegate.swift in Sources */,
 				0EA57495292A33840064599F /* MyQueueStateResponse.swift in Sources */,
 				0EA6A9F52920A28300F71EC6 /* UserInfoDTO.swift in Sources */,

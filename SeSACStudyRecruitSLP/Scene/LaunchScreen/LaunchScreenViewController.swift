@@ -63,6 +63,7 @@ final class LaunchScreenViewController: BaseViewController {
                         return
                     } else {
                         self?.requestFCMUpdate(fcm: value.fcMtoken)
+                        UserDefaultsManager.fcmTokenSU = value.fcMtoken
                         return
                     }
                     
@@ -159,7 +160,6 @@ final class LaunchScreenViewController: BaseViewController {
             }
         }
     }
-    
     
     func refreshIDTokenFCMToken(fcmToken: String) {
         

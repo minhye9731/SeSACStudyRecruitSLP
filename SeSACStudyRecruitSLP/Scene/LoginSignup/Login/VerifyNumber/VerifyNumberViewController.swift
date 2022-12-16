@@ -107,9 +107,16 @@ final class VerifyNumberViewController: BaseViewController {
                 UserDefaultsManager.background = value.background // 삭제예정
                 
                 self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center, completion: { didTap in
-                    self?.changeRootVC(vc: TabBarController())
+                    
+                    if value.fcMtoken == UserDefaultsManager.fcmTokenSU {
+                        self?.changeRootVC(vc: TabBarController())
+                        return
+                    } else {
+                        self?.requestFCMUpdate(fcm: value.fcMtoken)
+                        UserDefaultsManager.fcmTokenSU = value.fcMtoken
+                        return
+                    }
                 })
-                return
                 
             case .unknownUser:
                 self?.mainView.makeToast(status.loginErrorDescription, duration: 0.5, position: .center, completion: { didTap in
@@ -176,6 +183,66 @@ final class VerifyNumberViewController: BaseViewController {
             }
         }
     }
+    
+    func requestFCMUpdate(fcm: String) {
+        let api = APIRouter.fcmUpdate(fcmToken: fcm)
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let statusCode = statusCode else { return }
+            guard let status = GeneralError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                self?.changeRootVC(vc: TabBarController())
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenFCMToken(fcmToken: fcm)
+                return
+                
+            default:
+                self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
+            }
+        }
+    }
+    
+    func refreshIDTokenFCMToken(fcmToken: String) {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+                
+            } else if let idToken = idToken {
+                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                
+                let api = APIRouter.fcmUpdate(fcmToken: fcmToken)
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+                    
+                    guard let statusCode = statusCode else { return }
+                    guard let status = GeneralError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        self?.changeRootVC(vc: TabBarController())
+                        return
+                        
+                    default:
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
     
 }
     
