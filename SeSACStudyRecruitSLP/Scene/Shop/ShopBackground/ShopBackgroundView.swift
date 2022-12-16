@@ -16,6 +16,7 @@ final class ShopBackgroundView: BaseView {
     // MARK: - property
     var backgroundCollection: [Int] = []
     var bgPriceButtonActionHandler: (() -> ())?
+    var row = 0
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -83,7 +84,8 @@ final class ShopBackgroundView: BaseView {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    @objc func priceBtnTappedClicked() {
+    @objc func priceBtnTappedClicked(sender: PriceButton) {
+        row = sender.row!
         bgPriceButtonActionHandler!()
     }
 }
