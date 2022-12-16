@@ -51,13 +51,20 @@ final class LaunchScreenViewController: BaseViewController {
             let api = APIRouter.login
             Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
                 
+                guard let value = value else { return }
                 guard let statusCode = statusCode else { return }
                 guard let status = LoginError(rawValue: statusCode) else { return }
                 
                 switch status {
                 case .success:
-                    self?.changeRootVC(vc: TabBarController())
-                    return
+                    // fcm 코드비교 및 업데이트
+                    if value.fcMtoken == UserDefaultsManager.fcmTokenSU {
+                        self?.changeRootVC(vc: TabBarController())
+                        return
+                    } else {
+                        self?.requestFCMUpdate(fcm: value.fcMtoken)
+                        return
+                    }
                     
                 case .fbTokenError:
                     self?.refreshIDToken()
@@ -129,6 +136,31 @@ final class LaunchScreenViewController: BaseViewController {
             }
         }
     }
+    
+    func requestFCMUpdate(fcm: String) {
+        let api = APIRouter.fcmUpdate(fcmToken: fcm)
+        Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let statusCode = statusCode else { return }
+            guard let status = GeneralError(rawValue: statusCode) else { return }
+            
+            switch status {
+            case .success:
+                self?.changeRootVC(vc: TabBarController())
+                return
+                
+            case .fbTokenError:
+                self?.refreshIDTokenFCMToken(fcmToken: fcm)
+                return
+                
+            default:
+                self?.view.makeToast(status.errorDescription, duration: 1.0, position: .center)
+                return
+            }
+        }
+    }
+    
+
     
     
     
