@@ -44,6 +44,10 @@ final class ChattingViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = false
         print("👄현재 대화중인 상대방 = \(otherSesacNick) | \(otherSesacUID)")
+        
+        fetchChats()
+        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,9 +80,9 @@ final class ChattingViewController: BaseViewController {
         subscribe()
         bind()
         
-        fetchChats()
+//        fetchChats()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
         
         mainView.moreMenuView.isHidden = menuTapped ? false : true
     }
@@ -91,9 +95,10 @@ final class ChattingViewController: BaseViewController {
         let createdAt = notification.userInfo!["createdAt"] as! String
         
         let newChat = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
+        let valueForRealm = ChatRealmModel(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         
         self.chat.append(newChat)
-        // db에 여기서도 저장을 해줘야 하나..
+        ChatRepository.standard.plusChat(item: valueForRealm) // (수신chat)DB 저장
         mainView.tableView.reloadData()
         mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
     }
@@ -146,6 +151,7 @@ extension ChattingViewController {
     private func fetchChats() {
         
         // 1) DB에 저장된 채팅 내역을 갖고온다
+        chat = ChatRepository.standard.fetchRealm()
             //- 상대방 uid에 대항하는 채팅 내용을 필터해서 가져옴
         ChatRepository.standard.filteredByUID(uid: otherSesacUID)
         
@@ -180,8 +186,10 @@ extension ChattingViewController {
                         let createdAt = data.createdAt
                         
                         let value = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: Date().toBirthDateForm(), v: 0, ID: "")
+                        let valueForRealm = ChatRealmModel(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
                         print("👄신규데이터 = \(value)")
-                        self?.chat.append(value)
+                        self?.chat.append(value) // 화면에 보여줄 바구니에 담고
+                        ChatRepository.standard.plusChat(item: valueForRealm) // (background 기간동안 받았던 수신chat)DB 저장
                     }
                 }
                 
@@ -191,7 +199,6 @@ extension ChattingViewController {
                     self?.mainView.tableView.reloadData()
                     self?.mainView.tableView.scrollToRow(at: IndexPath(row: self!.chat.count - 1, section: 0), at: .bottom, animated: false)
                 }
-                
                 
                 // 5) 소켓을 연결
                 SocketIOManager.shared.establishConnection()
@@ -233,7 +240,7 @@ extension ChattingViewController {
                 print("👄내가보낸 채팅 신규데이터 = \(value)")
                 
                 self?.chat.append(value) // 화면표기용 (chat에 추가)
-                ChatRepository.standard.plusChat(item: valueForRealm) // DB에 저장
+                ChatRepository.standard.plusChat(item: valueForRealm) // (송신chat)DB 저장
                 
                 self?.mainView.chatTextView.text = ""
                 self?.mainView.tableView.reloadData()
