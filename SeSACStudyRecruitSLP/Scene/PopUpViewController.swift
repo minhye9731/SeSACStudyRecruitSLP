@@ -445,9 +445,11 @@ extension PopUpViewController {
                 print("스터디 취소는 성공이다~")
                 
                 self?.dismiss(animated: true, completion: {
-                    guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.navigationController?.topViewController else { return }
-                    
-                    viewController.navigationController?.popToRootViewController(animated: true)
+//                    guard let viewController = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window?.rootViewController?.navigationController?.topViewController else { return }
+//
+//                    viewController.navigationController?.popToRootViewController(animated: true)
+                    let vc = TabBarController()
+                    self?.changeRootVC(vc: vc)
                     
                 })
 
