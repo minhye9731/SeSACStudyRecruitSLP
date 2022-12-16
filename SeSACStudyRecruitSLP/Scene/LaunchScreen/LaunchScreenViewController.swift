@@ -160,8 +160,41 @@ final class LaunchScreenViewController: BaseViewController {
         }
     }
     
+    
+    func refreshIDTokenFCMToken(fcmToken: String) {
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+            
+            if let error = error as? NSError {
+                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
+                switch errorCode {
+                default:
+                    self.view.makeToast("\(error.localizedDescription)", duration: 1.0, position: .center)
+                }
+                return
+                
+            } else if let idToken = idToken {
+                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                
+                let api = APIRouter.fcmUpdate(fcmToken: fcmToken)
+                Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
+                    
+                    guard let statusCode = statusCode else { return }
+                    guard let status = GeneralError(rawValue: statusCode) else { return }
+                    
+                    switch status {
+                    case .success:
+                        self?.changeRootVC(vc: TabBarController())
+                        return
+                        
+                    default:
+                        self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
+                        return
+                    }
+                }
+            }
+        }
+    }
 
-    
-    
-    
 }

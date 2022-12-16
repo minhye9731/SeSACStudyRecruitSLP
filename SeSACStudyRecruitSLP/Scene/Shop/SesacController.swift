@@ -46,16 +46,16 @@ extension SesacController {
     }
     
     func backgroundsInternal() -> [SesacItem] {
-        return [SesacItem(image: Constants.ImageName.bg1.rawValue, name: "하늘 공원", description: "새싹들을 많이 마주치는 매력적인 하늘 공원입니다", price: "보유"),
-                SesacItem(image: Constants.ImageName.bg2.rawValue, name: "씨티 뷰", description: "창밖으로 보이는 도시 야경이 아름다운 공간입니다", price: "1,200"),
-                SesacItem(image: Constants.ImageName.bg3.rawValue, name: "밤의 산책로", description: "어둡지만 무섭지 않은 조용한 산책로입니다", price: "1,200"),
-                SesacItem(image: Constants.ImageName.bg4.rawValue, name: "낮의 산책로", description: "즐겁고 가볍게 걸을 수 있는 산책로입니다", price: "1,200"),
-                SesacItem(image: Constants.ImageName.bg5.rawValue, name: "연극 무대", description: "연극의 주인공이 되어 연기를 펼칠 수 있는 무대입니다", price: "2,500"),
-                SesacItem(image: Constants.ImageName.bg6.rawValue, name: "라틴 거실", description: "모노톤의 따스한 감성의 거실로 편하게 쉴 수 있는 공간입니다", price: "2,500"),
-                SesacItem(image: Constants.ImageName.bg7.rawValue, name: "홈트방", description: "집에서 운동을 할 수 있도록 기구를 갖춘 방입니다", price: "2,500"),
-                SesacItem(image: Constants.ImageName.bg8.rawValue, name: "뮤지션 작업실", description: "여러가지 음악 작업을 할 수 있는 작업실입니다", price: "2,500"),
-                SesacItem(image: Constants.ImageName.bg9.rawValue, name: "도자기 공방", description: "고요하고 차분하게 도자기를 만들 수 있는 공방입니다", price: "2,500")
-                ]
+        return [
+            SesacItem(image: Constants.ImageName.bg1.rawValue, name: "하늘 공원", description: "새싹들을 많이 마주치는 매력적인 하늘 공원입니다", price: "보유"),
+            SesacItem(image: Constants.ImageName.bg2.rawValue, name: "씨티 뷰", description: "창밖으로 보이는 도시 야경이 아름다운 공간입니다", price: "1,200"),
+            SesacItem(image: Constants.ImageName.bg3.rawValue, name: "밤의 산책로", description: "어둡지만 무섭지 않은 조용한 산책로입니다", price: "1,200"),
+            SesacItem(image: Constants.ImageName.bg4.rawValue, name: "낮의 산책로", description: "즐겁고 가볍게 걸을 수 있는 산책로입니다", price: "1,200"),
+            SesacItem(image: Constants.ImageName.bg5.rawValue, name: "연극 무대", description: "연극의 주인공이 되어 연기를 펼칠 수 있는 무대입니다", price: "2,500"),
+            SesacItem(image: Constants.ImageName.bg6.rawValue, name: "라틴 거실", description: "모노톤의 따스한 감성의 거실로 편하게 쉴 수 있는 공간입니다", price: "2,500"),
+            SesacItem(image: Constants.ImageName.bg7.rawValue, name: "홈트방", description: "집에서 운동을 할 수 있도록 기구를 갖춘 방입니다", price: "2,500"),
+            SesacItem(image: Constants.ImageName.bg8.rawValue, name: "뮤지션 작업실", description: "여러가지 음악 작업을 할 수 있는 작업실입니다", price: "2,500")
+        ]
     }
 }
 
