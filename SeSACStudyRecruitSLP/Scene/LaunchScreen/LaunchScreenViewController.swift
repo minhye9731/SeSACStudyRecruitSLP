@@ -62,8 +62,7 @@ final class LaunchScreenViewController: BaseViewController {
                         self?.changeRootVC(vc: TabBarController())
                         return
                     } else {
-                        self?.requestFCMUpdate(fcm: value.fcMtoken)
-                        UserDefaultsManager.fcmTokenSU = value.fcMtoken
+                        self?.requestFCMUpdate(fcm: UserDefaultsManager.fcmTokenSU)
                         return
                     }
                     
