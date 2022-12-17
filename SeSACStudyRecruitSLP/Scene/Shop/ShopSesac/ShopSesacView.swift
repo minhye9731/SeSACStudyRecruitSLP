@@ -15,7 +15,7 @@ final class ShopSesacView: BaseView {
     
     // MARK: - property
     var sesacCollection: [Int] = []
-    var ssPriceButtonActionHandler: (() -> ())?
+    var ssPriceButtonActionHandler: ((Int) -> ())?
     var row = 0
     
     lazy var collectionView: UICollectionView = {
@@ -85,7 +85,7 @@ final class ShopSesacView: BaseView {
     }
     
     @objc func priceBtnTappedClicked(sender: PriceButton) {
-        row = sender.row!
-        ssPriceButtonActionHandler!()
+        guard let row = sender.row else { return }
+        ssPriceButtonActionHandler?(row)
     }
 }

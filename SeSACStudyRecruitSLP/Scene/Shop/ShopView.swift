@@ -226,9 +226,7 @@ extension ShopView: UICollectionViewDelegate {
 
     // 4. price 버튼 클릭
     func setPriceButtonBuyAction() {
-        vc1.mainView.ssPriceButtonActionHandler = {
-            let row = self.vc1.mainView.row
-            print(row)
+        vc1.mainView.ssPriceButtonActionHandler = { row in
             
             if row == 0 {
                 self.makeToast("기본값으로 보유하신 상품입니다", duration: 1.0, position: .center)
@@ -241,10 +239,8 @@ extension ShopView: UICollectionViewDelegate {
             }
         }
         
-        vc2.mainView.bgPriceButtonActionHandler = {
-            let row = self.vc2.mainView.row
-            print(row)
-            
+        vc2.mainView.bgPriceButtonActionHandler = { row in
+
             if row == 0 {
                 self.makeToast("기본값으로 보유하신 상품입니다", duration: 1.0, position: .center)
             } else {
