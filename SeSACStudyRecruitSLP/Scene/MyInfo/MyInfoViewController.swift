@@ -40,6 +40,10 @@ final class MyInfoViewController: BaseViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    deinit {
+        print("🎬🎬🎬MyInfoViewController deinit🎬🎬🎬")
+    }
+    
     // MARK: - functions
     override func configure() {
         super.configure()
