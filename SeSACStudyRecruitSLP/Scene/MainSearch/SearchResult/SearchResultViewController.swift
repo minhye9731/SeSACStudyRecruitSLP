@@ -197,7 +197,7 @@ extension SearchResultViewController {
 
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
-            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+            guard let status = MyQueueStateError(rawValue: statusCode) else { return }
 
             print("⭐️value : \(value), ⭐️statusCode: \(statusCode)")
             

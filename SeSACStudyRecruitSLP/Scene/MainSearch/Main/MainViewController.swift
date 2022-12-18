@@ -180,18 +180,7 @@ extension MainViewController {
             mainView.mapView.removeAnnotations(mainView.mapView.annotations)
             sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
         }
-        
-        //        switch gender {
-        //        case .all:
-        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-        //            sesacList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-        //        case .man:
-        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-        //            sesacManList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-        //        case .woman:
-        //            mainView.mapView.removeAnnotations(mainView.mapView.annotations)
-        //            sesacWomanList.forEach { addCustomPin(faceImage: $0.sesac, lat: $0.lat, long: $0.long) }
-        //        }
+
     }
 }
 
@@ -349,14 +338,7 @@ extension MainViewController {
                 return
             } else if let idToken = idToken {
                 print("401 에러 해결")
-                
-                
-                
-                
-                
-                
-                
-                
+
             }
         }
     }

@@ -289,8 +289,8 @@ extension ShopView: SKProductsRequestDelegate {
             
             for i in products {
                 productArray.append(i)
-                product = i //옵션. 테이블뷰 셀에서 구매하기 버튼 클릭 시, 버튼 클릭 시????
                 
+                product = i //옵션. 테이블뷰 셀에서 구매하기 버튼 클릭 시, 버튼 클릭 시???
                 print(i.localizedTitle, i.price, i.priceLocale, i.localizedDescription)
             }
             
