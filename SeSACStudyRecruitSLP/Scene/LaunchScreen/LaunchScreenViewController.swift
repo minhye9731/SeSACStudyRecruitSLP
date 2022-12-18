@@ -25,35 +25,34 @@ final class LaunchScreenViewController: BaseViewController {
     // MARK: - functions
     override func configure() {
         super.configure()
-        
+        print("🎬LaunchScreenViewController configure🎬")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.startByState()
         }
     }
 
     func startByState() {
-        
-        typealias FirstLaunch = Bool
-        let isFirstLaunched: FirstLaunch = UserDefaultsManager.firstRun
-        let isEmptyToken: FirstLaunch = UserDefaultsManager.idtoken.isEmpty
-        
-        if isFirstLaunched { // 최초사용자일 경우
-            print(UserDefaultsManager.firstRun)
+        if UserDefaultsManager.firstRun {
+            print("firstRun : \(UserDefaultsManager.firstRun)")
             changeRootVC(vc: OnBoardingViewController())
             return
             
-        } else if isEmptyToken { // 토큰 존재여부
-            changeRootNavVC(vc: PhoneNumberViewController()) // 토큰 empty면 번호인증
+        } else if UserDefaultsManager.idtoken.isEmpty {
+            print("isEmptyToken : \(UserDefaultsManager.idtoken.isEmpty)")
+            changeRootNavVC(vc: PhoneNumberViewController())
             return
             
-        } else { // 토큰 있으면 해당정보로 로그인 시도
+        } else {
+            print("UserDefaultsManager.idtoken : \(UserDefaultsManager.idtoken)")
             
             let api = APIRouter.login
             Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
-                
+
                 guard let value = value else { return }
                 guard let statusCode = statusCode else { return }
                 guard let status = LoginError(rawValue: statusCode) else { return }
+                
+                print("value.fcMtoken = \(value.fcMtoken), UserDefaultsManager.fcmTokenSU = \(UserDefaultsManager.fcmTokenSU)")
                 
                 switch status {
                 case .success:
