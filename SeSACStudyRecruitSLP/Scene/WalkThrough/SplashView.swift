@@ -9,6 +9,7 @@ import UIKit
 
 class SplashView: BaseView {
     
+    // MARK: - property
     let notiLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -24,8 +25,10 @@ class SplashView: BaseView {
         return image
     }()
     
+    // MARK: - functions
     override func configureUI() {
         super.configureUI()
+        backgroundColor = .red
         
         [notiLabel, introImage].forEach {
             self.addSubview($0)
@@ -35,16 +38,17 @@ class SplashView: BaseView {
     override func setConstraints() {
         super.setConstraints()
         
-        introImage.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-50)
-            make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.height.width.equalTo(360)
+        introImage.snp.makeConstraints {
+            $0.centerY.equalTo(safeAreaLayoutGuide).multipliedBy(1.2)
+            $0.centerX.equalTo(safeAreaLayoutGuide)
+            $0.directionalHorizontalEdges.equalTo(safeAreaLayoutGuide).inset(10)
+            $0.height.equalTo(introImage.snp.width)
         }
         
-        notiLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(74)
-            make.bottom.equalTo(self.introImage.snp.top).offset(-56)
+        notiLabel.snp.makeConstraints {
+            $0.centerX.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(74)
+            $0.centerY.equalTo(safeAreaLayoutGuide).multipliedBy(0.4)
         }
     }
     
@@ -52,7 +56,4 @@ class SplashView: BaseView {
         notiLabel.text = text
         introImage.image = UIImage(named: image)
     }
-    
-    
-    
 }
