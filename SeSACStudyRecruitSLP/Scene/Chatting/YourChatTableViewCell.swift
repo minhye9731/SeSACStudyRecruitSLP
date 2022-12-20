@@ -65,6 +65,9 @@ final class YourChatTableViewCell: BaseTableViewCell {
         }
     }
     
-    
+    func setData(data: Chat) {
+        yourChatLabel.text = data.text
+        yourTimeLabel.text = data.createdAt
+    }
 }
 
