@@ -131,14 +131,9 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
         let data = chat[indexPath.row]
         
-        if data.userID == otherSesacUID {
-            yourCell.setData(data: data)
-            return yourCell
-            
-        } else {
-            myCell.setData(data: data)
-            return myCell
-        }
+        data.userID == otherSesacUID ? yourCell.setData(data: data) : myCell.setData(data: data)
+
+        return data.userID == otherSesacUID ? yourCell : myCell
     }
     
 }
