@@ -28,19 +28,13 @@ class TabBarController: UITabBarController {
                                            selectedImage: UIImage(named: Constants.ImageName.shopInact.rawValue))
         let secondNav = UINavigationController(rootViewController: secondVC)
         
-        let thirdVC = FriendViewController()
-        thirdVC.tabBarItem = UITabBarItem(title: "새싹친구",
-                                          image: UIImage(named: Constants.ImageName.friendsAct.rawValue),
-                                          selectedImage: UIImage(named: Constants.ImageName.friendsInact.rawValue))
-        let thirdNav = UINavigationController(rootViewController: thirdVC)
-        
-        let fourthVC = MyInfoViewController()
-        fourthVC.tabBarItem = UITabBarItem(title: "내정보",
+        let thirdVC = MyInfoViewController()
+        thirdVC.tabBarItem = UITabBarItem(title: "내정보",
                                           image: UIImage(named: Constants.ImageName.myAct.rawValue),
                                           selectedImage: UIImage(named: Constants.ImageName.myInact.rawValue))
-        let fourthNav = UINavigationController(rootViewController: fourthVC)
+        let thirdNav = UINavigationController(rootViewController: thirdVC)
         
-        setViewControllers([firstNav, secondNav, thirdNav, fourthNav], animated: true)
+        setViewControllers([firstNav, secondNav, thirdNav], animated: true)
     }
     
     func setupTabBarAppearance() {
