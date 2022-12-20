@@ -32,60 +32,55 @@ final class LaunchScreenViewController: BaseViewController {
     }
 
     func startByState() {
-        if UserDefaultsManager.firstRun {
+        if !UserDefaultsManager.firstRun {
             print("firstRun : \(UserDefaultsManager.firstRun)")
-            changeRootVC(vc: OnBoardingViewController())
-            return
-            
-        } else if UserDefaultsManager.idtoken.isEmpty {
-            print("isEmptyToken : \(UserDefaultsManager.idtoken.isEmpty)")
-            changeRootNavVC(vc: PhoneNumberViewController())
-            return
-            
-        } else {
-            print("UserDefaultsManager.idtoken : \(UserDefaultsManager.idtoken)")
-            
-            let api = APIRouter.login
-            Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
-
-                guard let value = value else { return }
-                guard let statusCode = statusCode else { return }
-                guard let status = LoginError(rawValue: statusCode) else { return }
+            if UserDefaultsManager.idtoken.isEmpty {
+                print("isEmptyToken : \(UserDefaultsManager.idtoken.isEmpty)")
+                changeRootNavVC(vc: PhoneNumberViewController())
+            } else {
+                print("UserDefaultsManager.idtoken : \(UserDefaultsManager.idtoken)")
+                print("UserDefaultsManager.fcmTokenSU = \(UserDefaultsManager.fcmTokenSU)")
                 
-                print("value.fcMtoken = \(value.fcMtoken), UserDefaultsManager.fcmTokenSU = \(UserDefaultsManager.fcmTokenSU)")
-                
-                switch status {
-                case .success:
-                    // fcm 코드비교 및 업데이트
-                    if value.fcMtoken == UserDefaultsManager.fcmTokenSU {
-                        self?.changeRootVC(vc: TabBarController())
-                        return
-                    } else {
-                        self?.requestFCMUpdate(fcm: UserDefaultsManager.fcmTokenSU)
-                        return
-                    }
+                let api = APIRouter.login
+                Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
                     
-                case .fbTokenError:
-                    self?.refreshIDToken()
-                    return
+                    guard let value = value else { return }
+                    guard let statusCode = statusCode else { return }
+                    guard let status = LoginError(rawValue: statusCode) else { return }
                     
-                case .unknownUser:
-                    self?.changeRootNavVC(vc: NickNameViewController())
-                    return
-                    
-                default:
-                    let alert = UIAlertController(title: "네트워크 에러로 인해 앱을 종료합니다.", message: nil, preferredStyle: .alert)
-                    let ok = UIAlertAction(title: "확인", style: .default) {_ in
-                        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            exit(0)
+                    switch status {
+                    case .success:
+                        if UserDefaultsManager.fcmTokenSU != (value.fcMtoken) {
+                            self?.requestFCMUpdate(fcm: UserDefaultsManager.fcmTokenSU)
+                        } else {
+                            self?.changeRootVC(vc: TabBarController())
                         }
+                        return
+                        
+                    case .fbTokenError:
+                        self?.refreshIDToken()
+                        return
+                        
+                    case .unknownUser:
+                        self?.changeRootNavVC(vc: NickNameViewController())
+                        return
+                        
+                    default:
+                        let alert = UIAlertController(title: "네트워크 에러로 인해 앱을 종료합니다.", message: nil, preferredStyle: .alert)
+                        let ok = UIAlertAction(title: "확인", style: .default) {_ in
+                            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                exit(0)
+                            }
+                        }
+                        alert.addAction(ok)
+                        self?.present(alert, animated: true)
+                        return
                     }
-                    alert.addAction(ok)
-                    self?.present(alert, animated: true)
-                    return
                 }
             }
+        } else {
+            changeRootVC(vc: OnBoardingViewController())
         }
     }
     
@@ -102,17 +97,21 @@ final class LaunchScreenViewController: BaseViewController {
                 return
                 
             } else if let idToken = idToken {
-                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                UserDefaultsManager.idtoken = idToken
 
                 let api = APIRouter.login
                 Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
-                    
+                    guard let value = value else { return }
                     guard let statusCode = statusCode else { return }
                     guard let status = LoginError(rawValue: statusCode) else { return }
                     
                     switch status {
                     case .success:
-                        self?.changeRootVC(vc: TabBarController())
+                        if UserDefaultsManager.fcmTokenSU != (value.fcMtoken) {
+                            self?.requestFCMUpdate(fcm: UserDefaultsManager.fcmTokenSU)
+                        } else {
+                            self?.changeRootVC(vc: TabBarController())
+                        }
                         return
 
                     case .unknownUser:
@@ -173,7 +172,7 @@ final class LaunchScreenViewController: BaseViewController {
                 return
                 
             } else if let idToken = idToken {
-                UserDefaults.standard.set(idToken, forKey: "idtoken")
+                UserDefaultsManager.idtoken = idToken
                 
                 let api = APIRouter.fcmUpdate(fcmToken: fcmToken)
                 Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
