@@ -127,18 +127,16 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let yourCell = tableView.dequeueReusableCell(withIdentifier: "YourChatTableViewCell", for: indexPath) as! YourChatTableViewCell
+        let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
         let data = chat[indexPath.row]
         
         if data.userID == otherSesacUID {
-            let yourCell = tableView.dequeueReusableCell(withIdentifier: "YourChatTableViewCell", for: indexPath) as! YourChatTableViewCell
-            yourCell.yourChatLabel.text = data.text
-            yourCell.yourTimeLabel.text = data.createdAt
+            yourCell.setData(data: data)
             return yourCell
+            
         } else {
-            let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
-            myCell.myChatLabel.text = data.text
-            myCell.myTimeLabel.text = data.createdAt
+            myCell.setData(data: data)
             return myCell
         }
     }
