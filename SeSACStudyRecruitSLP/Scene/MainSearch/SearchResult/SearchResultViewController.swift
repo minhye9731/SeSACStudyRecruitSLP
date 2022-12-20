@@ -122,7 +122,6 @@ extension SearchResultViewController {
         let api = QueueAPIRouter.delete
         Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
             
-            guard let value = value else { return }
             guard let statusCode = statusCode else { return }
             guard let status = QueueDeleteError(rawValue: statusCode) else { return }
             
@@ -167,7 +166,6 @@ extension SearchResultViewController {
                 let api = QueueAPIRouter.delete
                 Network.share.requestForResponseStringTest(router: api) { [weak self] (value, statusCode, error) in
                     
-                    guard let value = value else { return }
                     guard let statusCode = statusCode else { return }
                     guard let status = QueueDeleteError(rawValue: statusCode) else { return }
                     
