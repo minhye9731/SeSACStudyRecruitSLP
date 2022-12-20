@@ -93,6 +93,15 @@ extension UIButton {
         return config
     }
     
+    static func genderBtn(title: String) -> UIButton {
+        var btn = UIButton()
+        btn.setTitle(title, for: .normal)
+        btn.titleLabel?.font = CustomFonts.title4_R14()
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 8
+        return btn
+    }
+    
     static func generalButton(title: String, textcolor: UIColor, bgcolor: UIColor, font: UIFont) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)

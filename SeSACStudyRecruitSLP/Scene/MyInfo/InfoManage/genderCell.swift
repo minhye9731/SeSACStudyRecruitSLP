@@ -20,14 +20,12 @@ final class GenderCell: BaseTableViewCell {
     }()
     
     let manButton: UIButton = {
-        let button = UIButton()
-        button.configuration = UIButton.textButton(title: "남자")
+        let button = UIButton.genderBtn(title: "남자")
         return button
     }()
   
     let womanButton: UIButton = {
-        let button = UIButton()
-        button.configuration = UIButton.textButton(title: "여자")
+        let button = UIButton.genderBtn(title: "여자")
         return button
     }()
     
@@ -65,17 +63,15 @@ final class GenderCell: BaseTableViewCell {
     }
     
     func setData(data: Int) {
-        
         let selectBtn = data == 0 ? womanButton : manButton
         let unselectBtn = data == 0 ? manButton : womanButton
         
-        selectBtn.configuration?.baseBackgroundColor = ColorPalette.green
-        selectBtn.configuration?.background.strokeColor = ColorPalette.green
-        selectBtn.configuration?.attributedTitle?.foregroundColor = .white
-        
-        unselectBtn.configuration?.baseBackgroundColor = .white
-        unselectBtn.configuration?.background.strokeColor = ColorPalette.gray3
-        unselectBtn.configuration?.attributedTitle?.foregroundColor = .black
+        selectBtn.backgroundColor = ColorPalette.green
+        selectBtn.layer.borderColor = ColorPalette.green.cgColor
+        selectBtn.setTitleColor(.white, for: .normal)
+        unselectBtn.backgroundColor = .white
+        unselectBtn.layer.borderColor = ColorPalette.gray3.cgColor
+        unselectBtn.setTitleColor(.black, for: .normal)
     }
     
    
