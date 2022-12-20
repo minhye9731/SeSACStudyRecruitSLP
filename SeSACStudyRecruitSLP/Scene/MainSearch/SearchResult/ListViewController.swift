@@ -93,12 +93,12 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         
         // 코드정리
         profileCell.selectionStyle = .none
-        
         profileCell.setSesacData(data: pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList, section: indexPath.section)
         
         profileCell.moreReview.addTarget(self, action: #selector(moreReviewTapped), for: .touchUpInside)
         profileCell.moreReview.data =  pageboyPageIndex == 0 ? aroundSesacList : receivedSesacList
         profileCell.moreReview.section = indexPath.section
+        profileCell.isStudyHidden(type: .otherSesac)
         
         return profileCell
     }
@@ -122,8 +122,6 @@ extension ListViewController {
     @objc func headerNameTapped(sender: HeaderSectionPassButton) {
         guard let header = sender.header else { return }
         guard let section = sender.section else { return }
-        
-        print("\(section)번째 유저카드 클릭!!")
         
         isExpandedList[section].toggle()
         header.setCollapsed(isExpandedList[section])

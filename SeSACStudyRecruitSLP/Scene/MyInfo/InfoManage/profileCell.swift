@@ -178,37 +178,61 @@ final class ProfileCell: BaseTableViewCell {
             make.trailing.equalTo(usercardView).offset(-spacing)
             make.height.equalTo(32)
         }
+    }
+    
+    func isStudyHidden(type: userCardMode) {
+        print(type)
+        let spacing = 16
         
-        // [새싹 찾기]용
-        title2.snp.makeConstraints {
-            $0.top.equalTo(titleButton5.snp.bottom).offset(24)
-            $0.leading.equalTo(usercardView).offset(spacing)
+        if type == .myProfile {
+            title3.snp.makeConstraints {
+                $0.top.equalTo(titleButton5.snp.bottom).offset(24)
+                $0.leading.equalTo(usercardView).offset(spacing)
+            }
+            
+            moreReview.snp.makeConstraints {
+                $0.trailing.equalTo(usercardView).offset(-16)
+                $0.centerY.equalTo(title3.snp.centerY)
+                $0.width.height.equalTo(usercardView.snp.width).multipliedBy(0.046)
+            }
+            
+            reviewTextField.snp.makeConstraints {
+                $0.top.equalTo(title3.snp.bottom).offset(16)
+                $0.horizontalEdges.equalTo(usercardView).inset(spacing)
+                $0.bottom.equalTo(usercardView).offset(-16)
+            }
+            
+        } else {
+            
+            title2.snp.makeConstraints {
+                $0.top.equalTo(titleButton5.snp.bottom).offset(24)
+                $0.leading.equalTo(usercardView).offset(spacing)
+            }
+            wantedStudy.snp.makeConstraints {
+                $0.top.equalTo(title2.snp.bottom).offset(16)
+                $0.leading.equalTo(usercardView).offset(spacing)
+                $0.height.equalTo(32)
+                $0.width.equalTo(100)
+            }
+            
+            title3.snp.makeConstraints { make in
+                make.leading.equalTo(usercardView).offset(spacing)
+                make.top.equalTo(wantedStudy.snp.bottom).offset(24)
+            }
+            
+            moreReview.snp.makeConstraints {
+                $0.trailing.equalTo(usercardView).offset(-16)
+                $0.centerY.equalTo(title3.snp.centerY)
+                $0.width.height.equalTo(usercardView.snp.width).multipliedBy(0.046)
+            }
+            
+            reviewTextField.snp.makeConstraints { make in
+                make.horizontalEdges.equalTo(usercardView).inset(spacing)
+                make.top.equalTo(title3.snp.bottom).offset(16)
+                make.bottom.equalTo(usercardView).offset(-16)
+            }
+            
         }
-        wantedStudy.snp.makeConstraints {
-            $0.top.equalTo(title2.snp.bottom).offset(16)
-            $0.leading.equalTo(usercardView).offset(spacing)
-            $0.height.equalTo(32)
-            $0.width.equalTo(100)
-        }
-        //
-        
-        title3.snp.makeConstraints { make in
-            make.leading.equalTo(usercardView).offset(spacing)
-            make.top.equalTo(wantedStudy.snp.bottom).offset(24)
-        }
-        
-        moreReview.snp.makeConstraints {
-            $0.trailing.equalTo(usercardView).offset(-16)
-            $0.centerY.equalTo(title3.snp.centerY)
-            $0.width.height.equalTo(usercardView.snp.width).multipliedBy(0.046)
-        }
-        
-        reviewTextField.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(usercardView).inset(spacing)
-            make.top.equalTo(title3.snp.bottom).offset(16)
-            make.bottom.equalTo(usercardView).offset(-16)
-        }
-        
     }
     
     // [my info] 정리 필요
@@ -216,8 +240,8 @@ final class ProfileCell: BaseTableViewCell {
         title2.isHidden = true
         wantedStudy.isHidden = true
         
-        var result = UserDefaultsManager.reputation
-        var btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
+        let result = UserDefaultsManager.reputation
+        let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
         
         for i in 0...5 {
             
@@ -240,6 +264,8 @@ final class ProfileCell: BaseTableViewCell {
     // [새싹 찾기]
     func setSesacData(data: [FromQueueDB], section: Int) {
         print("화면에 보여줄 검색된 새싹정보 : \(data)")
+        title2.isHidden = false
+        wantedStudy.isHidden = false
         
         let reputationList = data[section].reputation
         let reviewList = data[section].reviews

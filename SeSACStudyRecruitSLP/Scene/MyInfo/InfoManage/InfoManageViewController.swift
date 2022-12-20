@@ -89,7 +89,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
             profileCell.selectionStyle = .none
             profileCell.setData()
             profileCell.moreReview.addTarget(self, action: #selector(moreReviewTapped), for: .touchUpInside)
-            
+            profileCell.isStudyHidden(type: .myProfile)
             return profileCell
         } else {
             switch indexPath.row {
