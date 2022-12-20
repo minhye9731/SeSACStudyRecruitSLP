@@ -65,7 +65,18 @@ final class MyChatTableViewCell: BaseTableViewCell {
     
     func setData(data: Chat) {
         myChatLabel.text = data.text
-        myTimeLabel.text = data.createdAt
+        setTimeForm(time: data.createdAt)
     }
     
+    func setTimeForm(time: String) {
+        let value = time.toDate()
+        let chattingDate = Calendar.current.dateComponents([.year, .month, .day], from: value)
+        let todayDate = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        
+        if (chattingDate.year == todayDate.year) && (chattingDate.year == todayDate.year) && (chattingDate.year == todayDate.year) {
+            myTimeLabel.text = time.todayChatForm().todayChatForm()
+        } else {
+            myTimeLabel.text = time.notTodayChatForm().notTodayChatForm()
+        }
+    }
 }
