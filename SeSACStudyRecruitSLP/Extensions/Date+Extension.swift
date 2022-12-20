@@ -16,4 +16,19 @@ extension Date {
         dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
         return dateFormatter.string(from: self)
     }
+    
+    func todayChatForm() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a hh:mm"
+        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        return dateFormatter.string(from: self)
+    }
+    
+    func notTodayChatForm() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d a hh:mm"
+        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        return dateFormatter.string(from: self)
+    }
+    
 }
