@@ -19,6 +19,11 @@ enum MatchingMode {
     case matched
 }
 
+enum userCardMode {
+    case myProfile
+    case otherSesac
+}
+
 //enum MapGenderMode: Int {
 //    case woman = 0
 //    case man
