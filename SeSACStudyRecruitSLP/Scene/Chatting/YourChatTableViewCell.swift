@@ -71,14 +71,17 @@ final class YourChatTableViewCell: BaseTableViewCell {
     }
     
     func setTimeForm(time: String) {
-        let value = time.toDate()
-        let chattingDate = Calendar.current.dateComponents([.year, .month, .day], from: value)
+        
+        let date = time.toDate()
+        let calculatedDate = Calendar.current.date(byAdding: .hour, value: 9, to: date) ?? date
+        
+        let chattingDate = Calendar.current.dateComponents([.year, .month, .day], from: calculatedDate)
         let todayDate = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         
         if (chattingDate.year == todayDate.year) && (chattingDate.year == todayDate.year) && (chattingDate.year == todayDate.year) {
-            yourTimeLabel.text = time.todayChatForm().todayChatForm()
+            yourTimeLabel.text = calculatedDate.todayChatForm()
         } else {
-            yourTimeLabel.text = time.notTodayChatForm().notTodayChatForm()
+            yourTimeLabel.text = calculatedDate.notTodayChatForm()
         }
     }
 }
