@@ -41,11 +41,6 @@ class TagCell: BaseCollectionViewCell {
         
         let value = data[indexPath.row]
         tagLabel.text = value
-        
-//        contentView.layer.masksToBounds = true
-//        contentView.layer.cornerRadius = 8
-//        contentView.layer.borderWidth = 1
-        
         tagLabel.textColor = indexPath.row <= rcmNum ? ColorPalette.error : .black
         contentView.layer.borderColor = indexPath.row <= rcmNum ? ColorPalette.error.cgColor : ColorPalette.gray4.cgColor
     }
