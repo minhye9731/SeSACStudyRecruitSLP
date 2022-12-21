@@ -30,21 +30,12 @@ extension String {
     func toDate() -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
-        return dateFormatter.date(from: self) ?? dateFormatter.date(from: "2000-01-01T00:00:00.000Z")!
-    }
-    
-    func todayChatForm() -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "a hh:mm"
-        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
-        return dateFormatter.date(from: self) ?? dateFormatter.date(from: "2000-01-01T00:00:00.000Z")!
-    }
-    
-    func notTodayChatForm() -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "M/d a hh:mm"
-        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+
+        let localeID = Locale.preferredLanguages.first
+        let deviceLocale = Locale(identifier: localeID ?? "ko_kr").languageCode
+        dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko_kr")
+        dateFormatter.timeZone = TimeZone.current
+        
         return dateFormatter.date(from: self) ?? dateFormatter.date(from: "2000-01-01T00:00:00.000Z")!
     }
     
