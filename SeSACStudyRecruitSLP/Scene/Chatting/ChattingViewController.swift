@@ -7,7 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
-import Alamofire // 따로 빼서 관리 예정
+import Alamofire
 import RxKeyboard
 import RxSwift
 import SnapKit

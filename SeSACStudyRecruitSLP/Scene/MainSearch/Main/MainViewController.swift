@@ -35,13 +35,6 @@ final class MainViewController: BaseViewController {
         self.view = mainView
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-//        ChatRepository.standard.removeall()
-
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(#function)

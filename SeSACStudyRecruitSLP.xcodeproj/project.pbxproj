@@ -169,7 +169,6 @@
 		0EF37512292655200074FC64 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF37511292655200074FC64 /* LaunchScreenViewController.swift */; };
 		0EF3751429268E310074FC64 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */; };
 		0EF3751629268F120074FC64 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3751529268F120074FC64 /* UserDefaultsManager.swift */; };
-		0EF375182926B33B0074FC64 /* InfoManageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */; };
 		0EF3751A2926B9DE0074FC64 /* UserInfoUpdateDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */; };
 /* End PBXBuildFile section */
 
@@ -322,7 +321,6 @@
 		0EF37511292655200074FC64 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		0EF3751329268E310074FC64 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		0EF3751529268F120074FC64 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoManageViewModel.swift; sourceTree = "<group>"; };
 		0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoUpdateDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -620,7 +618,6 @@
 				0E49C6C02922454A004E7875 /* pnumPermitCell.swift */,
 				0E49C6BE292244F1004E7875 /* ageRangeCell.swift */,
 				0E49C6BC292244DE004E7875 /* withdrawCell.swift */,
-				0EF375172926B33B0074FC64 /* InfoManageViewModel.swift */,
 			);
 			path = InfoManage;
 			sourceTree = "<group>";
@@ -1001,7 +998,6 @@
 				0E5095852918F1C90038B429 /* FirstViewController.swift in Sources */,
 				0E4F6331291D793F00F36167 /* UITextField+Extension.swift in Sources */,
 				0E90D040293D658B009C662D /* ChatRepository.swift in Sources */,
-				0EF375182926B33B0074FC64 /* InfoManageViewModel.swift in Sources */,
 				0EA57487292903070064599F /* ListView.swift in Sources */,
 				0EA6A9F329209E9600F71EC6 /* SignupError.swift in Sources */,
 				0E5095C2291A48740038B429 /* CustomFonts.swift in Sources */,

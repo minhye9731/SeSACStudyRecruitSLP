@@ -33,17 +33,4 @@ final class VerifyNumberViewModel: CommonViewModel {
         
         return Output(validStatus: veriNumResult, tap: input.tap)
     }
-    
-//    func tryLogin() {
-//        let api = APIRouter.login
-//        Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
-//
-//            switch response {
-//            case .success(let success):
-//                self?.verify.onNext(success)
-//            case .failure(let failure):
-//                self?.verify.onError(failure)
-//            }
-//        }
-//    }
 }

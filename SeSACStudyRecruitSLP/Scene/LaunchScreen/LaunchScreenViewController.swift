@@ -39,7 +39,7 @@ final class LaunchScreenViewController: BaseViewController {
                 changeRootNavVC(vc: PhoneNumberViewController())
             } else {
                 print("UserDefaultsManager.idtoken : \(UserDefaultsManager.idtoken)")
-                print("UserDefaultsManager.fcmTokenSU = \(UserDefaultsManager.fcmTokenSU)")
+                print("🐥🐥🐥UserDefaultsManager.fcmTokenSU = \(UserDefaultsManager.fcmTokenSU)")
                 
                 let api = APIRouter.login
                 Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
@@ -58,6 +58,7 @@ final class LaunchScreenViewController: BaseViewController {
                         return
                         
                     case .fbTokenError:
+                        print("😕😕😕401 에러니까 여기로 가야지??")
                         self?.refreshIDToken()
                         return
                         
