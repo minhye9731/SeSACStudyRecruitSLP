@@ -126,7 +126,6 @@ final class ProfileCell: BaseTableViewCell {
     override func setConstraints() {
         super.setConstraints()
         
-//        let wantedStudyWidth = wantedStudy.frame.size.width
         let btnWidth = (contentView.frame.width - 72) / 2
         let spacing = 16
         

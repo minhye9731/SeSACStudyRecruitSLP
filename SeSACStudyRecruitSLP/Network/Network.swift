@@ -173,6 +173,7 @@ final class Network {
         AF.request(router).responseDecodable(of: SendChatResponse.self) { response in
             
             guard let statusCode = response.response?.statusCode else { return }
+            print("👗\(statusCode)")
             
             switch response.result {
             case .success(let data):

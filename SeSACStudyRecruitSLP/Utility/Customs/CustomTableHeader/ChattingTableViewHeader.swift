@@ -16,7 +16,7 @@ class ChattingTableViewHeader: UITableViewHeaderFooterView {
         label.font = CustomFonts.title5_M12()
         label.numberOfLines = 1
         label.textColor = .white
-        label.text = "0월 00일 0요일" // test
+        label.text = "12월 23일 목요일" // test
         label.textAlignment = .center
         label.backgroundColor = ColorPalette.gray7
         label.layer.masksToBounds = true
@@ -110,6 +110,4 @@ class ChattingTableViewHeader: UITableViewHeaderFooterView {
         
     }
         
-    // 데이터 전달 함수 예정
-    
 }

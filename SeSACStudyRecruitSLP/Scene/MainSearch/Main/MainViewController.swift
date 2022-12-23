@@ -37,7 +37,9 @@ final class MainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("idtoken \(UserDefaultsManager.idtoken)")
+        
+//        ChatRepository.standard.removeall()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

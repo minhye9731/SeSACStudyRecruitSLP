@@ -57,6 +57,7 @@ final class ChattingViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        print(#function)
         SocketIOManager.shared.closeConnection()
     }
     
@@ -66,6 +67,7 @@ final class ChattingViewController: BaseViewController {
     
     // MARK: - functions
     override func configure() {
+        
         super.configure()
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         
@@ -79,11 +81,7 @@ final class ChattingViewController: BaseViewController {
         
         subscribe()
         bind()
-        
-//        fetchChats()
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(getMessage(notification:)), name: NSNotification.Name("getMessage"), object: nil)
-        
+
         mainView.moreMenuView.isHidden = menuTapped ? false : true
     }
     
@@ -97,8 +95,9 @@ final class ChattingViewController: BaseViewController {
         let newChat = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         let valueForRealm = ChatRealmModel(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
         
-        self.chat.append(newChat)
+        self.chat.append(newChat) // 보여주고
         ChatRepository.standard.plusChat(item: valueForRealm) // (수신chat)DB 저장
+        
         mainView.tableView.reloadData()
         mainView.tableView.scrollToRow(at: IndexPath(row: self.chat.count - 1, section: 0), at: .bottom, animated: false)
     }
@@ -109,6 +108,7 @@ final class ChattingViewController: BaseViewController {
 extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("✅\(chat.count)")
         return chat.count
     }
     
@@ -122,6 +122,7 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ChattingTableViewHeader.reuseIdentifier) as? ChattingTableViewHeader else { return UIView() }
 
         // 첫 매칭시점 일자 가져오기
+        
         headerView.matchingSesacLabel.text = "\(otherSesacNick)님과 매칭되었습니다"
         return headerView
     }
@@ -131,8 +132,14 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "MyChatTableViewCell", for: indexPath) as! MyChatTableViewCell
         let data = chat[indexPath.row]
         
-        data.userID == otherSesacUID ? yourCell.setData(data: data) : myCell.setData(data: data)
+//        data.userID == otherSesacUID ? yourCell.setData(data: data) : myCell.setData(data: data)
 
+        if data.userID == otherSesacUID {
+            yourCell.setData(data: data)
+        } else {
+            myCell.setData(data: data)
+        }
+        
         return data.userID == otherSesacUID ? yourCell : myCell
     }
     
@@ -142,14 +149,16 @@ extension ChattingViewController: UITableViewDelegate, UITableViewDataSource {
 extension ChattingViewController {
 
     private func fetchChats() {
-        
-        // 1) DB에 저장된 채팅 내역을 갖고온다
-        chat = ChatRepository.standard.fetchRealm()
+        print("💙💙💙💙💙fetchChats💙💙💙💙💙")
+        // 1) DB에 저장된 (매칭된 상대방과의) 전체 채팅 내역을 갖고온다
+        chat = ChatRepository.standard.fetchRealm(uid: otherSesacUID)
             //- 상대방 uid에 대항하는 채팅 내용을 필터해서 가져옴
-        ChatRepository.standard.filteredByUID(uid: otherSesacUID)
+//        ChatRepository.standard.filteredByUID(uid: otherSesacUID)
         
-        self.pastDateArr = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).map { $0.createdAt.toDate() }.sorted()
-        print("📆pastDateArr = \(pastDateArr)")
+        self.pastDateArr = ChatRepository.standard.localRealm.objects(ChatRealmModel.self).where {
+            $0.userID == otherSesacUID
+        }.map { $0.createdAt.toDate() }.sorted(by: >)
+        print("👗\(pastDateArr)")
         
         // 2) 가장 마지막 날짜에 전송된 채팅 날짜를 서버에 요청한다
         //(만약 채팅 내역이 없어 가져올 날짜가 없다면 "2000-01-01T00:00:00.000Z"를 사용
@@ -163,9 +172,8 @@ extension ChattingViewController {
             
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
-            guard let status =  LastChatError(rawValue: statusCode) else { return }
-            print("👁요청시점 이후 새로 들어온 chat 데이터ㅣ statusCode : \(statusCode)")
-            print("👁요청시점 이후 새로 들어온 chat 데이터ㅣ value : \(value)")
+            guard let status = LastChatError(rawValue: statusCode) else { return }
+            print("👁요청시점 이후 새로 들어온 chat 데이터ㅣ statusCode : \(statusCode), value : \(value)")
             
             switch status {
             case .success:
@@ -181,6 +189,7 @@ extension ChattingViewController {
                         let value = Chat(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: Date().toBirthDateForm(), v: 0, ID: "")
                         let valueForRealm = ChatRealmModel(text: chat, userID: userID, name: "", username: "", id: id, createdAt: createdAt, updatedAt: "", v: 0, ID: "")
                         print("👄신규데이터 = \(value)")
+                        
                         self?.chat.append(value) // 화면에 보여줄 바구니에 담고
                         ChatRepository.standard.plusChat(item: valueForRealm) // (background 기간동안 받았던 수신chat)DB 저장
                     }
@@ -210,18 +219,21 @@ extension ChattingViewController {
     }
     
     private func postChat(text: String) {
-
+        let now = Date()
+        print("채팅보낸 시간!! 저장될 createdAt = \(now)")
+        
         let api = ChatAPIRouter.send(chat: text, uid: otherSesacUID)
         Network.share.requestPostChat(router: api) { [weak self] (value, statusCode, error) in
             
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
-            guard let status =  SendChatError(rawValue: statusCode) else { return }
+            guard let status = SendChatError(rawValue: statusCode) else { return }
             print("👁채팅전송 statusCode : \(statusCode)")
             
             switch status {
             case .success:
                 print("👁채팅전송 성공:::\(value.chat) || \(value.to)")
+                print("👁채팅발송 시간:::\(value.createdAt)")
                 
                 let chat = value.chat
                 let userID = value.from
@@ -285,7 +297,9 @@ extension ChattingViewController {
     }
     
     @objc func backToHome() {
-        self.navigationController?.popToRootViewController(animated: true)
+        let vc = TabBarController()
+        self.changeRootVC(vc: vc)
+//        self.navigationController?.popToRootViewController(animated: true)
     }
 
 }
@@ -308,8 +322,6 @@ extension ChattingViewController: UITextViewDelegate {
         textView.isScrollEnabled = maxHeight
         textView.reloadInputViews()
         mainView.setNeedsUpdateConstraints()
-  
-        print(mainView.chatTextView.frame.height)
     }
 
 }
