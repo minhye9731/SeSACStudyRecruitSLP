@@ -53,7 +53,6 @@ final class MyInfoViewController: BaseViewController {
         self.title = "내정보"
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
 
 }

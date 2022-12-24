@@ -441,7 +441,7 @@ extension ChattingViewController {
                     
                     guard let value = value else { return }
                     guard let statusCode = statusCode else { return }
-                    guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+                    guard let status = MyQueueStateError(rawValue: statusCode) else { return }
                     
                     switch status {
                     case .success:
@@ -465,7 +465,7 @@ extension ChattingViewController {
             
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
-            guard let status =  MyQueueStateError(rawValue: statusCode) else { return }
+            guard let status = MyQueueStateError(rawValue: statusCode) else { return }
             guard let otherUID = self?.otherSesacUID else { return }
             print("⭐️value : \(value), ⭐️statusCode: \(statusCode), ⭐️otherUID: \(otherUID)")
             

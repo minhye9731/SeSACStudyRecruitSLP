@@ -105,7 +105,7 @@ extension SearchResultViewController {
         barbuttonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black, .font: CustomFonts.title3_M14()]
         navibarAppearance.buttonAppearance = barbuttonItemAppearance
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "찾기중단", style: .plain, target: self, action: #selector(stopTapped))
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil) // BaseViewController 상속 못받으니 여기서는 따로 해줌
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: Constants.ImageName.back.rawValue), style: .plain, target: self, action: #selector(backtwice))
     }
     

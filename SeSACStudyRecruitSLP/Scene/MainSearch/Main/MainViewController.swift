@@ -435,6 +435,7 @@ extension MainViewController {
                    if authorizationStatus == .denied || authorizationStatus == .restricted {
                        showRequestLocationServiceAlert()
                    } else {
+                       UserDefaultsManager.mywishTagList = []
                        let vc = SearchViewController()
                        transition(vc, transitionStyle: .push)
                    }

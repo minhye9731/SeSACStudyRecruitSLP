@@ -12,7 +12,7 @@ final class BirthdayViewController: BaseViewController {
     
     // MARK: - property
     let mainView = BirthdayView()
-    let today = Date()
+//    let today = Date()
     var realAge = 0
     
     // MARK: - Lifecycle

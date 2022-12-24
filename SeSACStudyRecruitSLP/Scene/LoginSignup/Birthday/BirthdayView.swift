@@ -10,6 +10,8 @@ import UIKit
 final class BirthdayView: BaseView {
     
     // MARK: - property
+    let today = Date()
+    
     let notiLabel: UILabel = {
         let label = UILabel()
         label.text = "생년월일을 알려주세요"
@@ -69,6 +71,17 @@ final class BirthdayView: BaseView {
         [yearView, monthView, dayView].forEach {
             dateView.addSubview($0)
         }
+        
+        
+    }
+    
+    func setBirthDay() {
+        if UserDefaultsManager.realAgeSU.isEmpty {
+            
+        } else {
+            
+        }
+        
     }
     
     override func setConstraints() {

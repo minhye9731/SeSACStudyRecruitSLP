@@ -47,7 +47,7 @@ class MyTagCell: BaseCollectionViewCell {
     }
     
     func setMyWishData(indexPath: IndexPath) {
-        let value =  UserDefaultsManager.mywishTagList[indexPath.row]
+        let value = UserDefaultsManager.mywishTagList[indexPath.row]
         myTabButton.configuration?.title = value as? String
     }
     

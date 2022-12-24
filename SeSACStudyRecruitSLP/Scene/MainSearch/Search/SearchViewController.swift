@@ -31,8 +31,8 @@ final class SearchViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        print("선택한 성별 : \(UserDefaultsManager.selectedGender)")
         searchNetwork()
+        mywishTagList = UserDefaultsManager.mywishTagList as! [String]
     }
     
     // MARK: - functions
@@ -54,6 +54,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return section == 0 ? aroundTagList.count : mywishTagList.count
     }
     
@@ -195,7 +196,7 @@ extension SearchViewController {
     func setNav() {
         let bounds = UIScreen.main.bounds
         let width = bounds.size.width
-        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width - 28, height: 0))
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: width * 0.81, height: 0))
         searchBar.placeholder = "띄어쓰기로 복수 입력이 가능해요"
         searchBar.searchTextField.inputAccessoryView = self.mainView.accSearchBtn
         searchBar.searchTextField.delegate = self
@@ -243,8 +244,6 @@ extension SearchViewController {
             }
         }
     }
-    
-//    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
     
     func refreshIDTokenSearch() {
      
