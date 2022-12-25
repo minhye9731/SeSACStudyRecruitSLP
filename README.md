@@ -43,7 +43,19 @@
 (정리중)
 
 ## 회고
-(정리중)
+
+[🧐상세한 회고 보러가기![SeSAC Study Post-Mortem]](https://wannab-it-pm.tistory.com/130)
+
+Good👍 에셋을 Enum으로 관리하여 데이터 일관성 부여  
+Good👍 API Router적용 및 종류별로 관리하여 코드 가독성 향상, 네트워크 통신코드 간편 사용  
+Good👍 반복UI는 커스텀하고 반복뷰컨 재사용하여 코드의 재사용성 향상  
+Good👍 서비스적인 고려사항을 고민하고 기획자와 소통하며 작업  
+  
+Bad👎 RxSwift, RXCocoa, MVVM을 최대한 적용해보고자 시도했으나 추가 공부의 필요성을 느낌  
+Bad👎 API별 Error를 Enum으로 관리했으나, 중복에러 사항에 대한 통합적인 구조화 필요  
+Bad👎 싱글톤으로 정리할 수 있는 기능들을 뷰컨에서 분리하여 별도 정리 필요  
+(ex. locationManager, SocketManager,IAPHelper 등) 
+
 
 ## 개발과정
 |  구분  |     월     |     화     |     수     |     목     |     금     |     토     |     일     |
