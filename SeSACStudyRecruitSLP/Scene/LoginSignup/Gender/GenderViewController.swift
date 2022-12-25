@@ -66,7 +66,6 @@ final class GenderViewController: BaseViewController {
         } else {
             let value = (manSelected && !womanSelected) ? "1" : "0"
             UserDefaultsManager.genderSU = value
-            print("🦄성별 유저디폴츠 저장완료 |  UserDefaultsManager.genderSU = \( UserDefaultsManager.genderSU)")
             trySignup()
         }
     }
@@ -89,9 +88,6 @@ final class GenderViewController: BaseViewController {
             
             switch status {
             case .success:
-                UserDefaultsManager.nick = UserDefaultsManager.nickNameSU // 삭제예정
-                UserDefaultsManager.background = UserDefaultsManager.background // 삭제예정
-                
                 self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center) { didTap in
                     let vc = TabBarController()
                     self?.changeRootVC(vc: vc)
@@ -153,9 +149,6 @@ final class GenderViewController: BaseViewController {
                     
                     switch status {
                     case .success:
-                        UserDefaultsManager.nick = UserDefaultsManager.nickNameSU // 삭제예정
-                        UserDefaultsManager.background = UserDefaultsManager.background // 삭제예정
-                        
                         self?.mainView.makeToast("회원가입이 완료되었습니다.", duration: 0.5, position: .center) { didTap in
                             let vc = TabBarController()
                             self?.changeRootVC(vc: vc)

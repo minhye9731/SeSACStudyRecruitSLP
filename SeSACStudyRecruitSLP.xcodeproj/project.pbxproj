@@ -122,6 +122,7 @@
 		0E597ABE293A04DC005939CB /* StudyAcceptError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABD293A04DC005939CB /* StudyAcceptError.swift */; };
 		0E597AC0293A2562005939CB /* QueueDeleteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597ABF293A2562005939CB /* QueueDeleteError.swift */; };
 		0E597AC2293A2D4B005939CB /* SearchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E597AC1293A2D4B005939CB /* SearchError.swift */; };
+		0E6C09F12958BEE800182711 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6C09F02958BEE800182711 /* Review.swift */; };
 		0E889532292F707D004818B6 /* HeaderSectionPassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */; };
 		0E90D02D293BD550009C662D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0E90D02C293BD550009C662D /* Realm */; };
 		0E90D02F293BD550009C662D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E90D02E293BD550009C662D /* RealmSwift */; };
@@ -279,6 +280,7 @@
 		0E597ABD293A04DC005939CB /* StudyAcceptError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyAcceptError.swift; sourceTree = "<group>"; };
 		0E597ABF293A2562005939CB /* QueueDeleteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueDeleteError.swift; sourceTree = "<group>"; };
 		0E597AC1293A2D4B005939CB /* SearchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchError.swift; sourceTree = "<group>"; };
+		0E6C09F02958BEE800182711 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		0E889531292F707D004818B6 /* HeaderSectionPassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionPassButton.swift; sourceTree = "<group>"; };
 		0E90D03D293D6310009C662D /* ChatRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRealmModel.swift; sourceTree = "<group>"; };
 		0E90D03F293D658B009C662D /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 				0EF375192926B9DE0074FC64 /* UserInfoUpdateDTO.swift */,
 				0EA1F680292DF6830062DBED /* UserLocationDTO.swift */,
 				0E1164092933D1A100501EBD /* Chat.swift */,
+				0E6C09F02958BEE800182711 /* Review.swift */,
 				0E03524E2939257100D5FEE5 /* Chatting */,
 			);
 			path = Data;
@@ -1039,6 +1042,7 @@
 				0E49C6BD292244DE004E7875 /* withdrawCell.swift in Sources */,
 				0E4F632F291D6DAE00F36167 /* InputDateView.swift in Sources */,
 				0E597AC0293A2562005939CB /* QueueDeleteError.swift in Sources */,
+				0E6C09F12958BEE800182711 /* Review.swift in Sources */,
 				0EA5749B292BE6290064599F /* CustomAnnotationView.swift in Sources */,
 				0E01EE82294AF8790088E07E /* IAPHelper.swift in Sources */,
 				0E11643D2934C7F900501EBD /* LastChatResponse.swift in Sources */,

@@ -103,9 +103,6 @@ final class VerifyNumberViewController: BaseViewController {
             
             switch status {
             case .success:
-                UserDefaultsManager.nick = value.nick // 삭제예정
-                UserDefaultsManager.background = value.background // 삭제예정
-                
                 self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center, completion: { didTap in
                     
                     if value.fcMtoken == UserDefaultsManager.fcmTokenSU {
@@ -159,9 +156,6 @@ final class VerifyNumberViewController: BaseViewController {
                     
                     switch status {
                     case .success:
-                        UserDefaultsManager.nick = value.nick // 삭제예정
-                        UserDefaultsManager.background = value.background // 삭제예정
-                        
                         self?.mainView.makeToast("로그인이 완료되었습니다.", duration: 0.5, position: .center, completion: { didTap in
                             self?.changeRootVC(vc: TabBarController())
                         })
