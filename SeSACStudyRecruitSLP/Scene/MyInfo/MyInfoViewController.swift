@@ -73,7 +73,7 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.rowHeight = 100
             cell1.selectionStyle = .none
             cell1.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            cell1.cellTitle.text = profileNickName//contents.title
+            cell1.cellTitle.text = profileNickName
             cell1.cellImage.image = UIImage(named: "sesac_face_\(profileSesacImage + 1)")
             cell1.moreViewImage.image = UIImage(named: contents.nextimage!)
             return cell1
@@ -88,10 +88,10 @@ extension MyInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            syncUserData()
+            let vc = InfoManageViewController()
+            self.transition(vc, transitionStyle: .push)
         }
     }
-    
     
 }
 
@@ -155,83 +155,6 @@ extension MyInfoViewController {
                     default :
                         self?.view.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요. :)", duration: 1.0, position: .center)
                         return
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    func syncUserData() {
-        
-        let api = APIRouter.login
-        Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
-            
-            switch response {
-            case .success(let loginData):
-                print("🥰login data = \(loginData)")
-                UserDefaultsManager.background = loginData.background
-                UserDefaultsManager.sesac = loginData.sesac
-                UserDefaultsManager.nick = loginData.nick
-                UserDefaultsManager.reputation = loginData.reputation
-                UserDefaultsManager.comment = loginData.comment
-                
-                let syncData = UserInfoUpdateDTO(searchable: loginData.searchable, ageMin: loginData.ageMin, ageMax: loginData.ageMax, gender: loginData.gender, study: loginData.study)
-                let vc = InfoManageViewController()
-                vc.updateData = syncData
-                self?.transition(vc, transitionStyle: .push)
-                
-            case .failure(let error):
-                let code = (error as NSError).code
-                guard let errorCode = LoginError(rawValue: code) else { return }
-                print("failure // code = \(code), errorCode = \(errorCode)")
-                
-                switch errorCode {
-                case .fbTokenError:
-                    self?.refreshIDToken()
-                default :
-                    self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                }
-            }
-        }
-    }
-    
-    func refreshIDToken() {
-        let currentUser = Auth.auth().currentUser
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-            
-            if let error = error as? NSError {
-                guard let errorCode = AuthErrorCode.Code(rawValue: error.code) else { return }
-                switch errorCode {
-                default:
-                    self.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                }
-                return
-            } else if let idToken = idToken {
-                UserDefaultsManager.idtoken = idToken
-                print("🦄갱신된 idToken 저장완료 |  UserDefaultsManager.idtoken = \(UserDefaultsManager.idtoken)")
-                
-                let api = APIRouter.login
-                Network.share.requestLogin(type: LoginResponse.self, router: api) { [weak self] response in
-                    
-                    switch response {
-                    case .success(let loginData):
-                        let syncData = UserInfoUpdateDTO(searchable: loginData.searchable, ageMin: loginData.ageMin, ageMax: loginData.ageMax, gender: loginData.gender, study: loginData.study)
-                        
-                        let vc = InfoManageViewController()
-                        vc.updateData = syncData
-                        self?.transition(vc, transitionStyle: .push)
-                        
-                    case .failure(let error):
-                        let code = (error as NSError).code
-                        guard let errorCode = LoginError(rawValue: code) else { return }
-                        switch errorCode {
-                        default:
-                            self?.mainView.makeToast("에러가 발생했습니다. 잠시 후 다시 시도해주세요.", duration: 1.0, position: .center)
-                        }
                     }
                 }
             }
