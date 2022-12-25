@@ -15,7 +15,7 @@ final class InfoManageViewController: BaseViewController {
     // MARK: - property
     let mainView = InfoManageView()
     var isExpanded = false
-    var updateData = UserInfoUpdateDTO(searchable: 0, ageMin: 0, ageMax: 0, gender: 0, study: "")
+    var updateData = UserInfoUpdateDTO(bgNum: 0, fcNum: 0, name: "", reputation: [], comment: [], searchable: 0, ageMin: 0, ageMax: 0, gender: 0, study: "")
     let disposeBag = DisposeBag()
     
     // MARK: - Lifecycle
@@ -25,6 +25,7 @@ final class InfoManageViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
+        requestProfile()
     }
     
     // MARK: - functions
@@ -61,10 +62,10 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
-        
-        headerView.setData(bgNum: UserDefaultsManager.background,
-                           fcNum: UserDefaultsManager.sesac,
-                           name: UserDefaultsManager.nick)
+
+        headerView.setData(bgNum: updateData.bgNum,
+                           fcNum: updateData.fcNum,
+                           name: updateData.name)
         headerView.setCollapsed(isExpanded)
         headerView.section = section
         headerView.askAcceptbtn.isHidden = true
@@ -87,7 +88,7 @@ extension InfoManageViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             profileCell.selectionStyle = .none
-            profileCell.setData()
+            profileCell.setData(reputation: updateData.reputation, comment: updateData.comment)
             profileCell.moreReview.addTarget(self, action: #selector(moreReviewTapped), for: .touchUpInside)
             profileCell.isStudyHidden(type: .myProfile)
             return profileCell
@@ -148,14 +149,15 @@ extension InfoManageViewController {
         header.setCollapsed(isExpanded)
         mainView.tableView.reloadData()
     }
-    
+
     @objc func moreReviewTapped(sender: moreReviewButton) {
         let vc = MoreReviewViewController()
-        vc.reviewList = UserDefaultsManager.comment as! [String]
+        vc.reviewList = updateData.comment.map { Review(comment: $0) }
         transition(vc, transitionStyle: .push)
     }
     
 }
+
 
 // MARK: - 성별버튼 클릭
 extension InfoManageViewController {
@@ -294,6 +296,48 @@ extension InfoManageViewController {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+}
+
+extension InfoManageViewController {
+    
+    func requestProfile() {
+        let api = APIRouter.login
+        Network.share.requestUserLogin(router: api) { [weak self] (value, statusCode, error) in
+            
+            guard let value = value else { return }
+            guard let statusCode = statusCode else { return }
+            guard let status = LoginError(rawValue: statusCode) else { return }
+
+            switch status {
+            case .success:
+                
+                self?.updateData.bgNum = value.background
+                self?.updateData.fcNum = value.sesac
+                self?.updateData.name = value.nick
+                
+                self?.updateData.reputation = value.reputation
+                self?.updateData.comment = value.comment
+                
+                self?.updateData.searchable = value.searchable
+                self?.updateData.ageMin = value.ageMin
+                self?.updateData.ageMax = value.ageMax
+                self?.updateData.gender = value.gender
+                self?.updateData.study = value.study
+                
+                self?.mainView.tableView.reloadData()
+
+                return
+                
+            case .fbTokenError:
+                print("")
+                
+            default :
+                self?.mainView.makeToast(status.loginErrorDescription, duration: 1.0, position: .center)
+                return
             }
         }
     }
