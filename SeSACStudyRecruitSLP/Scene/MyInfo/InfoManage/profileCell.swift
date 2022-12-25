@@ -235,11 +235,11 @@ final class ProfileCell: BaseTableViewCell {
     }
     
     // [my info] 정리 필요
-    func setData() {
+    func setData(reputation: [Int], comment: [String]) {
         title2.isHidden = true
         wantedStudy.isHidden = true
         
-        let result = UserDefaultsManager.reputation
+        let result = reputation
         let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
         
         for i in 0...5 {
@@ -252,12 +252,8 @@ final class ProfileCell: BaseTableViewCell {
             btnGroup[i].configuration?.background.strokeColor = brClr
             btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
         }
-        
-        if UserDefaultsManager.comment.isEmpty {
-            reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!"
-        } else {
-            reviewTextField.text = UserDefaultsManager.comment[0] as? String
-        }
+
+        comment.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = comment[0])
     }
     
     // [새싹 찾기]
