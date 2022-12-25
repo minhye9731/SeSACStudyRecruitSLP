@@ -158,7 +158,7 @@ class CollapsibleTableViewHeader: UITableViewHeaderFooterView {
     }
     
     // 샵
-    func setPreviewData(section: Int, bg: Int, sprout: Int) {
+    func setPreviewData(bg: Int, sprout: Int) {
         nameView.isHidden = true
         askAcceptbtn.setTitle("저장하기", for: .normal)
         

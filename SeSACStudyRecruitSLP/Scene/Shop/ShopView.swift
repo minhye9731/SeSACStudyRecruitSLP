@@ -194,7 +194,7 @@ extension ShopView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CollapsibleTableViewHeader.reuseIdentifier) as? CollapsibleTableViewHeader else { return UIView() }
 
-        headerView.setPreviewData(section: section, bg: selectedBG, sprout: selectedFC)
+        headerView.setPreviewData(bg: selectedBG, sprout: selectedFC)
         headerView.askAcceptbtn.addTarget(self, action: #selector(askAcceptbtnTapped), for: .touchUpInside)
         return headerView
     }

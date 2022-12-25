@@ -24,12 +24,6 @@ enum userCardMode {
     case otherSesac
 }
 
-//enum MapGenderMode: Int {
-//    case woman = 0
-//    case man
-//    case all
-//}
-
 enum PopupMode {
     case withdraw
     case askStudy
@@ -71,3 +65,9 @@ enum PopupMode {
 }
 
 
+
+//enum MapGenderMode: Int {
+//    case woman = 0
+//    case man
+//    case all
+//}
