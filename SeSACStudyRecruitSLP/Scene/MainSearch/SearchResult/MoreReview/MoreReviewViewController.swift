@@ -15,8 +15,8 @@ final class MoreReviewViewController: BaseViewController {
     }
     
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, String>!
-    var reviewList: [String] = []
+    var dataSource: UICollectionViewDiffableDataSource<Section, Review>!
+    var reviewList: [Review] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -56,20 +56,18 @@ final class MoreReviewViewController: BaseViewController {
     func configureDataSource() {
         
         let cellRegistration = UICollectionView.CellRegistration
-        <ReviewCollectionViewCell, String> { (cell, indexPath, reviewItem) in
+        <ReviewCollectionViewCell, Review> { (cell, indexPath, reviewItem) in
 
-            cell.reviewLabel.text = reviewItem
+            cell.reviewLabel.text = reviewItem.comment
         }
         
         dataSource = UICollectionViewDiffableDataSource
-        <Section, String>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: String) -> UICollectionViewCell? in
-            // Return the cell.
+        <Section, Review>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: Review) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
 
-        // load our data
-        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Review>()
         snapshot.appendSections([.main])
         snapshot.appendItems(reviewList)
         dataSource.apply(snapshot, animatingDifferences: false)

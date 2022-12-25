@@ -139,7 +139,7 @@ extension ListViewController {
         guard let row = sender.section else { return }
         
         let vc = MoreReviewViewController()
-        vc.reviewList = info[row].reviews
+        vc.reviewList = info[row].reviews.map { Review(comment: $0) }
         transition(vc, transitionStyle: .push)
     }
     
