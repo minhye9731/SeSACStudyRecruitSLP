@@ -234,67 +234,51 @@ final class ProfileCell: BaseTableViewCell {
         }
     }
     
-    // [my info] 정리 필요
+    // [my info]
     func setData(reputation: [Int], comment: [String]) {
         title2.isHidden = true
         wantedStudy.isHidden = true
-        
-        let result = reputation
-        let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
-        
-        for i in 0...5 {
-            
-            let bgClr: UIColor = result[i] == 0 ? .white : ColorPalette.green
-            let brClr: UIColor = result[i] == 0 ? ColorPalette.gray4 : ColorPalette.green
-            let txClr: UIColor = result[i] == 0 ? .black : .white
-            
-            btnGroup[i].configuration?.baseBackgroundColor = bgClr
-            btnGroup[i].configuration?.background.strokeColor = brClr
-            btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
-        }
-
-        comment.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = comment[0])
+        setProfileData(reputation: reputation, comment: comment)
     }
     
     // [새싹 찾기]
     func setSesacData(data: [FromQueueDB], section: Int) {
-        print("화면에 보여줄 검색된 새싹정보 : \(data)")
         title2.isHidden = false
         wantedStudy.isHidden = false
-        
-        let reputationList = data[section].reputation
-        let reviewList = data[section].reviews
-        let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
-        
-        for i in 0...5 {
-            let bgClr: UIColor = reputationList[i] == 0 ? .white : ColorPalette.green
-            let brClr: UIColor = reputationList[i] == 0 ? ColorPalette.gray4 : ColorPalette.green
-            let txClr: UIColor = reputationList[i] == 0 ? .black : .white
-            
-            btnGroup[i].configuration?.baseBackgroundColor = bgClr
-            btnGroup[i].configuration?.background.strokeColor = brClr
-            btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
-        }
-        
+        setProfileData(reputation: data[section].reputation, comment: data[section].reviews)
+
         let study = data[section].studylist.isEmpty ? "아무거나" : data[section].studylist[0]
         wantedStudy.setTitle(study, for: .normal)
-        
-        reviewList.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = reviewList[0])
-        reviewList.isEmpty ? (moreReview.isHidden = true) : (moreReview.isHidden = false)
     }
     
     override func prepareForReuse() {
-        
         titleButton1.setImage(nil, for: .normal)
         titleButton2.setImage(nil, for: .normal)
         titleButton3.setImage(nil, for: .normal)
         titleButton4.setImage(nil, for: .normal)
         titleButton5.setImage(nil, for: .normal)
         titleButton6.setImage(nil, for: .normal)
-        
         wantedStudy.setTitle(nil, for: .normal)
-        
         reviewTextField.text = nil
+    }
+    
+    func setProfileData(reputation: [Int], comment: [String]) {
+        let result = reputation
+        let btnGroup = [titleButton1, titleButton2, titleButton3, titleButton4, titleButton5, titleButton6]
+
+        for i in 0...5 {
+
+            let bgClr: UIColor = result[i] == 0 ? .white : ColorPalette.green
+            let brClr: UIColor = result[i] == 0 ? ColorPalette.gray4 : ColorPalette.green
+            let txClr: UIColor = result[i] == 0 ? .black : .white
+
+            btnGroup[i].configuration?.baseBackgroundColor = bgClr
+            btnGroup[i].configuration?.background.strokeColor = brClr
+            btnGroup[i].configuration?.attributedTitle?.foregroundColor = txClr
+        }
+
+        comment.isEmpty ? (reviewTextField.placeholder = "첫 리뷰를 기다리는 중이에요!") : (reviewTextField.text = comment[0])
+        comment.isEmpty ? (moreReview.isHidden = true) : (moreReview.isHidden = false)
     }
 
 }

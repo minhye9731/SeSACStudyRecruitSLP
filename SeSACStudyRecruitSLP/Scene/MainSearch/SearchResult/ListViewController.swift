@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseAuth
-import Tabman
 
 final class ListViewController: BaseViewController {
     
