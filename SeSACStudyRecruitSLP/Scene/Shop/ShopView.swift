@@ -186,8 +186,8 @@ extension ShopView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        var bounds = UIScreen.main.bounds
-        var width = bounds.size.width
+        let bounds = UIScreen.main.bounds
+        let width = bounds.size.width
         return width * 0.51
     }
     
@@ -224,7 +224,6 @@ extension ShopView: UICollectionViewDelegate {
         tableView.reloadData()
     }
 
-    // 4. price 버튼 클릭
     func setPriceButtonBuyAction() {
         vc1.mainView.ssPriceButtonActionHandler = { row in
             
@@ -251,7 +250,7 @@ extension ShopView: UICollectionViewDelegate {
                  SKPaymentQueue.default().add(self)
             }
         }
-    }
+    } // 4. price 버튼 클릭
     
 }
 
@@ -318,7 +317,6 @@ extension ShopView: SKProductsRequestDelegate {
     
 }
 
-
 // MARK: - 인앱결제 구매 Observer
 extension ShopView: SKPaymentTransactionObserver {
     
@@ -368,7 +366,6 @@ extension ShopView {
             guard let value = value else { return }
             guard let statusCode = statusCode else { return }
             guard let status =  GeneralError(rawValue: statusCode) else { return }
-            print("checkShopMyInfo///⭐️value : \(value), ⭐️statusCode: \(statusCode)")
             
             switch status {
             case .success:
