@@ -36,11 +36,19 @@
 | 오픈 라이브러리 | FirebaseAuth, FirebaseMessaging, IQKeyboardManagerSwift, Realm, Toast, Tabman, Socket.I.O |
 |     기타     | UserDefaults, Diffable DataSource, Extension, Protocol, Closure, DTO, Codable, CustomColor, CustomFont, CustomView, CustomAnnotation, NSPredicate, UUID |
 
-## 화면별 주요기능
-(정리중)
+## 화면별 주요기능 (위에 기술스택에 이미 기술했는데, 중복해서 서술하는게 의미가 있나..?)
+* FirebaseAuth로 사용자 로그인
+* Firebase Cloud Messaging으로 발급받은 FCM token으로 유저의 멀티 디바이스 사용 대응
+* CoreLocation과 Mapkit으로 지도내 주변새싹 위치 Custom Annotation 표기 
+* RESTful API 네트워크 실행시 URLRequestConvertible로 router 모듈화
+* Socket.I.O로 실시간 채팅기능 구현
+* Realm으로 채팅내역 관리하여 과도한 네트워크 호출 방지
+* StoreKit을 사용한 새싹, 배경 이미지 제품 인앱결제
+* Firebase Cloud Messaging으로 스터디 요청, 매칭완료, 채팅수신 Push Notification 적용
+
 
 ## 트러블 슈팅
-(정리중)
+[📗트러블슈팅 list](https://mhkang.notion.site/SeSAC-Study-Recruit-19818240bbff4f32978af0f1f7e87f9f)
 
 ## 회고
 
@@ -51,8 +59,8 @@ Good👍 API Router적용 및 종류별로 관리하여 코드 가독성 향상,
 Good👍 반복UI는 커스텀하고 반복뷰컨 재사용하여 코드의 재사용성 향상  
 Good👍 서비스적인 고려사항을 고민하고 기획자와 소통하며 작업  
   
-Bad👎 RxSwift, RXCocoa, MVVM을 최대한 적용해보고자 시도했으나 추가 공부의 필요성을 느낌  
-Bad👎 API별 Error를 Enum으로 관리했으나, 중복에러 사항에 대한 통합적인 구조화 필요  
+Bad👎 RxSwift, MVVM사용이 적절한 곳에 충분히 활용하지 못했고 추가 공부의 필요성을 느낌  
+Bad👎 API별 Error관리시 여러개가 아닌 하나의 Enum으로 관리할 수 있도록 통합적인 구조개선 필요
 Bad👎 싱글톤으로 정리할 수 있는 기능들을 뷰컨에서 분리하여 별도 정리 필요  
 (ex. locationManager, SocketManager,IAPHelper 등) 
 
