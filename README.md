@@ -36,19 +36,150 @@
 | 오픈 라이브러리 | FirebaseAuth, FirebaseMessaging, IQKeyboardManagerSwift, Realm, Toast, Tabman, Socket.I.O |
 |     기타     | UserDefaults, Diffable DataSource, Extension, Protocol, Closure, DTO, Codable, CustomColor, CustomFont, CustomView, CustomAnnotation, NSPredicate, UUID |
 
-## 화면별 주요기능 (위에 기술스택에 이미 기술했는데, 중복해서 서술하는게 의미가 있나..?)
-* FirebaseAuth로 사용자 로그인
-* Firebase Cloud Messaging으로 발급받은 FCM token으로 유저의 멀티 디바이스 사용 대응
-* CoreLocation과 Mapkit으로 지도내 주변새싹 위치 Custom Annotation 표기 
-* RESTful API 네트워크 실행시 URLRequestConvertible로 router 모듈화
-* Socket.I.O로 실시간 채팅기능 구현
-* Realm으로 채팅내역 관리하여 과도한 네트워크 호출 방지
-* StoreKit을 사용한 새싹, 배경 이미지 제품 인앱결제
-* Firebase Cloud Messaging으로 스터디 요청, 매칭완료, 채팅수신 Push Notification 적용
+## 화면별 주요기능
+* FirebaseAuth로 로그인 기능, 회원가입 구현시 임시저장값들 `UserDefaults property`로 관리
+* 로그인/회원가입 구현시 이메일, 전화번호에 대해 `정규표현식`과 `Reactive Programming`으로 `유효성 검사`
+* `Firebase Cloud Messaging`으로 발급받은 `FCM token`으로 유저의 `멀티 디바이스` 사용 대응
+* `CoreLocation`과 `Mapkit`으로 지도내 주변새싹 위치 `Custom Annotation` 표기
+* `RESTful API` 네트워크 실행시 `URLRequestConvertible`로 `router` 모듈화
+* `Enum`으로 페이지모드를 case별로 구분하여 전체팝업 `ViewController 재사용`
+* 스터디 수락/요청에 대해 특정 페이지에서 사용자 상태변화 감지시 `Timer`설정으로 `과도한 네트워크 호출 방지`
+* `Socket.I.O` 실시간 채팅기능 구현시 `Realm DB`로 채팅내역 관리하여 `과도한 네트워크 호출 방지`
+* `StoreKit`로 인앱결제 구현시 자체서버로 `RESTFul API`를 통한 `receiptValidation` 및 `transaction` 관리
+* `Firebase Cloud Messaging`으로 스터디 요청, 매칭완료, 채팅수신 `Push Notification 적용
 
 
 ## 트러블 슈팅
-[📗트러블슈팅 list](https://mhkang.notion.site/SeSAC-Study-Recruit-19818240bbff4f32978af0f1f7e87f9f)
+[📗트러블슈팅 list](https://mhkang.notion.site/SeSAC-Study-Recruit-19818240bbff4f32978af0f1f7e87f9f)  
+
+* 중복리뷰 문구로 인해 `DiffableDataSource`의 `ItemIdentifier`가 고유하지 이슈발생  
+  &rarr; UUID값을 갖는 Review구조체를 생성하고 ItemIdentifierType을 전부 String에서 Review로 변경하여 해결
+  
+```swift
+struct Review: Hashable {
+    let identifier = UUID()
+    var comment: String
+}
+
+final class MoreReviewViewController: BaseViewController {
+    var dataSource: UICollectionViewDiffableDataSource<Section, Review>!
+    var reviewList: [Review] = []
+		...
+    func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration
+        <ReviewCollectionViewCell, Review> { (cell, indexPath, reviewItem) in
+            cell.reviewLabel.text = reviewItem.comment
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource
+        <Section, Review>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: Review) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Review>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(reviewList)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+```
+<br>  
+
+* 입력 키워드 길이에 따른 `UICollectionViewCell`의 크기조절 이슈, `UIButton.Configuration`의 image 색상 미적용 이슈  
+  &rarr; sizeForItemAt에서 입력테스트 뿐만 아니라 image 크기까지 고려한 값을 return하도록 수정, 이미지의 `withRenderingMode`를 `alwaysTemplate`로 적용하여 해결
+  
+```swift
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let label: UILabel = {
+            let label = UILabel()
+            label.font = CustomFonts.title4_R14()
+            label.text = indexPath.section == 0 ? aroundTagList[indexPath.item] : mywishTagList[indexPath.item]
+            label.sizeToFit()
+            return label
+        }()
+        
+        let size = label.frame.size
+        
+        return indexPath.section == 0 ? CGSize(width: size.width + 32, height: 32) : CGSize(width: size.width + 52, height: 32) // section으로 분기처리하여 width 설정
+    }
+}
+```
+```swift
+class MyTagCell: BaseCollectionViewCell {
+  let myTabButton: UIButton = {
+       let btn = UIButton()
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .white
+        config.image = UIImage(named: Constants.ImageName.smallClose.rawValue)?.withRenderingMode(.alwaysTemplate) // withRenderingMode 추가적용
+        config.baseForegroundColor = ColorPalette.green
+        config.imagePadding = 4
+        config.imagePlacement = NSDirectionalRectEdge.trailing
+        
+        btn.configuration = config
+        btn.setTitleColor(ColorPalette.green, for: .normal)
+        return btn
+    }()
+  }
+}
+```
+<br>  
+
+* 뒤로가기 커스텀 이미지를 적용하고자 `UIBarButtonItem`으로 이미지 변경시 2개의 뒤로가기 버튼이 보이는 이슈
+  &rarr; UIBarButtonItem으로 추가생성이 아닌 `backIndicatorImage`를 사용하여 이미지만 변경  
+  
+```swift
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		UINavigationBar.appearance().backIndicatorImage = UIImage(named: "sesacBack")?.withAlignmentRectInsets(UIEdgeInsets(top: 0.0, left: -12.0, bottom: 0.0, right: 0.0))
+		UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "sesacBack")
+		UINavigationBar.appearance().tintColor = .black
+		return true
+	}
+}
+
+// baseviewcontroller에서 기존의 기본 백버튼 문구 안보이게끔 처리
+class BaseViewController: UIViewController {
+	override func viewDidLoad() {
+	super.viewDidLoad()
+	        configure()
+  }
+    
+	func configure() {
+		setNavi()
+	}
+
+	func setNavi() {
+	  self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+	}
+}
+```
+
+* 새싹찾기에서 리스트로 보이는 UserCard를 `tableViewHeaderView`로 적용해서 `sticky header` 이슈 발생  
+  &rarr; tableview의 `style`을 `grouped`로 변경하고, `section`간 간격을 삭제하고, `footer`높이를 최소 설정하여 해결  
+  
+```swift
+lazy var tableView: UITableView = {
+	let tableview = UITableView(frame: .zero, style: .grouped) // style을 grouped로 변경
+	...
+  tableview.tableFooterView =
+	  UIView(frame: CGRect(origin: .zero,
+                             size: CGSize(width:CGFloat.leastNormalMagnitude,
+                                          height: CGFloat.leastNormalMagnitude))) // footerView 높이 최소설정
+  tableview.backgroundColor = .white // 배경색상 변경하여 section header와 cell간 배경색상 통일해줌
+        return tableview
+    }()
+
+func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude // section간 간격 삭제
+    }
+```  
+
 
 ## 회고
 
